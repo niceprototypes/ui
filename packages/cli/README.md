@@ -98,18 +98,14 @@ This is why you can have multiple versions of your own component libraries in `n
 
 ## Install
 
-### Global Installation (Recommended)
+The package is private: it is not on npm. Run it from the nice-ux checkout after `pnpm install` at
+the root:
 
 ```bash
-npm install -g @niceprototypes/cli
+node ~/nice/ui/packages/cli/nicely help
 ```
 
-### Local Installation
-
-```bash
-npm install @niceprototypes/cli
-npx nicely --help
-```
+The examples below write `nicely` for that command.
 
 ## Usage
 
