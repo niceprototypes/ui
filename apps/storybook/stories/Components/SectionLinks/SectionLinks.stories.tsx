@@ -168,11 +168,12 @@ export const Active: Story = {
     window.scrollTo(0, 0)
     // The link to the section in view takes the active colour; the others keep the base colour.
     const color = (label: string) => getComputedStyle(link(canvasElement, label)).color
+    // Resolved before waitFor: the probe's DOM mutations would re-trigger waitFor's MutationObserver forever.
+    const activeColor = resolveCss(canvasElement, "color", getToken("scroll.sectionLinks.color:active"))
+    const baseColor = resolveCss(canvasElement, "color", getToken("scroll.sectionLinks.color:base"))
     await userEvent.click(link(canvasElement, "Services"))
-    await waitFor(() =>
-      expect(color("Services")).toBe(resolveCss(canvasElement, "color", getToken("scroll.sectionLinks.color:active"))),
-    )
-    await expect(color("About")).toBe(resolveCss(canvasElement, "color", getToken("scroll.sectionLinks.color:base")))
+    await waitFor(() => expect(color("Services")).toBe(activeColor))
+    await expect(color("About")).toBe(baseColor)
     window.scrollTo(0, 0)
   },
 }
