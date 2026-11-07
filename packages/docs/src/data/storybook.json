@@ -319,6 +319,11 @@
             }
           },
           {
+            "focusRing": {
+              "description": "Keyboard focus outline: ring width, color and gap from the element. Component `focusRing` tokens alias them."
+            }
+          },
+          {
             "zIndex": {
               "description": "Stacking-order (z-index) tokens for layered surfaces — overlays, stickies, tooltips."
             }

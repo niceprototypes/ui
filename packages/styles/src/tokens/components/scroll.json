@@ -6,7 +6,7 @@
   },
   "sticky": {
     "zIndex": {
-      "base": "var(--np--z-index--medium)"
+      "base": "var(--np--z-index--sticky)"
     },
     "animationDuration": {
       "base": "300ms"

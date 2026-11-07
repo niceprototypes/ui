@@ -384,13 +384,13 @@ const componentTokensData: ComponentTokensData = {
     },
     "focusRing": {
       "width": {
-        "base": "var(--np--border-width--large)"
+        "base": "var(--np--focus-ring--width)"
       },
       "color": {
-        "base": "var(--np--color--link)"
+        "base": "var(--np--focus-ring--color)"
       },
       "offset": {
-        "base": "var(--np--gap--smaller)"
+        "base": "var(--np--focus-ring--offset)"
       }
     },
     "hover": {
@@ -853,13 +853,13 @@ const componentTokensData: ComponentTokensData = {
     },
     "focusRing": {
       "width": {
-        "base": "var(--np--border-width--large)"
+        "base": "var(--np--focus-ring--width)"
       },
       "color": {
-        "base": "var(--np--color--link)"
+        "base": "var(--np--focus-ring--color)"
       },
       "offset": {
-        "base": "var(--np--gap--smaller)"
+        "base": "var(--np--focus-ring--offset)"
       }
     }
   },
@@ -1068,7 +1068,7 @@ const componentTokensData: ComponentTokensData = {
     },
     "sticky": {
       "zIndex": {
-        "base": "var(--np--z-index--medium)"
+        "base": "var(--np--z-index--sticky)"
       },
       "animationDuration": {
         "base": "300ms"

@@ -175,5 +175,21 @@ export const tokenRenderers: Record<string, Renderer> = {
     </Flex>
   ),
 
+  // Every row draws the whole ring (width, color and offset together) around the same cell.
+  "tokens-focusring": () => (
+    <Flex grow={1} padding="smaller">
+      <PreviewCell
+        backgroundColor={getToken("backgroundColor", "raised")}
+        borderColor={getToken("borderColor")}
+        height={getToken("size", "large")}
+        borderRadius={getToken("borderRadius", "small")}
+        style={{
+          outline: `${getToken("focusRing", "width")} solid ${getToken("focusRing", "color")}`,
+          outlineOffset: getToken("focusRing", "offset"),
+        }}
+      />
+    </Flex>
+  ),
+
   "tokens-zindex": (variant) => <TokenPreview.ZIndex variant={variant} />,
 }
