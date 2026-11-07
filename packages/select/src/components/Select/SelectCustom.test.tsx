@@ -101,6 +101,20 @@ describe("Select (custom, default)", () => {
   })
 
   it("opens the listbox below the trigger by default, above it with position=\"top\"", () => {
+    // jsdom measures every element as a zero-size rect at the viewport origin, so
+    // "top" would overflow and Popover would flip it to "bottom". Give the trigger
+    // room on both sides of the 1024x768 jsdom viewport.
+    const rect = jest.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+      top: 400,
+      bottom: 440,
+      left: 100,
+      right: 300,
+      width: 200,
+      height: 40,
+      x: 100,
+      y: 400,
+      toJSON: () => ({}),
+    })
     const { rerender } = render(
       <Select
         aria-label="fruit"
@@ -120,6 +134,7 @@ describe("Select (custom, default)", () => {
     )
     fireEvent.click(combobox())
     expect(listbox().parentElement!.style.transform).toBe("translate(0, -100%)")
+    rect.mockRestore()
   })
 
   describe("pointer", () => {
