@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0
+
+### Major Changes
+
+- 92f9032: ScrollProvider, ScrollContext, StickyProvider, StickyContext, useStickyContext, Sticky and FadeOnScroll and their types are removed; use Scroll root, sticky and fade props instead. SectionLinks reads scroll.sectionLinks.color for its links and active link, and its observer disconnects on cleanup.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/styles@18.0.0
+
 ## 2.3.0
 
 ### Minor Changes

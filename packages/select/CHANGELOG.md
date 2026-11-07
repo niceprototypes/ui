@@ -1,5 +1,25 @@
 # @niceprototypes/select
 
+## 0.3.0
+
+### Minor Changes
+
+- 92f9032: Adds option groups with titles and a named Select export.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/icon@9.0.0
+  - @niceprototypes/input@4.0.0
+  - @niceprototypes/listbox@0.3.0
+  - @niceprototypes/popover@0.3.0
+  - @niceprototypes/styles@18.0.0
+
 ## 0.2.0
 
 ### Minor Changes

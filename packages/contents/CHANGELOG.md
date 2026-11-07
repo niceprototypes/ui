@@ -1,5 +1,21 @@
 # @niceprototypes/contents
 
+## 1.0.0
+
+### Major Changes
+
+- 92f9032: Removes the heading prop and its sticky heading; the nav landmark is named by aria-label (default "Contents"). Sibling sections stay siblings in the list.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/scroll@3.0.0
+  - @niceprototypes/styles@18.0.0
+
 ## 0.2.0
 
 ### Minor Changes

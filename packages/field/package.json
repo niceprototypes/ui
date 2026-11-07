@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/field",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Form field composition for React: Field wires a label, description and error to its control via useField context; Fieldset groups controls under a legend",
   "main": "dist/index.js",

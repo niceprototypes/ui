@@ -1,5 +1,19 @@
 # @niceprototypes/slider
 
+## 0.7.0
+
+### Minor Changes
+
+- 92f9032: Off-screen slides are inert, animationDuration reads through getToken, and Slider has a named export.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/scroll@3.0.0
+  - @niceprototypes/styles@18.0.0
+
 ## 0.6.0
 
 ### Minor Changes

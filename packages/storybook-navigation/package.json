@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/storybook-navigation",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Storybook addon: a preview-side navigation bar — back/next story navigation, sidebar toggle, dark-mode toggle, open-in-editor, and a settings menu — for the Nice design system.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/line",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "A dashed line of pill-shaped, rimmed dashes that frames its parent element, for nice-react",
   "main": "dist/index.js",

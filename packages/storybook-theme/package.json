@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/storybook-theme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Storybook addon: the Nice design-system UX for Storybook's manager — a token-styled sidebar tree (folder + branch-connector glyphs, depth/selection-aware lines, hidden search) plus the surrounding custom chrome.",
   "type": "module",
   "main": "./dist/index.js",

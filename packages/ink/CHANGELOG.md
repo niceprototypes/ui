@@ -1,5 +1,17 @@
 # Changelog
 
+## 9.0.0
+
+### Major Changes
+
+- 92f9032: Removes the getInkToken export; Ink renders a span by default (was p), and p, span and h4 default to the base font size (was small). Adds id and italic props, the object form of color, ink.\* token reads, and a named Ink export.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/styles@18.0.0
+
 ## 8.1.0
 
 ### Minor Changes

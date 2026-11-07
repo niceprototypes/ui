@@ -1,5 +1,31 @@
 # @niceprototypes/app
 
+## 0.3.0
+
+### Minor Changes
+
+- 92f9032: Adds a Docs section at /docs from docs/<N Page>/index.tsx (pages prop) with scenes under /stories, bare in useScenes, the app.handle.paddingBottom token, and the header search and docs link in one icon group. The scene region paints the theme background and the drawer scrolls through Scroll.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+- Updated dependencies [92f9032]
+  - @niceprototypes/button@10.0.0
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/input@4.0.0
+  - @niceprototypes/listbox@0.3.0
+  - @niceprototypes/popover@0.3.0
+  - @niceprototypes/scroll@3.0.0
+  - @niceprototypes/styles@18.0.0
+  - @niceprototypes/tree@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

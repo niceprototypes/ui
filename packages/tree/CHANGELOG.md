@@ -1,5 +1,19 @@
 # @niceprototypes/tree
 
+## 0.3.0
+
+### Minor Changes
+
+- 92f9032: A folder with a url renders a link: it selects on click, has no toggle, and shows its sub-list while its id is in expandedIds.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/styles@18.0.0
+
 ## 0.2.0
 
 ### Minor Changes

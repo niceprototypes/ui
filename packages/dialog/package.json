@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/dialog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "A modal dialog component for React built on the native <dialog> element, with Escape and backdrop-click dismiss, focus return and scroll lock",
   "main": "dist/index.js",

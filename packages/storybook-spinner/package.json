@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/storybook-spinner",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Storybook addon: replaces Storybook's boot and preview loaders with the Nice spinner, painted at document start in the resolved theme.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/image-vendor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vendor image resolver for nice-react-image — currently emits picsum.photos URLs; reserves the right to swap in a third-party image source later without touching the host component",
   "type": "module",
   "main": "dist/index.js",

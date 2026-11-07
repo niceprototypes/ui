@@ -1,5 +1,17 @@
 # @niceprototypes/markdown
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/code@1.0.0
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/styles@18.0.0
+
 ## 0.2.0
 
 ### Minor Changes

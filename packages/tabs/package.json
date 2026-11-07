@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/tabs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "Tabs (WAI-ARIA tablist, tabs and one panel) with any node as a tab label, for nice-react",
   "main": "dist/index.js",

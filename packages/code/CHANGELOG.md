@@ -1,5 +1,25 @@
 # @niceprototypes/code
 
+## 1.0.0
+
+### Major Changes
+
+- 92f9032: Removes the getCodeToken export; margin now defaults to none and fit to false. Adds a children live demo, maxHeight collapse with a drag bar, a copy icon and keyboard-focusable inline copy chips, the codeLanguages and copyToClipboard exports, and a named Code export.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+- Updated dependencies [92f9032]
+  - @niceprototypes/icon@9.0.0
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/scroll@3.0.0
+  - @niceprototypes/styles@18.0.0
+  - @niceprototypes/tooltip@0.2.0
+
 ## 0.2.0
 
 ### Minor Changes

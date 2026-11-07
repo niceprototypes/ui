@@ -1,6 +1,6 @@
 {
   "name": "@niceprototypes/config-vite",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Shared Vite configuration for apps that consume @niceprototypes/* packages, with a local mode for a nice-ux checkout",
   "main": "src/index.js",

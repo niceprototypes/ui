@@ -1,5 +1,19 @@
 # @niceprototypes/lightbox
 
+## 4.0.0
+
+### Major Changes
+
+- 92f9032: Removes the getLightboxToken export (read lightbox tokens with getToken). The lightbox opens from the keyboard, and Lightbox has a named export.
+
+### Patch Changes
+
+- Updated dependencies [92f9032]
+- Updated dependencies [92f9032]
+- Updated dependencies [9e37bef]
+  - @niceprototypes/ink@9.0.0
+  - @niceprototypes/styles@18.0.0
+
 ## 3.1.0
 
 ### Minor Changes
