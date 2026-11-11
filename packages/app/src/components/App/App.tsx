@@ -38,6 +38,7 @@ const AppShell: React.FC<AppProps> = ({
   scenes,
   docs,
   pages,
+  sections,
   router,
   wrapper: Wrapper,
   search: searchable,
@@ -55,6 +56,7 @@ const AppShell: React.FC<AppProps> = ({
   const bare = location.pathname === FRAME || location.pathname.startsWith(`${FRAME}/`)
   const path = (bare ? location.pathname.slice(FRAME.length) : location.pathname).replace(/\/+$/, "")
   const current = index.find(entry => entry.url === path)
+  const section = sections?.find(({ id }) => path === `/${id}`)
   const region = React.useRef<HTMLDivElement>(null)
   // States, not refs: the scene renders its portals into the sidebar and its footer once they are mounted.
   const [sidebar, setSidebar] = React.useState<HTMLElement | null>(null)
@@ -156,6 +158,7 @@ const AppShell: React.FC<AppProps> = ({
   }, [bare, current, index, load, location.search, navigate, sidebar, sidebarFooter])
 
   const page = (() => {
+    if (section) return <StyledAppDocs>{section.content}</StyledAppDocs>
     const entry = shown.current
     if (!entry) return null
     const value = loaded.current.get(entry.id)
@@ -230,16 +233,17 @@ const AppShell: React.FC<AppProps> = ({
                 <Tree
                   aria-label={ariaLabel}
                   size={navSize}
-                  items={buildAppTree(index, current, location.search, router.href)}
+                  items={buildAppTree(index, current, location.search, router.href, sections, section)}
                   expandedIds={expandedIds}
                   onExpandedChange={setExpandedIds}
                   onSelect={(node, event) => {
                     if (node.url === undefined || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
                     event.preventDefault()
-                    // The row's URL is the router's href; navigate takes the entry's own path.
-                    const entry = index.find(({ url }) => (router.href?.(`${url}${location.search}`) ?? `${url}${location.search}`) === node.url)
-                    if (!entry) return
-                    navigate(`${entry.url}${location.search}`)
+                    // The row's URL is the router's href; navigate takes the entry's or section's own path.
+                    const urls = [...index.map(({ url }) => url), ...(sections ?? []).map(({ id }) => `/${id}`)]
+                    const url = urls.find(url => (router.href?.(`${url}${location.search}`) ?? `${url}${location.search}`) === node.url)
+                    if (!url) return
+                    navigate(`${url}${location.search}`)
                     if (open) setOpen(false)
                   }}
                 />
@@ -261,7 +265,7 @@ const AppShell: React.FC<AppProps> = ({
  *
  * The app shell: a Tree nav of the project's scenes and docs pages, found by folder, beside the
  * scene region where the current one renders, under a header row: the Nice logo and, with `search`, a search field; with `end`,
- * a column right of the region, laptop and up. The nav lists
+ * a column right of the region, laptop and up; with `sections`, a nav row and a page (`/<id>`) for each, after the stories or docs. The nav lists
  * the current page's section at the top level: the stories (`stories/`, at `/stories/...`) as folders on a
  * story page, the docs section pages (`docs/<N Page>/index.tsx`, at `/docs/<page>`, or nested in folders) on a docs page. Folder names are the only metadata: depth is the
  * level (story, chapter, scene), numbers order them by value and are left out of names and URLs.

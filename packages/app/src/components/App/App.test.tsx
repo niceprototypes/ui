@@ -126,6 +126,23 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.queryByRole("separator")).not.toBeInTheDocument()
   })
 
+  it("lists sections after the stories, each opening its content at /<id> without the wrapper, its row active there", async () => {
+    const Wrapper = ({ children }: { children: React.ReactNode }) => <div data-testid="wrapper">{children}</div>
+    const sections = [{ id: "store", name: "Store", content: <p>store content</p> }]
+    window.history.replaceState(null, "", "/stories/beta/nine?device=phone")
+    render(<App scenes={scenes} router={router} wrapper={Wrapper} sections={sections} />)
+    await screen.findByText("nine")
+    expect(screen.getAllByRole("link", { hidden: true }).map(link => link.textContent).at(-1)).toBe("Store")
+    fireEvent.click(screen.getByRole("link", { name: "Store", hidden: true }))
+    expect(await screen.findByText("store content")).toBeInTheDocument()
+    expect(window.location.pathname + window.location.search).toBe("/store?device=phone")
+    expect(screen.queryByTestId("wrapper")).not.toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "Store", hidden: true })).toHaveAttribute("aria-current", "page")
+    fireEvent.click(screen.getByRole("link", { name: "Nine", hidden: true }))
+    expect(await screen.findByText("nine")).toBeInTheDocument()
+    expect(screen.queryByText("store content")).not.toBeInTheDocument()
+  })
+
   it("navigates from the nav and back and forward", async () => {
     window.history.replaceState(null, "", "/stories/alpha/solo")
     render(<App scenes={scenes} docs={docs} router={router} />)

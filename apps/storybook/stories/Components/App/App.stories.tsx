@@ -2,7 +2,7 @@ import * as React from "react"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { expect, fn, waitFor, within } from "storybook/test"
 import App from "@niceprototypes/app"
-import type { AppLocationType, AppProps, AppRouterType, AppWrapperType, AppNavigateType } from "@niceprototypes/app"
+import type { AppLocationType, AppProps, AppRouterType, AppSectionType, AppWrapperType, AppNavigateType } from "@niceprototypes/app"
 import Flex from "@niceprototypes/flex"
 import type { TreeSizeType } from "@niceprototypes/tree"
 import Ink from "@niceprototypes/ink"
@@ -65,6 +65,9 @@ const END = (
   </Flex>
 )
 
+/** A section after the stories or docs, at /store. */
+const SECTIONS: AppSectionType[] = [{ id: "store", name: "Store", content: <Ink as="h1">Store</Ink> }]
+
 /** An unset choice for optional selects; `mapping` turns it into `undefined`. */
 const NONE = "none"
 
@@ -77,22 +80,24 @@ const SIDEBAR_OPEN_OPTIONS = { unset: undefined, open: true, closed: false } as 
  * PlaygroundArgs
  *
  * AppProps with data controls in place of the globs: `withScenes`, `withDocs` and `withPages` add the
- * story's scenes, markdown pages and docs pages; `withWrapper` wraps each scene; `withEnd` fills the end column. The router is the story's own, kept in memory.
+ * story's scenes, markdown pages and docs pages; `withSections` adds a Store section; `withWrapper` wraps each scene; `withEnd` fills the end column. The router is the story's own, kept in memory.
  */
-type PlaygroundArgs = Omit<AppProps, "scenes" | "docs" | "pages" | "router" | "wrapper" | "end"> & {
+type PlaygroundArgs = Omit<AppProps, "scenes" | "docs" | "pages" | "sections" | "router" | "wrapper" | "end"> & {
   withScenes: boolean
   withDocs: boolean
   withPages: boolean
+  withSections: boolean
   withWrapper: boolean
   withEnd: boolean
 }
 
-const renderApp = ({ withScenes, withDocs, withPages, withWrapper, withEnd, ...rest }: PlaygroundArgs) => (
+const renderApp = ({ withScenes, withDocs, withPages, withSections, withWrapper, withEnd, ...rest }: PlaygroundArgs) => (
   <App
     {...rest}
     scenes={withScenes ? SCENES : undefined}
     docs={withDocs ? DOCS : undefined}
     pages={withPages ? PAGES : undefined}
+    sections={withSections ? SECTIONS : undefined}
     router={memoryRouter}
     wrapper={withWrapper ? Padded : undefined}
     end={withEnd ? END : undefined}
@@ -118,6 +123,7 @@ export const Playground: Story = {
     withScenes: true,
     withDocs: true,
     withPages: true,
+    withSections: true,
     withWrapper: true,
     withEnd: true,
     "aria-label": "Docs",
@@ -127,6 +133,7 @@ export const Playground: Story = {
     withScenes: { control: "boolean", table: { category: "Content" } },
     withDocs: { control: "boolean", table: { category: "Content" } },
     withPages: { control: "boolean", table: { category: "Content" } },
+    withSections: { control: "boolean", table: { category: "Content" } },
     withWrapper: { control: "boolean", table: { category: "Content" } },
     withEnd: { control: "boolean", table: { category: "Content" } },
     search: { control: "boolean", table: { category: "Content" } },
@@ -234,16 +241,32 @@ export const End: Story = {
   },
 }
 
-/** The drawer looping: closed, then open over the page. */
+/** `sections` adds a row after the docs pages; picking it opens its content at its own page. */
+export const Sections: Story = {
+  ...Playground,
+  globals: { viewport: { value: "desktop", isRotated: false } },
+  play: async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement)
+    await canvas.findByRole("heading", { name: "Welcome" })
+    await userEvent.click(canvas.getByRole("link", { name: "Store" }))
+    await canvas.findByRole("heading", { name: "Store" })
+    await expect(canvas.getByRole("link", { name: "Store" })).toHaveAttribute("aria-current", "page")
+  },
+}
+
+/** The drawer looping: closed, then open over the page, then open with a section row after the pages. */
 export const Lifecycle: Story = {
-  args: Playground.args,
+  args: { ...Playground.args, withSections: false },
   render: args => (
     <LifecycleStory
       steps={[
-        { label: "drawer closed", props: { sidebarOpen: false } },
-        { label: "drawer open", props: { sidebarOpen: true } },
+        { label: "drawer closed", props: { sidebarOpen: false, withSections: false } },
+        { label: "drawer open", props: { sidebarOpen: true, withSections: false } },
+        { label: "with a section", props: { sidebarOpen: true, withSections: true } },
       ]}
-      render={({ sidebarOpen }: Pick<AppProps, "sidebarOpen">) => renderApp({ ...args, sidebarOpen })}
+      render={({ sidebarOpen, withSections }: Pick<PlaygroundArgs, "sidebarOpen" | "withSections">) =>
+        renderApp({ ...args, sidebarOpen, withSections })
+      }
     />
   ),
 }

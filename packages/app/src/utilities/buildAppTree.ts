@@ -1,5 +1,5 @@
 import type { TreeItemsType, TreeNodeType } from "@niceprototypes/tree"
-import type { AppEntryType } from "../components/App/App.types"
+import type { AppEntryType, AppSectionType } from "../components/App/App.types"
 
 type MutableNode = Omit<TreeNodeType, "items"> & { items?: MutableNode[] }
 
@@ -12,12 +12,15 @@ const isDocs = (entry: AppEntryType | undefined) => entry?.kind === "page"
  * pages or docs folder, and a link per page (a one-scene chapter is one link). Links keep the URL's
  * query string (`search`), so a setting such as `?device=` survives the switch; the current page is active.
  * Each link's URL goes through `href` (the router's, which adds a base path) when given.
+ * After them, a link per section (`/<id>`), active when it is the current page (`section`).
  */
 export const buildAppTree = (
   entries: AppEntryType[],
   current: AppEntryType | undefined,
   search: string,
   href: (to: string) => string = to => to,
+  sections: AppSectionType[] = [],
+  section?: AppSectionType,
 ): TreeItemsType => {
   const root: MutableNode[] = []
   // Before a page is current (the root, on its way to the first page), the first page's section.
@@ -40,6 +43,8 @@ export const buildAppTree = (
       level = folder.items ?? []
     })
   }
+  for (const item of sections)
+    root.push({ id: item.id, name: item.name, icon: null, url: href(`/${item.id}${search}`), status: item === section ? "active" : undefined })
   return root
 }
 

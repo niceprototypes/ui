@@ -74,6 +74,16 @@ export type AppPagesType = Record<string, () => Promise<{ default: React.Compone
 export type AppWrapperType = React.ComponentType<{ children: React.ReactNode; search: URLSearchParams }>
 
 /**
+ * AppSectionType
+ *
+ * A top-level section beside the stories and docs: a nav row after them, and its own page at `/<id>`.
+ * - id: its URL segment, a slug (`store`), unique and neither `stories` nor `docs`
+ * - name: its nav row's label
+ * - content: what the scene region shows on its page, with the docs pages' padding and no wrapper
+ */
+export type AppSectionType = { id: string; name: string; content: React.ReactNode }
+
+/**
  * AppEntryType
  *
  * One page of the index, in nav order: a scene or markdown page under `/stories`, or a docs section page under `/docs`.
@@ -108,6 +118,9 @@ export interface AppProps {
 
   /** The router adapter */
   router: AppRouterType
+
+  /** Top-level sections after the stories or docs in the nav, each its own page at `/<id>` */
+  sections?: AppSectionType[]
 
   /** Wraps every scene inside the scene region */
   wrapper?: AppWrapperType
@@ -164,6 +177,7 @@ namespace AppTypes {
   export type Docs = AppDocsType
   export type Pages = AppPagesType
   export type Wrapper = AppWrapperType
+  export type Section = AppSectionType
   export type Entry = AppEntryType
   export type Props = AppProps
 }
