@@ -781,6 +781,9 @@ importers:
       '@niceprototypes/flex':
         specifier: workspace:*
         version: link:../flex
+      '@niceprototypes/ink':
+        specifier: workspace:*
+        version: link:../ink
       '@niceprototypes/input':
         specifier: workspace:*
         version: link:../input

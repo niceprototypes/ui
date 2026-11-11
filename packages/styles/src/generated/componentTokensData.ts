@@ -321,6 +321,23 @@ const componentTokensData: ComponentTokensData = {
       "maxRows": {
         "base": "6"
       }
+    },
+    "toolCall": {
+      "padding": {
+        "base": "var(--np--gap)"
+      },
+      "gap": {
+        "base": "var(--np--gap--small)"
+      },
+      "borderWidth": {
+        "base": "var(--np--border-width)"
+      },
+      "borderColor": {
+        "base": "var(--np--border-color)"
+      },
+      "borderRadius": {
+        "base": "var(--np--border-radius--large)"
+      }
     }
   },
   "checkbox": {
