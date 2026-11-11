@@ -61,6 +61,21 @@ describe("Markdown", () => {
     expect(screen.getByText(/A paragraph with/).closest("p")).toHaveAttribute("data-ink")
   })
 
+  it("keeps versioned ids as text and inline code", () => {
+    const { container } = render(
+      <Markdown>{"Uses nice/chat@1.0.0, scope/name@1.2.3, @scope/name@^1.0.0, @scope/name@1.0.0-beta.1 and `nice/chat@1.0.0`."}</Markdown>,
+    )
+    expect(container.querySelector("a")).toBeNull()
+    expect(screen.getByText(/Uses nice\/chat@1\.0\.0, scope\/name@1\.2\.3, @scope\/name@\^1\.0\.0, @scope\/name@1\.0\.0-beta\.1 and/)).toBeInTheDocument()
+    expect(screen.getByText("nice/chat@1.0.0")).toHaveAttribute("data-inlined")
+  })
+
+  it("links bare and bracketed emails", () => {
+    render(<Markdown>{"Write to user@example.com or <a@b.com>."}</Markdown>)
+    expect(screen.getByRole("link", { name: "user@example.com" })).toHaveAttribute("href", "mailto:user@example.com")
+    expect(screen.getByRole("link", { name: "a@b.com" })).toHaveAttribute("href", "mailto:a@b.com")
+  })
+
   it("re-renders only the block that changed while the source grows", () => {
     const { rerender } = render(<Markdown>{"First paragraph.\n\nSecond"}</Markdown>)
     inkRenders.mockClear()
