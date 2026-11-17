@@ -43,5 +43,37 @@
     "borderRadius": {
       "base": "var(--np--border-radius--large)"
     }
+  },
+  "thinking": {
+    "blockSize": {
+      "base": "calc(1em * var(--np--line-height))"
+    },
+    "gap": {
+      "base": "var(--np--gap--smaller)"
+    },
+    "dotSize": {
+      "base": "calc(var(--np--size--smaller) / 4)"
+    },
+    "dotBorderRadius": {
+      "base": "50%"
+    },
+    "dotColor": {
+      "base": "var(--np--color--lighter)"
+    },
+    "dotOpacity": {
+      "base": "var(--np--opacity--disabled)"
+    },
+    "lift": {
+      "base": "var(--np--chat--thinking--dot-size)"
+    },
+    "animationDuration": {
+      "base": "var(--np--animation-duration--slower)"
+    },
+    "animationDelay": {
+      "base": "var(--np--animation-duration--fast)"
+    },
+    "animationEasing": {
+      "base": "var(--np--animation-easing)"
+    }
   }
 }

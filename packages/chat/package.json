@@ -2,7 +2,7 @@
   "name": "@niceprototypes/chat",
   "version": "0.2.1",
   "type": "module",
-  "description": "Chat for React: a following message log, user and assistant messages, a composer with send and stop, and suggestions",
+  "description": "Chat for React: a following message log, user and assistant messages, a composer with send and stop, suggestions, and a thinking indicator",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
