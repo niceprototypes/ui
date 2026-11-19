@@ -14,6 +14,8 @@ Peer dependencies and app setup: [Build on Nice](../../manifest/agents/README.md
 import { Metrics } from "@niceprototypes/metrics"
 ```
 
+`maxWidth` (a CSS length) caps the label's width; it defaults to the `metrics.label.maxWidth` token (24ch), and the label stays centred.
+
 `Metrics` also takes `breakpoints`: breakpoint keys to partial props (`BreakpointOverride`, `packages/styles/src/react/services/withBreakpoints`).
 
 ## Docs

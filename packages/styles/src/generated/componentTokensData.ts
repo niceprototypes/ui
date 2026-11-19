@@ -1025,6 +1025,13 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--gap)"
     }
   },
+  "metrics": {
+    "label": {
+      "maxWidth": {
+        "base": "24ch"
+      }
+    }
+  },
   "popover": {
     "offset": {
       "base": "var(--np--gap--small)"

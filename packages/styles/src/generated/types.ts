@@ -32,7 +32,7 @@ export type BorderColorInverseType = "base" | "subtle" | "strong" | "stronger" |
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 export type FocusRingInverseType = "color"
 
-export type ComponentPrefix = "app" | "button" | "calendar" | "card" | "chat" | "checkbox" | "code" | "contents" | "dialog" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "line" | "list" | "listbox" | "logo" | "markdown" | "popover" | "radio" | "scroll" | "select" | "tabs" | "tile" | "toggle" | "tooltip" | "tree"
+export type ComponentPrefix = "app" | "button" | "calendar" | "card" | "chat" | "checkbox" | "code" | "contents" | "dialog" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "line" | "list" | "listbox" | "logo" | "markdown" | "metrics" | "popover" | "radio" | "scroll" | "select" | "tabs" | "tile" | "toggle" | "tooltip" | "tree"
 
 /** Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`), plus custom groups declared on `CustomTokenVariants`. */
 export interface TokenVariants extends CustomTokenVariants {
@@ -262,6 +262,7 @@ export interface TokenVariants extends CustomTokenVariants {
   "logo.gap": "base"
   "logo.color": "base"
   "markdown.gap": "base"
+  "metrics.label.maxWidth": "base"
   "popover.offset": "base"
   "popover.borderRadius": "base"
   "popover.boxShadow": "base"

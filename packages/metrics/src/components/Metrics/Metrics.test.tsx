@@ -36,4 +36,19 @@ describe("Metrics", () => {
     expect(css).toContain(`font-size:${getToken("ink.fontSize:small")}`)
     expect(css).toContain("text-align:center")
   })
+
+  it("maxWidth: defaults to the metrics.label.maxWidth token on the label only, centred by auto inline margins", () => {
+    render(<Metrics value="2.5 GB/s" label="Decode throughput, measured natively" />)
+    const label = cssFor(screen.getByText("Decode throughput, measured natively"))
+    expect(label).toContain(`max-width:${getToken("metrics.label.maxWidth")}`)
+    expect(label).toContain("margin-inline:auto")
+    expect(cssFor(screen.getByText("2.5 GB/s"))).not.toContain("max-width")
+  })
+
+  it("maxWidth: a custom value overrides the default", () => {
+    render(<Metrics value="~1 µs" label="Per rank, range or quantile query" maxWidth="30ch" />)
+    const label = cssFor(screen.getByText("Per rank, range or quantile query"))
+    expect(label).toContain("max-width:30ch")
+    expect(label).not.toContain(`max-width:${getToken("metrics.label.maxWidth")}`)
+  })
 })
