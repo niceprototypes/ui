@@ -867,6 +867,20 @@
 	/* markdown component tokens */
 	--np--markdown--gap: var(--np--gap);
 
+	/* menu component tokens */
+	--np--menu--padding: var(--np--gap--smaller);
+	--np--menu--touch-target: 24px;
+	--np--menu--item--gap: var(--np--gap--small);
+	--np--menu--item--padding-block: var(--np--gap--small);
+	--np--menu--item--padding-inline: var(--np--gap);
+	--np--menu--item--border-radius: var(--np--border-radius--small);
+	--np--menu--item--background-color--focus: var(--np--border-color);
+	--np--menu--item--color--disabled: var(--np--color--disabled);
+	--np--menu--group-label--color: var(--np--color--lighter);
+	--np--menu--separator--color: var(--np--border-color);
+	--np--menu--separator--width: var(--np--border-width);
+	--np--menu--separator--margin-block: var(--np--gap--smaller);
+
 	/* metrics component tokens */
 	--np--metrics--label--max-width: 24ch;
 
@@ -1300,6 +1314,10 @@
 	--np--listbox--selected--color--inverse: var(--np--color--link--inverse);
 	--np--listbox--group-title--color--inverse: var(--np--color--lighter--inverse);
 	--np--listbox--focus-ring--color--inverse: var(--np--border-color--link--inverse);
+	--np--menu--item--background-color--focus--inverse: var(--np--border-color--inverse);
+	--np--menu--item--color--disabled--inverse: var(--np--color--disabled--inverse);
+	--np--menu--group-label--color--inverse: var(--np--color--lighter--inverse);
+	--np--menu--separator--color--inverse: var(--np--border-color--inverse);
 	--np--popover--background-color--inverse: var(--np--background-color--raised--inverse);
 	--np--popover--color--inverse: var(--np--color--inverse);
 	--np--radio--background-color--unchecked--inverse: var(--np--background-color--inverse);
@@ -1879,6 +1897,10 @@
 		--np--listbox--selected--color--inverse: var(--np--color--link--night--inverse);
 		--np--listbox--group-title--color--inverse: var(--np--color--lighter--night--inverse);
 		--np--listbox--focus-ring--color--inverse: var(--np--border-color--link--night--inverse);
+		--np--menu--item--background-color--focus--inverse: var(--np--border-color--night--inverse);
+		--np--menu--item--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--menu--group-label--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--menu--separator--color--inverse: var(--np--border-color--night--inverse);
 		--np--popover--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--popover--color--inverse: var(--np--color--night--inverse);
 		--np--radio--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
@@ -2165,6 +2187,10 @@
 		--np--listbox--selected--color: var(--np--color--link--night);
 		--np--listbox--group-title--color: var(--np--color--lighter--night);
 		--np--listbox--focus-ring--color: var(--np--border-color--link--night);
+		--np--menu--item--background-color--focus: var(--np--border-color--night);
+		--np--menu--item--color--disabled: var(--np--color--disabled--night);
+		--np--menu--group-label--color: var(--np--color--lighter--night);
+		--np--menu--separator--color: var(--np--border-color--night);
 		--np--popover--background-color: var(--np--background-color--raised--night);
 		--np--popover--color: var(--np--color--night);
 		--np--radio--background-color--unchecked: var(--np--background-color--night);
@@ -2522,6 +2548,10 @@
 		--np--listbox--selected--color--inverse: var(--np--color--link--day--inverse);
 		--np--listbox--group-title--color--inverse: var(--np--color--lighter--day--inverse);
 		--np--listbox--focus-ring--color--inverse: var(--np--border-color--link--day--inverse);
+		--np--menu--item--background-color--focus--inverse: var(--np--border-color--day--inverse);
+		--np--menu--item--color--disabled--inverse: var(--np--color--disabled--day--inverse);
+		--np--menu--group-label--color--inverse: var(--np--color--lighter--day--inverse);
+		--np--menu--separator--color--inverse: var(--np--border-color--day--inverse);
 		--np--popover--background-color--inverse: var(--np--background-color--raised--day--inverse);
 		--np--popover--color--inverse: var(--np--color--day--inverse);
 		--np--radio--background-color--unchecked--inverse: var(--np--background-color--day--inverse);
@@ -2808,6 +2838,10 @@
 		--np--listbox--selected--color: var(--np--color--link--day);
 		--np--listbox--group-title--color: var(--np--color--lighter--day);
 		--np--listbox--focus-ring--color: var(--np--border-color--link--day);
+		--np--menu--item--background-color--focus: var(--np--border-color--day);
+		--np--menu--item--color--disabled: var(--np--color--disabled--day);
+		--np--menu--group-label--color: var(--np--color--lighter--day);
+		--np--menu--separator--color: var(--np--border-color--day);
 		--np--popover--background-color: var(--np--background-color--raised--day);
 		--np--popover--color: var(--np--color--day);
 		--np--radio--background-color--unchecked: var(--np--background-color--day);
@@ -3165,6 +3199,10 @@
 		--np--listbox--selected--color--inverse: var(--np--color--link--night--inverse);
 		--np--listbox--group-title--color--inverse: var(--np--color--lighter--night--inverse);
 		--np--listbox--focus-ring--color--inverse: var(--np--border-color--link--night--inverse);
+		--np--menu--item--background-color--focus--inverse: var(--np--border-color--night--inverse);
+		--np--menu--item--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--menu--group-label--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--menu--separator--color--inverse: var(--np--border-color--night--inverse);
 		--np--popover--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--popover--color--inverse: var(--np--color--night--inverse);
 		--np--radio--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
@@ -3451,6 +3489,10 @@
 		--np--listbox--selected--color: var(--np--color--link--night);
 		--np--listbox--group-title--color: var(--np--color--lighter--night);
 		--np--listbox--focus-ring--color: var(--np--border-color--link--night);
+		--np--menu--item--background-color--focus: var(--np--border-color--night);
+		--np--menu--item--color--disabled: var(--np--color--disabled--night);
+		--np--menu--group-label--color: var(--np--color--lighter--night);
+		--np--menu--separator--color: var(--np--border-color--night);
 		--np--popover--background-color: var(--np--background-color--raised--night);
 		--np--popover--color: var(--np--color--night);
 		--np--radio--background-color--unchecked: var(--np--background-color--night);

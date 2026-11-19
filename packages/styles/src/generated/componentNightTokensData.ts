@@ -46,6 +46,7 @@ const componentNightTokensData: ComponentNightTokensData = {
       "base": "var(--np--color--night)"
     }
   },
+  "menu": {},
   "popover": {},
   "radio": {},
   "select": {},

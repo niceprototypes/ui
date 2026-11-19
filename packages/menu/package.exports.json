@@ -1,0 +1,11 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "Menu: a WAI-ARIA menu of commands with MenuItem, MenuGroup and MenuSeparator, roving focus and typeahead; MenuButton opens one from a Button in a Popover.",
+  "components": [
+    "Menu",
+    "MenuItem",
+    "MenuGroup",
+    "MenuSeparator",
+    "MenuButton"
+  ]
+}

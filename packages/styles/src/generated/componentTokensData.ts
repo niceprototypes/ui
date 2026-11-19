@@ -1162,6 +1162,50 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--gap)"
     }
   },
+  "menu": {
+    "padding": {
+      "base": "var(--np--gap--smaller)"
+    },
+    "touchTarget": {
+      "base": "24px"
+    },
+    "item": {
+      "gap": {
+        "base": "var(--np--gap--small)"
+      },
+      "paddingBlock": {
+        "base": "var(--np--gap--small)"
+      },
+      "paddingInline": {
+        "base": "var(--np--gap)"
+      },
+      "borderRadius": {
+        "base": "var(--np--border-radius--small)"
+      },
+      "backgroundColor": {
+        "focus": "var(--np--border-color)"
+      },
+      "color": {
+        "disabled": "var(--np--color--disabled)"
+      }
+    },
+    "groupLabel": {
+      "color": {
+        "base": "var(--np--color--lighter)"
+      }
+    },
+    "separator": {
+      "color": {
+        "base": "var(--np--border-color)"
+      },
+      "width": {
+        "base": "var(--np--border-width)"
+      },
+      "marginBlock": {
+        "base": "var(--np--gap--smaller)"
+      }
+    }
+  },
   "metrics": {
     "label": {
       "maxWidth": {

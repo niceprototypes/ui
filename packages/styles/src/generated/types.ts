@@ -32,7 +32,7 @@ export type BorderColorInverseType = "base" | "subtle" | "strong" | "stronger" |
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 export type FocusRingInverseType = "color"
 
-export type ComponentPrefix = "app" | "badge" | "button" | "calendar" | "card" | "chat" | "checkbox" | "code" | "contents" | "datatable" | "dialog" | "field" | "header" | "icon" | "image" | "ink" | "input" | "lightbox" | "line" | "list" | "listbox" | "logo" | "markdown" | "metrics" | "popover" | "radio" | "scroll" | "select" | "table" | "tabs" | "tile" | "toggle" | "tooltip" | "tree"
+export type ComponentPrefix = "app" | "badge" | "button" | "calendar" | "card" | "chat" | "checkbox" | "code" | "contents" | "datatable" | "dialog" | "field" | "header" | "icon" | "image" | "ink" | "input" | "lightbox" | "line" | "list" | "listbox" | "logo" | "markdown" | "menu" | "metrics" | "popover" | "radio" | "scroll" | "select" | "table" | "tabs" | "tile" | "toggle" | "tooltip" | "tree"
 
 /** Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`), plus custom groups declared on `CustomTokenVariants`. */
 export interface TokenVariants extends CustomTokenVariants {
@@ -297,6 +297,18 @@ export interface TokenVariants extends CustomTokenVariants {
   "logo.gap": "base"
   "logo.color": "base"
   "markdown.gap": "base"
+  "menu.padding": "base"
+  "menu.touchTarget": "base"
+  "menu.item.gap": "base"
+  "menu.item.paddingBlock": "base"
+  "menu.item.paddingInline": "base"
+  "menu.item.borderRadius": "base"
+  "menu.item.backgroundColor": "focus"
+  "menu.item.color": "disabled"
+  "menu.groupLabel.color": "base"
+  "menu.separator.color": "base"
+  "menu.separator.width": "base"
+  "menu.separator.marginBlock": "base"
   "metrics.label.maxWidth": "base"
   "popover.offset": "base"
   "popover.borderRadius": "base"
@@ -466,6 +478,10 @@ export interface TokenInverseVariants {
   "listbox.selected.color": "base"
   "listbox.groupTitle.color": "base"
   "listbox.focusRing.color": "base"
+  "menu.item.backgroundColor": "focus"
+  "menu.item.color": "disabled"
+  "menu.groupLabel.color": "base"
+  "menu.separator.color": "base"
   "popover.backgroundColor": "base"
   "popover.color": "base"
   "radio.backgroundColor": "unchecked" | "base" | "link" | "success" | "highlight" | "warning" | "error"
