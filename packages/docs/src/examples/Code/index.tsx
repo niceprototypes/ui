@@ -138,7 +138,7 @@ const longSource = Array.from({ length: 24 }, (_, index) => `const line${index +
 export const codeMaxHeight = {
   name: "maxHeight",
   description:
-    "Collapsed height of a card block, as a code.maxHeight token variant. Taller code is cut off with a fade above a drag bar (pointer, arrow keys, Home, End) that shows between the cap and the full code; shorter code renders in full. \"none\" never collapses.",
+    "Collapsed height of a card block, as a code.maxHeight token variant. Taller code is cut off with a fade above a drag bar (pointer, arrow keys, Home, End; a click shows the full code) that shows between the cap and the full code; shorter code renders in full. \"none\" never collapses.",
   variants: ["base", "none"],
   default: "base",
   preview: variant => (

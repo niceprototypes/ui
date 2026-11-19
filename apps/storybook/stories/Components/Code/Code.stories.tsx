@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { expect, spyOn, within } from "storybook/test"
+import { expect, spyOn, waitFor, within } from "storybook/test"
 import { getToken, type GapType } from "@niceprototypes/styles"
 import Code, { codeLanguages, type CodeMaxHeightType } from "@niceprototypes/code"
 
@@ -118,6 +118,32 @@ export const Collapsed: Story = {
     await userEvent.keyboard("{Home}")
     await expect(height()).toBe(collapsedHeight)
     writeText.mockRestore()
+  },
+}
+
+/** A press on the drag bar: down, an optional move of `distance` px, up. */
+const press = (bar: HTMLElement, distance: number) => {
+  const { left, top } = bar.getBoundingClientRect()
+  const at = (y: number) => ({ bubbles: true, pointerId: 1, isPrimary: true, clientX: left, clientY: y })
+  bar.dispatchEvent(new PointerEvent("pointerdown", at(top)))
+  if (distance) bar.dispatchEvent(new PointerEvent("pointermove", at(top + distance)))
+  bar.dispatchEvent(new PointerEvent("pointerup", at(top + distance)))
+}
+
+export const CollapsedHandle: Story = {
+  args: { code: LONG_SAMPLE },
+  play: async ({ canvasElement }) => {
+    const bar = within(root(canvasElement)).getByRole("separator", { name: "Code height" })
+    const height = () => root(canvasElement).getBoundingClientRect().height
+    const collapsedHeight = height()
+    // A drag moves the height with the pointer, short of the full code.
+    press(bar, 20)
+    await waitFor(() => expect(height()).toBeCloseTo(collapsedHeight + 20, 0))
+    await expect(Number(bar.getAttribute("aria-valuenow"))).toBeLessThan(Number(bar.getAttribute("aria-valuemax")))
+    // A click with no movement shows the full code.
+    press(bar, 0)
+    await waitFor(() => expect(bar).toHaveAttribute("aria-valuenow", bar.getAttribute("aria-valuemax")))
+    await expect(height()).toBeGreaterThan(collapsedHeight + 20)
   },
 }
 

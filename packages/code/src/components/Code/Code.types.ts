@@ -60,7 +60,7 @@ export type CodeMarginType = GapType
  *
  * Collapsed height of a card block, as a `code.maxHeight` token variant. Taller
  * code is cut off with a fade above a drag bar that sets the visible height between
- * this cap and the full code (pointer, or arrow keys, Home and End); shorter code
+ * this cap and the full code (pointer, or arrow keys, Home and End; a click shows the full code); shorter code
  * renders in full with no bar. "none" never collapses.
  */
 export type CodeMaxHeightType = "none" | TokenVariants["code.maxHeight"]

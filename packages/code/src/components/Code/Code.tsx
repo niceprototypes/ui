@@ -11,6 +11,9 @@ import { copyToClipboard } from "../../services/copyToClipboard"
 /** The heights the handle moves between: the cap, and the full code. */
 type Bounds = { min: number; max: number }
 
+/** Pointer travel in px below which a press on the handle is a click, which shows the full code. */
+const CLICK_TRAVEL = 3
+
 /**
  * Render a code string as Shiki HTML coloured by the `code.syntaxColor` tokens.
  * Use anywhere code is shown.
@@ -19,7 +22,7 @@ type Bounds = { min: number; max: number }
  * the highlighted HTML in a horizontal scroll container (ScrollDiv) inside a
  * height limit (CollapseDiv) beside the copy icon (CodeCopy); code taller than
  * `maxHeight` fades out above a drag bar that sets the visible height between the
- * cap and the full code (pointer or arrow keys); `children`, a live demo, sit above the code
+ * cap and the full code (pointer or arrow keys; a click shows the full code); `children`, a live demo, sit above the code
  * behind one divider. Inlined blocks render the code
  * as a chip with a "Copy to clipboard" tooltip; with `copyOnClick` the chip is a
  * button (Enter or Space copies).
@@ -58,16 +61,21 @@ const Code: React.FC<CodeProps> = ({
   const clamp = (value: number) => (bounds ? Math.min(bounds.max, Math.max(bounds.min, value)) : value)
   const current = height ?? bounds?.min ?? 0
 
-  // Drag: the height follows the pointer from where the drag started.
+  // Drag: the height follows the pointer from where the drag started. A press that travels under CLICK_TRAVEL is a click: it shows the full code.
   const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     const start = event.clientY
     const startHeight = current
     const handle = event.currentTarget
+    let travel = 0
     handle.setPointerCapture(event.pointerId)
-    const onMove = (move: PointerEvent) => setHeight(clamp(startHeight + move.clientY - start))
+    const onMove = (event: PointerEvent) => {
+      travel = Math.max(travel, Math.abs(event.clientY - start))
+      setHeight(clamp(startHeight + event.clientY - start))
+    }
     const onUp = () => {
       handle.removeEventListener("pointermove", onMove)
       handle.removeEventListener("pointerup", onUp)
+      if (travel < CLICK_TRAVEL && bounds && startHeight < bounds.max) setHeight(bounds.max)
     }
     handle.addEventListener("pointermove", onMove)
     handle.addEventListener("pointerup", onUp)
