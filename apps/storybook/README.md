@@ -16,7 +16,7 @@ npm install
 npm run storybook
 ```
 
-Storybook will start at http://localhost:6006
+Storybook will start at http://localhost:4006
 
 ### Building Storybook
 
@@ -314,17 +314,17 @@ npm run dev
 
 ### Components
 
-- Flex: http://localhost:6006/?path=/docs/components-flex--docs
-- Ink: http://localhost:6006/?path=/docs/components-ink--docs
-- Tile: http://localhost:6006/?path=/docs/components-tile--docs
-- Button: http://localhost:6006/?path=/docs/components-forms-button--docs
-- Input: http://localhost:6006/?path=/docs/components-forms-input--docs
-- Icon: http://localhost:6006/?path=/docs/components-icon--docs
+- Flex: http://localhost:4006/?path=/docs/components-flex--docs
+- Ink: http://localhost:4006/?path=/docs/components-ink--docs
+- Tile: http://localhost:4006/?path=/docs/components-tile--docs
+- Button: http://localhost:4006/?path=/docs/components-forms-button--docs
+- Input: http://localhost:4006/?path=/docs/components-forms-input--docs
+- Icon: http://localhost:4006/?path=/docs/components-icon--docs
 
 ### Documentation
 
-- CSS Variables: http://localhost:6006/?path=/docs/documentation-css-variables--docs
-- cli: http://localhost:6006/?path=/docs/cli-linking--docs
+- CSS Variables: http://localhost:4006/?path=/docs/documentation-css-variables--docs
+- cli: http://localhost:4006/?path=/docs/cli-linking--docs
 
 ## 🚢 Deployment
 

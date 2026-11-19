@@ -1,6 +1,6 @@
 /**
  * `pnpm check:pages` — opens every docs page (from the sidebar) in headless Chromium, in both
- * themes, against a running dev server (DOCS_URL, default http://localhost:6020), and fails when
+ * themes, against a running dev server (DOCS_URL, default http://localhost:4020), and fails when
  * a page logs an error or renders a one-line install command (npm i / npm install / pnpm add /
  * yarn add) as a code block instead of an inline chip, or links nowhere: an internal href or
  * hash that opens no page or anchor, or a link without an href (WelcomeLink, ArrowLink) that
@@ -11,7 +11,7 @@
 const { chromium } = require("playwright")
 
 /** DOCS_URL may carry a base path (http://localhost:5000/ui): pages open at the origin plus their href, which includes it. */
-const docsUrl = new URL(process.env.DOCS_URL ?? "http://localhost:6020")
+const docsUrl = new URL(process.env.DOCS_URL ?? "http://localhost:4020")
 const origin = docsUrl.origin
 const prefix = docsUrl.pathname.replace(/\/$/, "")
 const INSTALL = /^(npm (i|install)|pnpm (add|i|install)|yarn add)\b/

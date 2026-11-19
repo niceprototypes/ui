@@ -80,7 +80,7 @@ function readPortsFromPackageScripts(dir) {
   const ports = [];
   for (const cmd of Object.values(scripts)) {
     if (typeof cmd !== 'string') continue;
-    // -p 6006, --port 6006, --port=6006
+    // -p 4006, --port 4006, --port=4006
     for (const match of cmd.matchAll(/(?:^|\s)(?:-p|--port)(?:\s+|=)(\d{2,5})\b/g)) {
       ports.push(Number(match[1]));
     }

@@ -74,6 +74,6 @@ export default defineConfig(({ command }) => ({
   },
   // The fonts, favicon and vector assets the Storybook already serves.
   publicDir: resolve(import.meta.dirname, "../storybook/public"),
-  server: { port: 6020, strictPort: true },
-  preview: { port: 6020, strictPort: true },
+  server: { port: 4020, strictPort: true },
+  preview: { port: 4020, strictPort: true },
 }))

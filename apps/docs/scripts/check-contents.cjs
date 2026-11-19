@@ -1,12 +1,12 @@
 /**
  * Part of `pnpm check:pages` — opens every docs page (from the sidebar) against a running dev
- * server (DOCS_URL, default http://localhost:6020) and fails when its Contents has exactly one
+ * server (DOCS_URL, default http://localhost:4020) and fails when its Contents has exactly one
  * top-level row with every other row nested under it: sibling sections read as children of the
  * first, which is a heading-level mismatch or a tree-building bug, not a real hierarchy.
  */
 const { chromium } = require("playwright")
 
-const base = (process.env.DOCS_URL ?? "http://localhost:6020").replace(/\/$/, "")
+const base = (process.env.DOCS_URL ?? "http://localhost:4020").replace(/\/$/, "")
 
 ;(async () => {
   const browser = await chromium.launch()

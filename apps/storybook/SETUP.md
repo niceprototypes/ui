@@ -153,7 +153,7 @@ npm install
 npm run storybook
 ```
 
-Storybook will open at http://localhost:6006
+Storybook will open at http://localhost:4006
 
 ### 3. Build Storybook
 

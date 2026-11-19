@@ -1,13 +1,13 @@
 /**
  * Part of `pnpm check:pages` — opens one page of each type (MDX, component, Tokens, Reset) against a
- * running dev server (DOCS_URL, default http://localhost:6020) at the narrower viewports, in both
+ * running dev server (DOCS_URL, default http://localhost:4020) at the narrower viewports, in both
  * themes, and fails when the sections column is narrower than MIN_SECTIONS_WIDTH or an inline code
  * chip is cut off by a clipping ancestor. Guards the layout from squeezing the sections between the
  * sidebar and the columns beside them.
  */
 const { chromium } = require("playwright")
 
-const base = (process.env.DOCS_URL ?? "http://localhost:6020").replace(/\/$/, "")
+const base = (process.env.DOCS_URL ?? "http://localhost:4020").replace(/\/$/, "")
 const PAGES = ["/docs/onboarding/welcome", "/docs/components/forms/button", "/docs/tokens", "/docs/onboarding/reset"]
 const VIEWPORTS = [1280, 1000, 700, 390]
 const MIN_SECTIONS_WIDTH = 320
