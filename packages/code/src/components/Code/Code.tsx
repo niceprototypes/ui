@@ -130,7 +130,7 @@ const Code: React.FC<CodeProps> = ({
       {/* inline blocks render as plain code text — no scroll container/padding.
           Card blocks put the code in a horizontal scroll container. */}
       {/* A live demo above the code, divided from it by the border's colour. */}
-      {!inlined && children !== undefined && <PreviewDiv data-code-preview>{children}</PreviewDiv>}
+      {!inlined && children != null && <PreviewDiv data-code-preview>{children}</PreviewDiv>}
       {inlined ? (
         highlighted
       ) : (
