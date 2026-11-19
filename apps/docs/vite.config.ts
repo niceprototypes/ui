@@ -60,13 +60,24 @@ const mdxPages = (base: string): Plugin => {
   }
 }
 
+/**
+ * The component examples folder (@niceprototypes/docs), outside this app's root, so the dev server
+ * watches it: a new `examples/<Component>` folder then reaches the `import.meta.glob` there.
+ */
+const watchExamples = (): Plugin => ({
+  name: "watch-docs-examples",
+  configureServer(server) {
+    server.watcher.add(resolve(packagesRoot, "docs/src/examples"))
+  },
+})
+
 /** Built for niceprototypes.com/ui (the website's public/ui); the dev server stays at the root. */
 const baseOf = (command: string) => (command === "build" ? "/ui" : "")
 
 export default defineConfig(({ command }) => ({
   base: `${baseOf(command)}/`,
   // MDX before React, so the compiled pages get React's transform.
-  plugins: [mdxPages(baseOf(command)), react({ include: /\.(mdx|tsx?)$/ })],
+  plugins: [mdxPages(baseOf(command)), react({ include: /\.(mdx|tsx?)$/ }), watchExamples()],
   resolve: {
     alias: [...sourceAliases, ...storybookShims],
     // One React and one styled-components context for this app and the Storybook modules it reuses.
