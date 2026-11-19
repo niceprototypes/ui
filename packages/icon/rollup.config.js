@@ -8,17 +8,20 @@ import path from 'node:path';
 
 const configs = createConfiguration({
   plugins: [
-    // Keep icon styling in the `<style>` block + classes for every icon. svgo's
-    // default `inlineStyles` plugin would otherwise hoist the rules onto a
-    // `style=` attribute for single-path icons (where each class matches exactly
-    // one element), producing inconsistent markup vs. multi-path icons.
+    // No `<style>` element in any icon component: each one rendered its own copy, and a page of
+    // icons paid style recalculation per instance (backlog 152). After the preset has optimized
+    // the paths (it keeps `inlineStyles` off: a `style=` attribute stops it merging paths and
+    // applying transforms), the SVG's class rules move onto every element they match and become
+    // presentation attributes, which have the lowest specificity, so the Icon wrapper's
+    // fill/stroke rules still win.
     svgr({
       svgoConfig: {
         plugins: [
           { name: 'preset-default', params: { overrides: { inlineStyles: false } } },
-          // Re-add SVGR's default id/class prefixing (dropped when we supply our
-          // own svgoConfig) so the semantic classes stay namespaced per file
-          // (`base_svg__stroke`) and can't collide with a consumer's own CSS.
+          { name: 'inlineStyles', params: { onlyMatchedOnce: false } },
+          'convertStyleToAttrs',
+          // Re-add SVGR's default id prefixing (dropped when we supply our own svgoConfig) so
+          // any id stays namespaced per file and can't collide with a consumer's own markup.
           'prefixIds',
         ],
       },
