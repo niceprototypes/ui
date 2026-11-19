@@ -427,7 +427,7 @@ const componentTokensData: ComponentTokensData = {
       "larger": "28px"
     },
     "backgroundColor": {
-      "unchecked": "var(--np--background-color)",
+      "unchecked": "transparent",
       "base": "var(--np--color)",
       "link": "var(--np--color--link)",
       "success": "var(--np--color--success)",
@@ -490,7 +490,7 @@ const componentTokensData: ComponentTokensData = {
     },
     "hover": {
       "backgroundColor": {
-        "unchecked": "var(--np--background-color)",
+        "unchecked": "transparent",
         "base": "var(--np--color)",
         "link": "var(--np--color--link)",
         "success": "var(--np--color--success)",
@@ -512,7 +512,7 @@ const componentTokensData: ComponentTokensData = {
     },
     "active": {
       "backgroundColor": {
-        "unchecked": "var(--np--background-color)",
+        "unchecked": "transparent",
         "base": "var(--np--color)",
         "link": "var(--np--color--link)",
         "success": "var(--np--color--success)",

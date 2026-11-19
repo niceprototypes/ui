@@ -477,7 +477,7 @@
 	--np--checkbox--size: 20px;
 	--np--checkbox--size--large: 24px;
 	--np--checkbox--size--larger: 28px;
-	--np--checkbox--background-color--unchecked: var(--np--background-color);
+	--np--checkbox--background-color--unchecked: transparent;
 	--np--checkbox--background-color: var(--np--color);
 	--np--checkbox--background-color--link: var(--np--color--link);
 	--np--checkbox--background-color--success: var(--np--color--success);
@@ -515,7 +515,7 @@
 	--np--checkbox--focus-ring--width: var(--np--focus-ring--width);
 	--np--checkbox--focus-ring--color: var(--np--focus-ring--color);
 	--np--checkbox--focus-ring--offset: var(--np--focus-ring--offset);
-	--np--checkbox--hover--background-color--unchecked: var(--np--background-color);
+	--np--checkbox--hover--background-color--unchecked: transparent;
 	--np--checkbox--hover--background-color: var(--np--color);
 	--np--checkbox--hover--background-color--link: var(--np--color--link);
 	--np--checkbox--hover--background-color--success: var(--np--color--success);
@@ -531,7 +531,7 @@
 	--np--checkbox--hover--border-color--warning: var(--np--border-color--warning);
 	--np--checkbox--hover--border-color--error: var(--np--border-color--error);
 	--np--checkbox--hover--border-color--link: var(--np--border-color--link);
-	--np--checkbox--active--background-color--unchecked: var(--np--background-color);
+	--np--checkbox--active--background-color--unchecked: transparent;
 	--np--checkbox--active--background-color: var(--np--color);
 	--np--checkbox--active--background-color--link: var(--np--color--link);
 	--np--checkbox--active--background-color--success: var(--np--color--success);
@@ -1172,7 +1172,6 @@
 	--np--chat--message--background-color--user--inverse: var(--np--background-color--raised--inverse);
 	--np--chat--tool-call--border-color--inverse: var(--np--border-color--inverse);
 	--np--chat--thinking--dot-color--inverse: var(--np--color--lighter--inverse);
-	--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--inverse);
 	--np--checkbox--background-color--inverse: var(--np--color--inverse);
 	--np--checkbox--background-color--link--inverse: var(--np--color--link--inverse);
 	--np--checkbox--background-color--success--inverse: var(--np--color--success--inverse);
@@ -1190,7 +1189,6 @@
 	--np--checkbox--border-color--link--inverse: var(--np--border-color--link--inverse);
 	--np--checkbox--icon--color--inverse: var(--np--color--inverse);
 	--np--checkbox--focus-ring--color--inverse: var(--np--focus-ring--color--inverse);
-	--np--checkbox--hover--background-color--unchecked--inverse: var(--np--background-color--inverse);
 	--np--checkbox--hover--background-color--inverse: var(--np--color--inverse);
 	--np--checkbox--hover--background-color--link--inverse: var(--np--color--link--inverse);
 	--np--checkbox--hover--background-color--success--inverse: var(--np--color--success--inverse);
@@ -1206,7 +1204,6 @@
 	--np--checkbox--hover--border-color--warning--inverse: var(--np--border-color--warning--inverse);
 	--np--checkbox--hover--border-color--error--inverse: var(--np--border-color--error--inverse);
 	--np--checkbox--hover--border-color--link--inverse: var(--np--border-color--link--inverse);
-	--np--checkbox--active--background-color--unchecked--inverse: var(--np--background-color--inverse);
 	--np--checkbox--active--background-color--inverse: var(--np--color--inverse);
 	--np--checkbox--active--background-color--link--inverse: var(--np--color--link--inverse);
 	--np--checkbox--active--background-color--success--inverse: var(--np--color--success--inverse);
@@ -1754,7 +1751,6 @@
 		--np--chat--message--background-color--user--inverse: var(--np--background-color--raised--night--inverse);
 		--np--chat--tool-call--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--chat--thinking--dot-color--inverse: var(--np--color--lighter--night--inverse);
-		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -1772,7 +1768,6 @@
 		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--checkbox--icon--color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
-		--np--checkbox--hover--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--hover--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--hover--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--hover--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -1788,7 +1783,6 @@
 		--np--checkbox--hover--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
 		--np--checkbox--hover--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--checkbox--hover--border-color--link--inverse: var(--np--border-color--link--night--inverse);
-		--np--checkbox--active--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--active--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--active--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--active--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -2039,7 +2033,6 @@
 		--np--chat--message--background-color--user: var(--np--background-color--raised--night);
 		--np--chat--tool-call--border-color: var(--np--border-color--night);
 		--np--chat--thinking--dot-color: var(--np--color--lighter--night);
-		--np--checkbox--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--background-color: var(--np--color--night);
 		--np--checkbox--background-color--link: var(--np--color--link--night);
 		--np--checkbox--background-color--success: var(--np--color--success--night);
@@ -2057,7 +2050,6 @@
 		--np--checkbox--border-color--link: var(--np--border-color--link--night);
 		--np--checkbox--icon--color: var(--np--color--night);
 		--np--checkbox--focus-ring--color: var(--np--focus-ring--color--night);
-		--np--checkbox--hover--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--hover--background-color: var(--np--color--night);
 		--np--checkbox--hover--background-color--link: var(--np--color--link--night);
 		--np--checkbox--hover--background-color--success: var(--np--color--success--night);
@@ -2073,7 +2065,6 @@
 		--np--checkbox--hover--border-color--warning: var(--np--border-color--warning--night);
 		--np--checkbox--hover--border-color--error: var(--np--border-color--error--night);
 		--np--checkbox--hover--border-color--link: var(--np--border-color--link--night);
-		--np--checkbox--active--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--active--background-color: var(--np--color--night);
 		--np--checkbox--active--background-color--link: var(--np--color--link--night);
 		--np--checkbox--active--background-color--success: var(--np--color--success--night);
@@ -2397,7 +2388,6 @@
 		--np--chat--message--background-color--user--inverse: var(--np--background-color--raised--day--inverse);
 		--np--chat--tool-call--border-color--inverse: var(--np--border-color--day--inverse);
 		--np--chat--thinking--dot-color--inverse: var(--np--color--lighter--day--inverse);
-		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--day--inverse);
 		--np--checkbox--background-color--inverse: var(--np--color--day--inverse);
 		--np--checkbox--background-color--link--inverse: var(--np--color--link--day--inverse);
 		--np--checkbox--background-color--success--inverse: var(--np--color--success--day--inverse);
@@ -2415,7 +2405,6 @@
 		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--day--inverse);
 		--np--checkbox--icon--color--inverse: var(--np--color--day--inverse);
 		--np--checkbox--focus-ring--color--inverse: var(--np--focus-ring--color--day--inverse);
-		--np--checkbox--hover--background-color--unchecked--inverse: var(--np--background-color--day--inverse);
 		--np--checkbox--hover--background-color--inverse: var(--np--color--day--inverse);
 		--np--checkbox--hover--background-color--link--inverse: var(--np--color--link--day--inverse);
 		--np--checkbox--hover--background-color--success--inverse: var(--np--color--success--day--inverse);
@@ -2431,7 +2420,6 @@
 		--np--checkbox--hover--border-color--warning--inverse: var(--np--border-color--warning--day--inverse);
 		--np--checkbox--hover--border-color--error--inverse: var(--np--border-color--error--day--inverse);
 		--np--checkbox--hover--border-color--link--inverse: var(--np--border-color--link--day--inverse);
-		--np--checkbox--active--background-color--unchecked--inverse: var(--np--background-color--day--inverse);
 		--np--checkbox--active--background-color--inverse: var(--np--color--day--inverse);
 		--np--checkbox--active--background-color--link--inverse: var(--np--color--link--day--inverse);
 		--np--checkbox--active--background-color--success--inverse: var(--np--color--success--day--inverse);
@@ -2682,7 +2670,6 @@
 		--np--chat--message--background-color--user: var(--np--background-color--raised--day);
 		--np--chat--tool-call--border-color: var(--np--border-color--day);
 		--np--chat--thinking--dot-color: var(--np--color--lighter--day);
-		--np--checkbox--background-color--unchecked: var(--np--background-color--day);
 		--np--checkbox--background-color: var(--np--color--day);
 		--np--checkbox--background-color--link: var(--np--color--link--day);
 		--np--checkbox--background-color--success: var(--np--color--success--day);
@@ -2700,7 +2687,6 @@
 		--np--checkbox--border-color--link: var(--np--border-color--link--day);
 		--np--checkbox--icon--color: var(--np--color--day);
 		--np--checkbox--focus-ring--color: var(--np--focus-ring--color--day);
-		--np--checkbox--hover--background-color--unchecked: var(--np--background-color--day);
 		--np--checkbox--hover--background-color: var(--np--color--day);
 		--np--checkbox--hover--background-color--link: var(--np--color--link--day);
 		--np--checkbox--hover--background-color--success: var(--np--color--success--day);
@@ -2716,7 +2702,6 @@
 		--np--checkbox--hover--border-color--warning: var(--np--border-color--warning--day);
 		--np--checkbox--hover--border-color--error: var(--np--border-color--error--day);
 		--np--checkbox--hover--border-color--link: var(--np--border-color--link--day);
-		--np--checkbox--active--background-color--unchecked: var(--np--background-color--day);
 		--np--checkbox--active--background-color: var(--np--color--day);
 		--np--checkbox--active--background-color--link: var(--np--color--link--day);
 		--np--checkbox--active--background-color--success: var(--np--color--success--day);
@@ -3040,7 +3025,6 @@
 		--np--chat--message--background-color--user--inverse: var(--np--background-color--raised--night--inverse);
 		--np--chat--tool-call--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--chat--thinking--dot-color--inverse: var(--np--color--lighter--night--inverse);
-		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -3058,7 +3042,6 @@
 		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--checkbox--icon--color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
-		--np--checkbox--hover--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--hover--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--hover--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--hover--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -3074,7 +3057,6 @@
 		--np--checkbox--hover--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
 		--np--checkbox--hover--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--checkbox--hover--border-color--link--inverse: var(--np--border-color--link--night--inverse);
-		--np--checkbox--active--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
 		--np--checkbox--active--background-color--inverse: var(--np--color--night--inverse);
 		--np--checkbox--active--background-color--link--inverse: var(--np--color--link--night--inverse);
 		--np--checkbox--active--background-color--success--inverse: var(--np--color--success--night--inverse);
@@ -3325,7 +3307,6 @@
 		--np--chat--message--background-color--user: var(--np--background-color--raised--night);
 		--np--chat--tool-call--border-color: var(--np--border-color--night);
 		--np--chat--thinking--dot-color: var(--np--color--lighter--night);
-		--np--checkbox--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--background-color: var(--np--color--night);
 		--np--checkbox--background-color--link: var(--np--color--link--night);
 		--np--checkbox--background-color--success: var(--np--color--success--night);
@@ -3343,7 +3324,6 @@
 		--np--checkbox--border-color--link: var(--np--border-color--link--night);
 		--np--checkbox--icon--color: var(--np--color--night);
 		--np--checkbox--focus-ring--color: var(--np--focus-ring--color--night);
-		--np--checkbox--hover--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--hover--background-color: var(--np--color--night);
 		--np--checkbox--hover--background-color--link: var(--np--color--link--night);
 		--np--checkbox--hover--background-color--success: var(--np--color--success--night);
@@ -3359,7 +3339,6 @@
 		--np--checkbox--hover--border-color--warning: var(--np--border-color--warning--night);
 		--np--checkbox--hover--border-color--error: var(--np--border-color--error--night);
 		--np--checkbox--hover--border-color--link: var(--np--border-color--link--night);
-		--np--checkbox--active--background-color--unchecked: var(--np--background-color--night);
 		--np--checkbox--active--background-color: var(--np--color--night);
 		--np--checkbox--active--background-color--link: var(--np--color--link--night);
 		--np--checkbox--active--background-color--success: var(--np--color--success--night);
