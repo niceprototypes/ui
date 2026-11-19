@@ -16,7 +16,7 @@ const getServerSnapshot = () => false
  * Popover
  *
  * Controlled surface anchored to `anchorRef`. While `open`, renders in a portal
- * at `<body>` with `position: fixed`, placed by `computeAnchorPosition` on
+ * at `<body>` (or in the open `<dialog>` holding the anchor) with `position: fixed`, placed by `computeAnchorPosition` on
  * `position`'s side of the anchor with `align` on the cross axis, flipped to the
  * opposite side and shifted along the cross axis to stay in the viewport; with
  * `matchAnchorWidth`, its min-width is the anchor's width. Coordinates
@@ -92,12 +92,14 @@ const Popover: React.FC<PopoverProps> = ({
       const anchor = anchorRef.current
       if (!anchor) return
       const rect = anchor.getBoundingClientRect()
-      // offsetWidth / offsetHeight ignore the transform. The first measure runs
-      // before min-width is applied, so matchAnchorWidth counts the anchor's width.
-      const node = popoverRef.current
+      // The surface's fractional size (offsetWidth rounds, so a shift could leave it
+      // a sub-pixel past the viewport edge); its transform is a translate, which moves
+      // but does not resize it. The first measure runs before min-width is applied, so
+      // matchAnchorWidth counts the anchor's width.
+      const box = popoverRef.current?.getBoundingClientRect()
       const size = {
-        width: Math.max(node?.offsetWidth ?? 0, matchAnchorWidth ? rect.width : 0),
-        height: node?.offsetHeight ?? 0,
+        width: Math.max(box?.width ?? 0, matchAnchorWidth ? rect.width : 0),
+        height: box?.height ?? 0,
       }
       const viewport = { width: window.innerWidth, height: window.innerHeight }
       setCoords({ ...computeAnchorPosition(rect, position, align, offset, { size, viewport }), anchorWidth: rect.width })
@@ -148,6 +150,11 @@ const Popover: React.FC<PopoverProps> = ({
 
   if (!open || !isClient) return null
 
+  // Inside an open <dialog>, the portal goes into it: a modal dialog sits in the top layer
+  // and makes everything outside it inert, so a surface at <body> would be hidden behind it
+  // and unclickable.
+  const container = anchorRef.current?.closest("dialog[open]") ?? document.body
+
   const popover = (
     <StyledPopover
       ref={setPopoverNode}
@@ -171,7 +178,7 @@ const Popover: React.FC<PopoverProps> = ({
     </StyledPopover>
   )
 
-  return createPortal(theme ? <Theme name={theme}>{popover}</Theme> : popover, document.body)
+  return createPortal(theme ? <Theme name={theme}>{popover}</Theme> : popover, container)
 }
 
 export default Popover

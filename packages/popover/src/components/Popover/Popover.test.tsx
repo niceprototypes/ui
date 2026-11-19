@@ -195,13 +195,63 @@ describe("Popover", () => {
   })
 
   it("flips to the opposite side when its side overflows the viewport", () => {
-    const height = jest.spyOn(HTMLElement.prototype, "offsetHeight", "get").mockReturnValue(window.innerHeight)
-    const width = jest.spyOn(HTMLElement.prototype, "offsetWidth", "get").mockReturnValue(80)
+    // The surface measures innerHeight tall (the anchor stubs its own rect).
+    const rect = jest
+      .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+      .mockReturnValue({ top: 0, left: 0, right: 80, bottom: window.innerHeight, width: 80, height: window.innerHeight, x: 0, y: 0, toJSON: () => ({}) })
     render(<Harness aria-label="menu" position="top" />)
     // top overflows by innerHeight - 92; bottom by 138 → bottom
     expect(screen.getByRole("dialog").style.transform).toBe("translate(0, 0)")
-    height.mockRestore()
-    width.mockRestore()
+    rect.mockRestore()
+  })
+
+  it("shifts by the surface's fractional width, ending exactly at the viewport edge", () => {
+    const width = 167.44
+    const rect = jest
+      .spyOn(HTMLElement.prototype, "getBoundingClientRect")
+      .mockReturnValue({ top: 0, left: 0, right: width, bottom: 40, width, height: 40, x: 0, y: 0, toJSON: () => ({}) })
+    const AtEdge: React.FC = () => {
+      const anchorRef = React.useRef<HTMLButtonElement>(null)
+      return (
+        <>
+          <button
+            ref={node => {
+              anchorRef.current = node
+              const left = window.innerWidth - 50
+              if (node) node.getBoundingClientRect = () => ({ ...ANCHOR_RECT, left, right: left + 40, x: left, toJSON: () => ({}) }) as DOMRect
+            }}
+          >
+            anchor
+          </button>
+          <Popover open anchorRef={anchorRef} aria-label="menu" />
+        </>
+      )
+    }
+    render(<AtEdge />)
+    expect(Number.parseFloat(screen.getByRole("dialog").style.left) + width).toBeCloseTo(window.innerWidth, 5)
+    rect.mockRestore()
+  })
+
+  describe("inside an open <dialog>", () => {
+    it("portals into the dialog, so a modal dialog does not cover it or make it inert", () => {
+      const InDialog: React.FC = () => {
+        const anchorRef = React.useRef<HTMLButtonElement>(null)
+        return (
+          <dialog open>
+            <button ref={anchorRef}>anchor</button>
+            <Popover open anchorRef={anchorRef} aria-label="menu" />
+          </dialog>
+        )
+      }
+      render(<InDialog />)
+      const popover = screen.getByRole("dialog", { name: "menu" })
+      expect(popover.parentElement?.tagName).toBe("DIALOG")
+    })
+
+    it("still portals to <body> for an anchor outside any dialog", () => {
+      render(<Harness aria-label="menu" />)
+      expect(screen.getByRole("dialog", { name: "menu" }).parentElement).toBe(document.body)
+    })
   })
 
   describe("matchAnchorWidth", () => {
