@@ -16,8 +16,8 @@ import ComponentDocs from "../../../src/components/ComponentDocs"
 <Install package="datatable" />
 
 Built from Nice UI: **Table** (the grid, rows and cells), **TreeGuide** and `getTreeRows` (the nesting
-lines and the flattening), **Checkbox** (selection), **Button**, **Popover** and **Icon** (the expander and
-the action menus), **Ink** (the selection count and loading text).
+lines and the flattening), **Checkbox** (selection), **MenuButton** (the row and bulk action menus), **Icon**
+(the expander), **Ink** (the loading text).
 
 ```jsx
 import DataTable from "@niceprototypes/datatable"
@@ -47,9 +47,11 @@ empty gridcell. Expansion is uncontrolled (`defaultExpandedIds`, `"all"` opens e
 ## Selection and bulk actions
 
 `selectable` adds a checkbox column and a select-all checkbox in its header. Selecting a parent selects all
-its descendants; a parent is checked when all of them are, indeterminate when some are. While any row is
-selected, a bar above the grid shows the count of selected rows without children and, with `bulkActions`, an
-Actions menu built from the selected rows. Selection is uncontrolled (`defaultSelectedIds`) or controlled
+its descendants; a parent is checked when all of them are, indeterminate when some are. With `bulkActions`, a
+bar above the grid always holds the bulk control, so selecting never moves the grid: a ghost, select-look
+MenuButton, disabled and reading "None selected" until rows are selected, then the count of selected rows
+without children ("3 selected"); its menu lists the actions built from the selected rows. The actions are
+commands, so it is a menu button (menuitems), not a listbox. Selection is uncontrolled (`defaultSelectedIds`) or controlled
 (`selectedIds` with `onSelectedChange`). A selection change re-renders only the rows whose state changed.
 
 ## Row actions

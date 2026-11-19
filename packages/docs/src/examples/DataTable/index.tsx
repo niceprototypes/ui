@@ -216,8 +216,8 @@ export const dataTableOnSelectedChange = {
 export const dataTableBulkActions = {
   name: "bulkActions",
   description:
-    "While rows are selected, a bar above the table shows the count and a menu of these actions, built from the selected rows. A disabled action shows but cannot be chosen.",
-  variants: ["Start, Stop, Release", "with a disabled action"],
+    "A bar above the table always holds one ghost, select-look menu button, so selecting moves nothing: disabled and reading \"None selected\" with no rows selected, \"N selected\" once there are. It opens a menu of these actions (commands, not values), built from the selected rows. A disabled action shows but cannot be chosen.",
+  variants: ["none selected", "Start, Stop, Release", "with a disabled action"],
   default: "Start, Stop, Release",
   preview: (variant: string) => (
     <Reporting initial="Select rows, then choose an action">
@@ -226,7 +226,7 @@ export const dataTableBulkActions = {
           {...BASE}
           defaultExpandedIds="all"
           selectable
-          defaultSelectedIds={["4012", "4013"]}
+          defaultSelectedIds={variant === "none selected" ? [] : ["4012", "4013"]}
           bulkActions={rows => [
             {
               id: "start",
@@ -245,7 +245,7 @@ export const dataTableBulkActions = {
     tableCode(
       `defaultExpandedIds="all"`,
       `selectable`,
-      `defaultSelectedIds={["4012", "4013"]}`,
+      variant === "none selected" ? `defaultSelectedIds={[]}` : `defaultSelectedIds={["4012", "4013"]}`,
       `bulkActions={rows => [\n    { id: "start", label: "Start",${variant === "with a disabled action" ? ` disabled: rows.every(row => row.state !== "stopped"),` : ""} onSelect: () => start(rows) },\n    { id: "stop", label: "Stop", onSelect: () => stop(rows) },\n    { id: "release", label: "Release", onSelect: () => release(rows) },\n  ]}`,
     ),
 } satisfies ComponentExample

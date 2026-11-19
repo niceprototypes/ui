@@ -196,16 +196,54 @@ describe("DataTable", () => {
         bulkActions={rows => [{ id: "start", label: "Start", onSelect: () => start(rows.map(row => row.id)) }]}
       />,
     )
-    expect(screen.getByText("1 selected")).toBeInTheDocument()
-    fireEvent.click(screen.getByRole("button", { name: "Actions for the selected rows" }))
+    const trigger = screen.getByRole("button", { name: "1 selected, bulk actions" })
+    expect(trigger).toHaveTextContent("1 selected")
+    expect(trigger).toHaveAttribute("aria-haspopup", "menu")
+    fireEvent.click(trigger)
     fireEvent.click(screen.getByRole("menuitem", { name: "Start" }))
     expect(start).toHaveBeenCalledWith(["docs"])
     expect(screen.queryByRole("menu")).toBeNull()
   })
 
-  it("hides the selection bar with nothing selected", () => {
-    render(<DataTable {...base} selectable bulkActions={() => []} />)
-    expect(screen.queryByRole("button", { name: "Actions for the selected rows" })).toBeNull()
+  it("keeps the bulk control with nothing selected: disabled, reading None selected", () => {
+    const bulkActions = jest.fn(() => [])
+    render(<DataTable {...base} selectable bulkActions={bulkActions} />)
+    const trigger = screen.getByRole("button", { name: "None selected, bulk actions" })
+    expect(trigger).toBeDisabled()
+    expect(trigger).toHaveTextContent("None selected")
+    fireEvent.click(trigger)
+    expect(screen.queryByRole("menu")).toBeNull()
+    expect(bulkActions).not.toHaveBeenCalled()
+  })
+
+  it("enables the bulk control on selection and back to None selected when cleared, in the same toolbar", () => {
+    render(<DataTable {...base} selectable bulkActions={() => [{ id: "start", label: "Start all", onSelect: () => {} }]} />)
+    const toolbar = screen.getByRole("button", { name: "None selected, bulk actions" }).parentElement
+    const docs = bodyRows()[1]
+    act(() => docs.focus())
+    fireEvent.keyDown(docs, { key: " " })
+    const trigger = screen.getByRole("button", { name: "1 selected, bulk actions" })
+    expect(trigger).toBeEnabled()
+    expect(trigger.parentElement).toBe(toolbar)
+    fireEvent.keyDown(docs, { key: " " })
+    expect(screen.getByRole("button", { name: "None selected, bulk actions" })).toBeDisabled()
+  })
+
+  it("lists each bulk action with its disabled state", () => {
+    render(
+      <DataTable
+        {...base}
+        selectable
+        defaultSelectedIds={["docs"]}
+        bulkActions={() => [
+          { id: "start", label: "Start all", disabled: true, onSelect: () => {} },
+          { id: "stop", label: "Stop all", onSelect: () => {} },
+        ]}
+      />,
+    )
+    fireEvent.click(screen.getByRole("button", { name: "1 selected, bulk actions" }))
+    expect(screen.getByRole("menuitem", { name: "Start all" })).toHaveAttribute("aria-disabled", "true")
+    expect(screen.getByRole("menuitem", { name: "Stop all" })).not.toHaveAttribute("aria-disabled")
   })
 
   it("runs a row action from the menu-icon button and skips a disabled one", async () => {
@@ -228,7 +266,7 @@ describe("DataTable", () => {
     await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("menuitem", { name: "Stop" })))
     fireEvent.keyDown(document.activeElement!, { key: "End" })
     expect(document.activeElement).toBe(screen.getByRole("menuitem", { name: "Stop" }))
-    expect(screen.getByRole("menuitem", { name: "Restart" })).toBeDisabled()
+    expect(screen.getByRole("menuitem", { name: "Restart" })).toHaveAttribute("aria-disabled", "true")
     fireEvent.click(screen.getByRole("menuitem", { name: "Restart" }))
     expect(restart).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole("menuitem", { name: "Stop" }))

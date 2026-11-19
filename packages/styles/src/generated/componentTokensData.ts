@@ -659,9 +659,6 @@ const componentTokensData: ComponentTokensData = {
       "gap": {
         "base": "var(--np--gap--small)"
       },
-      "backgroundColor": {
-        "base": "var(--np--background-color--link)"
-      },
       "paddingBlock": {
         "base": "var(--np--gap--small)"
       },
@@ -681,11 +678,6 @@ const componentTokensData: ComponentTokensData = {
       },
       "color": {
         "base": "var(--np--focus-ring--color)"
-      }
-    },
-    "menu": {
-      "padding": {
-        "base": "var(--np--gap--smaller)"
       }
     }
   },

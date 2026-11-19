@@ -1,11 +1,11 @@
 import * as React from "react"
 import Ink from "@niceprototypes/ink"
+import { MenuButton } from "@niceprototypes/menu"
 import Icon from "@niceprototypes/icon"
 import { Table, TableCell, TableRow, type TableColumnWidthType } from "@niceprototypes/table"
 import { getTreeRows } from "@niceprototypes/tree"
 import { StyledDataTableToolbar } from "./DataTable.styles"
 import DataTableHeader from "./DataTableHeader"
-import DataTableMenu from "./DataTableMenu"
 import DataTableRow, { type DataTableRowContextType } from "./DataTableRow"
 import type { DataTableProps, DataTableSortType, DataTableToggleEventType } from "./DataTable.types"
 import { createSelectionStore, getSelectionIndex } from "../../utilities/createSelectionStore"
@@ -19,6 +19,9 @@ import {
   type FocusPositionType,
 } from "../../utilities/treegridFocus"
 
+/** The bulk actions trigger's text while no row is selected. */
+const NONE_SELECTED = "None selected"
+
 /** Every row id under `rows`, for "all" expanded. */
 const allParentIds = <Row,>(
   rows: ReadonlyArray<Row>,
@@ -30,7 +33,12 @@ const allParentIds = <Row,>(
     return children?.length ? [getId(row), ...allParentIds(children, getId, getChildren)] : []
   })
 
-/** The selection bar: re-renders on its own when the selection changes. */
+/**
+ * The bulk actions bar, always rendered so selecting never moves the grid: one ghost select-look
+ * MenuButton whose trigger reads "None selected" (disabled) or "N selected", and whose menu lists
+ * the bulk actions. Actions are commands, so it is a menu button (menuitems), not a listbox.
+ * Re-renders on its own when the selection changes.
+ */
 function DataTableToolbar<Row>({
   store,
   bulkActions,
@@ -41,12 +49,20 @@ function DataTableToolbar<Row>({
   rowsById: Map<string, Row>
 }) {
   const count = React.useSyncExternalStore(store.subscribe, store.leafCount)
-  if (count === 0) return null
-  const selectedRows = store.selectedIds().flatMap(id => (rowsById.has(id) ? [rowsById.get(id) as Row] : []))
+  const selectedRows = count ? store.selectedIds().flatMap(id => (rowsById.has(id) ? [rowsById.get(id) as Row] : [])) : []
+  const label = count ? `${count} selected` : undefined
   return (
     <StyledDataTableToolbar>
-      <Ink weight="semibold">{`${count} selected`}</Ink>
-      <DataTableMenu actions={bulkActions(selectedRows)} aria-label="Actions for the selected rows" label="Actions" />
+      <MenuButton
+        appearance="select"
+        ghost
+        size="small"
+        label={label}
+        placeholder={NONE_SELECTED}
+        aria-label={`${label ?? NONE_SELECTED}, bulk actions`}
+        disabled={count === 0}
+        items={count ? bulkActions(selectedRows) : []}
+      />
     </StyledDataTableToolbar>
   )
 }

@@ -8,7 +8,7 @@ import {
   StyledDataTableExpander,
   StyledDataTableExpanderSlot,
 } from "./DataTable.styles"
-import DataTableMenu from "./DataTableMenu"
+import { MenuButton } from "@niceprototypes/menu"
 import type {
   DataTableChildDensityType,
   DataTableColumnType,
@@ -129,7 +129,7 @@ function DataTableRow<Row>({
         <TableCell tabIndex={-1} align="end">
           {actions?.length ? (
             <StyledDataTableActions>
-              <DataTableMenu actions={actions} aria-label={`Actions for ${label}`} />
+              <MenuButton items={actions} aria-label={`Actions for ${label}`} ghost size="smaller" align="end" />
             </StyledDataTableActions>
           ) : null}
         </TableCell>

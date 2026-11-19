@@ -364,20 +364,34 @@ export const Expansion: Story = {
   },
 }
 
-/** Selecting rows shows the selection bar; its menu runs a bulk action on the selected rows. */
+/**
+ * The bulk control is always there: a ghost select-look menu button, disabled and reading "None
+ * selected" until rows are selected, then "N selected"; its menu runs a bulk action on them.
+ * Selecting moves nothing: the toolbar keeps its height and surface, and the grid its position.
+ */
 export const Selection: Story = {
   ...Playground,
   args: { ...Playground.args, expandAll: true },
   play: async ({ canvasElement, args, userEvent }) => {
     const canvas = within(canvasElement)
+    const idle = canvas.getByRole("button", { name: "None selected, bulk actions" })
+    await expect(idle).toBeDisabled()
+    await expect(idle).toHaveAttribute("aria-haspopup", "menu")
+    const toolbar = idle.parentElement as HTMLElement
+    const grid = canvas.getByRole("treegrid")
+    const before = { toolbar: toolbar.getBoundingClientRect().height, header: grid.querySelector("[data-header]")!.getBoundingClientRect().top, background: getComputedStyle(toolbar).backgroundColor }
     await userEvent.click(canvas.getByRole("checkbox", { name: "Select main" }))
-    await expect(canvas.getByText("3 selected")).toBeInTheDocument()
+    const trigger = canvas.getByRole("button", { name: "3 selected, bulk actions" })
+    await expect(trigger).toBeEnabled()
+    await expect(trigger).toHaveTextContent("3 selected")
+    // No layout shift and no blue: same toolbar height, header position and surface in both states.
+    await expect(toolbar.getBoundingClientRect().height).toBe(before.toolbar)
+    await expect(grid.querySelector("[data-header]")!.getBoundingClientRect().top).toBe(before.header)
+    await expect(getComputedStyle(toolbar).backgroundColor).toBe(before.background)
     await expect(
       canvas.getByRole("checkbox", { name: "Select animation-studio" })
     ).toHaveProperty("indeterminate", true)
-    await userEvent.click(
-      canvas.getByRole("button", { name: "Actions for the selected rows" })
-    )
+    await userEvent.click(trigger)
     await userEvent.click(await within(document.body).findByRole("menuitem", { name: "Start" }))
     await expect(args.onAction).toHaveBeenLastCalledWith(
       "start",
@@ -386,7 +400,7 @@ export const Selection: Story = {
     await userEvent.click(
       canvas.getByRole("checkbox", { name: "Select all rows" })
     )
-    await expect(canvas.getByText("7 selected")).toBeInTheDocument()
+    await expect(canvas.getByRole("button", { name: "7 selected, bulk actions" })).toBeEnabled()
   },
 }
 
@@ -399,7 +413,7 @@ export const RowActions: Story = {
       canvas.getByRole("button", { name: "Actions for docs" })
     )
     const menu = await within(document.body).findByRole("menu", { name: "Actions for docs" })
-    await expect(await within(menu).findByRole("menuitem", { name: "Start" })).toBeDisabled()
+    await expect(await within(menu).findByRole("menuitem", { name: "Start" })).toHaveAttribute("aria-disabled", "true")
     // Focus starts on the first enabled item; Enter runs it and returns focus to the button.
     await waitFor(() => expect(document.activeElement).toBe(within(menu).getByRole("menuitem", { name: "Stop" })))
     await userEvent.keyboard("{Enter}")

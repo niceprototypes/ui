@@ -29,14 +29,13 @@ const touchTarget = `
   }
 `
 
-/** The bar above the grid while rows are selected: the count and the bulk actions menu. */
+/** The bar above the grid, always present: the bulk actions control. The surface is the table's own in every state. */
 export const StyledDataTableToolbar = styled.div`
   display: flex;
   align-items: center;
   gap: ${getToken("datatable.toolbar.gap")};
   padding: ${getToken("datatable.toolbar.paddingBlock")} ${getToken("datatable.toolbar.paddingInline")};
   border-bottom: ${tableBorderToken};
-  background-color: ${getToken("datatable.toolbar.backgroundColor")};
   font-size: ${getToken("datatable.toolbar.fontSize")};
 `
 
@@ -101,11 +100,4 @@ export const StyledDataTableCheckbox = styled.span`
 export const StyledDataTableActions = styled.span`
   display: inline-flex;
   margin-block: calc((1lh - ${getToken("datatable.touchTarget")}) / 2);
-`
-
-/** The actions menu's list of items, stacked full width. */
-export const StyledDataTableMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: ${getToken("datatable.menu.padding")};
 `

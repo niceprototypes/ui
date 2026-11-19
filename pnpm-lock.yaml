@@ -1331,9 +1331,6 @@ importers:
 
   packages/datatable:
     devDependencies:
-      '@niceprototypes/button':
-        specifier: workspace:*
-        version: link:../button
       '@niceprototypes/checkbox':
         specifier: workspace:*
         version: link:../checkbox
@@ -1355,9 +1352,9 @@ importers:
       '@niceprototypes/ink':
         specifier: workspace:*
         version: link:../ink
-      '@niceprototypes/popover':
+      '@niceprototypes/menu':
         specifier: workspace:*
-        version: link:../popover
+        version: link:../menu
       '@niceprototypes/styles':
         specifier: workspace:*
         version: link:../styles

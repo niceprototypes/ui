@@ -599,14 +599,12 @@
 
 	/* datatable component tokens */
 	--np--datatable--toolbar--gap: var(--np--gap--small);
-	--np--datatable--toolbar--background-color: var(--np--background-color--link);
 	--np--datatable--toolbar--padding-block: var(--np--gap--small);
 	--np--datatable--toolbar--padding-inline: var(--np--gap);
 	--np--datatable--toolbar--font-size: var(--np--font-size);
 	--np--datatable--touch-target: 24px;
 	--np--datatable--focus-ring--width: var(--np--focus-ring--width);
 	--np--datatable--focus-ring--color: var(--np--focus-ring--color);
-	--np--datatable--menu--padding: var(--np--gap--smaller);
 
 	/* dialog component tokens */
 	--np--dialog--background-color: var(--np--background-color--raised);
@@ -1235,7 +1233,6 @@
 	--np--contents--background-color--inverse: var(--np--background-color--inverse);
 	--np--contents--rail--color--inverse: var(--np--border-color--inverse);
 	--np--contents--indicator--color--inverse: var(--np--color--link--inverse);
-	--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--inverse);
 	--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--inverse);
 	--np--dialog--background-color--inverse: var(--np--background-color--raised--inverse);
 	--np--dialog--color--inverse: var(--np--color--inverse);
@@ -1818,7 +1815,6 @@
 		--np--contents--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--night--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--night--inverse);
-		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--night--inverse);
 		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--dialog--color--inverse: var(--np--color--night--inverse);
@@ -2104,7 +2100,6 @@
 		--np--contents--background-color: var(--np--background-color--night);
 		--np--contents--rail--color: var(--np--border-color--night);
 		--np--contents--indicator--color: var(--np--color--link--night);
-		--np--datatable--toolbar--background-color: var(--np--background-color--link--night);
 		--np--datatable--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--dialog--background-color: var(--np--background-color--raised--night);
 		--np--dialog--color: var(--np--color--night);
@@ -2463,7 +2458,6 @@
 		--np--contents--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--day--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--day--inverse);
-		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--day--inverse);
 		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--day--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--day--inverse);
 		--np--dialog--color--inverse: var(--np--color--day--inverse);
@@ -2749,7 +2743,6 @@
 		--np--contents--background-color: var(--np--background-color--day);
 		--np--contents--rail--color: var(--np--border-color--day);
 		--np--contents--indicator--color: var(--np--color--link--day);
-		--np--datatable--toolbar--background-color: var(--np--background-color--link--day);
 		--np--datatable--focus-ring--color: var(--np--focus-ring--color--day);
 		--np--dialog--background-color: var(--np--background-color--raised--day);
 		--np--dialog--color: var(--np--color--day);
@@ -3108,7 +3101,6 @@
 		--np--contents--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--night--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--night--inverse);
-		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--night--inverse);
 		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--dialog--color--inverse: var(--np--color--night--inverse);
@@ -3394,7 +3386,6 @@
 		--np--contents--background-color: var(--np--background-color--night);
 		--np--contents--rail--color: var(--np--border-color--night);
 		--np--contents--indicator--color: var(--np--color--link--night);
-		--np--datatable--toolbar--background-color: var(--np--background-color--link--night);
 		--np--datatable--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--dialog--background-color: var(--np--background-color--raised--night);
 		--np--dialog--color: var(--np--color--night);
