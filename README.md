@@ -1,4 +1,4 @@
-# nice-ux
+# Nice UI
 
 Nice UI: the `@niceprototypes/*` React component packages, their Storybook, and the manifest that tells agents how to work with them.
 
