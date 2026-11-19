@@ -59,6 +59,7 @@ const Table: React.FC<TableProps> = ({
         aria-multiselectable={ariaMultiselectable}
         aria-busy={ariaBusy || undefined}
         data-align-items={alignItems}
+        data-tree-guide-arm="offset"
         data-striped={striped ? "" : undefined}
         style={{ gridTemplateColumns: columnWidths.map(width => getToken(`table.column.width:${width}`)).join(" ") }}
         onKeyDown={onKeyDown}

@@ -45,6 +45,9 @@
     },
     "arm": {
       "base": "var(--np--gap)"
+    },
+    "armOffset": {
+      "base": "50%"
     }
   },
   "$themes": {

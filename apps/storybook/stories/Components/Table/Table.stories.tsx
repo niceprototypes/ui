@@ -170,14 +170,22 @@ export const Density: Story = {
   },
 }
 
-/** A cell given `guide` draws the TreeGuide slice over the row's full height. */
+/**
+ * A cell given `guide` draws the TreeGuide slice over the row's full height. The grid puts the
+ * guide in offset mode: with `alignItems="start"` its arm sits on the first text line, not at
+ * mid-height.
+ */
 export const Guide: Story = {
   ...Playground,
   play: async ({ canvasElement }) => {
+    const grid = within(canvasElement).getByRole("treegrid")
     const child = within(canvasElement).getAllByRole("row")[2]
-    const column = within(child).getByRole("rowheader").querySelector('[aria-hidden="true"]')!.firstElementChild!
+    const cell = within(child).getByRole("rowheader")
+    const column = cell.querySelector('[aria-hidden="true"]')!.firstElementChild!
     await expect(column).toHaveAttribute("data-branch", "tee")
     await expect(parseFloat(getComputedStyle(column, "::before").height)).toBeCloseTo(child.getBoundingClientRect().height, 0)
+    await expect(grid).toHaveAttribute("data-tree-guide-arm", "offset")
+    await expect(getComputedStyle(cell).getPropertyValue(getToken("tree.guide.armOffset", { as: "key" }))).toContain("0.5em")
   },
 }
 

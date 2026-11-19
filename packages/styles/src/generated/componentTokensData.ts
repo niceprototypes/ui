@@ -95,7 +95,7 @@ const componentTokensData: ComponentTokensData = {
   },
   "badge": {
     "backgroundColor": {
-      "base": "color-mix(in oklch, var(--np--background-color--sunken) 75%, transparent)",
+      "base": "color-mix(in oklch, color-mix(in oklch, var(--np--background-color), var(--np--color) 14%) 75%, transparent)",
       "success": "color-mix(in oklch, var(--np--background-color--success) 75%, transparent)",
       "warning": "color-mix(in oklch, var(--np--background-color--warning) 75%, transparent)",
       "error": "color-mix(in oklch, var(--np--background-color--error) 75%, transparent)"
@@ -1661,6 +1661,9 @@ const componentTokensData: ComponentTokensData = {
       },
       "arm": {
         "base": "var(--np--gap)"
+      },
+      "armOffset": {
+        "base": "50%"
       }
     }
   }

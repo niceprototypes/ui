@@ -403,6 +403,7 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.guide.color": "base"
   "tree.guide.width": "base"
   "tree.guide.arm": "base"
+  "tree.guide.armOffset": "base"
 }
 
 /** Variant union of every token group that has the `:inverse` effect. */

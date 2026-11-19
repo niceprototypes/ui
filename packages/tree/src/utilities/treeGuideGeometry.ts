@@ -31,3 +31,20 @@ export const upperLine = (color: string) =>
 /** The horizontal arm from the line to the row content, at mid-height. */
 export const armLine = (color: string) =>
   `linear-gradient(${color}, ${color}) ${axis} 50% / calc(${arm} + ${stroke} / 2) ${stroke} no-repeat`
+
+/** The arm's distance from the top of the row in offset mode (`tree.guide.armOffset`). */
+const armOffset = getToken("tree.guide.armOffset")
+
+/**
+ * Offset mode's vertical line from the top of a column to the arm at `armOffset`, so a last
+ * child's rail ends at its arm.
+ */
+export const upperLineAtOffset = (color: string) =>
+  `linear-gradient(${color}, ${color}) ${axis} 0 / ${stroke} calc(${armOffset} + ${stroke} / 2) no-repeat`
+
+/**
+ * Offset mode's horizontal arm, centred on `armOffset` from the top of the row: one column-high
+ * layer whose hard colour stops place the stroke, so the offset may be a length or a percentage.
+ */
+export const armLineAtOffset = (color: string) =>
+  `linear-gradient(transparent calc(${armOffset} - ${stroke} / 2), ${color} 0 calc(${armOffset} + ${stroke} / 2), transparent 0) ${axis} 0 / calc(${arm} + ${stroke} / 2) 100% no-repeat`
