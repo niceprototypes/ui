@@ -24,6 +24,8 @@ export type HeadroomInputType = {
   height: number
   /** Pixels of one-direction travel before revealing (up) or hiding (down) */
   tolerance: { up: number; down: number }
+  /** Programmatic or keyboard-driven scrolling: follow the position, change nothing */
+  paused?: boolean
 }
 
 /** The headroom memory before the first frame, at scroll position `y`. */
@@ -38,20 +40,24 @@ export const initialHeadroom = (y: number): HeadroomStateType => ({ hidden: fals
  *   the tolerance changes `hidden`, so short flicks and jitter do not toggle it.
  * - Not stuck, the header is shown; it hides only once the root has scrolled more than its height
  *   past where it stuck, so it never hides over its own place.
+ * - At the end of the content it is shown (nothing more to read below it).
+ * - Paused (an in-page link, a hashchange or focus moved the scroll), it keeps its state and starts a
+ *   new run from here, so a programmatic jump never hides or reveals it.
  *
  * @param previous - The memory after the last frame
  * @param input - This frame's facts
  * @returns The memory after this frame (`previous` itself when nothing changed)
  */
 export const stepHeadroom = (previous: HeadroomStateType, input: HeadroomInputType): HeadroomStateType => {
-  const { y, maxY, stuck, stuckAt, height, tolerance } = input
+  const { y, maxY, stuck, stuckAt, height, tolerance, paused } = input
   if (y < 0 || y > maxY) return previous
+  if (paused) return y === previous.lastY && previous.direction === 0 ? previous : { ...previous, lastY: y, direction: 0, travel: 0 }
   const delta = y - previous.lastY
   if (delta === 0) return previous
   const direction = delta > 0 ? 1 : -1
   const travel = direction === previous.direction ? previous.travel + Math.abs(delta) : Math.abs(delta)
   let hidden = previous.hidden
-  if (!stuck) hidden = false
+  if (!stuck || y >= maxY - 1) hidden = false
   else if (direction === 1 && travel > tolerance.down && y - stuckAt > height) hidden = true
   else if (direction === -1 && travel > tolerance.up) hidden = false
   return { hidden, lastY: y, direction, travel }

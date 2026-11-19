@@ -777,6 +777,9 @@ const componentTokensData: ComponentTokensData = {
     "height": {
       "base": "0px"
     },
+    "inset": {
+      "base": "0px"
+    },
     "zIndex": {
       "base": "var(--np--z-index--sticky)"
     },

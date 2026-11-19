@@ -226,6 +226,7 @@ export interface TokenVariants extends CustomTokenVariants {
   "header.fontSize": "base" | "stuck"
   "header.offset": "base"
   "header.height": "base"
+  "header.inset": "base"
   "header.zIndex": "base"
   "header.transitionDuration": "base"
   "header.transitionEasing": "base"

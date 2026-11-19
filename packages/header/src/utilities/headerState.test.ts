@@ -1,5 +1,6 @@
 import { getHeaderState } from "./getHeaderState"
 import { getStopPush } from "./getStopPush"
+import { nextKeyboardOpen } from "./nextKeyboardOpen"
 import { normalizeTolerance } from "./normalizeTolerance"
 import { initialHeadroom, stepHeadroom, type HeadroomInputType, type HeadroomStateType } from "./stepHeadroom"
 
@@ -38,12 +39,11 @@ describe("stepHeadroom", () => {
   })
 
   it("ignores overscroll: the rubber-band at the top and the bounce at the bottom never reveal or hide", () => {
-    const hidden = run([200, 2000])
+    const hidden = run([200, 1900])
     expect(hidden.hidden).toBe(true)
-    // Bottom bounce: past maxY then back to maxY.
-    const bounced = [2040, 2080, 2030, 2000].reduce((state, y) => stepHeadroom(state, { ...BASE, y }), hidden)
-    expect(bounced.hidden).toBe(true)
-    expect(bounced.lastY).toBe(2000)
+    // Bottom bounce: positions past maxY leave the memory untouched.
+    const bounced = [2040, 2080, 2030].reduce((state, y) => stepHeadroom(state, { ...BASE, y }), hidden)
+    expect(bounced).toBe(hidden)
     // Top rubber-band: negative positions are skipped entirely.
     const top = [-30, -60, -10].reduce((state, y) => stepHeadroom(state, { ...BASE, y }), initialHeadroom(0))
     expect(top).toEqual(initialHeadroom(0))
@@ -52,6 +52,23 @@ describe("stepHeadroom", () => {
   it("shows the header whenever it is not stuck", () => {
     const hidden = run([200, 400])
     expect(stepHeadroom(hidden, { ...BASE, y: 450, stuck: false }).hidden).toBe(false)
+  })
+
+  it("reveals at the end of the content", () => {
+    const hidden = run([200, 1900])
+    expect(hidden.hidden).toBe(true)
+    expect(stepHeadroom(hidden, { ...BASE, y: 2000 }).hidden).toBe(false)
+  })
+
+  it("paused (an in-page link, a hashchange, focus, the keyboard): follows the position and changes nothing, then runs from there", () => {
+    const visible = run([50])
+    expect(visible.hidden).toBe(false)
+    const jumped = stepHeadroom(visible, { ...BASE, y: 1200, paused: true })
+    expect(jumped.hidden).toBe(false)
+    expect(jumped.lastY).toBe(1200)
+    expect(stepHeadroom(jumped, { ...BASE, y: 1220 }).hidden).toBe(false) // a new 20px run
+    const hidden = run([200, 600])
+    expect(stepHeadroom(hidden, { ...BASE, y: 100, paused: true }).hidden).toBe(true)
   })
 
   it("returns the same memory when the position did not change", () => {
@@ -86,6 +103,7 @@ describe("getHeaderState", () => {
   })
   it("stuck, hidden over released, released over stuck", () => {
     expect(getHeaderState({ stuck: true, hidden: false, push: 0 })).toBe("stuck")
+    expect(getHeaderState({ stuck: true, hidden: false, push: 0, ended: true })).toBe("released")
     expect(getHeaderState({ stuck: true, hidden: true, push: 10 })).toBe("hidden")
     expect(getHeaderState({ stuck: true, hidden: false, push: 10 })).toBe("released")
   })
@@ -98,5 +116,14 @@ describe("normalizeTolerance", () => {
   it("a number sets both directions", () => {
     expect(normalizeTolerance(12)).toEqual({ up: 12, down: 12 })
     expect(normalizeTolerance({ up: 4, down: 30 })).toEqual({ up: 4, down: 30 })
+  })
+})
+
+describe("nextKeyboardOpen", () => {
+  it("opens past 120px of gap and closes below 60px: the toolbar and suggestion bars never flip it", () => {
+    expect(nextKeyboardOpen(false, 80)).toBe(false) // toolbar-sized
+    expect(nextKeyboardOpen(false, 300)).toBe(true)
+    expect(nextKeyboardOpen(true, 90)).toBe(true) // within the hysteresis
+    expect(nextKeyboardOpen(true, 40)).toBe(false)
   })
 })

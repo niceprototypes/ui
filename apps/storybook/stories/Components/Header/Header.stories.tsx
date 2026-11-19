@@ -66,6 +66,8 @@ const unset = <T extends string>(value: T | "unset" | undefined): T | undefined 
 
 /** The Playground's flat args: nested and element props become scalars, recomposed in render. */
 type HeaderStoryArgs = Pick<HeaderProps, "position" | "offset" | "threshold" | "hideOnScroll" | "onStateChange"> & {
+  /** resetKey; empty leaves it unset */
+  resetKey: string
   /** stopAt as a scroll distance; 0 leaves it unset */
   stopAt: number
   toleranceUp: number
@@ -109,6 +111,7 @@ const propsOf = (args: HeaderStoryArgs, bar?: string): Omit<HeaderProps, "childr
   transitionEasing: unset(args.transitionEasing),
   appearance: { default: appearanceOf(args, "default"), stuck: appearanceOf(args, "stuck") },
   onStateChange: args.onStateChange,
+  resetKey: args.resetKey || undefined,
 })
 
 const PARAGRAPH =
@@ -198,6 +201,7 @@ const DEFAULT_ARGS: HeaderStoryArgs = {
   hideOnScroll: false,
   toleranceUp: 8,
   toleranceDown: 24,
+  resetKey: "",
   inScrollContainer: false,
   state: "unset",
   transitionDuration: "unset",
@@ -250,6 +254,7 @@ export const Playground: Story = {
     hideOnScroll: { control: "boolean", table: { category: "Hide on scroll" } },
     toleranceUp: { control: { type: "number", min: 0 }, table: { category: "Hide on scroll" } },
     toleranceDown: { control: { type: "number", min: 0 }, table: { category: "Hide on scroll" } },
+    resetKey: { control: "text", table: { category: "Hide on scroll" } },
     state: { control: "select", options: STATE_OPTIONS, table: { category: "State" } },
     onStateChange: { table: { category: "State" } },
     transitionDuration: { control: "select", options: DURATION_OPTIONS, table: { category: "Transition" } },
@@ -383,6 +388,36 @@ export const HideOnScroll: Story = {
   },
 }
 
+/** The event the ResetKey story listens to: a stand-in for a router's navigation. */
+const ROUTE_EVENT = "header-story-route"
+
+/** `resetKey`: changing it (a route change) shows a hidden header and restarts hideOnScroll. */
+export const ResetKey: Story = {
+  ...Playground,
+  args: { ...DEFAULT_ARGS, hideOnScroll: true },
+  render: args => {
+    const Routed = () => {
+      const [page, setPage] = React.useState(1)
+      React.useEffect(() => {
+        const navigate = () => setPage(current => current + 1)
+        window.addEventListener(ROUTE_EVENT, navigate)
+        return () => window.removeEventListener(ROUTE_EVENT, navigate)
+      }, [])
+      return <Demo {...args} resetKey={`page-${page}`} />
+    }
+    return <Routed />
+  },
+  play: async ({ canvasElement }) => {
+    const header = headerOf(canvasElement)
+    await scrollTo(0)
+    await scrollTo(60)
+    await scrollTo(600)
+    await expectState(header, "hidden")
+    window.dispatchEvent(new Event(ROUTE_EVENT))
+    await expectState(header, "stuck")
+  },
+}
+
 /** `root`: sticky inside a scroll container; the height variable is set on the container. */
 export const Root: Story = {
   ...Playground,
@@ -396,6 +431,9 @@ export const Root: Story = {
     await expectState(header, "stuck")
     await expect(Math.round(header.getBoundingClientRect().top)).toBe(Math.round(container.getBoundingClientRect().top))
     await expect(container.style.getPropertyValue(getNiceToken("header.height", { as: "key" }))).toBe(`${header.offsetHeight}px`)
+    // The scroll padding comes from the overridable rule on the container, not an inline style.
+    await expect(container.style.scrollPaddingTop).toBe("")
+    await expect(parseFloat(getComputedStyle(container).scrollPaddingTop)).toBe(header.offsetHeight)
   },
 }
 

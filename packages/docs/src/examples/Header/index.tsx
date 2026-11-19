@@ -45,7 +45,7 @@ const LOGO = `  <Logo />`
 export const headerPosition = {
   name: "position",
   description:
-    "How the header sits. static (default) scrolls away; sticky stays in the flow and sticks at the offset inside its containing block, so it stops at that block's end without script; fixed is pinned to the viewport with a placeholder of its height in the flow, unaffected by ancestors' overflow. In a scroll container (these previews) fixed renders sticky.",
+    "How the header sits. static (default) scrolls away; sticky (recommended) stays in the flow and sticks at the offset inside its containing block, and is released at that block's end; fixed is pinned to the viewport with a placeholder of its height in the flow, for layouts where an ancestor's overflow defeats sticky. In a scroll container (these previews) fixed renders sticky.",
   variants: ["static", "sticky"],
   default: "static",
   preview: variant => <Box position={variant} />,
@@ -74,7 +74,7 @@ export const headerStopAt = {
 export const headerHideOnScroll = {
   name: "hideOnScroll",
   description:
-    "While stuck, scrolling down hides the header and scrolling up reveals it. tolerance sets how far one direction must run first ({ up: 8, down: 24 } by default), so short flicks and the rubber-band bounce do not toggle it. Focus inside the header always reveals it.",
+    "While stuck, scrolling down hides the header and scrolling up reveals it. tolerance sets how far one direction must run first ({ up: 8, down: 24 } by default), so short flicks and the rubber-band bounce do not toggle it. It is revealed at the end of the content and by focus inside it; in-page links, hashchanges and the on-screen keyboard pause it.",
   variants: ["false", "true"],
   default: "false",
   preview: variant => <Box position="sticky" hideOnScroll={variant === "true"} />,

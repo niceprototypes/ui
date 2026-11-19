@@ -4,15 +4,15 @@ import { HEADER_TOLERANCE } from "../../constants"
 import { normalizeTolerance } from "../../utilities/normalizeTolerance"
 import { resolveAppearance } from "../../utilities/resolveAppearance"
 import { useHeaderScroll } from "../../utilities/useHeaderScroll"
-import { StyledHeader, StyledHeaderPlaceholder, StyledHeaderSentinel, type HeaderCssPositionType } from "./Header.styles"
+import { HeaderRootStyle, StyledHeader, StyledHeaderPlaceholder, StyledHeaderSentinel, type HeaderCssPositionType } from "./Header.styles"
 import type { HeaderProps } from "./Header.types"
 
 /**
  * Header
  *
  * The outer page-header wrapper: static by default; sticky or fixed with its height kept in the flow
- * and exposed on the root as `--np--header--height` (also set as the root's `scroll-padding-top`,
- * so anchor links land below it). While stuck it takes the stuck appearance; `hideOnScroll` hides it
+ * and exposed on the root as `--np--header--height` and `--np--header--inset` (height plus offset; an
+ * overridable rule makes it the root's `scroll-padding-top`, so anchor links land below it). While stuck it takes the stuck appearance; `hideOnScroll` hides it
  * on scroll down and reveals it on scroll up; `stopAt` releases it to scroll away. Transitions between
  * states use `transitionDuration` and `transitionEasing`, and stop under reduced motion.
  *
@@ -37,6 +37,7 @@ const Header: React.FC<HeaderProps> = ({
   transitionEasing,
   state: forced,
   onStateChange,
+  resetKey,
 }) => {
   const headerRef = React.useRef<HTMLElement>(null)
   const sentinelRef = React.useRef<HTMLDivElement>(null)
@@ -48,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
   const mode = position === "fixed" && root ? "sticky" : position
   const outOfFlow = mode === "fixed"
 
-  const { state, enter } = useHeaderScroll({
+  const { state, enter, mounted, keyboard, atTop } = useHeaderScroll({
     headerRef,
     sentinelRef,
     placeholderRef,
@@ -56,24 +57,30 @@ const Header: React.FC<HeaderProps> = ({
     outOfFlow,
     root,
     offset,
+    threshold,
     stopAt,
     hideOnScroll,
     tolerance: toleranceValue,
     forced,
     onStateChange,
+    resetKey,
   })
 
   // With a threshold the header stays in the flow (relative) until it sticks; without one it is
-  // always sticky or fixed, so the browser pins it with no frame of lag.
-  const cssPosition: HeaderCssPositionType = mode === "static" ? "static" : threshold === 0 || state !== "static" ? mode : "relative"
+  // always sticky or fixed, so the browser pins it with no frame of lag. Fixed also stays in the flow
+  // until mounted (no script: nothing covered; hydration: no shift) and while the keyboard is open.
+  const pinned = threshold === 0 || state !== "static"
+  const cssPosition: HeaderCssPositionType =
+    mode === "static" ? "static" : mode === "fixed" && (!mounted || keyboard) ? "relative" : pinned ? mode : "relative"
 
   const header = (
     <StyledHeader
       ref={headerRef}
       data-state={state}
       data-enter={enter && threshold > 0 ? "" : undefined}
+      data-keyboard={keyboard ? "" : undefined}
       $position={cssPosition}
-      $positioned={mode !== "static"}
+      $atTop={atTop}
       $offset={offset}
       $default={resolveAppearance("base", appearance?.default)}
       $stuck={resolveAppearance("stuck", appearance?.stuck)}
@@ -92,6 +99,7 @@ const Header: React.FC<HeaderProps> = ({
   if (outOfFlow)
     return (
       <StyledHeaderPlaceholder ref={placeholderRef}>
+        <HeaderRootStyle />
         {sentinel}
         {header}
       </StyledHeaderPlaceholder>
@@ -99,6 +107,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
+      <HeaderRootStyle />
       {sentinel}
       {header}
     </>

@@ -18,8 +18,10 @@ import type {
  * - "static": In the flow; scrolls away with the content (default)
  * - "sticky": CSS `position: sticky`; stays in the flow and sticks at `offset` inside its containing
  *   block, so it stops sticking at the containing block's end without script
- * - "fixed": Pinned to the viewport while stuck; a placeholder of its height holds its place in the
- *   flow. Unaffected by ancestors' overflow or height. Inside a `root` scroll container it renders sticky.
+ * - "fixed": Pinned to the viewport; a placeholder of its height holds its place in the flow.
+ *   Unaffected by ancestors' overflow or height. It stays in the flow until mounted (so a page
+ *   without script, or before hydration, shows it above the content), and while the on-screen
+ *   keyboard is open. Inside a `root` scroll container it renders sticky. Prefer "sticky" where it works.
  */
 export type HeaderPositionType = "static" | "sticky" | "fixed"
 
@@ -53,8 +55,9 @@ export type HeaderStopAtType = number | HTMLElement | React.RefObject<HTMLElemen
 /**
  * HeaderHideOnScrollType
  *
- * Headroom: while stuck, scrolling down hides the header and scrolling up reveals it. Focus inside
- * the header always reveals it.
+ * Headroom: while stuck, scrolling down hides the header and scrolling up reveals it. It is revealed at
+ * the end of the content and by focus inside it; in-page links, hashchanges, focus-driven scrolls and
+ * the open on-screen keyboard neither hide nor reveal it.
  */
 export type HeaderHideOnScrollType = boolean
 
@@ -140,6 +143,14 @@ export type HeaderTransitionEasingType = AnimationEasingType
 export type HeaderOnStateChangeType = (state: HeaderStateType) => void
 
 /**
+ * HeaderResetKeyType
+ *
+ * A value that changes on a route change (a pathname, a page id). When it changes, hideOnScroll
+ * forgets the last scroll run and the header is shown, without Header knowing the router.
+ */
+export type HeaderResetKeyType = string | number
+
+/**
  * HeaderProps
  *
  * Complete prop definition for the Header component.
@@ -171,6 +182,8 @@ export interface HeaderProps {
   state?: HeaderStateType
   /** Called when the state changes */
   onStateChange?: HeaderOnStateChangeType
+  /** Change it on a route change to show the header and restart hideOnScroll */
+  resetKey?: HeaderResetKeyType
 }
 
 // Declaration merging: const + namespace creates exportable type namespace
@@ -190,6 +203,7 @@ namespace HeaderTypes {
   export type TransitionDuration = HeaderTransitionDurationType
   export type TransitionEasing = HeaderTransitionEasingType
   export type OnStateChange = HeaderOnStateChangeType
+  export type ResetKey = HeaderResetKeyType
   export type Props = HeaderProps
 }
 

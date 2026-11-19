@@ -644,6 +644,7 @@
 	--np--header--font-size--stuck: var(--np--font-size);
 	--np--header--offset: 0px;
 	--np--header--height: 0px;
+	--np--header--inset: 0px;
 	--np--header--z-index: var(--np--z-index--sticky);
 	--np--header--transition-duration: var(--np--animation-duration);
 	--np--header--transition-easing: var(--np--animation-easing);
