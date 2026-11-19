@@ -110,7 +110,7 @@ const preview: Preview = {
           // Each component (inside Forms or flat) puts its Docs page (Docs, Tokens and every
           // prop as sections) before its stories.
           ["Forms", ["*", ["Docs", "*"]], "*", ["Docs", "*"]],
-          "Patterns",
+          "Widgets",
           ["*", ["Docs", "*"]],
           "Bindings",
           ["useBreakpoint", "useDevice", "useTheme"],

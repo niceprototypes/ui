@@ -5,7 +5,7 @@ import ComponentPage from "./components/ComponentPage"
 import MdxPage, { type MdxModuleType } from "./components/MdxPage"
 import TokensPage from "./components/TokensPage"
 import ScrollPageBehaviour from "./components/ScrollPageBehaviour"
-import { catalogComponents, catalogPatterns, subcomponentsOf, type CatalogComponentType } from "./catalog"
+import { catalogComponents, catalogWidgets, subcomponentsOf, type CatalogComponentType } from "./catalog"
 
 /** A loaded page module for the App's `pages`. */
 const pageOf = (Page: React.ComponentType) => () => Promise.resolve({ default: Page })
@@ -102,7 +102,7 @@ const sectionPages = (item: DataItem, section: string): [string, AppPagesType[st
 /**
  * Every page in nav order, with the Storybook id each one replaces: the storybook.json sections
  * (Basics, Manifest, Bindings, Configuration, CLI), where Tokens is the all-tokens page and the
- * catalog's Components, then its Patterns, follow it.
+ * catalog's Components, then its Widgets, follow it.
  */
 const entries: [string, AppPagesType[string], string?][] = getTree().flatMap((item, index) => {
   const section = `${index + 1} ${item.name}`
@@ -110,7 +110,7 @@ const entries: [string, AppPagesType[string], string?][] = getTree().flatMap((it
     return [
       [`./docs/${section}/index.tsx`, pageOf(TokensPage), item.id],
       ...componentPages(`${index + 1}.5 Components`, catalogComponents),
-      ...componentPages(`${index + 1}.6 Patterns`, catalogPatterns),
+      ...componentPages(`${index + 1}.6 Widgets`, catalogWidgets),
     ] as [string, AppPagesType[string], string?][]
   return sectionPages(item, section)
 })
@@ -123,7 +123,7 @@ export const pages: AppPagesType = Object.fromEntries(entries.map(([key, load]) 
  * Subcomponents' old pages (`/docs/components/cardheader`, `/docs/components/forms/radio`): the
  * parent's URL with its last segment the subcomponent's, now the parent page at its section.
  */
-const subcomponentPages = [...catalogComponents, ...catalogPatterns].flatMap(component => {
+const subcomponentPages = [...catalogComponents, ...catalogWidgets].flatMap(component => {
   const key = entries.find(([, , itemId]) => itemId === component.docsId)?.[0]
   if (!key) return []
   const url = getAppPageUrl(key)

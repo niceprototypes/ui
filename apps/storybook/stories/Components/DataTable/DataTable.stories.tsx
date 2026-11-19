@@ -186,7 +186,7 @@ const renderTable = (args: PlaygroundArgs) => (
 )
 
 const meta = {
-  title: "Patterns/DataTable",
+  title: "Widgets/DataTable",
   component: DataTable,
   parameters: {
     layout: "padded",

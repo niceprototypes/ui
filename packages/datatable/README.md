@@ -20,7 +20,7 @@ import DataTable from "@niceprototypes/datatable"
 
 | Component | Storybook story |
 |---|---|
-| DataTable | `patterns-datatable--playground` |
+| DataTable | `widgets-datatable--playground` |
 
 Storybook runs with `pnpm storybook` at the nice-ux root. Props, types, defaults, token addresses and exports: [`manifest/agents/catalog.json`](../../manifest/agents/catalog.json), from the nice-ux root:
 

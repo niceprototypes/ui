@@ -5,7 +5,7 @@ export { tokenUnions, subcomponentsOf } from "@niceprototypes/docs/data/catalog"
 
 /** One component with its own page: its catalog entry, its section and its docs folder (Forms, Scroll) if any. */
 export type CatalogComponentType = CatalogEntryType & {
-  /** Its nav section, from its Storybook docs id's first segment: "components" (primitives) or "patterns" (built on them) */
+  /** Its nav section, from its Storybook docs id's first segment: "components" (primitives) or "widgets" (built on them) */
   section: string
   /** Its folder under Components, from its Storybook docs id (`components-forms-button--docs` → Forms) */
   folder?: string
@@ -33,7 +33,7 @@ const catalogPages: CatalogComponentType[] = catalogEntries.flatMap(entry => {
 export const catalogComponents = catalogPages.filter(component => component.section === "components")
 
 /**
- * Patterns: higher-level, context-specific components built from the primitives (DataTable), in a
- * section of their own after Components (Storybook title `Patterns/…`).
+ * Widgets: higher-level, context-specific components built from the primitives (DataTable), in a
+ * section of their own after Components (Storybook title `Widgets/…`).
  */
-export const catalogPatterns = catalogPages.filter(component => component.section === "patterns")
+export const catalogWidgets = catalogPages.filter(component => component.section === "widgets")
