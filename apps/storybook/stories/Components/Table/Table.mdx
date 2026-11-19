@@ -1,0 +1,43 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+export const sections = import.meta.glob("./*.section.mdx", { eager: true })
+
+<Meta title="Components/Table" />
+
+<ComponentDocs component="Table" sections={sections}>
+
+<StoryHeader
+  title="Table"
+  description="Table: the structural grid behind DataTable. Table holds the column template and the card; TableHeader, TableRow and TableCell lay out rows on CSS subgrid with ARIA grid or treegrid roles, densities, dividers and TreeGuide slices."
+  packageName="@niceprototypes/table"
+/>
+
+<Install package="table" />
+
+```jsx
+import { Table, TableCell, TableHeader, TableRow } from "@niceprototypes/table"
+
+<Table aria-label="Ports" columnWidths={["base", "small"]}>
+  <TableHeader>
+    <TableCell role="columnheader">Project</TableCell>
+    <TableCell role="columnheader" align="end">Port</TableCell>
+  </TableHeader>
+  <TableRow aria-rowindex={2}>
+    <TableCell role="rowheader">docs</TableCell>
+    <TableCell align="end">4020</TableCell>
+  </TableRow>
+</Table>
+```
+
+Table is data-agnostic: it lays out what it is given. `columnWidths` sets one column template from the
+`table.column.width` tokens and every row is a CSS subgrid of it, so all rows share the widths. The header
+row sticks to the top of the one scroll container (cap the height with `maxHeight`); the body scrolls in both
+axes on narrow screens. Rows take `density` (`compact` for nested rows), `divider` (a group start) and the
+ARIA attributes of their place in the grid; hover, focus and `aria-selected` styles are CSS. A cell given
+`guide` (from `getTreeRows`) draws its row's TreeGuide slice. For data, sorting, selection and keyboard
+navigation, use DataTable.
+
+</ComponentDocs>

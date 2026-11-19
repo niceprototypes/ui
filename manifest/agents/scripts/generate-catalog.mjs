@@ -283,6 +283,9 @@ const PARENTS = {
   TileContent: "Tile",
   ContentMain: "Tile",
   ButtonIcon: "Button",
+  TableHeader: "Table",
+  TableRow: "Table",
+  TableCell: "Table",
 }
 
 /** Storybook titles under stories/Components: MDX `<Meta title>` and CSF `title:` + `export const Playground`. */

@@ -15,6 +15,7 @@ const componentNightTokensData: ComponentNightTokensData = {
       }
     }
   },
+  "badge": {},
   "button": {},
   "calendar": {},
   "card": {},
@@ -29,6 +30,7 @@ const componentNightTokensData: ComponentNightTokensData = {
     }
   },
   "contents": {},
+  "datatable": {},
   "dialog": {},
   "field": {},
   "icon": {},
@@ -47,6 +49,7 @@ const componentNightTokensData: ComponentNightTokensData = {
   "popover": {},
   "radio": {},
   "select": {},
+  "table": {},
   "tabs": {},
   "tile": {},
   "toggle": {},

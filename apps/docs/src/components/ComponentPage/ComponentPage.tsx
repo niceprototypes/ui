@@ -47,6 +47,9 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
           <StoryHeader title={component.name} packageName={component.package} />
           <Install package={component.package.replace("@niceprototypes/", "")} />
           <Code language="tsx" code={importLine} />
+          {component.section === "patterns" ? (
+            <Ink>{`Built from Nice UI: ${component.builtFrom.join(", ")}.`}</Ink>
+          ) : null}
         </Flex>
       ),
     },

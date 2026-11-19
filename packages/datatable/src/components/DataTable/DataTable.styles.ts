@@ -1,0 +1,102 @@
+import styled from "styled-components"
+import { getToken } from "@niceprototypes/styles"
+import { tableBorderToken } from "../../utilities/tableBorderToken"
+
+/* The data layer's own pieces; the grid, rows and cells are @niceprototypes/table. Static rules:
+   state comes from ARIA and data-* attributes. */
+
+const focusRing = `
+  &:focus-visible {
+    outline: ${getToken("datatable.focusRing.width")} solid ${getToken("datatable.focusRing.color")};
+    outline-offset: ${getToken("datatable.focusRing.width")};
+  }
+`
+
+/** A hit area of at least `datatable.touchTarget` on coarse pointers, without taller rows. */
+const touchTarget = `
+  @media (pointer: coarse) {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: ${getToken("datatable.touchTarget")};
+      min-height: ${getToken("datatable.touchTarget")};
+      transform: translate(-50%, -50%);
+    }
+  }
+`
+
+/** The bar above the grid while rows are selected: the count and the bulk actions menu. */
+export const StyledDataTableToolbar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${getToken("datatable.toolbar.gap")};
+  padding: ${getToken("datatable.toolbar.paddingBlock")} ${getToken("datatable.toolbar.paddingInline")};
+  border-bottom: ${tableBorderToken};
+  background-color: ${getToken("datatable.toolbar.backgroundColor")};
+  font-size: ${getToken("datatable.toolbar.fontSize")};
+`
+
+/**
+ * The expander: a bare icon button the size of `tree.icon.size`, so the guide's rail drops from
+ * its centre.
+ */
+export const StyledDataTableExpander = styled.button`
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: ${getToken("tree.icon.size")};
+  height: ${getToken("tree.icon.size")};
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  ${getToken("icon.color", { as: "key" })}: currentColor;
+  ${focusRing}
+  ${touchTarget}
+`
+
+/** The empty expander slot of a row without children, so labels line up. */
+export const StyledDataTableExpanderSlot = styled.span`
+  flex: none;
+  width: ${getToken("tree.icon.size")};
+`
+
+/** A sortable column header: the header text and the sort direction icon. */
+export const StyledDataTableSortButton = styled.button`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: ${getToken("datatable.toolbar.gap")};
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  ${getToken("icon.color", { as: "key" })}: currentColor;
+  ${focusRing}
+  ${touchTarget}
+`
+
+/** Wraps a checkbox so its hit area grows on coarse pointers. */
+export const StyledDataTableCheckbox = styled.span`
+  position: relative;
+  display: inline-flex;
+  ${touchTarget}
+`
+
+/** The actions menu's list of items, stacked full width. */
+export const StyledDataTableMenu = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: ${getToken("datatable.menu.padding")};
+`

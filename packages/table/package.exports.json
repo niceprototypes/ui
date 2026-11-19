@@ -1,0 +1,10 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "Table: the structural grid behind DataTable. Table holds the column template and the card; TableHeader, TableRow and TableCell lay out rows on CSS subgrid with ARIA grid or treegrid roles, densities, dividers and TreeGuide slices.",
+  "components": [
+    "Table",
+    "TableHeader",
+    "TableRow",
+    "TableCell"
+  ]
+}

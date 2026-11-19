@@ -3,8 +3,10 @@ import { catalogEntries, type CatalogEntryType } from "@niceprototypes/docs/data
 export type { CatalogPropType } from "@niceprototypes/docs/data/catalog"
 export { tokenUnions, subcomponentsOf } from "@niceprototypes/docs/data/catalog"
 
-/** One component with its own page: its catalog entry and its docs folder (Forms, Scroll) if any. */
+/** One component with its own page: its catalog entry, its section and its docs folder (Forms, Scroll) if any. */
 export type CatalogComponentType = CatalogEntryType & {
+  /** Its nav section, from its Storybook docs id's first segment: "components" (primitives) or "patterns" (built on them) */
+  section: string
   /** Its folder under Components, from its Storybook docs id (`components-forms-button--docs` → Forms) */
   folder?: string
   /** Its Storybook docs page id (`components-forms-button--docs`) */
@@ -20,8 +22,18 @@ const folderName = (segment: string) => segment.charAt(0).toUpperCase() + segmen
  * `components` and the page are its folders; the first is kept, so a page nested under another
  * page's folder (Forms/Field/Fieldset) sits beside it.
  */
-export const catalogComponents: CatalogComponentType[] = catalogEntries.flatMap(entry => {
+const catalogPages: CatalogComponentType[] = catalogEntries.flatMap(entry => {
   if (!entry.docs || entry.parent) return []
-  const segments = entry.docs.replace(/--docs$/, "").split("-").slice(1, -1)
-  return [{ ...entry, folder: segments.length ? folderName(segments[0]) : undefined, docsId: entry.docs }]
+  const [section, ...rest] = entry.docs.replace(/--docs$/, "").split("-")
+  const segments = rest.slice(0, -1)
+  return [{ ...entry, section, folder: segments.length ? folderName(segments[0]) : undefined, docsId: entry.docs }]
 })
+
+/** The primitives: every component page under Components. */
+export const catalogComponents = catalogPages.filter(component => component.section === "components")
+
+/**
+ * Patterns: higher-level, context-specific components built from the primitives (DataTable), in a
+ * section of their own after Components (Storybook title `Patterns/…`).
+ */
+export const catalogPatterns = catalogPages.filter(component => component.section === "patterns")

@@ -1,0 +1,8 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "DataTable: a treegrid whose rows nest under their parents, joined by TreeGuide lines, with sorting, row selection and bulk actions, and row action menus.",
+  "default": "DataTable",
+  "components": [
+    "DataTable"
+  ]
+}

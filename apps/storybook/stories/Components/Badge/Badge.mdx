@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+<Meta title="Components/Badge" />
+
+<ComponentDocs component="Badge">
+
+<StoryHeader
+  title="Badge"
+  description="Badge: a small status label with a leading dot, tinted by the semantic status tokens (base, success, warning, error)."
+  packageName="@niceprototypes/badge"
+/>
+
+<Install package="badge" />
+
+```jsx
+import Badge from "@niceprototypes/badge"
+
+<Badge status="success" label="Running" />
+```
+
+The tint, dot and text colours come from the `badge.*` tokens, which point at the semantic background and
+text colours of each status, so the badge follows the day and night themes. The dot is decorative; the label
+carries the meaning.
+
+</ComponentDocs>

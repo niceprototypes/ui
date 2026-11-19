@@ -1,0 +1,8 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "Badge: a small status label with a leading dot, tinted by the semantic status tokens (base, success, warning, error).",
+  "default": "Badge",
+  "components": [
+    "Badge"
+  ]
+}

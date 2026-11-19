@@ -16,6 +16,8 @@ export type CatalogEntryType = {
   docs: string | null
   /** The component it is a part of (CardHeader → Card); a subcomponent has no page of its own */
   parent?: string
+  /** The Nice packages its package is built from (its `@niceprototypes/*` peers, styles left out) */
+  builtFrom: string[]
 }
 
 /** Every component in the catalog, in catalog order. */
@@ -27,6 +29,7 @@ export const catalogEntries: CatalogEntryType[] = catalog.packages.flatMap(pkg =
     named: (pkg.exports as string[]).includes(component.name),
     props: component.props as CatalogPropType[],
     docs: component.docs,
+    builtFrom: (pkg.nicePeers as string[]).filter(peer => peer !== "@niceprototypes/styles"),
     ...("parent" in component && component.parent ? { parent: component.parent as string } : {}),
   })),
 )

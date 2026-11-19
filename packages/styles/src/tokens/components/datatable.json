@@ -1,0 +1,38 @@
+{
+  "toolbar": {
+    "gap": {
+      "base": "var(--np--gap--small)"
+    },
+    "backgroundColor": {
+      "base": "var(--np--background-color--link)"
+    },
+    "paddingBlock": {
+      "base": "var(--np--gap--small)"
+    },
+    "paddingInline": {
+      "base": "var(--np--gap)"
+    },
+    "fontSize": {
+      "base": "var(--np--font-size)"
+    }
+  },
+  "touchTarget": {
+    "base": "24px"
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--focus-ring--width)"
+    },
+    "color": {
+      "base": "var(--np--focus-ring--color)"
+    }
+  },
+  "menu": {
+    "padding": {
+      "base": "var(--np--gap--smaller)"
+    }
+  },
+  "$themes": {
+    "night": {}
+  }
+}

@@ -5,7 +5,7 @@ import ComponentPage from "./components/ComponentPage"
 import MdxPage, { type MdxModuleType } from "./components/MdxPage"
 import TokensPage from "./components/TokensPage"
 import ScrollPageBehaviour from "./components/ScrollPageBehaviour"
-import { catalogComponents, subcomponentsOf, type CatalogComponentType } from "./catalog"
+import { catalogComponents, catalogPatterns, subcomponentsOf, type CatalogComponentType } from "./catalog"
 
 /** A loaded page module for the App's `pages`. */
 const pageOf = (Page: React.ComponentType) => () => Promise.resolve({ default: Page })
@@ -48,9 +48,9 @@ const folderPages: Record<string, [string, AppPagesType[string]][]> = {
  * alphabetically, then the pages outside a folder alphabetically, each folder's pages alphabetically
  * after the component the folder is named for.
  */
-const componentPages = (section: string): [string, AppPagesType[string], string?][] => {
-  const folders = [...new Set(catalogComponents.flatMap(component => (component.folder ? [component.folder] : [])))].sort(byName)
-  const sorted = [...catalogComponents].sort((a, b) => byName(a.name, b.name))
+const componentPages = (section: string, list: CatalogComponentType[]): [string, AppPagesType[string], string?][] => {
+  const folders = [...new Set(list.flatMap(component => (component.folder ? [component.folder] : [])))].sort(byName)
+  const sorted = [...list].sort((a, b) => byName(a.name, b.name))
   // A component named like a folder (Scroll beside StickySection and the others in Scroll) is that
   // folder's first page: a page and a folder cannot share a URL.
   const folderOf = (component: CatalogComponentType) => component.folder ?? (folders.includes(component.name) ? component.name : undefined)
@@ -102,14 +102,15 @@ const sectionPages = (item: DataItem, section: string): [string, AppPagesType[st
 /**
  * Every page in nav order, with the Storybook id each one replaces: the storybook.json sections
  * (Basics, Manifest, Bindings, Configuration, CLI), where Tokens is the all-tokens page and the
- * catalog's Components follow it.
+ * catalog's Components, then its Patterns, follow it.
  */
 const entries: [string, AppPagesType[string], string?][] = getTree().flatMap((item, index) => {
   const section = `${index + 1} ${item.name}`
   if (item.id === "tokens")
     return [
       [`./docs/${section}/index.tsx`, pageOf(TokensPage), item.id],
-      ...componentPages(`${index + 1}.5 Components`),
+      ...componentPages(`${index + 1}.5 Components`, catalogComponents),
+      ...componentPages(`${index + 1}.6 Patterns`, catalogPatterns),
     ] as [string, AppPagesType[string], string?][]
   return sectionPages(item, section)
 })
@@ -122,7 +123,7 @@ export const pages: AppPagesType = Object.fromEntries(entries.map(([key, load]) 
  * Subcomponents' old pages (`/docs/components/cardheader`, `/docs/components/forms/radio`): the
  * parent's URL with its last segment the subcomponent's, now the parent page at its section.
  */
-const subcomponentPages = catalogComponents.flatMap(component => {
+const subcomponentPages = [...catalogComponents, ...catalogPatterns].flatMap(component => {
   const key = entries.find(([, , itemId]) => itemId === component.docsId)?.[0]
   if (!key) return []
   const url = getAppPageUrl(key)

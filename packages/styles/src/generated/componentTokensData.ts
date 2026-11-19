@@ -93,6 +93,52 @@ const componentTokensData: ComponentTokensData = {
       }
     }
   },
+  "badge": {
+    "backgroundColor": {
+      "base": "var(--np--background-color--sunken)",
+      "success": "var(--np--background-color--success)",
+      "warning": "var(--np--background-color--warning)",
+      "error": "var(--np--background-color--error)"
+    },
+    "color": {
+      "base": "var(--np--color--light)",
+      "success": "var(--np--color--success)",
+      "warning": "var(--np--color--warning)",
+      "error": "var(--np--color--error)"
+    },
+    "dot": {
+      "color": {
+        "base": "var(--np--color--lighter)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)",
+        "error": "var(--np--color--error)"
+      },
+      "size": {
+        "base": "0.5em"
+      }
+    },
+    "borderRadius": {
+      "base": "var(--np--border-radius--small)"
+    },
+    "paddingInline": {
+      "base": "var(--np--gap--small)"
+    },
+    "paddingBlock": {
+      "base": "var(--np--gap--smaller)"
+    },
+    "gap": {
+      "base": "var(--np--gap--smaller)"
+    },
+    "fontSize": {
+      "base": "var(--np--font-size--small)"
+    },
+    "fontWeight": {
+      "base": "var(--np--font-weight--medium)"
+    },
+    "lineHeight": {
+      "base": "var(--np--line-height--condensed)"
+    }
+  },
   "button": {
     "size": {
       "smaller": "var(--np--size--smaller)",
@@ -606,6 +652,41 @@ const componentTokensData: ComponentTokensData = {
     },
     "top": {
       "base": "var(--np--gap--large)"
+    }
+  },
+  "datatable": {
+    "toolbar": {
+      "gap": {
+        "base": "var(--np--gap--small)"
+      },
+      "backgroundColor": {
+        "base": "var(--np--background-color--link)"
+      },
+      "paddingBlock": {
+        "base": "var(--np--gap--small)"
+      },
+      "paddingInline": {
+        "base": "var(--np--gap)"
+      },
+      "fontSize": {
+        "base": "var(--np--font-size)"
+      }
+    },
+    "touchTarget": {
+      "base": "24px"
+    },
+    "focusRing": {
+      "width": {
+        "base": "var(--np--focus-ring--width)"
+      },
+      "color": {
+        "base": "var(--np--focus-ring--color)"
+      }
+    },
+    "menu": {
+      "padding": {
+        "base": "var(--np--gap--smaller)"
+      }
     }
   },
   "dialog": {
@@ -1161,6 +1242,80 @@ const componentTokensData: ComponentTokensData = {
         "base": "var(--np--font-size)",
         "large": "var(--np--font-size--large)",
         "larger": "var(--np--font-size--larger)"
+      }
+    }
+  },
+  "table": {
+    "backgroundColor": {
+      "base": "var(--np--background-color)",
+      "header": "var(--np--background-color--raised)",
+      "child": "var(--np--background-color--raised)",
+      "hover": "var(--np--background-color--sunken)",
+      "selected": "var(--np--background-color--link)"
+    },
+    "borderColor": {
+      "base": "var(--np--border-color)"
+    },
+    "borderWidth": {
+      "base": "var(--np--border-width--small)"
+    },
+    "borderRadius": {
+      "base": "var(--np--border-radius)"
+    },
+    "color": {
+      "base": "var(--np--color)",
+      "header": "var(--np--color--light)",
+      "empty": "var(--np--color--lighter)"
+    },
+    "fontSize": {
+      "base": "var(--np--font-size)",
+      "compact": "var(--np--font-size--small)",
+      "header": "var(--np--font-size--small)"
+    },
+    "fontWeight": {
+      "header": "var(--np--font-weight--semibold)"
+    },
+    "cell": {
+      "paddingInline": {
+        "base": "var(--np--gap)"
+      },
+      "paddingBlock": {
+        "base": "var(--np--gap--small)",
+        "compact": "var(--np--gap--smaller)"
+      },
+      "gap": {
+        "base": "var(--np--gap--small)"
+      }
+    },
+    "row": {
+      "height": {
+        "base": "var(--np--size--small)",
+        "compact": "var(--np--size--smaller)"
+      }
+    },
+    "column": {
+      "width": {
+        "fit": "max-content",
+        "small": "minmax(6em, max-content)",
+        "base": "minmax(10em, 1fr)",
+        "large": "minmax(16em, 2fr)"
+      }
+    },
+    "maxHeight": {
+      "none": "none",
+      "small": "20em",
+      "base": "32em",
+      "large": "48em"
+    },
+    "zIndex": {
+      "header": "var(--np--z-index--low)"
+    },
+    "focusRing": {
+      "width": {
+        "base": "var(--np--focus-ring--width)"
+      },
+      "color": {
+        "base": "var(--np--focus-ring--color)"
       }
     }
   },

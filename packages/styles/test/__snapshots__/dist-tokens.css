@@ -312,6 +312,28 @@
 	--np--app--search--focus-color: var(--np--border-color);
 	--np--app--search--background-color: var(--np--background-color--day);
 
+	/* badge component tokens */
+	--np--badge--background-color: var(--np--background-color--sunken);
+	--np--badge--background-color--success: var(--np--background-color--success);
+	--np--badge--background-color--warning: var(--np--background-color--warning);
+	--np--badge--background-color--error: var(--np--background-color--error);
+	--np--badge--color: var(--np--color--light);
+	--np--badge--color--success: var(--np--color--success);
+	--np--badge--color--warning: var(--np--color--warning);
+	--np--badge--color--error: var(--np--color--error);
+	--np--badge--dot--color: var(--np--color--lighter);
+	--np--badge--dot--color--success: var(--np--color--success);
+	--np--badge--dot--color--warning: var(--np--color--warning);
+	--np--badge--dot--color--error: var(--np--color--error);
+	--np--badge--dot--size: 0.5em;
+	--np--badge--border-radius: var(--np--border-radius--small);
+	--np--badge--padding-inline: var(--np--gap--small);
+	--np--badge--padding-block: var(--np--gap--smaller);
+	--np--badge--gap: var(--np--gap--smaller);
+	--np--badge--font-size: var(--np--font-size--small);
+	--np--badge--font-weight: var(--np--font-weight--medium);
+	--np--badge--line-height: var(--np--line-height--condensed);
+
 	/* button component tokens */
 	--np--button--size--smaller: var(--np--size--smaller);
 	--np--button--size--small: var(--np--size--small);
@@ -574,6 +596,17 @@
 	--np--contents--item--padding-inline: var(--np--gap--small);
 	--np--contents--indent: var(--np--gap);
 	--np--contents--top: var(--np--gap--large);
+
+	/* datatable component tokens */
+	--np--datatable--toolbar--gap: var(--np--gap--small);
+	--np--datatable--toolbar--background-color: var(--np--background-color--link);
+	--np--datatable--toolbar--padding-block: var(--np--gap--small);
+	--np--datatable--toolbar--padding-inline: var(--np--gap);
+	--np--datatable--toolbar--font-size: var(--np--font-size);
+	--np--datatable--touch-target: 24px;
+	--np--datatable--focus-ring--width: var(--np--focus-ring--width);
+	--np--datatable--focus-ring--color: var(--np--focus-ring--color);
+	--np--datatable--menu--padding: var(--np--gap--smaller);
 
 	/* dialog component tokens */
 	--np--dialog--background-color: var(--np--background-color--raised);
@@ -877,6 +910,40 @@
 	--np--select--chevron--size--large: var(--np--font-size--large);
 	--np--select--chevron--size--larger: var(--np--font-size--larger);
 
+	/* table component tokens */
+	--np--table--background-color: var(--np--background-color);
+	--np--table--background-color--header: var(--np--background-color--raised);
+	--np--table--background-color--child: var(--np--background-color--raised);
+	--np--table--background-color--hover: var(--np--background-color--sunken);
+	--np--table--background-color--selected: var(--np--background-color--link);
+	--np--table--border-color: var(--np--border-color);
+	--np--table--border-width: var(--np--border-width--small);
+	--np--table--border-radius: var(--np--border-radius);
+	--np--table--color: var(--np--color);
+	--np--table--color--header: var(--np--color--light);
+	--np--table--color--empty: var(--np--color--lighter);
+	--np--table--font-size: var(--np--font-size);
+	--np--table--font-size--compact: var(--np--font-size--small);
+	--np--table--font-size--header: var(--np--font-size--small);
+	--np--table--font-weight--header: var(--np--font-weight--semibold);
+	--np--table--cell--padding-inline: var(--np--gap);
+	--np--table--cell--padding-block: var(--np--gap--small);
+	--np--table--cell--padding-block--compact: var(--np--gap--smaller);
+	--np--table--cell--gap: var(--np--gap--small);
+	--np--table--row--height: var(--np--size--small);
+	--np--table--row--height--compact: var(--np--size--smaller);
+	--np--table--column--width--fit: max-content;
+	--np--table--column--width--small: minmax(6em, max-content);
+	--np--table--column--width: minmax(10em, 1fr);
+	--np--table--column--width--large: minmax(16em, 2fr);
+	--np--table--max-height--none: none;
+	--np--table--max-height--small: 20em;
+	--np--table--max-height: 32em;
+	--np--table--max-height--large: 48em;
+	--np--table--z-index--header: var(--np--z-index--low);
+	--np--table--focus-ring--width: var(--np--focus-ring--width);
+	--np--table--focus-ring--color: var(--np--focus-ring--color);
+
 	/* tabs component tokens */
 	--np--tabs--padding--smaller: var(--np--gap--smaller) var(--np--gap--small);
 	--np--tabs--padding--small: var(--np--gap--smaller) var(--np--gap--small);
@@ -1008,6 +1075,18 @@
 	--np--app--header--icon--color--hover--inverse: var(--np--color--inverse);
 	--np--app--header--focus-ring--color--inverse: var(--np--border-color--inverse);
 	--np--app--search--focus-color--inverse: var(--np--border-color--inverse);
+	--np--badge--background-color--inverse: var(--np--background-color--sunken--inverse);
+	--np--badge--background-color--success--inverse: var(--np--background-color--success--inverse);
+	--np--badge--background-color--warning--inverse: var(--np--background-color--warning--inverse);
+	--np--badge--background-color--error--inverse: var(--np--background-color--error--inverse);
+	--np--badge--color--inverse: var(--np--color--light--inverse);
+	--np--badge--color--success--inverse: var(--np--color--success--inverse);
+	--np--badge--color--warning--inverse: var(--np--color--warning--inverse);
+	--np--badge--color--error--inverse: var(--np--color--error--inverse);
+	--np--badge--dot--color--inverse: var(--np--color--lighter--inverse);
+	--np--badge--dot--color--success--inverse: var(--np--color--success--inverse);
+	--np--badge--dot--color--warning--inverse: var(--np--color--warning--inverse);
+	--np--badge--dot--color--error--inverse: var(--np--color--error--inverse);
 	--np--button--background-color--inverse: var(--np--color--inverse);
 	--np--button--background-color--disabled--inverse: var(--np--color--disabled--inverse);
 	--np--button--background-color--error--inverse: var(--np--color--error--inverse);
@@ -1116,6 +1195,8 @@
 	--np--contents--background-color--inverse: var(--np--background-color--inverse);
 	--np--contents--rail--color--inverse: var(--np--border-color--inverse);
 	--np--contents--indicator--color--inverse: var(--np--color--link--inverse);
+	--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--inverse);
+	--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--inverse);
 	--np--dialog--background-color--inverse: var(--np--background-color--raised--inverse);
 	--np--dialog--color--inverse: var(--np--color--inverse);
 	--np--dialog--description--color--inverse: var(--np--color--light--inverse);
@@ -1212,6 +1293,16 @@
 	--np--radio--focus-ring--color--inverse: var(--np--color--link--inverse);
 	--np--scroll--section-links--color--inverse: var(--np--color--light--inverse);
 	--np--scroll--section-links--color--active--inverse: var(--np--color--link--inverse);
+	--np--table--background-color--inverse: var(--np--background-color--inverse);
+	--np--table--background-color--header--inverse: var(--np--background-color--raised--inverse);
+	--np--table--background-color--child--inverse: var(--np--background-color--raised--inverse);
+	--np--table--background-color--hover--inverse: var(--np--background-color--sunken--inverse);
+	--np--table--background-color--selected--inverse: var(--np--background-color--link--inverse);
+	--np--table--border-color--inverse: var(--np--border-color--inverse);
+	--np--table--color--inverse: var(--np--color--inverse);
+	--np--table--color--header--inverse: var(--np--color--light--inverse);
+	--np--table--color--empty--inverse: var(--np--color--lighter--inverse);
+	--np--table--focus-ring--color--inverse: var(--np--focus-ring--color--inverse);
 	--np--tabs--color--inverse: var(--np--color--lighter--inverse);
 	--np--tabs--color--selected--inverse: var(--np--color--inverse);
 	--np--tabs--border-color--inverse: var(--np--border-color--inverse);
@@ -1357,6 +1448,7 @@
 @media (min-width: 641px) {
 	:root {
 		--np--app--panel--label--font-size: var(--np--font-size--smaller);
+		--np--badge--font-size: var(--np--font-size--small);
 		--np--button--icon--size--smaller: var(--np--font-size--smaller);
 		--np--button--icon--size--small: var(--np--font-size--small);
 		--np--button--icon--size: var(--np--font-size);
@@ -1365,6 +1457,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller);
 		--np--code--font-size--small: var(--np--font-size--small);
 		--np--code--font-size: var(--np--font-size);
+		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
@@ -1381,6 +1474,9 @@
 		--np--select--chevron--size: var(--np--font-size);
 		--np--select--chevron--size--large: var(--np--font-size--large);
 		--np--select--chevron--size--larger: var(--np--font-size--larger);
+		--np--table--font-size: var(--np--font-size);
+		--np--table--font-size--compact: var(--np--font-size--small);
+		--np--table--font-size--header: var(--np--font-size--small);
 		--np--tabs--font-size--smaller: var(--np--font-size--smaller);
 		--np--tabs--font-size--small: var(--np--font-size--small);
 		--np--tabs--font-size: var(--np--font-size);
@@ -1393,6 +1489,7 @@
 @media (min-width: 1280px) {
 	:root {
 		--np--app--panel--label--font-size: var(--np--font-size--smaller);
+		--np--badge--font-size: var(--np--font-size--small);
 		--np--button--icon--size--smaller: var(--np--font-size--smaller);
 		--np--button--icon--size--small: var(--np--font-size--small);
 		--np--button--icon--size: var(--np--font-size);
@@ -1401,6 +1498,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller);
 		--np--code--font-size--small: var(--np--font-size--small);
 		--np--code--font-size: var(--np--font-size);
+		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
@@ -1417,6 +1515,9 @@
 		--np--select--chevron--size: var(--np--font-size);
 		--np--select--chevron--size--large: var(--np--font-size--large);
 		--np--select--chevron--size--larger: var(--np--font-size--larger);
+		--np--table--font-size: var(--np--font-size);
+		--np--table--font-size--compact: var(--np--font-size--small);
+		--np--table--font-size--header: var(--np--font-size--small);
 		--np--tabs--font-size--smaller: var(--np--font-size--smaller);
 		--np--tabs--font-size--small: var(--np--font-size--small);
 		--np--tabs--font-size: var(--np--font-size);
@@ -1429,6 +1530,7 @@
 @media (min-width: 1720px) {
 	:root {
 		--np--app--panel--label--font-size: var(--np--font-size--smaller);
+		--np--badge--font-size: var(--np--font-size--small);
 		--np--button--icon--size--smaller: var(--np--font-size--smaller);
 		--np--button--icon--size--small: var(--np--font-size--small);
 		--np--button--icon--size: var(--np--font-size);
@@ -1437,6 +1539,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller);
 		--np--code--font-size--small: var(--np--font-size--small);
 		--np--code--font-size: var(--np--font-size);
+		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
@@ -1453,6 +1556,9 @@
 		--np--select--chevron--size: var(--np--font-size);
 		--np--select--chevron--size--large: var(--np--font-size--large);
 		--np--select--chevron--size--larger: var(--np--font-size--larger);
+		--np--table--font-size: var(--np--font-size);
+		--np--table--font-size--compact: var(--np--font-size--small);
+		--np--table--font-size--header: var(--np--font-size--small);
 		--np--tabs--font-size--smaller: var(--np--font-size--smaller);
 		--np--tabs--font-size--small: var(--np--font-size--small);
 		--np--tabs--font-size: var(--np--font-size);
@@ -1537,6 +1643,18 @@
 		--np--app--header--icon--color--hover--inverse: var(--np--color--night--inverse);
 		--np--app--header--focus-ring--color--inverse: var(--np--border-color--night--inverse);
 		--np--app--search--focus-color--inverse: var(--np--border-color--night--inverse);
+		--np--badge--background-color--inverse: var(--np--background-color--sunken--night--inverse);
+		--np--badge--background-color--success--inverse: var(--np--background-color--success--night--inverse);
+		--np--badge--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
+		--np--badge--background-color--error--inverse: var(--np--background-color--error--night--inverse);
+		--np--badge--color--inverse: var(--np--color--light--night--inverse);
+		--np--badge--color--success--inverse: var(--np--color--success--night--inverse);
+		--np--badge--color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--badge--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--badge--dot--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--badge--dot--color--success--inverse: var(--np--color--success--night--inverse);
+		--np--badge--dot--color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--badge--dot--color--error--inverse: var(--np--color--error--night--inverse);
 		--np--button--background-color--inverse: var(--np--color--night--inverse);
 		--np--button--background-color--disabled--inverse: var(--np--color--disabled--night--inverse);
 		--np--button--background-color--error--inverse: var(--np--color--error--night--inverse);
@@ -1645,6 +1763,8 @@
 		--np--contents--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--night--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--night--inverse);
+		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--night--inverse);
+		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--dialog--color--inverse: var(--np--color--night--inverse);
 		--np--dialog--description--color--inverse: var(--np--color--light--night--inverse);
@@ -1741,6 +1861,16 @@
 		--np--radio--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--scroll--section-links--color--inverse: var(--np--color--light--night--inverse);
 		--np--scroll--section-links--color--active--inverse: var(--np--color--link--night--inverse);
+		--np--table--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--table--background-color--header--inverse: var(--np--background-color--raised--night--inverse);
+		--np--table--background-color--child--inverse: var(--np--background-color--raised--night--inverse);
+		--np--table--background-color--hover--inverse: var(--np--background-color--sunken--night--inverse);
+		--np--table--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
+		--np--table--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--table--color--inverse: var(--np--color--night--inverse);
+		--np--table--color--header--inverse: var(--np--color--light--night--inverse);
+		--np--table--color--empty--inverse: var(--np--color--lighter--night--inverse);
+		--np--table--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--tabs--color--inverse: var(--np--color--lighter--night--inverse);
 		--np--tabs--color--selected--inverse: var(--np--color--night--inverse);
 		--np--tabs--border-color--inverse: var(--np--border-color--night--inverse);
@@ -1793,6 +1923,18 @@
 		--np--app--header--icon--color--hover: var(--np--color--night);
 		--np--app--header--focus-ring--color: var(--np--border-color--night);
 		--np--app--search--focus-color: var(--np--border-color--night);
+		--np--badge--background-color: var(--np--background-color--sunken--night);
+		--np--badge--background-color--success: var(--np--background-color--success--night);
+		--np--badge--background-color--warning: var(--np--background-color--warning--night);
+		--np--badge--background-color--error: var(--np--background-color--error--night);
+		--np--badge--color: var(--np--color--light--night);
+		--np--badge--color--success: var(--np--color--success--night);
+		--np--badge--color--warning: var(--np--color--warning--night);
+		--np--badge--color--error: var(--np--color--error--night);
+		--np--badge--dot--color: var(--np--color--lighter--night);
+		--np--badge--dot--color--success: var(--np--color--success--night);
+		--np--badge--dot--color--warning: var(--np--color--warning--night);
+		--np--badge--dot--color--error: var(--np--color--error--night);
 		--np--button--background-color: var(--np--color--night);
 		--np--button--background-color--disabled: var(--np--color--disabled--night);
 		--np--button--background-color--error: var(--np--color--error--night);
@@ -1901,6 +2043,8 @@
 		--np--contents--background-color: var(--np--background-color--night);
 		--np--contents--rail--color: var(--np--border-color--night);
 		--np--contents--indicator--color: var(--np--color--link--night);
+		--np--datatable--toolbar--background-color: var(--np--background-color--link--night);
+		--np--datatable--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--dialog--background-color: var(--np--background-color--raised--night);
 		--np--dialog--color: var(--np--color--night);
 		--np--dialog--description--color: var(--np--color--light--night);
@@ -1998,6 +2142,16 @@
 		--np--radio--focus-ring--color: var(--np--color--link--night);
 		--np--scroll--section-links--color: var(--np--color--light--night);
 		--np--scroll--section-links--color--active: var(--np--color--link--night);
+		--np--table--background-color: var(--np--background-color--night);
+		--np--table--background-color--header: var(--np--background-color--raised--night);
+		--np--table--background-color--child: var(--np--background-color--raised--night);
+		--np--table--background-color--hover: var(--np--background-color--sunken--night);
+		--np--table--background-color--selected: var(--np--background-color--link--night);
+		--np--table--border-color: var(--np--border-color--night);
+		--np--table--color: var(--np--color--night);
+		--np--table--color--header: var(--np--color--light--night);
+		--np--table--color--empty: var(--np--color--lighter--night);
+		--np--table--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--tabs--color: var(--np--color--lighter--night);
 		--np--tabs--color--selected: var(--np--color--night);
 		--np--tabs--border-color: var(--np--border-color--night);
@@ -2122,6 +2276,18 @@
 		--np--app--header--icon--color--hover--inverse: var(--np--color--day--inverse);
 		--np--app--header--focus-ring--color--inverse: var(--np--border-color--day--inverse);
 		--np--app--search--focus-color--inverse: var(--np--border-color--day--inverse);
+		--np--badge--background-color--inverse: var(--np--background-color--sunken--day--inverse);
+		--np--badge--background-color--success--inverse: var(--np--background-color--success--day--inverse);
+		--np--badge--background-color--warning--inverse: var(--np--background-color--warning--day--inverse);
+		--np--badge--background-color--error--inverse: var(--np--background-color--error--day--inverse);
+		--np--badge--color--inverse: var(--np--color--light--day--inverse);
+		--np--badge--color--success--inverse: var(--np--color--success--day--inverse);
+		--np--badge--color--warning--inverse: var(--np--color--warning--day--inverse);
+		--np--badge--color--error--inverse: var(--np--color--error--day--inverse);
+		--np--badge--dot--color--inverse: var(--np--color--lighter--day--inverse);
+		--np--badge--dot--color--success--inverse: var(--np--color--success--day--inverse);
+		--np--badge--dot--color--warning--inverse: var(--np--color--warning--day--inverse);
+		--np--badge--dot--color--error--inverse: var(--np--color--error--day--inverse);
 		--np--button--background-color--inverse: var(--np--color--day--inverse);
 		--np--button--background-color--disabled--inverse: var(--np--color--disabled--day--inverse);
 		--np--button--background-color--error--inverse: var(--np--color--error--day--inverse);
@@ -2230,6 +2396,8 @@
 		--np--contents--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--day--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--day--inverse);
+		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--day--inverse);
+		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--day--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--day--inverse);
 		--np--dialog--color--inverse: var(--np--color--day--inverse);
 		--np--dialog--description--color--inverse: var(--np--color--light--day--inverse);
@@ -2326,6 +2494,16 @@
 		--np--radio--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--scroll--section-links--color--inverse: var(--np--color--light--day--inverse);
 		--np--scroll--section-links--color--active--inverse: var(--np--color--link--day--inverse);
+		--np--table--background-color--inverse: var(--np--background-color--day--inverse);
+		--np--table--background-color--header--inverse: var(--np--background-color--raised--day--inverse);
+		--np--table--background-color--child--inverse: var(--np--background-color--raised--day--inverse);
+		--np--table--background-color--hover--inverse: var(--np--background-color--sunken--day--inverse);
+		--np--table--background-color--selected--inverse: var(--np--background-color--link--day--inverse);
+		--np--table--border-color--inverse: var(--np--border-color--day--inverse);
+		--np--table--color--inverse: var(--np--color--day--inverse);
+		--np--table--color--header--inverse: var(--np--color--light--day--inverse);
+		--np--table--color--empty--inverse: var(--np--color--lighter--day--inverse);
+		--np--table--focus-ring--color--inverse: var(--np--focus-ring--color--day--inverse);
 		--np--tabs--color--inverse: var(--np--color--lighter--day--inverse);
 		--np--tabs--color--selected--inverse: var(--np--color--day--inverse);
 		--np--tabs--border-color--inverse: var(--np--border-color--day--inverse);
@@ -2378,6 +2556,18 @@
 		--np--app--header--icon--color--hover: var(--np--color--day);
 		--np--app--header--focus-ring--color: var(--np--border-color--day);
 		--np--app--search--focus-color: var(--np--border-color--day);
+		--np--badge--background-color: var(--np--background-color--sunken--day);
+		--np--badge--background-color--success: var(--np--background-color--success--day);
+		--np--badge--background-color--warning: var(--np--background-color--warning--day);
+		--np--badge--background-color--error: var(--np--background-color--error--day);
+		--np--badge--color: var(--np--color--light--day);
+		--np--badge--color--success: var(--np--color--success--day);
+		--np--badge--color--warning: var(--np--color--warning--day);
+		--np--badge--color--error: var(--np--color--error--day);
+		--np--badge--dot--color: var(--np--color--lighter--day);
+		--np--badge--dot--color--success: var(--np--color--success--day);
+		--np--badge--dot--color--warning: var(--np--color--warning--day);
+		--np--badge--dot--color--error: var(--np--color--error--day);
 		--np--button--background-color: var(--np--color--day);
 		--np--button--background-color--disabled: var(--np--color--disabled--day);
 		--np--button--background-color--error: var(--np--color--error--day);
@@ -2486,6 +2676,8 @@
 		--np--contents--background-color: var(--np--background-color--day);
 		--np--contents--rail--color: var(--np--border-color--day);
 		--np--contents--indicator--color: var(--np--color--link--day);
+		--np--datatable--toolbar--background-color: var(--np--background-color--link--day);
+		--np--datatable--focus-ring--color: var(--np--focus-ring--color--day);
 		--np--dialog--background-color: var(--np--background-color--raised--day);
 		--np--dialog--color: var(--np--color--day);
 		--np--dialog--description--color: var(--np--color--light--day);
@@ -2583,6 +2775,16 @@
 		--np--radio--focus-ring--color: var(--np--color--link--day);
 		--np--scroll--section-links--color: var(--np--color--light--day);
 		--np--scroll--section-links--color--active: var(--np--color--link--day);
+		--np--table--background-color: var(--np--background-color--day);
+		--np--table--background-color--header: var(--np--background-color--raised--day);
+		--np--table--background-color--child: var(--np--background-color--raised--day);
+		--np--table--background-color--hover: var(--np--background-color--sunken--day);
+		--np--table--background-color--selected: var(--np--background-color--link--day);
+		--np--table--border-color: var(--np--border-color--day);
+		--np--table--color: var(--np--color--day);
+		--np--table--color--header: var(--np--color--light--day);
+		--np--table--color--empty: var(--np--color--lighter--day);
+		--np--table--focus-ring--color: var(--np--focus-ring--color--day);
 		--np--tabs--color: var(--np--color--lighter--day);
 		--np--tabs--color--selected: var(--np--color--day);
 		--np--tabs--border-color: var(--np--border-color--day);
@@ -2707,6 +2909,18 @@
 		--np--app--header--icon--color--hover--inverse: var(--np--color--night--inverse);
 		--np--app--header--focus-ring--color--inverse: var(--np--border-color--night--inverse);
 		--np--app--search--focus-color--inverse: var(--np--border-color--night--inverse);
+		--np--badge--background-color--inverse: var(--np--background-color--sunken--night--inverse);
+		--np--badge--background-color--success--inverse: var(--np--background-color--success--night--inverse);
+		--np--badge--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
+		--np--badge--background-color--error--inverse: var(--np--background-color--error--night--inverse);
+		--np--badge--color--inverse: var(--np--color--light--night--inverse);
+		--np--badge--color--success--inverse: var(--np--color--success--night--inverse);
+		--np--badge--color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--badge--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--badge--dot--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--badge--dot--color--success--inverse: var(--np--color--success--night--inverse);
+		--np--badge--dot--color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--badge--dot--color--error--inverse: var(--np--color--error--night--inverse);
 		--np--button--background-color--inverse: var(--np--color--night--inverse);
 		--np--button--background-color--disabled--inverse: var(--np--color--disabled--night--inverse);
 		--np--button--background-color--error--inverse: var(--np--color--error--night--inverse);
@@ -2815,6 +3029,8 @@
 		--np--contents--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--contents--rail--color--inverse: var(--np--border-color--night--inverse);
 		--np--contents--indicator--color--inverse: var(--np--color--link--night--inverse);
+		--np--datatable--toolbar--background-color--inverse: var(--np--background-color--link--night--inverse);
+		--np--datatable--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
 		--np--dialog--color--inverse: var(--np--color--night--inverse);
 		--np--dialog--description--color--inverse: var(--np--color--light--night--inverse);
@@ -2911,6 +3127,16 @@
 		--np--radio--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--scroll--section-links--color--inverse: var(--np--color--light--night--inverse);
 		--np--scroll--section-links--color--active--inverse: var(--np--color--link--night--inverse);
+		--np--table--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--table--background-color--header--inverse: var(--np--background-color--raised--night--inverse);
+		--np--table--background-color--child--inverse: var(--np--background-color--raised--night--inverse);
+		--np--table--background-color--hover--inverse: var(--np--background-color--sunken--night--inverse);
+		--np--table--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
+		--np--table--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--table--color--inverse: var(--np--color--night--inverse);
+		--np--table--color--header--inverse: var(--np--color--light--night--inverse);
+		--np--table--color--empty--inverse: var(--np--color--lighter--night--inverse);
+		--np--table--focus-ring--color--inverse: var(--np--focus-ring--color--night--inverse);
 		--np--tabs--color--inverse: var(--np--color--lighter--night--inverse);
 		--np--tabs--color--selected--inverse: var(--np--color--night--inverse);
 		--np--tabs--border-color--inverse: var(--np--border-color--night--inverse);
@@ -2963,6 +3189,18 @@
 		--np--app--header--icon--color--hover: var(--np--color--night);
 		--np--app--header--focus-ring--color: var(--np--border-color--night);
 		--np--app--search--focus-color: var(--np--border-color--night);
+		--np--badge--background-color: var(--np--background-color--sunken--night);
+		--np--badge--background-color--success: var(--np--background-color--success--night);
+		--np--badge--background-color--warning: var(--np--background-color--warning--night);
+		--np--badge--background-color--error: var(--np--background-color--error--night);
+		--np--badge--color: var(--np--color--light--night);
+		--np--badge--color--success: var(--np--color--success--night);
+		--np--badge--color--warning: var(--np--color--warning--night);
+		--np--badge--color--error: var(--np--color--error--night);
+		--np--badge--dot--color: var(--np--color--lighter--night);
+		--np--badge--dot--color--success: var(--np--color--success--night);
+		--np--badge--dot--color--warning: var(--np--color--warning--night);
+		--np--badge--dot--color--error: var(--np--color--error--night);
 		--np--button--background-color: var(--np--color--night);
 		--np--button--background-color--disabled: var(--np--color--disabled--night);
 		--np--button--background-color--error: var(--np--color--error--night);
@@ -3071,6 +3309,8 @@
 		--np--contents--background-color: var(--np--background-color--night);
 		--np--contents--rail--color: var(--np--border-color--night);
 		--np--contents--indicator--color: var(--np--color--link--night);
+		--np--datatable--toolbar--background-color: var(--np--background-color--link--night);
+		--np--datatable--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--dialog--background-color: var(--np--background-color--raised--night);
 		--np--dialog--color: var(--np--color--night);
 		--np--dialog--description--color: var(--np--color--light--night);
@@ -3168,6 +3408,16 @@
 		--np--radio--focus-ring--color: var(--np--color--link--night);
 		--np--scroll--section-links--color: var(--np--color--light--night);
 		--np--scroll--section-links--color--active: var(--np--color--link--night);
+		--np--table--background-color: var(--np--background-color--night);
+		--np--table--background-color--header: var(--np--background-color--raised--night);
+		--np--table--background-color--child: var(--np--background-color--raised--night);
+		--np--table--background-color--hover: var(--np--background-color--sunken--night);
+		--np--table--background-color--selected: var(--np--background-color--link--night);
+		--np--table--border-color: var(--np--border-color--night);
+		--np--table--color: var(--np--color--night);
+		--np--table--color--header: var(--np--color--light--night);
+		--np--table--color--empty: var(--np--color--lighter--night);
+		--np--table--focus-ring--color: var(--np--focus-ring--color--night);
 		--np--tabs--color: var(--np--color--lighter--night);
 		--np--tabs--color--selected: var(--np--color--night);
 		--np--tabs--border-color: var(--np--border-color--night);

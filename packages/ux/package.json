@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@niceprototypes/app": "workspace:^",
+    "@niceprototypes/badge": "workspace:^",
     "@niceprototypes/button": "workspace:^",
     "@niceprototypes/calendar": "workspace:^",
     "@niceprototypes/card": "workspace:^",
@@ -33,6 +34,7 @@
     "@niceprototypes/checkbox": "workspace:^",
     "@niceprototypes/code": "workspace:^",
     "@niceprototypes/contents": "workspace:^",
+    "@niceprototypes/datatable": "workspace:^",
     "@niceprototypes/dialog": "workspace:^",
     "@niceprototypes/field": "workspace:^",
     "@niceprototypes/flex": "workspace:^",
@@ -56,6 +58,7 @@
     "@niceprototypes/scroll": "workspace:^",
     "@niceprototypes/select": "workspace:^",
     "@niceprototypes/slider": "workspace:^",
+    "@niceprototypes/table": "workspace:^",
     "@niceprototypes/tabs": "workspace:^",
     "@niceprototypes/tile": "workspace:^",
     "@niceprototypes/toggle": "workspace:^",

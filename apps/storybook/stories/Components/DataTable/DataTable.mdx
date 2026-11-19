@@ -1,0 +1,86 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+<Meta title="Patterns/DataTable" />
+
+<ComponentDocs component="DataTable">
+
+<StoryHeader
+  title="DataTable"
+  description="DataTable: a data table whose rows nest under their parents, joined by TreeGuide lines, with sorting, selection with bulk actions, and row action menus."
+  packageName="@niceprototypes/datatable"
+/>
+
+<Install package="datatable" />
+
+Built from Nice UI: **Table** (the grid, rows and cells), **TreeGuide** and `getTreeRows` (the nesting
+lines and the flattening), **Checkbox** (selection), **Button**, **Popover** and **Icon** (the expander and
+the action menus), **Ink** (the selection count and loading text).
+
+```jsx
+import DataTable from "@niceprototypes/datatable"
+
+<DataTable
+  aria-label="Ports"
+  columns={[
+    { id: "name", header: "Project", rowHeader: true, cell: row => row.name, sortValue: row => row.name },
+    { id: "port", header: "Port", width: "small", align: "end", cell: row => row.port, sortValue: row => row.port },
+  ]}
+  rows={projects}
+  getRowId={row => row.id}
+  getRowLabel={row => row.name}
+  getRowChildren={row => row.items}
+/>
+```
+
+## Nested rows
+
+`getRowChildren` returns a row's children; they share the parent's columns. A row with children shows
+a caret expander in the tree column (the `rowHeader` column, else the first); its children open under it,
+compact (one size down in padding and text, the `table.*:compact` tokens), on the nested-row background, and
+hang from the TreeGuide lines. A cell may return `null` where its value belongs to the parent: it renders as an
+empty gridcell. Expansion is uncontrolled (`defaultExpandedIds`, `"all"` opens every row) or controlled
+(`expandedIds` with `onExpandedChange`). A cell renderer can open its own row with `context.toggle()`.
+
+## Selection and bulk actions
+
+`selectable` adds a checkbox column and a select-all checkbox in its header. Selecting a parent selects all
+its descendants; a parent is checked when all of them are, indeterminate when some are. While any row is
+selected, a bar above the grid shows the count of selected rows without children and, with `bulkActions`, an
+Actions menu built from the selected rows. Selection is uncontrolled (`defaultSelectedIds`) or controlled
+(`selectedIds` with `onSelectedChange`). A selection change re-renders only the rows whose state changed.
+
+## Row actions
+
+`rowActions(row)` returns the row's actions; they open from the menu-icon button at the end of the row (no
+inline buttons). Each action has an `id`, a `label`, `onSelect` and optionally `disabled`. An empty list leaves
+the cell empty.
+
+## Sorting
+
+A column with `sortValue` is sortable: its header becomes a button that cycles ascending, descending and
+unsorted, and the sorted header carries `aria-sort`. Rows sort within each set of siblings, so children stay
+under their parent. Sorting is uncontrolled (`defaultSort`) or controlled (`sort` with `onSortChange`).
+
+## Accessibility
+
+The grid follows the WAI-ARIA APG treegrid pattern: `role="treegrid"` with `aria-rowcount`, and on each row
+`aria-rowindex`, `aria-level`, `aria-posinset`, `aria-setsize`, `aria-expanded` (rows with children) and
+`aria-selected` (when selectable). One element is in the tab order at a time (roving tabindex).
+
+| Key | Row focused | Cell focused |
+|---|---|---|
+| Down / Up | next / previous row | same column, next / previous row (header included) |
+| Right | opens a closed row, else moves into its first cell | next cell |
+| Left | closes an open row, else moves to its parent | previous cell; from the first cell, the row |
+| Home / End | first / last row | first / last cell; with Ctrl, first / last row |
+| Enter | opens or closes the row | the widget's own action |
+| Space | selects the row | the widget's own action |
+
+The action menus follow the menu button pattern: `aria-haspopup="menu"`, focus on the first item when open,
+Up / Down / Home / End between items, Escape or Tab to close with focus back on the button. On coarse pointers
+the checkbox, expander and sort hit areas grow to the `datatable.touchTarget` token.
+
+</ComponentDocs>

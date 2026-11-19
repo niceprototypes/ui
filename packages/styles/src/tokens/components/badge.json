@@ -1,0 +1,49 @@
+{
+  "backgroundColor": {
+    "base": "var(--np--background-color--sunken)",
+    "success": "var(--np--background-color--success)",
+    "warning": "var(--np--background-color--warning)",
+    "error": "var(--np--background-color--error)"
+  },
+  "color": {
+    "base": "var(--np--color--light)",
+    "success": "var(--np--color--success)",
+    "warning": "var(--np--color--warning)",
+    "error": "var(--np--color--error)"
+  },
+  "dot": {
+    "color": {
+      "base": "var(--np--color--lighter)",
+      "success": "var(--np--color--success)",
+      "warning": "var(--np--color--warning)",
+      "error": "var(--np--color--error)"
+    },
+    "size": {
+      "base": "0.5em"
+    }
+  },
+  "borderRadius": {
+    "base": "var(--np--border-radius--small)"
+  },
+  "paddingInline": {
+    "base": "var(--np--gap--small)"
+  },
+  "paddingBlock": {
+    "base": "var(--np--gap--smaller)"
+  },
+  "gap": {
+    "base": "var(--np--gap--smaller)"
+  },
+  "fontSize": {
+    "base": "var(--np--font-size--small)"
+  },
+  "fontWeight": {
+    "base": "var(--np--font-weight--medium)"
+  },
+  "lineHeight": {
+    "base": "var(--np--line-height--condensed)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}
