@@ -2,6 +2,7 @@
 // (src/dataTables/data/tables/componentDemoTable). ComponentDocs renders each entry as a section of the
 // Code docs page, sorted by name.
 import Code from "@niceprototypes/code"
+import Button from "@niceprototypes/button"
 import type { ComponentExample } from "./examples.types"
 
 export type { ComponentExample, ExampleVariant } from "./examples.types"
@@ -120,7 +121,7 @@ export const codeMargin = {
   name: "margin",
   description: "Top and bottom margin, as a gap token variant.",
   variants: ["none", "smaller", "small", "base", "large", "larger"],
-  default: "large",
+  default: "none",
   preview: variant => (
     <Code
       code={source}
@@ -129,7 +130,7 @@ export const codeMargin = {
     />
   ),
   code: variant =>
-    variant === "large" ? `<Code code={source} language="tsx" />` : `<Code code={source} language="tsx" margin="${variant}" />`,
+    variant === "none" ? `<Code code={source} language="tsx" />` : `<Code code={source} language="tsx" margin="${variant}" />`,
 } satisfies ComponentExample
 
 /** Enough lines to pass the collapsed height. */
@@ -152,6 +153,50 @@ export const codeMaxHeight = {
     variant === "base" ? `<Code code={source} language="tsx" />` : `<Code code={source} language="tsx" maxHeight="none" />`,
 } satisfies ComponentExample
 
+export const codeChildren = {
+  name: "children",
+  description: "A live demo, rendered above the code behind one divider; clicks inside it do not copy.",
+  variants: ["none", "live demo"],
+  default: "none",
+  preview: variant =>
+    variant === "live demo" ? (
+      <Code code={`<Button filled>Save</Button>`} language="tsx">
+        <Button filled>Save</Button>
+      </Code>
+    ) : (
+      <Code code={`<Button filled>Save</Button>`} language="tsx" />
+    ),
+  code: variant =>
+    variant === "live demo"
+      ? `<Code code={\`<Button filled>Save</Button>\`} language="tsx">\n  <Button filled>Save</Button>\n</Code>`
+      : `<Code code={\`<Button filled>Save</Button>\`} language="tsx" />`,
+} satisfies ComponentExample
+
+/** The drag bar under a collapsed block, per variant. */
+export const codeHandle = {
+  name: "expand handle",
+  description:
+    "Code taller than maxHeight is cut off with a fade above a drag bar. A click on the bar shows the full code; dragging it sets any height between the cap and the full code; with the bar focused, the arrow keys move it a line at a time and Home and End jump to the cap and the full code. Code shorter than the cap has no bar.",
+  variants: ["collapsed", "collapsed, with a live demo", "short code: no bar"],
+  default: "collapsed",
+  preview: variant =>
+    variant === "short code: no bar" ? (
+      <Code code={source} language="tsx" />
+    ) : variant === "collapsed" ? (
+      <Code code={longSource} language="tsx" />
+    ) : (
+      <Code code={longSource} language="tsx">
+        <Button filled>Save</Button>
+      </Code>
+    ),
+  code: variant =>
+    variant === "short code: no bar"
+      ? `<Code code={source} language="tsx" />`
+      : variant === "collapsed"
+        ? `<Code code={longSource} language="tsx" />`
+        : `<Code code={longSource} language="tsx">\n  <Button filled>Save</Button>\n</Code>`,
+} satisfies ComponentExample
+
 /** Every new Code example facet — each one a section of the Code docs page. */
 export const codeExamples = {
   code: codeCode,
@@ -162,5 +207,7 @@ export const codeExamples = {
   fit: codeFit,
   margin: codeMargin,
   maxHeight: codeMaxHeight,
+  children: codeChildren,
+  handle: codeHandle,
 } satisfies Record<string, ComponentExample>
 

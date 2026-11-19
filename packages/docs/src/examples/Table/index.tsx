@@ -1,90 +1,79 @@
 // Table example configs: one ComponentExample per facet. ComponentDocs renders each entry as a
-// section of the Table docs page, sorted by name.
-import { Table, TableCell, TableHeader, TableRow, type TableColumnWidthType, type TableRowDensityType } from "@niceprototypes/table"
+// section of the Table docs page, sorted by name. TableHeader, TableRow and TableCell facets are in
+// their own folders, rendered in their sections of this page.
+import Ink from "@niceprototypes/ink"
+import type { TableColumnWidthType, TableMaxHeightType } from "@niceprototypes/table"
+import { Flat, flatCode, PORTS, Tree, treeCode } from "./samples"
 import type { ComponentExample } from "../../dataTables/components/demos/Components"
 
-/** A group row with two nested rows, then a flat row. */
-const Sample = ({
-  widths = ["base", "small"],
-  density = "compact",
-  guide = true,
-}: {
-  widths?: TableColumnWidthType[]
-  density?: TableRowDensityType
-  guide?: boolean
-}) => (
-  <Table aria-label="Ports" role="treegrid" columnWidths={widths}>
-    <TableHeader>
-      <TableCell role="columnheader">Project</TableCell>
-      <TableCell role="columnheader" align="end">
-        Port
-      </TableCell>
-    </TableHeader>
-    <TableRow aria-rowindex={2} aria-level={1} aria-posinset={1} aria-setsize={2} aria-expanded divider>
-      <TableCell role="rowheader">animation-studio</TableCell>
-      <TableCell align="end">4012–4013</TableCell>
-    </TableRow>
-    {(["4012", "4013"] as const).map((port, index) => (
-      <TableRow key={port} aria-rowindex={index + 3} aria-level={2} aria-posinset={index + 1} aria-setsize={2} density={density}>
-        <TableCell role="rowheader" guide={guide ? { depth: 1, last: index === 1, continues: [] } : undefined}>
-          {index === 0 ? "owner instance" : "store registry"}
-        </TableCell>
-        <TableCell align="end">{port}</TableCell>
-      </TableRow>
-    ))}
-    <TableRow aria-rowindex={5} aria-level={1} aria-posinset={2} aria-setsize={2} divider>
-      <TableCell role="rowheader">docs</TableCell>
-      <TableCell align="end">4020</TableCell>
-    </TableRow>
-  </Table>
-)
+export const tableRole = {
+  name: "role",
+  description:
+    "grid (default) for flat rows; treegrid for nested rows, each TableRow carrying aria-level, aria-posinset and aria-setsize. Table draws; the keyboard model is the consumer's (DataTable supplies one).",
+  variants: ["grid", "treegrid"],
+  default: "grid",
+  preview: (variant: string) => (variant === "grid" ? <Flat /> : <Tree />),
+  code: (variant: string) => (variant === "grid" ? flatCode(` columnWidths={["small", "base", "base"]}`) : treeCode()),
+} satisfies ComponentExample
 
-const SAMPLE_CODE = (widths: string, density: string, guide: boolean) => `<Table aria-label="Ports" role="treegrid" columnWidths={${widths}}>
-  <TableHeader>
-    <TableCell role="columnheader">Project</TableCell>
-    <TableCell role="columnheader" align="end">Port</TableCell>
-  </TableHeader>
-  <TableRow aria-rowindex={2} aria-level={1} aria-posinset={1} aria-setsize={2} aria-expanded divider>
-    <TableCell role="rowheader">animation-studio</TableCell>
-    <TableCell align="end">4012–4013</TableCell>
-  </TableRow>
-  <TableRow aria-rowindex={3} aria-level={2} aria-posinset={1} aria-setsize={2} density="${density}">
-    <TableCell role="rowheader"${guide ? ` guide={{ depth: 1, last: false, continues: [] }}` : ""}>owner instance</TableCell>
-    <TableCell align="end">4012</TableCell>
-  </TableRow>
-  …
-</Table>`
+/** columnWidths per variant. */
+const WIDTHS: Record<string, TableColumnWidthType[]> = {
+  "small base base": ["small", "base", "base"],
+  "fit base large": ["fit", "base", "large"],
+  "small large base": ["small", "large", "base"],
+  "fit fit fit": ["fit", "fit", "fit"],
+}
 
 export const tableColumnWidths = {
   name: "columnWidths",
-  description: "One width per column from the table.column.width tokens; every row is a subgrid of this template.",
-  variants: ["base small", "large fit"],
-  default: "base small",
-  preview: (variant: string) => <Sample widths={variant.split(" ") as TableColumnWidthType[]} />,
-  code: (variant: string) => SAMPLE_CODE(JSON.stringify(variant.split(" ")), "compact", true),
+  description:
+    "One width per column from the table.column.width tokens: fit hugs its content, small holds a short value, base shares the spare space, large takes twice base's share. Every row is a subgrid of this template.",
+  variants: Object.keys(WIDTHS),
+  default: "small base base",
+  preview: (variant: string) => <Flat widths={WIDTHS[variant]} />,
+  code: (variant: string) => flatCode(` columnWidths={${JSON.stringify(WIDTHS[variant]).replace(/,/g, ", ")}}`),
 } satisfies ComponentExample
 
-export const tableDensity = {
-  name: "density",
-  description: "TableRow density: compact steps nested rows down one size in padding and text.",
-  variants: ["base", "compact"],
-  default: "compact",
-  preview: (variant: TableRowDensityType) => <Sample density={variant} />,
-  code: (variant: string) => SAMPLE_CODE(`["base", "small"]`, variant, true),
+const MAX_HEIGHTS = ["none", "small", "base", "large"] as const satisfies readonly TableMaxHeightType[]
+
+export const tableMaxHeight = {
+  name: "maxHeight",
+  description: "The table's maximum height from the table.maxHeight tokens; past it the body scrolls under the sticky header. none (default) grows with the rows.",
+  variants: MAX_HEIGHTS,
+  default: "none",
+  preview: (variant: TableMaxHeightType) => <Flat maxHeight={variant} count={PORTS.length} />,
+  code: (variant: string) =>
+    flatCode(` columnWidths={["small", "base", "base"]}${variant === "none" ? "" : ` maxHeight="${variant}"`}`, PORTS.length),
 } satisfies ComponentExample
 
-export const tableGuide = {
-  name: "guide",
-  description: "TableCell guide: the row's TreeGuide data (from getTreeRows); the cell draws the slice over the row's height.",
-  variants: ["with guide", "without"],
-  default: "with guide",
-  preview: (variant: string) => <Sample guide={variant === "with guide"} />,
-  code: (variant: string) => SAMPLE_CODE(`["base", "small"]`, "compact", variant === "with guide"),
+export const tableToolbar = {
+  name: "toolbar",
+  description: "Content above the grid, inside the card, that does not scroll with the rows: a selection bar or a summary.",
+  variants: ["none", "summary", "with maxHeight"],
+  default: "none",
+  preview: (variant: string) =>
+    variant === "none" ? (
+      <Flat />
+    ) : (
+      <Flat
+        toolbar={<Ink size="small">{`${variant === "summary" ? 4 : PORTS.length} ports reserved`}</Ink>}
+        maxHeight={variant === "with maxHeight" ? "small" : undefined}
+        count={variant === "with maxHeight" ? PORTS.length : 4}
+      />
+    ),
+  code: (variant: string) =>
+    variant === "none"
+      ? flatCode(` columnWidths={["small", "base", "base"]}`)
+      : flatCode(
+          ` columnWidths={["small", "base", "base"]}${variant === "with maxHeight" ? ` maxHeight="small"` : ""} toolbar={<Ink size="small">${variant === "summary" ? 4 : PORTS.length} ports reserved</Ink>}`,
+          variant === "with maxHeight" ? PORTS.length : 4,
+        ),
 } satisfies ComponentExample
 
 /** Every Table example facet: each one a section of the Table docs page. */
 export const tableExamples = {
+  role: tableRole,
   columnWidths: tableColumnWidths,
-  density: tableDensity,
-  guide: tableGuide,
+  maxHeight: tableMaxHeight,
+  toolbar: tableToolbar,
 } satisfies Record<string, ComponentExample>
