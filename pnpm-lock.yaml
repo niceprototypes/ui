@@ -1577,6 +1577,9 @@ importers:
       '@niceprototypes/logo':
         specifier: workspace:^
         version: link:../logo
+      '@niceprototypes/metrics':
+        specifier: workspace:^
+        version: link:../metrics
       '@niceprototypes/popover':
         specifier: workspace:^
         version: link:../popover
