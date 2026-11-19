@@ -36,9 +36,12 @@ export const StyledTableScroller = styled(Scroll).attrs({ axis: "both", showScro
   }
 `
 
-/** The grid: one column template (set inline from the width tokens); rows are its subgrids. */
+/**
+ * The grid: one column template (set inline from the width tokens); rows are its subgrids. It fills
+ * the scroller; when the columns' minimum widths do not fit, the tracks overflow and the scroller
+ * scrolls sideways.
+ */
 export const StyledTableGrid = styled.div`
   display: grid;
-  min-width: 100%;
-  width: max-content;
+  width: 100%;
 `

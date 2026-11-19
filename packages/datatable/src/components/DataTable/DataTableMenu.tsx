@@ -9,7 +9,8 @@ import type { DataTableActionType } from "./DataTable.types"
  * Popover with `role="menu"` holding one `menuitem` Button per action. Opening focuses the first
  * enabled item; Up/Down/Home/End move between items; Enter or Space runs one and closes the menu;
  * Escape, Tab or a click outside closes it, and focus returns to the button. With `label`, the
- * button shows it as text; without, the menu icon.
+ * button shows it as text and the menu opens from its start (the selection bar's left); without,
+ * the menu icon, and the menu opens from its end (the row's right).
  */
 const DataTableMenu = ({
   actions,
@@ -90,7 +91,7 @@ const DataTableMenu = ({
         open={open}
         onOpenChange={setOpen}
         anchorRef={anchorRef}
-        align="end"
+        align={label ? "start" : "end"}
         role="menu"
         id={menuId}
         aria-label={ariaLabel}
