@@ -41,6 +41,7 @@
     "@niceprototypes/form": "workspace:^",
     "@niceprototypes/grid": "workspace:^",
     "@niceprototypes/head": "workspace:^",
+    "@niceprototypes/header": "workspace:^",
     "@niceprototypes/icon-vendor": "workspace:^",
     "@niceprototypes/image": "workspace:^",
     "@niceprototypes/image-vendor": "workspace:^",

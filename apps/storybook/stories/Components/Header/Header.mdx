@@ -1,0 +1,46 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import NewLines from "@niceprototypes/docs/components/NewLines"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+import { headerExamples } from "@niceprototypes/docs/examples/Header"
+
+<Meta title="Components/Header" />
+
+<ComponentDocs component="Header" examples={headerExamples}>
+
+<StoryHeader
+  title="Header"
+  description="The outer page-header wrapper: static, sticky or fixed, with its height kept in the flow, a stuck state with its own appearance, hide on scroll and a stop boundary."
+  packageName="@niceprototypes/header"
+/>
+
+<NewLines count={3} />
+
+<Install package="header" />
+
+```jsx
+import Header from "@niceprototypes/header"
+
+<Header position="sticky" hideOnScroll>
+  <Logo />
+</Header>
+```
+
+<NewLines count={3} />
+
+## Guide
+
+Header is a primitive: it owns how the outer wrapper behaves on scroll, and nothing inside it. It is static by default. `position="sticky"` keeps it in the flow and sticks it at `offset` (the `header.offset` token by default) inside its containing block, so it stops at that block's end with no script. `position="fixed"` pins it to the viewport and leaves a placeholder of its measured height in the flow, so nothing jumps or hides under it; ancestors with `overflow` or a short height do not affect it. Inside a `root` scroll container, fixed renders sticky.
+
+**Height.** While sticky or fixed, Header writes its measured height to `--np--header--height` on the root (the page's `html`, or the `root` container), read with `getToken("header.height")`, and sets the root's `scroll-padding-top` to that height plus `offset`, so in-page links and `scrollIntoView` land below it. A header whose stuck appearance is smaller keeps the flow height of its default appearance. Positioned, it pads its top by the `safe-area-inset-top`, and its sides by the side insets in every position, when the page uses `viewport-fit=cover`.
+
+**States.** `data-state` is `static`, `stuck`, `hidden` or `released`, reported through `onStateChange` and forced with `state`. Stuck is detected by an IntersectionObserver on a marker at the point where the header sticks: no scroll listener, and the top rubber-band never reads as stuck. `threshold` moves that point down, so the header first scrolls away and then slides back in. `hideOnScroll` hides it on scroll down and reveals it on scroll up, after `tolerance` pixels in one direction; overscroll is ignored. `stopAt` (a scroll distance, or an element whose bottom edge pushes it out) releases it. These two use one passive scroll listener, batched to one update per frame, attached only when either is set.
+
+**Appearance.** `appearance.default` and `appearance.stuck` set the background, text, border and shadow colours and the font size from core tokens; unset values take the `header.*` tokens. The change between states takes `transitionDuration` and `transitionEasing` (the `header.transitionDuration` and `header.transitionEasing` tokens by default) and stops under `prefers-reduced-motion`. Every prop also takes per-breakpoint values through `breakpoints`, for example `breakpoints={{ "tablet-": { position: "static" } }}`.
+
+## Building on Header
+
+Context-specific headers (a page header with a title, navigation and actions) are built on Header: they render their layout as Header's children and pass the scroll behaviour through, so every one of them sticks, hides, stops and measures the same way. Style their content per state from `data-state` on the `header` element, or from `onStateChange`.
+
+</ComponentDocs>

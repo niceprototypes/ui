@@ -61,6 +61,8 @@
 		--np--code--font-size: var(--np--font-size);
 		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
+		--np--header--font-size: var(--np--font-size);
+		--np--header--font-size--stuck: var(--np--font-size);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
 		--np--icon--size: var(--np--font-size);
@@ -102,6 +104,8 @@
 		--np--code--font-size: var(--np--font-size);
 		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
+		--np--header--font-size: var(--np--font-size);
+		--np--header--font-size--stuck: var(--np--font-size);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
 		--np--icon--size: var(--np--font-size);
@@ -143,6 +147,8 @@
 		--np--code--font-size: var(--np--font-size);
 		--np--datatable--toolbar--font-size: var(--np--font-size);
 		--np--dialog--title--font-size: var(--np--font-size--large);
+		--np--header--font-size: var(--np--font-size);
+		--np--header--font-size--stuck: var(--np--font-size);
 		--np--icon--size--smaller: var(--np--font-size--smaller);
 		--np--icon--size--small: var(--np--font-size--small);
 		--np--icon--size: var(--np--font-size);

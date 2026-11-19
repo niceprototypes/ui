@@ -1,0 +1,53 @@
+{
+  "backgroundColor": {
+    "base": "var(--np--background-color)",
+    "stuck": "var(--np--background-color)"
+  },
+  "color": {
+    "base": "var(--np--color)",
+    "stuck": "var(--np--color)"
+  },
+  "borderColor": {
+    "base": "transparent",
+    "stuck": "var(--np--border-color)",
+    "none": "transparent"
+  },
+  "borderWidth": {
+    "base": "var(--np--border-width)"
+  },
+  "boxShadow": {
+    "base": "none",
+    "stuck": "var(--np--box-shadow--raised)",
+    "none": "none"
+  },
+  "fontSize": {
+    "base": "var(--np--font-size)",
+    "stuck": "var(--np--font-size)"
+  },
+  "offset": {
+    "base": "0px"
+  },
+  "height": {
+    "base": "0px"
+  },
+  "zIndex": {
+    "base": "var(--np--z-index--sticky)"
+  },
+  "transitionDuration": {
+    "base": "var(--np--animation-duration)"
+  },
+  "transitionEasing": {
+    "base": "var(--np--animation-easing)"
+  },
+  "safeArea": {
+    "top": {
+      "base": "env(safe-area-inset-top, 0px)"
+    },
+    "left": {
+      "base": "env(safe-area-inset-left, 0px)"
+    },
+    "right": {
+      "base": "env(safe-area-inset-right, 0px)"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "Header: the outer page-header wrapper. Static, sticky or fixed, with its height kept in the flow and exposed\nas a CSS variable, a stuck state with its own appearance, hide on scroll down and a stop boundary.",
+  "default": "Header",
+  "components": ["Header"]
+}
