@@ -237,6 +237,9 @@ importers:
       '@niceprototypes/markdown':
         specifier: workspace:^
         version: link:../../packages/markdown
+      '@niceprototypes/menu':
+        specifier: workspace:^
+        version: link:../../packages/menu
       '@niceprototypes/metrics':
         specifier: workspace:^
         version: link:../../packages/metrics
@@ -1577,6 +1580,9 @@ importers:
       '@niceprototypes/logo':
         specifier: workspace:^
         version: link:../logo
+      '@niceprototypes/menu':
+        specifier: workspace:^
+        version: link:../menu
       '@niceprototypes/metrics':
         specifier: workspace:^
         version: link:../metrics
@@ -4245,6 +4251,9 @@ importers:
       '@niceprototypes/markdown':
         specifier: workspace:^
         version: link:../markdown
+      '@niceprototypes/menu':
+        specifier: workspace:^
+        version: link:../menu
       '@niceprototypes/metrics':
         specifier: workspace:^
         version: link:../metrics

@@ -1,0 +1,34 @@
+import { Meta, Stories } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import * as MenuButtonStories from "./MenuButton.stories"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+<Meta of={MenuButtonStories} />
+
+<ComponentDocs component="MenuButton">
+
+<StoryHeader
+  title="MenuButton"
+  description="MenuButton: the WAI-ARIA menu button. A Button opens a Menu of items in a Popover; it focuses the first item (the last on ArrowUp), closes on a choice, Escape, Tab or a press outside, and returns focus to the trigger. Icon-only or a select's look."
+/>
+
+<Install package="menu" />
+
+```jsx
+import { MenuButton } from "@niceprototypes/menu"
+
+<MenuButton
+  aria-label="Row actions"
+  align="end"
+  items={[
+    { id: "edit", label: "Edit", icon: "edit", onSelect: edit },
+    { type: "separator", id: "danger" },
+    { id: "delete", label: "Delete", icon: "trash", onSelect: remove },
+  ]}
+/>
+```
+
+<Stories />
+
+</ComponentDocs>

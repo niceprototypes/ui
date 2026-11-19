@@ -28,7 +28,7 @@ const packagesRoot = resolve(__dirname, "../../../packages")
  */
 const SOURCE_PACKAGES = [
   "badge", "button", "calendar", "card", "chat", "checkbox", "code", "contents", "datatable", "dialog", "field", "flex", "form",
-  "grid", "head", "header", "image", "ink", "input", "lightbox", "line", "list", "listbox", "logo", "markdown", "metrics", "popover",
+  "grid", "head", "header", "image", "ink", "input", "lightbox", "line", "list", "listbox", "logo", "markdown", "menu", "metrics", "popover",
   "radio", "scroll", "select", "slider", "table", "tabs", "tile", "toggle", "tooltip", "tree",
 ]
 

@@ -1,0 +1,35 @@
+import { Meta, Stories } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import * as MenuStories from "./Menu.stories"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+export const sections = import.meta.glob("./*.section.mdx", { eager: true })
+
+<Meta of={MenuStories} />
+
+<ComponentDocs component="Menu" sections={sections}>
+
+<StoryHeader
+  title="Menu"
+  description="Menu: a WAI-ARIA menu of commands with MenuItem, MenuGroup and MenuSeparator; roving focus, wrapping arrow keys, Home / End, typeahead, disabled items skipped. Embeddable without a trigger; MenuButton opens one from a button."
+/>
+
+<Install package="menu" />
+
+```jsx
+import { Menu, MenuGroup, MenuItem, MenuSeparator } from "@niceprototypes/menu"
+
+<Menu aria-label="File">
+  <MenuItem icon="plus" onSelect={create}>New</MenuItem>
+  <MenuSeparator />
+  <MenuGroup label="Export">
+    <MenuItem onSelect={exportPng}>PNG</MenuItem>
+    <MenuItem disabled>PDF</MenuItem>
+  </MenuGroup>
+</Menu>
+```
+
+<Stories />
+
+</ComponentDocs>

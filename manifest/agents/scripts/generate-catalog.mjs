@@ -286,6 +286,9 @@ const PARENTS = {
   TableHeader: "Table",
   TableRow: "Table",
   TableCell: "Table",
+  MenuItem: "Menu",
+  MenuGroup: "Menu",
+  MenuSeparator: "Menu",
 }
 
 /** Storybook titles under stories/Components: MDX `<Meta title>` and CSF `title:` + `export const Playground`. */

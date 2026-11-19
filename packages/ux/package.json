@@ -53,6 +53,7 @@
     "@niceprototypes/listbox": "workspace:^",
     "@niceprototypes/logo": "workspace:^",
     "@niceprototypes/markdown": "workspace:^",
+    "@niceprototypes/menu": "workspace:^",
     "@niceprototypes/metrics": "workspace:^",
     "@niceprototypes/popover": "workspace:^",
     "@niceprototypes/radio": "workspace:^",
