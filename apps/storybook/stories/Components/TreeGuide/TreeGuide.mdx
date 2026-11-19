@@ -1,0 +1,44 @@
+import { Meta, Stories } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import * as TreeGuideStories from "./TreeGuide.stories"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+<Meta of={TreeGuideStories} />
+
+<ComponentDocs component="TreeGuide">
+
+<StoryHeader
+  title="TreeGuide"
+  description="TreeGuide: the guide lines of one row of any tree-shaped list (Tree's steps graphic), with getTreeRows to compute each row's guide data from a nested list."
+/>
+
+<Install package="tree" />
+
+```jsx
+import { getTreeRows, TreeGuide } from "@niceprototypes/tree"
+
+const rows = getTreeRows(items, {
+  getId: item => item.id,
+  getChildren: item => item.items,
+  expandedIds,
+  activeId,
+})
+
+rows.map(row => (
+  <Row key={row.id} aria-level={row.depth + 1}>
+    <TreeGuide {...row.guide} />
+    {row.item.name}
+  </Row>
+))
+```
+
+TreeGuide renders the row's indent in flow and draws over the full height of its nearest
+positioned ancestor, so the row (a flex row, a list item or a table cell) needs
+`position: relative`, and consecutive rows must touch for the lines to join. It reads the Tree
+tokens: `tree.guide.color`, `tree.guide.width`, `tree.guide.arm`, `tree.icon.size`,
+`tree.icon.gap` and `tree.activeColor`.
+
+<Stories />
+
+</ComponentDocs>

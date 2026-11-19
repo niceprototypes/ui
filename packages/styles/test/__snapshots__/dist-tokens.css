@@ -995,6 +995,7 @@
 	--np--tree--font-weight--active: var(--np--font-weight--semibold);
 	--np--tree--row--padding-block: var(--np--gap--smaller);
 	--np--tree--icon--size: var(--np--icon--size);
+	--np--tree--icon--gap: 0.5em;
 	--np--tree--guide--color: var(--np--border-color);
 	--np--tree--guide--width: var(--np--border-width);
 	--np--tree--guide--arm: var(--np--gap);

@@ -1,11 +1,13 @@
 {
   "$schema": "../config-exports/src/schema.json",
-  "description": "Tree: a navigation tree of nested links and disclosure folders, joined by guide lines, with the path to the active page highlighted.",
+  "description": "Tree: a navigation tree of nested links and disclosure folders, joined by guide lines, with the path to the active page highlighted. TreeGuide draws those guide lines for one row of any tree-shaped list; getTreeRows flattens a nested list into rows with their guide data.",
   "default": "Tree",
   "components": [
-    "Tree"
+    "Tree",
+    "TreeGuide"
   ],
   "services": [
-    "useTreeSize"
+    "useTreeSize",
+    "getTreeRows"
   ]
 }

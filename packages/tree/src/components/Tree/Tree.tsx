@@ -6,11 +6,14 @@ import {
   StyledTreeList,
   StyledTreeNode,
   StyledTreeRow,
+  StyledTreeRowContent,
   StyledTreeTarget,
 } from "./Tree.styles"
 import type { TreeItemsType, TreeNodeType, TreeProps } from "./Tree.types"
+import { TreeGuide } from "../TreeGuide"
 import { getTreeActivePath } from "../../utilities/getTreeActivePath"
 import { useTreeSize } from "../../services/useTreeSize"
+import { getTreeRows } from "../../services/getTreeRows"
 
 /**
  * Tree
@@ -48,6 +51,20 @@ const Tree: React.FC<TreeProps> = ({
   const idPrefix = React.useId()
   const size = useTreeSize(sizeProp)
   const activePath = React.useMemo(() => getTreeActivePath(items), [items])
+  // Every node's guide, closed folders included (a hidden sub-list keeps its rows), keyed by the
+  // node object so a repeated id cannot take another node's guide.
+  const guides = React.useMemo(
+    () =>
+      new Map(
+        getTreeRows(items, {
+          getId: node => node.id,
+          getChildren: node => node.items,
+          expandedIds: "all",
+          activeId: activePath[activePath.length - 1],
+        }).map(row => [row.item, row.guide]),
+      ),
+    [items, activePath],
+  )
   const [internalExpandedIds, setInternalExpandedIds] = React.useState<readonly string[]>(
     () => defaultExpandedIds ?? activePath.slice(0, -1),
   )
@@ -98,38 +115,30 @@ const Tree: React.FC<TreeProps> = ({
     return <StyledTreeTarget>{content}</StyledTreeTarget>
   }
 
-  const renderList = (level: TreeItemsType, depth: number, id?: string, hidden?: boolean) => {
-    const pathIndex = level.findIndex(node => node.id === activePath[depth])
-    return (
-      <StyledTreeList id={id} hidden={hidden} $nested={depth > 0}>
-        {level.map((node, index) => {
-          const nested = depth > 0
-          const last = index === level.length - 1
-          const onPath = index === pathIndex
-          return (
-            <StyledTreeNode key={node.id} $nested={nested} $last={last} $passed={index < pathIndex}>
-              <StyledTreeRow
-                $nested={nested}
-                $last={last}
-                $onPath={onPath}
-                $receded={activePath.length > 0 && !onPath}
-              >
+  const renderList = (level: TreeItemsType, id?: string, hidden?: boolean) => (
+    <StyledTreeList id={id} hidden={hidden}>
+      {level.map(node => {
+        const guide = guides.get(node)
+        const onPath = guide?.onPath ?? false
+        return (
+          <StyledTreeNode key={node.id}>
+            <StyledTreeRow>
+              {guide ? <TreeGuide {...guide} /> : null}
+              <StyledTreeRowContent $onPath={onPath} $receded={activePath.length > 0 && !onPath}>
                 {renderTarget(node)}
                 {node.children}
-              </StyledTreeRow>
-              {node.items
-                ? renderList(node.items, depth + 1, `${idPrefix}-${node.id}`, !expandedIds.includes(node.id))
-                : null}
-            </StyledTreeNode>
-          )
-        })}
-      </StyledTreeList>
-    )
-  }
+              </StyledTreeRowContent>
+            </StyledTreeRow>
+            {node.items ? renderList(node.items, `${idPrefix}-${node.id}`, !expandedIds.includes(node.id)) : null}
+          </StyledTreeNode>
+        )
+      })}
+    </StyledTreeList>
+  )
 
   return (
     <StyledTree aria-label={ariaLabel} $size={size}>
-      {renderList(items, 0)}
+      {renderList(items)}
     </StyledTree>
   )
 }

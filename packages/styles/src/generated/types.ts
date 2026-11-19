@@ -337,6 +337,7 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.fontWeight": "base" | "active"
   "tree.row.paddingBlock": "base"
   "tree.icon.size": "base"
+  "tree.icon.gap": "base"
   "tree.guide.color": "base"
   "tree.guide.width": "base"
   "tree.guide.arm": "base"

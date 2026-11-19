@@ -84,3 +84,4 @@ TileLayout(tile) contentLeft?:node contentRight?:node padding?:GapType|`${GapTyp
 Toggle(toggle) [components-forms-toggle--playground] checked?:boolean defaultChecked?:boolean onChange?:fn disabled?:boolean size?:SizeType children?:node name?:string theme?:"day"|"night"|(string & {})
 Tooltip(tooltip) [components-tooltip--playground] content:node children:node trigger?:"hover"|"click"="hover" position?:"top"|"bottom"|"left"|"right"="top" anchor?:"trigger"|"cursor"="trigger" delayShow?:number=0 delayHide?:number=0 open?:boolean theme?:"day"|"night"|(string & {})
 Tree(tree) [components-tree--playground] items:ReadonlyArray<TreeNodeType> expandedIds?:ReadonlyArray<string> defaultExpandedIds?:ReadonlyArray<string> onExpandedChange?:fn onSelect?:fn size?:"small"|"base"
+TreeGuide(tree) [components-treeguide--playground] depth:number last:boolean continues?:ReadonlyArray<boolean> onPath?:boolean pathContinues?:ReadonlyArray<boolean>

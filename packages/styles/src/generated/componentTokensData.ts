@@ -1392,6 +1392,9 @@ const componentTokensData: ComponentTokensData = {
     "icon": {
       "size": {
         "base": "var(--np--icon--size)"
+      },
+      "gap": {
+        "base": "0.5em"
       }
     },
     "guide": {
