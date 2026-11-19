@@ -1,0 +1,26 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+import { StoryHeader } from "@niceprototypes/docs/components/Story"
+import Install from "@niceprototypes/docs/components/Install"
+import ComponentDocs from "../../../src/components/ComponentDocs"
+
+<Meta title="Components/Metrics" />
+
+<ComponentDocs component="Metrics">
+
+<StoryHeader
+  title="Metrics"
+  description="Metrics: a value in the mono font with its label below in the base font, centred."
+  packageName="@niceprototypes/metrics"
+/>
+
+<Install package="metrics" />
+
+```jsx
+import Metrics from "@niceprototypes/metrics"
+
+<Metrics value="2.5 GB/s" label="Decode throughput, measured natively" />
+```
+
+The value is a large Ink with `code` (the `ink.fontFamily:code` font); the label is a small Ink in the `ink.fontFamily:base` font.
+
+</ComponentDocs>
