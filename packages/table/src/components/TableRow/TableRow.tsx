@@ -7,12 +7,14 @@ import type { TableRowProps } from "./TableRow.types"
  *
  * One body row of a Table: a subgrid of the table's columns holding one TableCell per column.
  * In a treegrid, pass its `aria-level`, `aria-posinset`, `aria-setsize` and, with children,
- * `aria-expanded`; `density="compact"` steps nested rows down a size; `divider` starts a group.
+ * `aria-expanded`; `density="compact"` steps nested rows down a size; `divider` starts a group; `alignItems`
+ * overrides the Table's vertical alignment for this row.
  */
 const TableRow: React.FC<TableRowProps> = ({
   children,
   density = "base",
   divider = false,
+  alignItems,
   "aria-rowindex": ariaRowIndex,
   "aria-level": ariaLevel,
   "aria-posinset": ariaPosInSet,
@@ -25,6 +27,7 @@ const TableRow: React.FC<TableRowProps> = ({
     role="row"
     data-density={density}
     data-divider={divider ? "" : undefined}
+    data-align-items={alignItems}
     aria-rowindex={ariaRowIndex}
     aria-level={ariaLevel}
     aria-posinset={ariaPosInSet}

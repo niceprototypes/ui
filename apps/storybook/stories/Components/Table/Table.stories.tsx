@@ -3,6 +3,7 @@ import { expect, within } from "storybook/test"
 import { getToken } from "@niceprototypes/styles"
 import { Table, TableCell, TableHeader, TableRow } from "@niceprototypes/table"
 import type {
+  TableAlignItemsType,
   TableCellAlignType,
   TableColumnWidthType,
   TableMaxHeightType,
@@ -15,6 +16,7 @@ const ROLE_OPTIONS = ["grid", "treegrid"] as const satisfies readonly TableRoleT
 const WIDTH_OPTIONS = ["fit", "small", "base", "large"] as const satisfies readonly TableColumnWidthType[]
 const MAX_HEIGHT_OPTIONS = ["none", "small", "base", "large"] as const satisfies readonly TableMaxHeightType[]
 const DENSITY_OPTIONS = ["base", "compact"] as const satisfies readonly TableRowDensityType[]
+const ALIGN_ITEMS_OPTIONS = ["start", "center", "end"] as const satisfies readonly TableAlignItemsType[]
 const ALIGN_OPTIONS = ["start", "end"] as const satisfies readonly TableCellAlignType[]
 
 /**
@@ -28,6 +30,8 @@ type PlaygroundArgs = {
   "aria-label": string
   role: TableRoleType
   maxHeight: TableMaxHeightType
+  alignItems: TableAlignItemsType
+  striped: boolean
   projectWidth: TableColumnWidthType
   portWidth: TableColumnWidthType
   portAlign: TableCellAlignType
@@ -63,6 +67,8 @@ const SampleTable = (args: PlaygroundArgs) => {
       aria-rowcount={5}
       columnWidths={[args.projectWidth, args.portWidth]}
       maxHeight={args.maxHeight}
+      alignItems={args.alignItems}
+      striped={args.striped}
       toolbar={args.toolbar ? <span>{args.toolbar}</span> : undefined}
     >
       <TableHeader>
@@ -115,10 +121,12 @@ export const Playground: Story = {
     "aria-label": "Ports",
     role: "treegrid",
     maxHeight: "none",
+    alignItems: "start",
+    striped: true,
     projectWidth: "base",
     portWidth: "small",
     portAlign: "end",
-    childDensity: "compact",
+    childDensity: "base",
     divider: true,
     selected: false,
     guide: true,
@@ -132,10 +140,12 @@ export const Playground: Story = {
     portWidth: { control: "select", options: WIDTH_OPTIONS, table: { category: "Columns" } },
     portAlign: { control: "select", options: ALIGN_OPTIONS, table: { category: "Columns" } },
     childDensity: { control: "select", options: DENSITY_OPTIONS, table: { category: "Rows" } },
+    striped: { control: "boolean", table: { category: "Rows" } },
     divider: { control: "boolean", table: { category: "Rows" } },
     selected: { control: "boolean", table: { category: "Rows" } },
     guide: { control: "boolean", table: { category: "Rows" } },
     maxHeight: { control: "select", options: MAX_HEIGHT_OPTIONS, table: { category: "Layout" } },
+    alignItems: { control: "select", options: ALIGN_ITEMS_OPTIONS, table: { category: "Layout" } },
   },
   render: args => <SampleTable {...args} />,
   play: async ({ canvasElement, args }) => {
@@ -152,6 +162,7 @@ export const Playground: Story = {
 /** `density="compact"` steps nested rows down one size: shorter, smaller text. */
 export const Density: Story = {
   ...Playground,
+  args: { ...Playground.args, childDensity: "compact" },
   play: async ({ canvasElement }) => {
     const [, parent, child] = within(canvasElement).getAllByRole("row")
     await expect(child.getBoundingClientRect().height).toBeLessThan(parent.getBoundingClientRect().height)
@@ -180,6 +191,41 @@ export const Selected: Story = {
   },
 }
 
+/**
+ * `striped` (default) alternates body rows by visible order, nested rows included, and draws a
+ * row divider above each; `striped={false}` gives every row the same background.
+ */
+export const Striped: Story = {
+  ...Playground,
+  play: async ({ canvasElement }) => {
+    const [, first, second, third] = within(canvasElement).getAllByRole("row")
+    const background = (row: HTMLElement) => getComputedStyle(row).backgroundColor
+    await expect(background(second)).not.toBe(background(first))
+    await expect(background(third)).toBe(background(first))
+    await expect(getComputedStyle(second).boxShadow).toContain("inset")
+  },
+}
+
+/** `striped={false}`: body rows share one background apart from the compact rows' child background. */
+export const Unstriped: Story = {
+  ...Playground,
+  args: { ...Playground.args, striped: false, childDensity: "base" },
+  play: async ({ canvasElement }) => {
+    const [, first, second] = within(canvasElement).getAllByRole("row")
+    await expect(getComputedStyle(second).backgroundColor).toBe(getComputedStyle(first).backgroundColor)
+  },
+}
+
+/** `alignItems` (default "start") sets where cell content sits in its row; "center" centres it. */
+export const AlignItems: Story = {
+  ...Playground,
+  play: async ({ canvasElement }) => {
+    const cell = within(canvasElement).getAllByRole("row")[1].children[0] as HTMLElement
+    await expect(getComputedStyle(cell).alignItems).toBe("flex-start")
+    await expect(getComputedStyle(cell).paddingTop).toBe(getComputedStyle(cell).paddingLeft)
+  },
+}
+
 /** `maxHeight` caps the table; the header row stays at the top while the body scrolls. */
 export const MaxHeight: Story = {
   ...Playground,
@@ -196,7 +242,7 @@ export const Lifecycle: Story = {
   render: args => (
     <LifecycleStory<PlaygroundArgs>
       steps={[
-        { label: "grid", props: { ...args, role: "grid", childDensity: "base", guide: false } },
+        { label: "grid", props: { ...args, role: "grid", guide: false } },
         { label: "compact children", props: { ...args, childDensity: "compact", guide: false } },
         { label: "guide", props: { ...args } },
         { label: "selected", props: { ...args, selected: true } },

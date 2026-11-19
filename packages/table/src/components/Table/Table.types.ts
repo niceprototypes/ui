@@ -44,6 +44,27 @@ export type TableRoleType = "grid" | "treegrid"
 export type TableMaxHeightType = "none" | "small" | "base" | "large"
 
 /**
+ * TableAlignItemsType
+ *
+ * Vertical alignment of every cell's content within its row (Grid's `alignItems` names).
+ *
+ * Values:
+ * - "start": content sits at the top of the row (default)
+ * - "center": content centred in the row
+ * - "end": content at the bottom of the row
+ */
+export type TableAlignItemsType = "start" | "center" | "end"
+
+/**
+ * TableStripedType
+ *
+ * Whether body rows alternate between the base and `table.backgroundColor:stripe` backgrounds,
+ * by visible row order (expanded nested rows included), with a `table.borderColor:row` divider
+ * above every row.
+ */
+export type TableStripedType = boolean
+
+/**
  * TableToolbarType
  *
  * Content above the grid, inside the card (a selection bar); it does not scroll with the rows.
@@ -80,6 +101,12 @@ export interface TableProps {
   /** Maximum height before the body scrolls */
   maxHeight?: TableMaxHeightType
 
+  /** Vertical alignment of cell content in every row (default "start") */
+  alignItems?: TableAlignItemsType
+
+  /** Alternating row backgrounds and row dividers (default true) */
+  striped?: TableStripedType
+
   /** Content above the grid, inside the card */
   toolbar?: TableToolbarType
 
@@ -103,6 +130,8 @@ namespace TableTypes {
   export type ColumnWidths = TableColumnWidthsType
   export type Role = TableRoleType
   export type MaxHeight = TableMaxHeightType
+  export type AlignItems = TableAlignItemsType
+  export type Striped = TableStripedType
   export type Toolbar = TableToolbarType
   export type Props = TableProps
 }

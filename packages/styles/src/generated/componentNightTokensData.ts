@@ -50,7 +50,11 @@ const componentNightTokensData: ComponentNightTokensData = {
   "popover": {},
   "radio": {},
   "select": {},
-  "table": {},
+  "table": {
+    "borderColor": {
+      "row": "var(--np--border-color--subtle)"
+    }
+  },
   "tabs": {},
   "tile": {},
   "toggle": {},

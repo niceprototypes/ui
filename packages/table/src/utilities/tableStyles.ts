@@ -1,6 +1,6 @@
 import { getToken } from "@niceprototypes/styles"
 
-/** The divider and card border. */
+/** The card border. */
 export const tableBorder = `${getToken("table.borderWidth")} solid ${getToken("table.borderColor")}`
 
 /** The focus ring of rows and cells, drawn inside them so neighbours never cover it. */

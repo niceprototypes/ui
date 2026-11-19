@@ -79,10 +79,10 @@
       "error": "var(--np--color--error)"
     },
     "borderColor": {
-      "base": "var(--np--border-color)",
-      "subtle": "var(--np--border-color--subtle)",
-      "strong": "var(--np--border-color--strong)",
-      "stronger": "var(--np--border-color--stronger)",
+      "base": "var(--np--color)",
+      "subtle": "var(--np--color)",
+      "strong": "var(--np--color)",
+      "stronger": "var(--np--color)",
       "success": "var(--np--border-color--success)",
       "highlight": "var(--np--border-color--highlight)",
       "warning": "var(--np--border-color--warning)",
@@ -101,10 +101,10 @@
       "error": "var(--np--color--error)"
     },
     "borderColor": {
-      "base": "var(--np--border-color)",
-      "subtle": "var(--np--border-color--subtle)",
-      "strong": "var(--np--border-color--strong)",
-      "stronger": "var(--np--border-color--stronger)",
+      "base": "var(--np--color)",
+      "subtle": "var(--np--color)",
+      "strong": "var(--np--color)",
+      "stronger": "var(--np--color)",
       "success": "var(--np--border-color--success)",
       "highlight": "var(--np--border-color--highlight)",
       "warning": "var(--np--border-color--warning)",

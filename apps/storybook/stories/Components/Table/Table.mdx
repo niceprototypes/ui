@@ -36,7 +36,9 @@ Table is data-agnostic: it lays out what it is given. `columnWidths` sets one co
 `table.column.width` tokens and every row is a CSS subgrid of it, so all rows share the widths. The header
 row sticks to the top of the one scroll container (cap the height with `maxHeight`); the body scrolls in both
 axes on narrow screens. Rows take `density` (`compact` for nested rows), `divider` (a group start) and the
-ARIA attributes of their place in the grid; hover, focus and `aria-selected` styles are CSS. A cell given
+ARIA attributes of their place in the grid; hover, focus and `aria-selected` styles are CSS (a selected row
+takes the hover colours). `striped` (default) alternates body rows by visible order, expanded nested rows
+included, with a row divider above each; `striped={false}` turns it off. A cell given
 `guide` (from `getTreeRows`) draws its row's TreeGuide slice. For data, sorting, selection and keyboard
 navigation, use DataTable.
 

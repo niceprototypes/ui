@@ -2,9 +2,19 @@ import * as React from "react"
 import Checkbox from "@niceprototypes/checkbox"
 import Icon from "@niceprototypes/icon"
 import { TableCell, TableRow } from "@niceprototypes/table"
-import { StyledDataTableCheckbox, StyledDataTableExpander, StyledDataTableExpanderSlot } from "./DataTable.styles"
+import {
+  StyledDataTableActions,
+  StyledDataTableCheckbox,
+  StyledDataTableExpander,
+  StyledDataTableExpanderSlot,
+} from "./DataTable.styles"
 import DataTableMenu from "./DataTableMenu"
-import type { DataTableColumnType, DataTableRowActionsType, DataTableToggleEventType } from "./DataTable.types"
+import type {
+  DataTableChildDensityType,
+  DataTableColumnType,
+  DataTableRowActionsType,
+  DataTableToggleEventType,
+} from "./DataTable.types"
 import type { SelectionStoreType } from "../../utilities/createSelectionStore"
 
 /** What every row shares: one object per table, stable across expand and selection changes. */
@@ -12,6 +22,7 @@ export type DataTableRowContextType<Row> = {
   columns: ReadonlyArray<DataTableColumnType<Row>>
   treeColumn: number
   nested: boolean
+  childDensity: DataTableChildDensityType
   selectable: boolean
   store: SelectionStoreType
   getRowLabel: (row: Row) => string
@@ -51,7 +62,7 @@ function DataTableRow<Row>({
   expanded,
   context,
 }: DataTableRowProps<Row>) {
-  const { columns, treeColumn, nested, selectable, store, getRowLabel, rowActions, toggle, select } = context
+  const { columns, treeColumn, nested, childDensity, selectable, store, getRowLabel, rowActions, toggle, select } = context
   // Only this row re-renders when its own selection state changes.
   const selection = React.useSyncExternalStore(store.subscribe, () => (selectable ? store.rowState(id) : "unchecked"))
   const label = getRowLabel(row)
@@ -68,7 +79,7 @@ function DataTableRow<Row>({
   return (
     <TableRow
       tabIndex={-1}
-      density={depth > 0 ? "compact" : "base"}
+      density={depth > 0 ? childDensity : "base"}
       divider={depth === 0}
       aria-rowindex={rowIndex}
       aria-level={depth + 1}
@@ -116,7 +127,11 @@ function DataTableRow<Row>({
       )}
       {rowActions ? (
         <TableCell tabIndex={-1} align="end">
-          {actions?.length ? <DataTableMenu actions={actions} aria-label={`Actions for ${label}`} /> : null}
+          {actions?.length ? (
+            <StyledDataTableActions>
+              <DataTableMenu actions={actions} aria-label={`Actions for ${label}`} />
+            </StyledDataTableActions>
+          ) : null}
         </TableCell>
       ) : null}
     </TableRow>

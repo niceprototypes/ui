@@ -101,6 +101,7 @@ function DataTable<Row>({
   loading = false,
   empty = "No rows",
   maxHeight = "none",
+  childDensity = "base",
 }: DataTableProps<Row>) {
   const gridRef = React.useRef<HTMLDivElement>(null)
 
@@ -188,6 +189,7 @@ function DataTable<Row>({
       columns,
       treeColumn,
       nested,
+      childDensity,
       selectable,
       store,
       getRowLabel: getRowLabel ?? getRowId,
@@ -195,7 +197,7 @@ function DataTable<Row>({
       toggle,
       select,
     }),
-    [columns, treeColumn, nested, selectable, store, getRowLabel, getRowId, rowActions, toggle, select],
+    [columns, treeColumn, nested, childDensity, selectable, store, getRowLabel, getRowId, rowActions, toggle, select],
   )
 
   // Roving focus: one element in the tab order, kept across re-renders by its position.

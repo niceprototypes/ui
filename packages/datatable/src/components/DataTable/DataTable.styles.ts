@@ -94,6 +94,15 @@ export const StyledDataTableCheckbox = styled.span`
   ${touchTarget}
 `
 
+/**
+ * Wraps a row's actions menu button: negative block margins fold its touch-target height into
+ * one line box, so it centres on the row's first text line and never makes the row taller.
+ */
+export const StyledDataTableActions = styled.span`
+  display: inline-flex;
+  margin-block: calc((1lh - ${getToken("datatable.touchTarget")}) / 2);
+`
+
 /** The actions menu's list of items, stacked full width. */
 export const StyledDataTableMenu = styled.div`
   display: flex;

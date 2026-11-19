@@ -253,6 +253,17 @@ export type DataTableEmptyType = React.ReactNode
 export type DataTableMaxHeightType = "none" | "small" | "base" | "large"
 
 /**
+ * DataTableChildDensityType
+ *
+ * The nested rows' density.
+ *
+ * Values:
+ * - "base": every row at every depth looks the same (default)
+ * - "compact": nested rows step down one size in padding and text
+ */
+export type DataTableChildDensityType = "base" | "compact"
+
+/**
  * DataTableProps
  *
  * Complete prop definition for the DataTable component.
@@ -320,6 +331,9 @@ export interface DataTableProps<Row> {
 
   /** Maximum height; past it the body scrolls under a sticky header */
   maxHeight?: DataTableMaxHeightType
+
+  /** The nested rows' density (default "base", as top-level rows) */
+  childDensity?: DataTableChildDensityType
 }
 
 const DataTableTypes = {} as const
@@ -352,6 +366,7 @@ namespace DataTableTypes {
   export type Loading = DataTableLoadingType
   export type Empty = DataTableEmptyType
   export type MaxHeight = DataTableMaxHeightType
+  export type ChildDensity = DataTableChildDensityType
   export type Props<Row> = DataTableProps<Row>
 }
 

@@ -87,8 +87,8 @@ describe("DataTable", () => {
     expect(deep).toHaveAttribute("aria-setsize", "1")
     expect(deep).not.toHaveAttribute("aria-expanded")
     expect(store).toHaveAttribute("aria-posinset", "2")
-    // Nested rows are compact; a sparse cell still renders as an empty gridcell.
-    expect(main).toHaveAttribute("data-density", "compact")
+    // Nested rows keep the base density by default; a sparse cell still renders as an empty gridcell.
+    expect(main).toHaveAttribute("data-density", "base")
     expect(within(main).getAllByRole("gridcell")[0]).toHaveTextContent(/^$/)
   })
 

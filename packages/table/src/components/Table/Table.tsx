@@ -9,9 +9,11 @@ import type { TableProps } from "./Table.types"
  * The structural grid behind DataTable, data-agnostic: a card holding an optional toolbar and one
  * scroll container with an ARIA grid (or treegrid). `columnWidths` sets one column template from
  * the `table.column.width` tokens; TableHeader and every TableRow are CSS subgrids of it, so all
- * rows share the widths. The header row is sticky inside the scroller (cap the height with
- * `maxHeight`). Hover, focus and `aria-selected` row styles are CSS. A keyboard model attaches
- * through `onKeyDown`, `onFocus` and `ref`.
+ * rows share the widths. Body rows are `striped` by default (alternating backgrounds and row
+ * dividers, by visible order); `striped={false}` turns it off. The header row is sticky inside
+ * the scroller (cap the height with `maxHeight`). Hover, focus and `aria-selected` row styles are
+ * CSS. `alignItems` sets every row's vertical alignment (default "start"; a TableRow may override
+ * it). A keyboard model attaches through `onKeyDown`, `onFocus` and `ref`.
  *
  * @example
  * ```tsx
@@ -36,6 +38,8 @@ const Table: React.FC<TableProps> = ({
   role = "grid",
   columnWidths,
   maxHeight = "none",
+  alignItems = "start",
+  striped = true,
   toolbar,
   children,
   onKeyDown,
@@ -54,6 +58,8 @@ const Table: React.FC<TableProps> = ({
         aria-colcount={columnWidths.length}
         aria-multiselectable={ariaMultiselectable}
         aria-busy={ariaBusy || undefined}
+        data-align-items={alignItems}
+        data-striped={striped ? "" : undefined}
         style={{ gridTemplateColumns: columnWidths.map(width => getToken(`table.column.width:${width}`)).join(" ") }}
         onKeyDown={onKeyDown}
         onFocus={onFocus}

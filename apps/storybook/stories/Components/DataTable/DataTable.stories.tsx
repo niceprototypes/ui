@@ -4,6 +4,7 @@ import { expect, fn, waitFor, within } from "storybook/test"
 import Badge, { type BadgeStatusType } from "@niceprototypes/badge"
 import DataTable from "@niceprototypes/datatable"
 import type {
+  DataTableChildDensityType,
   DataTableColumnType,
   DataTableMaxHeightType,
   DataTableProps,
@@ -94,6 +95,8 @@ const MAX_HEIGHT_OPTIONS = [
   "large",
 ] as const satisfies readonly DataTableMaxHeightType[]
 
+const CHILD_DENSITY_OPTIONS = ["base", "compact"] as const satisfies readonly DataTableChildDensityType[]
+
 /**
  * PlaygroundArgs
  *
@@ -108,6 +111,7 @@ type PlaygroundArgs = Pick<
   | "loading"
   | "empty"
   | "maxHeight"
+  | "childDensity"
   | "onExpandedChange"
   | "onSelectedChange"
   | "onSortChange"
@@ -182,6 +186,7 @@ const renderTable = (args: PlaygroundArgs) => (
     loading={args.loading}
     empty={args.empty}
     maxHeight={args.maxHeight}
+    childDensity={args.childDensity}
   />
 )
 
@@ -214,6 +219,7 @@ export const Playground: Story = {
     emptyRows: false,
     empty: "No ports",
     maxHeight: "none",
+    childDensity: "base",
     onExpandedChange: fn(),
     onSelectedChange: fn(),
     onSortChange: fn(),
@@ -234,6 +240,11 @@ export const Playground: Story = {
       options: MAX_HEIGHT_OPTIONS,
       table: { category: "Layout" },
     },
+    childDensity: {
+      control: "select",
+      options: CHILD_DENSITY_OPTIONS,
+      table: { category: "Layout" },
+    },
   },
   render: renderTable,
   play: async ({ canvasElement }) => {
@@ -248,7 +259,30 @@ export const Playground: Story = {
   },
 }
 
-/** Nested rows open under their parent, compact, hanging from the TreeGuide lines. */
+/**
+ * Centre Y of an element, relative to its row.
+ */
+const centreIn = (row: HTMLElement, element: Element) => {
+  const box = element.getBoundingClientRect()
+  return box.top + box.height / 2 - row.getBoundingClientRect().top
+}
+
+/** Centre Y of the first text line in the row's tree column, relative to the row. */
+const firstLineCentre = (row: HTMLElement) => {
+  const walker = document.createTreeWalker(within(row).getByRole("rowheader"), NodeFilter.SHOW_TEXT)
+  let node = walker.nextNode()
+  while (node && !node.textContent?.trim()) node = walker.nextNode()
+  const range = document.createRange()
+  range.selectNodeContents(node!)
+  const box = range.getClientRects()[0]
+  return box.top + box.height / 2 - row.getBoundingClientRect().top
+}
+
+/**
+ * Nested rows open under their parent, hanging from the TreeGuide lines, at the same density as
+ * top-level rows: one height, padding and text size at every depth. The checkbox, expander and
+ * menu button centre on the first text line.
+ */
 export const Nested: Story = {
   ...Playground,
   args: { ...Playground.args, expandAll: true },
@@ -260,14 +294,20 @@ export const Nested: Story = {
         row.getAttribute("aria-level") === "1" &&
         row.hasAttribute("aria-expanded")
     )!
-    await expect(child.getAttribute("data-density")).toBe("compact")
-    // Compact: shorter rows, smaller text.
-    await expect(child.getBoundingClientRect().height).toBeLessThan(
-      parent.getBoundingClientRect().height
-    )
-    await expect(parseFloat(getComputedStyle(child).fontSize)).toBeLessThan(
-      parseFloat(getComputedStyle(parent).fontSize)
-    )
+    const nestedGroup = rows.find(row => row.getAttribute("aria-level") === "2" && row.hasAttribute("aria-expanded"))!
+    await expect(child.getAttribute("data-density")).toBe("base")
+    // Same content, same height: a nested group row matches the top-level one.
+    await expect(nestedGroup.getBoundingClientRect().height).toBe(parent.getBoundingClientRect().height)
+    await expect(getComputedStyle(child).fontSize).toBe(getComputedStyle(parent).fontSize)
+    for (const row of [parent, child]) {
+      const line = firstLineCentre(row)
+      await expect(Math.abs(centreIn(row, row.querySelector('input[type="checkbox"]')!) - line)).toBeLessThanOrEqual(1)
+      const buttons = row.querySelectorAll("button")
+      await expect(Math.abs(centreIn(row, buttons[buttons.length - 1]) - line)).toBeLessThanOrEqual(1)
+    }
+    await expect(
+      Math.abs(centreIn(parent, within(parent).getByRole("rowheader").querySelector("button")!) - firstLineCentre(parent))
+    ).toBeLessThanOrEqual(1)
     // The guide runs the full height of the row.
     const column = within(child)
       .getByRole("rowheader")
@@ -275,6 +315,20 @@ export const Nested: Story = {
     await expect(
       parseFloat(getComputedStyle(column, "::before").height)
     ).toBeCloseTo(child.getBoundingClientRect().height, 0)
+  },
+}
+
+/** `childDensity="compact"` opts nested rows into one size down: shorter rows, smaller text. */
+export const ChildDensity: Story = {
+  ...Playground,
+  args: { ...Playground.args, expandAll: true, childDensity: "compact" },
+  play: async ({ canvasElement }) => {
+    const rows = bodyRows(canvasElement)
+    const child = rows.find(row => row.getAttribute("aria-level") === "3")!
+    const parent = rows.find(row => row.getAttribute("aria-level") === "1" && row.hasAttribute("aria-expanded"))!
+    await expect(child.getAttribute("data-density")).toBe("compact")
+    await expect(child.getBoundingClientRect().height).toBeLessThan(parent.getBoundingClientRect().height)
+    await expect(parseFloat(getComputedStyle(child).fontSize)).toBeLessThan(parseFloat(getComputedStyle(parent).fontSize))
   },
 }
 

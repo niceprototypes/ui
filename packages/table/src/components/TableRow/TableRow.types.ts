@@ -1,4 +1,5 @@
 import type * as React from "react"
+import type { TableAlignItemsType } from "../Table/Table.types"
 
 /**
  * TableRowDensityType
@@ -32,6 +33,9 @@ export interface TableRowProps {
 
   /** Row height and text size */
   density?: TableRowDensityType
+
+  /** Vertical alignment of this row's cells, overriding the Table's `alignItems` */
+  alignItems?: TableAlignItemsType
 
   /** A divider above the row */
   divider?: TableRowDividerType

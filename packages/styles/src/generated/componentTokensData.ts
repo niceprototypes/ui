@@ -95,10 +95,10 @@ const componentTokensData: ComponentTokensData = {
   },
   "badge": {
     "backgroundColor": {
-      "base": "var(--np--background-color--sunken)",
-      "success": "var(--np--background-color--success)",
-      "warning": "var(--np--background-color--warning)",
-      "error": "var(--np--background-color--error)"
+      "base": "color-mix(in oklch, var(--np--background-color--sunken) 75%, transparent)",
+      "success": "color-mix(in oklch, var(--np--background-color--success) 75%, transparent)",
+      "warning": "color-mix(in oklch, var(--np--background-color--warning) 75%, transparent)",
+      "error": "color-mix(in oklch, var(--np--background-color--error) 75%, transparent)"
     },
     "color": {
       "base": "var(--np--color--light)",
@@ -136,7 +136,7 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--font-weight--medium)"
     },
     "lineHeight": {
-      "base": "var(--np--line-height--condensed)"
+      "base": "var(--np--line-height--single)"
     }
   },
   "button": {
@@ -499,10 +499,10 @@ const componentTokensData: ComponentTokensData = {
         "error": "var(--np--color--error)"
       },
       "borderColor": {
-        "base": "var(--np--border-color)",
-        "subtle": "var(--np--border-color--subtle)",
-        "strong": "var(--np--border-color--strong)",
-        "stronger": "var(--np--border-color--stronger)",
+        "base": "var(--np--color)",
+        "subtle": "var(--np--color)",
+        "strong": "var(--np--color)",
+        "stronger": "var(--np--color)",
         "success": "var(--np--border-color--success)",
         "highlight": "var(--np--border-color--highlight)",
         "warning": "var(--np--border-color--warning)",
@@ -521,10 +521,10 @@ const componentTokensData: ComponentTokensData = {
         "error": "var(--np--color--error)"
       },
       "borderColor": {
-        "base": "var(--np--border-color)",
-        "subtle": "var(--np--border-color--subtle)",
-        "strong": "var(--np--border-color--strong)",
-        "stronger": "var(--np--border-color--stronger)",
+        "base": "var(--np--color)",
+        "subtle": "var(--np--color)",
+        "strong": "var(--np--color)",
+        "stronger": "var(--np--color)",
         "success": "var(--np--border-color--success)",
         "highlight": "var(--np--border-color--highlight)",
         "warning": "var(--np--border-color--warning)",
@@ -1348,13 +1348,15 @@ const componentTokensData: ComponentTokensData = {
   "table": {
     "backgroundColor": {
       "base": "var(--np--background-color)",
-      "header": "var(--np--background-color--raised)",
+      "header": "var(--np--table--background-color)",
       "child": "var(--np--background-color--raised)",
+      "stripe": "color-mix(in oklch, var(--np--table--background-color), var(--np--background-color--raised) 50%)",
       "hover": "var(--np--background-color--sunken)",
-      "selected": "var(--np--background-color--link)"
+      "selected": "var(--np--table--background-color--hover)"
     },
     "borderColor": {
-      "base": "var(--np--border-color)"
+      "base": "var(--np--border-color)",
+      "row": "var(--np--border-color)"
     },
     "borderWidth": {
       "base": "var(--np--border-width--small)"
@@ -1364,7 +1366,10 @@ const componentTokensData: ComponentTokensData = {
     },
     "color": {
       "base": "var(--np--color)",
-      "header": "var(--np--color--light)",
+      "row": "var(--np--color--light)",
+      "hover": "var(--np--color)",
+      "selected": "var(--np--table--color--hover)",
+      "header": "var(--np--color--lighter)",
       "empty": "var(--np--color--lighter)"
     },
     "fontSize": {
@@ -1373,18 +1378,21 @@ const componentTokensData: ComponentTokensData = {
       "header": "var(--np--font-size--small)"
     },
     "fontWeight": {
-      "header": "var(--np--font-weight--semibold)"
+      "header": "var(--np--font-weight)"
     },
     "cell": {
       "paddingInline": {
         "base": "var(--np--gap)"
       },
       "paddingBlock": {
-        "base": "var(--np--gap--small)",
+        "base": "var(--np--table--cell--padding-inline)",
         "compact": "var(--np--gap--smaller)"
       },
       "gap": {
         "base": "var(--np--gap--small)"
+      },
+      "lineHeight": {
+        "base": "var(--np--line-height)"
       }
     },
     "row": {

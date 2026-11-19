@@ -38,9 +38,9 @@ import DataTable from "@niceprototypes/datatable"
 ## Nested rows
 
 `getRowChildren` returns a row's children; they share the parent's columns. A row with children shows
-a caret expander in the tree column (the `rowHeader` column, else the first); its children open under it,
-compact (one size down in padding and text, the `table.*:compact` tokens), on the nested-row background, and
-hang from the TreeGuide lines. A cell may return `null` where its value belongs to the parent: it renders as an
+a caret expander in the tree column (the `rowHeader` column, else the first); its children open under it at
+the same density as top-level rows and hang from the TreeGuide lines. `childDensity="compact"` opts nested rows
+into one size down in padding and text (the `table.*:compact` tokens). A cell may return `null` where its value belongs to the parent: it renders as an
 empty gridcell. Expansion is uncontrolled (`defaultExpandedIds`, `"all"` opens every row) or controlled
 (`expandedIds` with `onExpandedChange`). A cell renderer can open its own row with `context.toggle()`.
 
