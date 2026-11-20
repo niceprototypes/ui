@@ -211,11 +211,27 @@ export const menuButtonPlaceholder = {
 
 export const menuButtonGhost = {
   name: "ghost",
-  description: "A transparent trigger at rest, its background and border showing on hover and focus (Button's ghost).",
-  variants: ["false", "true"],
+  description:
+    "A transparent trigger: true at rest only (its box shows on hover and focus), or per interaction state, as for an icon trigger that never shows a box. A select-look trigger that is not ghost shows the Checkbox's border, and its hover border on hover.",
+  variants: ["false", "true", "every state"],
   default: "false",
-  preview: (variant: string) => <Basic ghost={variant === "true"} />,
-  code: (variant: string) => (variant === "true" ? `<MenuButton label="Actions" ghost items={items} />` : `<MenuButton label="Actions" items={items} />`),
+  preview: (variant: string) =>
+    variant === "every state" ? (
+      <MenuButton aria-label="Row actions" items={BASIC} ghost={{ rest: true, hover: true, focus: true, active: true }} iconColor={{ rest: "color:lighter", hover: "color:base" }} />
+    ) : (
+      <Basic ghost={variant === "true"} />
+    ),
+  code: (variant: string) =>
+    variant === "every state"
+      ? `<MenuButton
+  aria-label="Row actions"
+  items={items}
+  ghost={{ rest: true, hover: true, focus: true, active: true }}
+  iconColor={{ rest: "color:lighter", hover: "color:base" }}
+/>`
+      : variant === "true"
+        ? `<MenuButton label="Actions" ghost items={items} />`
+        : `<MenuButton label="Actions" items={items} />`,
 } satisfies ComponentExample
 
 export const menuButtonSize = {

@@ -48,9 +48,10 @@ empty gridcell. Expansion is uncontrolled (`defaultExpandedIds`, `"all"` opens e
 
 `selectable` adds a checkbox column and a select-all checkbox in its header. Selecting a parent selects all
 its descendants; a parent is checked when all of them are, indeterminate when some are. With `bulkActions`, a
-bar above the grid always holds the bulk control, so selecting never moves the grid: a ghost, select-look
-MenuButton, disabled and reading "None selected" until rows are selected, then the count of selected rows
-without children ("3 selected"); its menu lists the actions built from the selected rows. The actions are
+bar above the grid always holds the bulk control, so selecting never moves the grid: a select-look
+MenuButton, ghost and disabled reading "None selected" until rows are selected, then outlined with the
+Checkbox's border (its hover border on hover) and reading the count of selected rows without children
+("3 selected"); its menu lists the actions built from the selected rows. The actions are
 commands, so it is a menu button (menuitems), not a listbox. Selection is uncontrolled (`defaultSelectedIds`) or controlled
 (`selectedIds` with `onSelectedChange`). A selection change re-renders only the rows whose state changed.
 

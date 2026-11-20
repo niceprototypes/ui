@@ -187,9 +187,9 @@ export type DataTableActionType = {
 /**
  * DataTableBulkActionsType
  *
- * The actions for the selected rows, in the menu of the bulk control above the table: a ghost,
- * select-look menu button, always shown, disabled and reading "None selected" until rows are
- * selected, then "N selected".
+ * The actions for the selected rows, in the menu of the bulk control above the table: a
+ * select-look menu button, always shown, ghost and disabled reading "None selected" until rows are
+ * selected, then outlined (the Checkbox's border) reading "N selected".
  */
 export type DataTableBulkActionsType<Row> = (selectedRows: Row[]) => ReadonlyArray<DataTableActionType>
 

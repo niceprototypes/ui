@@ -602,6 +602,11 @@
 	--np--datatable--toolbar--padding-block: var(--np--gap--small);
 	--np--datatable--toolbar--padding-inline: var(--np--gap);
 	--np--datatable--toolbar--font-size: var(--np--font-size);
+	--np--datatable--expander--color: var(--np--checkbox--border-color--strong);
+	--np--datatable--expander--color--hover: var(--np--checkbox--hover--border-color--strong);
+	--np--datatable--expander--size: var(--np--checkbox--size--small);
+	--np--datatable--expander--icon-size: var(--np--checkbox--icon--size--small);
+	--np--datatable--expander--border-width: var(--np--checkbox--border-width);
 	--np--datatable--touch-target: 24px;
 	--np--datatable--focus-ring--width: var(--np--focus-ring--width);
 	--np--datatable--focus-ring--color: var(--np--focus-ring--color);
@@ -878,6 +883,8 @@
 	--np--menu--separator--color: var(--np--border-color);
 	--np--menu--separator--width: var(--np--border-width);
 	--np--menu--separator--margin-block: var(--np--gap--smaller);
+	--np--menu--trigger--border-color: var(--np--checkbox--border-color--strong);
+	--np--menu--trigger--border-color--hover: var(--np--checkbox--hover--border-color--strong);
 
 	/* metrics component tokens */
 	--np--metrics--label--max-width: 24ch;

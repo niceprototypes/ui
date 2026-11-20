@@ -17,6 +17,12 @@ import type {
 } from "./DataTable.types"
 import type { SelectionStoreType } from "../../utilities/createSelectionStore"
 
+/** The row actions trigger never shows a box: ghost in every state (the focus-visible ring stays). */
+const ACTIONS_GHOST = { rest: true, hover: true, focus: true, active: true }
+
+/** The row actions icon: lighter at rest, the base colour (the Checkbox's hover border step) when hovered, focused or pressed. */
+const ACTIONS_ICON_COLOR = { rest: "color:lighter", hover: "color:base", focus: "color:base", active: "color:base" } as const
+
 /** What every row shares: one object per table, stable across expand and selection changes. */
 export type DataTableRowContextType<Row> = {
   columns: ReadonlyArray<DataTableColumnType<Row>>
@@ -129,7 +135,14 @@ function DataTableRow<Row>({
         <TableCell tabIndex={-1} align="end">
           {actions?.length ? (
             <StyledDataTableActions>
-              <MenuButton items={actions} aria-label={`Actions for ${label}`} ghost size="smaller" align="end" />
+              <MenuButton
+                items={actions}
+                aria-label={`Actions for ${label}`}
+                ghost={ACTIONS_GHOST}
+                iconColor={ACTIONS_ICON_COLOR}
+                size="smaller"
+                align="end"
+              />
             </StyledDataTableActions>
           ) : null}
         </TableCell>

@@ -43,6 +43,7 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
     appearance = "button",
     placeholder,
     ghost = false,
+    iconColor,
     size = "base",
     disabled = false,
     open: openProp,
@@ -123,12 +124,13 @@ const MenuButton: React.FC<MenuButtonProps> = props => {
 
   return (
     <>
-      <StyledMenuButtonTrigger onKeyDown={handleTriggerKeyDown}>
+      <StyledMenuButtonTrigger onKeyDown={handleTriggerKeyDown} $selectBorder={select && ghost === false}>
         <Button
           ref={setTriggerNode}
           id={triggerId}
           size={size}
           ghost={ghost}
+          iconColor={iconColor}
           disabled={disabled}
           theme={theme}
           iconLeft={icon ?? (label === undefined && !select ? "menu" : undefined)}

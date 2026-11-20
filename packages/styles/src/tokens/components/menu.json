@@ -41,6 +41,12 @@
       "base": "var(--np--gap--smaller)"
     }
   },
+  "trigger": {
+    "borderColor": {
+      "base": "var(--np--checkbox--border-color--strong)",
+      "hover": "var(--np--checkbox--hover--border-color--strong)"
+    }
+  },
   "$themes": {
     "night": {}
   }

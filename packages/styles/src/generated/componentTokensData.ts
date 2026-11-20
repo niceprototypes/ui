@@ -669,6 +669,21 @@ const componentTokensData: ComponentTokensData = {
         "base": "var(--np--font-size)"
       }
     },
+    "expander": {
+      "color": {
+        "base": "var(--np--checkbox--border-color--strong)",
+        "hover": "var(--np--checkbox--hover--border-color--strong)"
+      },
+      "size": {
+        "base": "var(--np--checkbox--size--small)"
+      },
+      "iconSize": {
+        "base": "var(--np--checkbox--icon--size--small)"
+      },
+      "borderWidth": {
+        "base": "var(--np--checkbox--border-width)"
+      }
+    },
     "touchTarget": {
       "base": "24px"
     },
@@ -1195,6 +1210,12 @@ const componentTokensData: ComponentTokensData = {
       },
       "marginBlock": {
         "base": "var(--np--gap--smaller)"
+      }
+    },
+    "trigger": {
+      "borderColor": {
+        "base": "var(--np--checkbox--border-color--strong)",
+        "hover": "var(--np--checkbox--hover--border-color--strong)"
       }
     }
   },

@@ -34,9 +34,9 @@ const allParentIds = <Row,>(
   })
 
 /**
- * The bulk actions bar, always rendered so selecting never moves the grid: one ghost select-look
- * MenuButton whose trigger reads "None selected" (disabled) or "N selected", and whose menu lists
- * the bulk actions. Actions are commands, so it is a menu button (menuitems), not a listbox.
+ * The bulk actions bar, always rendered so selecting never moves the grid: one select-look
+ * MenuButton, ghost and disabled reading "None selected", or outlined (the Checkbox's border and
+ * hover border) reading "N selected"; its menu lists the bulk actions. Actions are commands, so it is a menu button (menuitems), not a listbox.
  * Re-renders on its own when the selection changes.
  */
 function DataTableToolbar<Row>({
@@ -55,7 +55,7 @@ function DataTableToolbar<Row>({
     <StyledDataTableToolbar>
       <MenuButton
         appearance="select"
-        ghost
+        ghost={count === 0}
         size="small"
         label={label}
         placeholder={NONE_SELECTED}

@@ -70,7 +70,7 @@ Listbox(listbox) [components-forms-listbox--playground] options:ReadonlyArray<Li
 Logo(logo) [components-logo--playground] height?:number showName?:boolean nameHeightScale?:number=0.6 gap?:GapType theme?:"day"|"night"|(string & {})
 Markdown(markdown) [components-markdown--playground] children:string linkComponent?:React.ComponentType<{ href: string; children: node }> size?:FontSizeType overrides?:MarkdownToJSX.Overrides
 Menu(menu) [components-menu--playground] children?:node autoFocus?:"first"|"last" onClose?:fn size?:SizeType="base" theme?:"day"|"night"|(string & {})
-MenuButton(menu) [components-menubutton--playground] items:ReadonlyArray<MenuButtonItemType|MenuButtonSeparatorType|MenuButtonGroupType> label?:string icon?:IconNameType appearance?:"button"|"select"="button" placeholder?:string ghost?:boolean=false size?:SizeType="base" disabled?:boolean=false open?:boolean onOpenChange?:fn position?:"top"|"bottom"|"left"|"right"="bottom" align?:"start"|"center"|"end"="start" theme?:"day"|"night"|(string & {})
+MenuButton(menu) [components-menubutton--playground] items:ReadonlyArray<MenuButtonItemType|MenuButtonSeparatorType|MenuButtonGroupType> label?:string icon?:IconNameType appearance?:"button"|"select"="button" placeholder?:string ghost?:boolean|ButtonGhostStatesType=false iconColor?:ButtonColorTokenType|ButtonColorStatesType size?:SizeType="base" disabled?:boolean=false open?:boolean onOpenChange?:fn position?:"top"|"bottom"|"left"|"right"="bottom" align?:"start"|"center"|"end"="start" theme?:"day"|"night"|(string & {})
 MenuGroup(menu) [components-menugroup--playground] label:node children?:node
 MenuItem(menu) [components-menuitem--playground] children?:node icon?:IconNameType disabled?:boolean=false onSelect?:fn
 MenuSeparator(menu) 

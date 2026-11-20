@@ -384,6 +384,13 @@ export const Selection: Story = {
     const trigger = canvas.getByRole("button", { name: "3 selected, bulk actions" })
     await expect(trigger).toBeEnabled()
     await expect(trigger).toHaveTextContent("3 selected")
+    // Outlined once rows are selected: the Checkbox's unchecked border (menu.trigger.borderColor aliases it).
+    const probe = document.createElement("span")
+    probe.style.borderTop = "1px solid var(--np--checkbox--border-color--strong)"
+    toolbar.appendChild(probe)
+    // Button transitions its border, so wait for it to settle.
+    await waitFor(() => expect(getComputedStyle(trigger).borderTopColor).toBe(getComputedStyle(probe).borderTopColor))
+    probe.remove()
     // No layout shift and no blue: same toolbar height, header position and surface in both states.
     await expect(toolbar.getBoundingClientRect().height).toBe(before.toolbar)
     await expect(grid.querySelector("[data-header]")!.getBoundingClientRect().top).toBe(before.header)

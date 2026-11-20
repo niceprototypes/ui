@@ -2,6 +2,7 @@ import * as React from "react"
 import type { SizeType, ThemeType } from "@niceprototypes/styles"
 import type { IconNameType } from "@niceprototypes/icon"
 import type { PopoverAlignType, PopoverPositionType } from "@niceprototypes/popover"
+import type { ButtonGhostType, ButtonIconColorType } from "@niceprototypes/button"
 
 /**
  * MenuButtonItemType
@@ -117,9 +118,20 @@ export type MenuButtonPlaceholderType = string
 /**
  * MenuButtonGhostType
  *
- * Transparent trigger background and border at rest (Button's `ghost`).
+ * Re-export of ButtonGhostType from @niceprototypes/button. Transparent trigger background and
+ * border: `true` at rest only, or per interaction state (`{ rest, hover, focus, active }`), e.g.
+ * all four for an icon trigger that never shows a box. A select-look trigger that is not ghosted
+ * shows the `menu.trigger.borderColor` border, which follows the Checkbox's unchecked border.
  */
-export type MenuButtonGhostType = boolean
+export type MenuButtonGhostType = ButtonGhostType
+
+/**
+ * MenuButtonIconColorType
+ *
+ * Re-export of ButtonIconColorType from @niceprototypes/button. Colour of the trigger's icons: one
+ * colour token, or one per interaction state.
+ */
+export type MenuButtonIconColorType = ButtonIconColorType
 
 /**
  * MenuButtonSizeType
@@ -205,8 +217,10 @@ export type MenuButtonProps = {
   appearance?: MenuButtonAppearanceType
   /** The "select" trigger's text while there is no label. */
   placeholder?: MenuButtonPlaceholderType
-  /** Transparent trigger at rest. @default false */
+  /** Transparent trigger: at rest, or per interaction state. @default false */
   ghost?: MenuButtonGhostType
+  /** Colour of the trigger's icons, or one per interaction state. */
+  iconColor?: MenuButtonIconColorType
   /** Trigger size. @default "base" */
   size?: MenuButtonSizeType
   /** Disable the trigger. @default false */
@@ -241,6 +255,7 @@ namespace MenuButtonTypes {
   export type Appearance = MenuButtonAppearanceType
   export type Placeholder = MenuButtonPlaceholderType
   export type Ghost = MenuButtonGhostType
+  export type IconColor = MenuButtonIconColorType
   export type Size = MenuButtonSizeType
   export type Disabled = MenuButtonDisabledType
   export type Open = MenuButtonOpenType

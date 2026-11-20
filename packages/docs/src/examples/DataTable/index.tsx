@@ -216,7 +216,7 @@ export const dataTableOnSelectedChange = {
 export const dataTableBulkActions = {
   name: "bulkActions",
   description:
-    "A bar above the table always holds one ghost, select-look menu button, so selecting moves nothing: disabled and reading \"None selected\" with no rows selected, \"N selected\" once there are. It opens a menu of these actions (commands, not values), built from the selected rows. A disabled action shows but cannot be chosen.",
+    "A bar above the table always holds one select-look menu button, so selecting moves nothing: ghost and disabled reading \"None selected\" with no rows selected, outlined with the Checkbox's border and reading \"N selected\" once there are. It opens a menu of these actions (commands, not values), built from the selected rows. A disabled action shows but cannot be chosen.",
   variants: ["none selected", "Start, Stop, Release", "with a disabled action"],
   default: "Start, Stop, Release",
   preview: (variant: string) => (
