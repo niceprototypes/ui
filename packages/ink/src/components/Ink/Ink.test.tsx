@@ -99,4 +99,33 @@ describe("Ink", () => {
       expect(screen.getByText("text")).toHaveStyle({ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" })
     })
   })
+
+  describe("flow", () => {
+    it("is off by default: no flow attribute and no flow tokens", () => {
+      render(<Ink as="div">text</Ink>)
+      expect(screen.getByText("text")).not.toHaveAttribute("data-ink-flow")
+      expect(getInjectedCss()).not.toContain("--np--ink--flow")
+    })
+
+    it("marks the column and spaces each child kind from its ink.flow tokens", () => {
+      render(
+        <Ink as="div" flow>
+          <Ink as="h2">title</Ink>
+          <Ink as="p">text</Ink>
+        </Ink>,
+      )
+      expect(screen.getByText("title").parentElement).toHaveAttribute("data-ink-flow")
+      const css = getInjectedCss()
+      expect(css).toContain(`margin-block:${getToken("ink.flow.h2:before")} ${getToken("ink.flow.h2:after")}`)
+      expect(css).toContain(`margin-block:${getToken("ink.flow.text:before")} ${getToken("ink.flow.text:after")}`)
+      expect(css).toContain(`margin-block:${getToken("ink.flow.rule:before")} ${getToken("ink.flow.rule:after")}`)
+    })
+
+    it("zeroes the edge margins only when the column is not itself a flow child", () => {
+      render(<Ink as="div" flow>text</Ink>)
+      const css = getInjectedCss()
+      expect(css).toMatch(/:not\(:where\(\[data-ink-flow\] > \*\)\)>:where\(:first-child\)\{margin-block-start:0;\}/)
+      expect(css).toMatch(/:not\(:where\(\[data-ink-flow\] > \*\)\)>:where\(:last-child\)\{margin-block-end:0;\}/)
+    })
+  })
 })

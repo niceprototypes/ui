@@ -30,8 +30,10 @@ export type InkAlignType = "left" | "center" | "right" | "justify"
  * - "cite": Title of a cited work
  * - "mark": Highlighted text
  * - "s": Text that is no longer accurate (struck through)
+ * - "div": Generic block, e.g. a reading column with `flow`
+ * - "section": Thematic section of a reading column, e.g. with `flow`
  */
-export type InkAsType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "a" | "li" | "blockquote" | "cite" | "mark" | "s"
+export type InkAsType = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "a" | "li" | "blockquote" | "cite" | "mark" | "s" | "div" | "section"
 
 /**
  * InkHrefType
@@ -61,6 +63,15 @@ export type InkDecorationType = "none" | "underline" | "line-through" | "overlin
  * Inline elements render as blocks so the overflow has a width to clip at.
  */
 export type InkTruncateType = boolean
+
+/**
+ * InkFlowType
+ *
+ * Whether the element spaces its direct children as a reading column, from the
+ * `ink.flow` tokens: each heading level, paragraph, list, blockquote, table, code
+ * block, rule, media and other block takes its own space before and after.
+ */
+export type InkFlowType = boolean
 
 /**
  * InkLetterSpacingType
@@ -192,6 +203,13 @@ export type InkProps = {
   /** Text decoration line */
   decoration?: InkDecorationType
 
+  /**
+   * Space the direct children as a reading column, from the `ink.flow` tokens: a heading more
+   * space before than after, content blocks one step apart, the first and last child flush with
+   * the edges. @default false
+   */
+  flow?: InkFlowType
+
   /** Link destination; applied when `as` is "a" */
   href?: InkHrefType
 
@@ -259,6 +277,7 @@ namespace InkTypes {
   export type As = InkAsType
   export type Color = InkColorType
   export type Decoration = InkDecorationType
+  export type Flow = InkFlowType
   export type Href = InkHrefType
   export type Italic = InkItalicType
   export type LetterSpacing = InkLetterSpacingType

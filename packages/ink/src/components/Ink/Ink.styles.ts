@@ -8,11 +8,12 @@
  */
 
 import styled, { css } from "styled-components"
-import { getToken, resolveColorProp, type ColorTokenProp, type ColorType, type FontSizeType, type FontWeightType, type LineHeightType } from "@niceprototypes/styles"
+import { getToken, resolveColorProp, type ColorTokenProp, type ColorType, type FontSizeType, type FontWeightType, type LineHeightType, type TokenVariants } from "@niceprototypes/styles"
 import {
   InkAsType,
   InkAlignType,
   InkDecorationType,
+  InkFlowType,
   InkItalicType,
   InkLetterSpacingType,
   InkLineClampType,
@@ -196,6 +197,61 @@ const getTruncate = ({ $as, $truncate }: { $as: InkAsType; $truncate?: InkTrunca
   `
 }
 
+/** A child kind's `ink.flow` token group. */
+type InkFlowGroup = Extract<keyof TokenVariants, `ink.flow.${string}`>
+
+/**
+ * The `ink.flow` group spacing each kind of direct child, in cascade order: the generic block
+ * first, so every specific kind after it wins. Text runs include a span or link a reading column
+ * lays out as a block; an inline one ignores block margins.
+ */
+const FLOW_GROUPS: readonly [selector: string, group: InkFlowGroup][] = [
+  ["*", "ink.flow.block"],
+  ["h1", "ink.flow.h1"],
+  ["h2", "ink.flow.h2"],
+  ["h3", "ink.flow.h3"],
+  ["h4", "ink.flow.h4"],
+  ["h5", "ink.flow.h5"],
+  ["h6", "ink.flow.h6"],
+  ["p, span, a", "ink.flow.text"],
+  ["ul, ol, dl", "ink.flow.list"],
+  ["blockquote", "ink.flow.blockquote"],
+  ["table", "ink.flow.table"],
+  ["pre", "ink.flow.code"],
+  ["figure, img, picture, video, iframe, canvas, svg", "ink.flow.media"],
+  ["hr", "ink.flow.rule"],
+]
+
+/**
+ * Reading-column spacing for the direct children. The doubled class outranks a child's own
+ * single-class margin (an Ink child resets its margin to 0); `:where` keeps the element part at
+ * no specificity, and grandchildren are untouched. Collapsing margins join a block's after-space
+ * and the next block's before-space, so a heading's larger before-space wins over the block above.
+ * The first and last child sit flush with the edges, unless this column is itself a child of a
+ * flow column: then its edge margins collapse through it into the outer rhythm.
+ */
+const getFlow = ({ $flow }: { $flow?: InkFlowType }) => {
+  if (!$flow) return undefined
+
+  return css`
+    ${FLOW_GROUPS.map(
+      ([selector, group]) => css`
+        && > :where(${selector}) {
+          margin-block: ${getToken(`${group}:before`)} ${getToken(`${group}:after`)};
+        }
+      `,
+    )}
+
+    &&:not(:where([data-ink-flow] > *)) > :where(:first-child) {
+      margin-block-start: 0;
+    }
+
+    &&:not(:where([data-ink-flow] > *)) > :where(:last-child) {
+      margin-block-end: 0;
+    }
+  `
+}
+
 export const StyledInk = styled.p<{
   $as: InkAsType
   $size?: FontSizeType
@@ -213,6 +269,7 @@ export const StyledInk = styled.p<{
   $maxWidth?: InkMaxWidthType
   $decoration?: InkDecorationType
   $truncate?: InkTruncateType
+  $flow?: InkFlowType
 }>`
   margin: 0;
 
@@ -260,4 +317,7 @@ export const StyledInk = styled.p<{
 
   /* Single-line truncation */
   ${getTruncate}
+
+  /* Reading-column spacing of the direct children */
+  ${getFlow}
 `

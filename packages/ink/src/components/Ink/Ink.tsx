@@ -32,6 +32,9 @@ import { InkProps } from "./Ink.types"
  *
  * // Custom line height
  * <Ink lineHeight="expanded">Highly readable text</Ink>
+ *
+ * // A reading column: headings, paragraphs and blocks spaced from the ink.flow tokens
+ * <Ink as="div" flow><Ink as="h2">Title</Ink><Ink as="p">Text</Ink></Ink>
  * ```
  */
 const Ink: React.FC<InkProps> = ({
@@ -44,6 +47,7 @@ const Ink: React.FC<InkProps> = ({
   code = false,
   color,
   decoration,
+  flow = false,
   href,
   id,
   italic = false,
@@ -78,6 +82,8 @@ const Ink: React.FC<InkProps> = ({
       $maxWidth={maxWidth}
       $decoration={decoration}
       $truncate={truncate}
+      $flow={flow}
+      data-ink-flow={flow || undefined}
       as={as}
       href={as === "a" ? href : undefined}
       id={id}
