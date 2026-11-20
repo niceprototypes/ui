@@ -25,6 +25,11 @@ export const StyledRow = styled.div<{
     `border-bottom: ${getToken("tabs.borderWidth:base")} solid ${getToken("tabs.borderColor:base")};`}
 `
 
+/** The selected tab's panel: spaced from the tab row by the size's panel.paddingTop token. */
+export const StyledPanel = styled.div<{ $size: TabsSizeType }>`
+  padding-top: ${({ $size }) => getToken(`tabs.panel.paddingTop:${$size}`)};
+`
+
 export const StyledTabList = styled.div<{ $size: TabsSizeType; $gap?: TabsGapType }>`
   display: flex;
   align-items: stretch;

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Theme } from "@niceprototypes/styles"
 import { findTabIndex, type TabsNavigationKey } from "../../utilities/findTabIndex"
-import { StyledRow, StyledTab, StyledTabList } from "./Tabs.styles"
+import { StyledPanel, StyledRow, StyledTab, StyledTabList } from "./Tabs.styles"
 import type { TabsProps, TabsSelectEventType } from "./Tabs.types"
 
 const NAVIGATION_KEYS: string[] = ["ArrowRight", "ArrowLeft", "Home", "End"] satisfies TabsNavigationKey[]
@@ -119,9 +119,9 @@ const Tabs: React.FC<TabsProps> = ({
         {end}
       </StyledRow>
       {selectedId !== undefined && (
-        <div role="tabpanel" id={panelId} aria-labelledby={tabId(selectedId)} tabIndex={0}>
+        <StyledPanel role="tabpanel" id={panelId} aria-labelledby={tabId(selectedId)} tabIndex={0} $size={size}>
           {children}
-        </div>
+        </StyledPanel>
       )}
     </div>
   )
