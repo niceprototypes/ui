@@ -30,7 +30,7 @@ import { getColumns } from "@niceprototypes/docs/data"
 
 The apps load `src/content/` by path, not through `exports`: the Storybook through its `stories`
 glob (`apps/storybook/.storybook/main.ts`), the docs site through `import.meta.glob`
-(`apps/docs/src/pages.tsx`). `npm run check:data` in `apps/storybook` validates `storybook.json`.
+(`apps/docs/src/pages.tsx`). `pnpm check:data` here validates `storybook.json` (`scripts/check-data.ts`).
 
 Requires (peers): `react` 19, `react-dom` 19, `styled-components` 6, `@storybook/addon-docs` ≥ 10.
 

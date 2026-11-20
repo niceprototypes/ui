@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check:data": "node scripts/check-data.ts",
+    "check:data": "node ../../packages/docs/scripts/check-data.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prestorybook": "node -e \"const fs=require('fs');for(const d of ['node_modules/.cache','node_modules/.vite'])fs.rmSync(d,{recursive:true,force:true})\" && npm run check:data && npm run generate:stories",
