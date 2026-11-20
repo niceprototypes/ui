@@ -5,11 +5,11 @@ export { tokenUnions, subcomponentsOf } from "@niceprototypes/docs/data/catalog"
 
 /** One component with its own page: its catalog entry, its section and its docs folder (Forms, Scroll) if any. */
 export type CatalogComponentType = CatalogEntryType & {
-  /** Its nav section, from its Storybook docs id's first segment: "components" (primitives) or "widgets" (built on them) */
+  /** Its nav section, from its docs id's first segment: "components" (primitives) or "widgets" (built on them) */
   section: string
-  /** Its folder under Components, from its Storybook docs id (`components-forms-button--docs` → Forms) */
+  /** Its folder under Components, from its docs id (`components-forms-button--docs` → Forms) */
   folder?: string
-  /** Its Storybook docs page id (`components-forms-button--docs`) */
+  /** Its docs page id (`components-forms-button--docs`), the Storybook id the page replaces */
   docsId: string
 }
 
@@ -17,7 +17,7 @@ export type CatalogComponentType = CatalogEntryType & {
 const folderName = (segment: string) => segment.charAt(0).toUpperCase() + segment.slice(1)
 
 /**
- * Every component with its own page (a Storybook docs page in the catalog; subcomponents are
+ * Every component with its own page (a docs id in the catalog: it has live examples; subcomponents are
  * sections of their parent's page), in catalog order. The docs id's segments between
  * `components` and the page are its folders; the first is kept, so a page nested under another
  * page's folder (Forms/Field/Fieldset) sits beside it.

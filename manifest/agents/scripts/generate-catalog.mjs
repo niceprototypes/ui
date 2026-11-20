@@ -10,7 +10,8 @@
  *   packages/{p}/src/{components|react/components}/{C}/{{C}.types|types}.ts   `{C}Props` members, JSDoc, @default
  *   packages/styles/src/generated/types.ts                     token unions (SizeType, GapType, …)
  *   packages/styles/src/tokens/components/{prefix}.json        component token addresses
- *   apps/storybook/stories/Components/**                       docs page and Playground story ids
+ *   packages/docs/src/examples/{C}/index.tsx                   docs page ids (a component with live examples has a page)
+ *   apps/storybook/stories/Components/**                       Playground story ids, while Storybook exists
  *
  * TypeScript comes from the nice-ux root devDependencies. No network.
  * Usage: node manifest/agents/scripts/generate-catalog.mjs [--root path-to-nice-ux]
@@ -291,31 +292,66 @@ const PARENTS = {
   MenuSeparator: "Menu",
 }
 
-/** Storybook titles under stories/Components: MDX `<Meta title>` and CSF `title:` + `export const Playground`. */
+/**
+ * Docs site pages (apps/docs): every component with a folder of live examples
+ * (`packages/docs/src/examples/{C}/index.tsx`) and no parent has a page. Its id is
+ * `{section}-{folder path}-{name}--docs`, lower case: the docs site reads its nav section and folder
+ * from the id (apps/docs/src/catalog.ts) and redirects `?path=/docs/{id}` to the page.
+ */
+const examplesRoot = join(root, "packages", "docs", "src", "examples")
+const docsPages = new Set(
+  isDirectory(examplesRoot) ? listDirectory(examplesRoot).filter(name => existsSync(join(examplesRoot, name, "index.tsx"))) : [],
+)
+/** Components in a nav section other than Components: Widgets, built on the primitives. */
+const DOCS_SECTIONS = { DataTable: "widgets" }
+/** Components in a folder of their section's nav, as its path. */
+const DOCS_FOLDERS = {
+  Button: "forms",
+  Calendar: "forms",
+  Checkbox: "forms",
+  DateField: "forms",
+  Field: "forms",
+  Fieldset: "forms/field",
+  Form: "forms",
+  Input: "forms",
+  Listbox: "forms",
+  RadioGroup: "forms",
+  Select: "forms",
+  Toggle: "forms",
+  ChatComposer: "chat",
+  ChatCopyAction: "chat",
+  ChatLog: "chat",
+  ChatMessage: "chat",
+  ChatSuggestions: "chat",
+  ChatThinking: "chat",
+  ChatToolCall: "chat",
+  SectionLinks: "scroll",
+  StickySection: "scroll",
+}
+/** A component's docs page id, or null: a subcomponent's docs are a section of its parent's page. */
+const docsIdOf = name =>
+  docsPages.has(name) && !PARENTS[name]
+    ? `${[DOCS_SECTIONS[name] ?? "components", ...(DOCS_FOLDERS[name]?.split("/") ?? []), name.toLowerCase()].join("-")}--docs`
+    : null
+
+/** Storybook CSF titles under stories/Components with `export const Playground`; none once Storybook is gone. */
 function readStories() {
   const storiesRoot = join(root, "apps", "storybook", "stories", "Components")
-  const docs = []
   const playgrounds = []
   const walk = directory => {
     if (!isDirectory(directory)) return
     for (const entry of listDirectory(directory)) {
       const path = join(directory, entry)
       if (isDirectory(path)) walk(path)
-      else if (entry.endsWith(".mdx")) {
-        const match = readFileSync(path, "utf8").match(/<Meta[^>]*\btitle="([^"]+)"/)
-        if (match) docs.push(match[1])
-      } else if (/\.stories\.tsx?$/.test(entry)) {
+      else if (/\.stories\.tsx?$/.test(entry)) {
         const text = readFileSync(path, "utf8")
         const title = text.match(/\btitle:\s*["']([^"']+)["']/)
-        if (title) {
-          docs.push(title[1])
-          if (/export const Playground\b/.test(text)) playgrounds.push(title[1])
-        }
+        if (title && /export const Playground\b/.test(text)) playgrounds.push(title[1])
       }
     }
   }
   walk(storiesRoot)
-  return { docs, playgrounds }
+  return { playgrounds }
 }
 const stories = readStories()
 const lastSegment = title => title.split("/").pop()
@@ -349,7 +385,6 @@ const packages = listDirectory(packagesRoot)
           const parsed = readPropsFile(typesPath, name)
           const tokens = readComponentTokens(lowerFirst(name))
           const props = parsed?.props ?? []
-          const docsTitle = stories.docs.find(title => lastSegment(title) === name)
           const playgroundTitle = stories.playgrounds.find(title => lastSegment(title) === name)
           const states = [
             ...props.filter(prop => prop.type === "boolean").map(prop => `prop:${prop.name}`),
@@ -366,8 +401,7 @@ const packages = listDirectory(packagesRoot)
             states,
             tokens,
             ...(PARENTS[name] ? { parent: PARENTS[name] } : {}),
-            // A subcomponent's docs are a section of its parent's page.
-            docs: docsTitle && !PARENTS[name] ? `${sanitizeStoryId(docsTitle)}--docs` : null,
+            docs: docsIdOf(name),
             playground: playgroundTitle ? `${sanitizeStoryId(playgroundTitle)}--playground` : null,
           }
         })
@@ -388,7 +422,8 @@ const usedUnions = [...tokenUnions.keys()].filter(name => allComponents.some(com
 
 const catalog = {
   $comment: "GENERATED by manifest/agents/scripts/generate-catalog.mjs; do not edit. Query with jq; never read whole.",
-  storybook: { local: "http://localhost:4006/?path=/docs/", deployed: "https://niceprototypes.com/ui/?path=/docs/" },
+  // A component's page: the docs site redirects `?path=/docs/{docs id}` to it.
+  docsSite: { local: "http://localhost:4020/?path=/docs/", deployed: "https://niceprototypes.com/ui/?path=/docs/" },
   commonProps: "className style ref id data-testid aria-*",
   tokenAddressFormat: 'getToken("{prefix}.{group.path}:{variant}") from @niceprototypes/styles',
   tokenUnions: Object.fromEntries(usedUnions.map(name => [name, tokenUnions.get(name)])),
@@ -419,4 +454,4 @@ writeFileSync(join(agentsDir, "components.txt"), lines.join("\n") + "\n")
 const missingStory = allComponents.filter(component => !component.docs).map(component => component.name)
 const missingPlayground = allComponents.filter(component => !component.playground).length
 console.log(`catalog: ${packages.length} packages, ${allComponents.length} components; ${missingPlayground} without a Playground`)
-if (missingStory.length) console.log(`  no storybook page: ${missingStory.join(", ")}`)
+if (missingStory.length) console.log(`  no docs page: ${missingStory.join(", ")}`)

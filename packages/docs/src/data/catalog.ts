@@ -12,7 +12,7 @@ export type CatalogEntryType = {
   /** Whether the package exports it by name; otherwise it is the default export */
   named: boolean
   props: CatalogPropType[]
-  /** Its Storybook docs page id; null for a subcomponent or a component without a page */
+  /** Its docs page id (from its live examples folder); null for a subcomponent or a component without a page */
   docs: string | null
   /** The component it is a part of (CardHeader → Card); a subcomponent has no page of its own */
   parent?: string
