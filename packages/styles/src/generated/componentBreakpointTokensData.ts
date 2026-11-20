@@ -17,6 +17,18 @@ const componentBreakpointTokensData: ComponentBreakpointTokensData = {
       }
     }
   },
+  "flow": {
+    "tablet": {
+      "scale": {
+        "base": "0.75"
+      }
+    },
+    "laptop": {
+      "scale": {
+        "base": "1"
+      }
+    }
+  },
   "logo": {
     "tablet": {
       "height": {

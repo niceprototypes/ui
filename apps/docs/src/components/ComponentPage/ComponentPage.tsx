@@ -1,5 +1,4 @@
 import * as React from "react"
-import Flex from "@niceprototypes/flex"
 import Ink from "@niceprototypes/ink"
 import DocsPage, { type DocsPageSectionType } from "../DocsPage"
 import Playground from "../Playground"
@@ -11,7 +10,6 @@ import { ComponentTokenTable, componentPrefixesWithTokens, type ComponentPrefixW
 import { componentExamples } from "@niceprototypes/docs/examples"
 import { StoryHeader } from "@niceprototypes/docs/components/Story"
 import { StoryHeaderLevel } from "@niceprototypes/docs/components/Story/StoryHeader/StoryHeaderLevel"
-import Install from "@niceprototypes/docs/components/Install"
 import Code from "@niceprototypes/docs/nice/Code"
 
 
@@ -43,14 +41,13 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
       id: "overview",
       label: "Overview",
       content: (
-        <Flex direction="column" gap="large">
-          <StoryHeader title={component.name} packageName={component.package} />
-          <Install package={component.package.replace("@niceprototypes/", "")} />
+        <>
+          <StoryHeader title={component.name} packageName={component.package} install />
           <Code language="tsx" code={importLine} />
           {component.section === "widgets" ? (
-            <Ink>{`Built from Nice UI: ${component.builtFrom.join(", ")}.`}</Ink>
+            <Ink as="p">{`Built from Nice UI: ${component.builtFrom.join(", ")}.`}</Ink>
           ) : null}
-        </Flex>
+        </>
       ),
     },
     ...(hasPlayground(component)
@@ -85,11 +82,11 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
         id: anchor,
         label: sub.name,
         content: (
-          <Flex direction="column" gap="large">
+          <>
             <SectionHeading title={sub.name} />
             <Code language="tsx" code={`import { ${sub.name} } from "${sub.package}"`} />
-            {sub.props.length === 0 && <Ink>No props of its own.</Ink>}
-          </Flex>
+            {sub.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
+          </>
         ),
         sections: sub.props.map(prop => ({
           id: `${anchor}-prop-${prop.name}`,
@@ -110,10 +107,10 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
         id: `example-${key}`,
         label: example.name,
         content: (
-          <Flex direction="column" gap="base">
+          <>
             <SubHeading title={example.name} description={example.description} />
             <ExampleBlocks example={example} />
-          </Flex>
+          </>
         ),
       })),
     })

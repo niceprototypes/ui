@@ -1,0 +1,15 @@
+{
+  "$schema": "../config-exports/src/schema.json",
+  "description": "Vertical content rhythm: headings, text, lists, code, tables, media and blocks spaced from the flow tokens.",
+  "default": "Flow",
+  "components": [
+    "Flow",
+    "FlowItem"
+  ],
+  "services": [
+    "getFlowStyle"
+  ],
+  "constants": [
+    "FLOW_ATTRIBUTE"
+  ]
+}

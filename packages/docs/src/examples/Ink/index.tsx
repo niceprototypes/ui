@@ -71,9 +71,57 @@ export const inkWordBreak = {
   code: variant => (variant === "normal" ? `<Ink>{url}</Ink>` : `<Ink wordBreak="${variant}">{url}</Ink>`),
 } satisfies ComponentExample
 
+/** One reading column of every element kind `flow` spaces, as Ink headings and paragraphs and plain elements. */
+const FlowColumn = ({ flow }: { flow: boolean }) => (
+  <Ink as="div" flow={flow}>
+    <Ink as="h2">Release notes</Ink>
+    <Ink as="p">Every package now reads its spacing from tokens, so a reading column keeps one rhythm.</Ink>
+    <Ink as="h3">Changes</Ink>
+    <ul>
+      <li>Tokens per element kind</li>
+      <li>One flag on Ink</li>
+    </ul>
+    <Ink as="blockquote" italic>A heading sits closer to its content than to the block above it.</Ink>
+    <pre>{`<Ink as="div" flow>…</Ink>`}</pre>
+    <table>
+      <tbody>
+        <tr><td>h2</td><td>larger + large before, larger after</td></tr>
+        <tr><td>p</td><td>none before, large after</td></tr>
+      </tbody>
+    </table>
+    <hr />
+    <Ink as="h4">Next</Ink>
+    <Ink as="p">The first and last child sit flush with the column's edges.</Ink>
+  </Ink>
+)
+
+const flowCode = (flow: boolean) => `<Ink as="div"${flow ? " flow" : ""}>
+  <Ink as="h2">Release notes</Ink>
+  <Ink as="p">Every package now reads its spacing from tokens…</Ink>
+  <Ink as="h3">Changes</Ink>
+  <ul>…</ul>
+  <Ink as="blockquote" italic>…</Ink>
+  <pre>…</pre>
+  <table>…</table>
+  <hr />
+  <Ink as="h4">Next</Ink>
+  <Ink as="p">The first and last child sit flush…</Ink>
+</Ink>`
+
+export const inkFlow = {
+  name: "flow",
+  description:
+    "Applies Flow (@niceprototypes/flow) to the direct children: the `flow` tokens space each heading level more before than after, text, lists, blockquotes, tables, code and media a step apart, rules a step on each side, the first and last child flush. Off, the children keep their own margins (Ink resets its own to 0). For density and overrides, use Flow itself.",
+  variants: ["false", "true"],
+  default: "false",
+  preview: variant => <FlowColumn flow={variant === "true"} />,
+  code: variant => flowCode(variant === "true"),
+} satisfies ComponentExample
+
 /** Every new Ink example facet — each one a section of the Ink docs page. */
 export const inkExamples = {
   children: inkChildren,
+  flow: inkFlow,
   theme: inkTheme,
   lineClamp: inkLineClamp,
   wordBreak: inkWordBreak,

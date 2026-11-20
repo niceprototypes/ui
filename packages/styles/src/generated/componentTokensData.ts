@@ -752,6 +752,72 @@ const componentTokensData: ComponentTokensData = {
       "error": "var(--np--gap--smaller)"
     }
   },
+  "flow": {
+    "h1": {
+      "before": "calc(var(--np--gap--larger) * 2)",
+      "after": "var(--np--gap--larger)"
+    },
+    "h2": {
+      "before": "calc(var(--np--gap--larger) + var(--np--gap--large))",
+      "after": "var(--np--gap--larger)"
+    },
+    "h3": {
+      "before": "calc(var(--np--gap--large) * 2)",
+      "after": "var(--np--gap--larger)"
+    },
+    "h4": {
+      "before": "var(--np--gap--larger)",
+      "after": "var(--np--gap)"
+    },
+    "h5": {
+      "before": "var(--np--gap--large)",
+      "after": "var(--np--gap)"
+    },
+    "h6": {
+      "before": "var(--np--gap--large)",
+      "after": "var(--np--gap)"
+    },
+    "text": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "list": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "blockquote": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "table": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "code": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "media": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "block": {
+      "before": "var(--np--gap--none)",
+      "after": "var(--np--gap--large)"
+    },
+    "rule": {
+      "before": "var(--np--gap--larger)",
+      "after": "var(--np--gap--larger)"
+    },
+    "density": {
+      "compact": "0.5",
+      "base": "1",
+      "spacious": "1.5"
+    },
+    "scale": {
+      "base": "0.5"
+    }
+  },
   "header": {
     "backgroundColor": {
       "base": "var(--np--background-color)",
@@ -936,64 +1002,6 @@ const componentTokensData: ComponentTokensData = {
       "prose": "65ch",
       "wide": "80ch",
       "full": "none"
-    },
-    "flow": {
-      "h1": {
-        "before": "calc(var(--np--gap--larger) * 2)",
-        "after": "var(--np--gap--larger)"
-      },
-      "h2": {
-        "before": "calc(var(--np--gap--larger) + var(--np--gap--large))",
-        "after": "var(--np--gap--larger)"
-      },
-      "h3": {
-        "before": "calc(var(--np--gap--large) * 2)",
-        "after": "var(--np--gap--larger)"
-      },
-      "h4": {
-        "before": "var(--np--gap--larger)",
-        "after": "var(--np--gap)"
-      },
-      "h5": {
-        "before": "var(--np--gap--large)",
-        "after": "var(--np--gap)"
-      },
-      "h6": {
-        "before": "var(--np--gap--large)",
-        "after": "var(--np--gap)"
-      },
-      "text": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "list": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "blockquote": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "table": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "code": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "media": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "block": {
-        "before": "var(--np--gap--none)",
-        "after": "var(--np--gap--large)"
-      },
-      "rule": {
-        "before": "var(--np--gap--larger)",
-        "after": "var(--np--gap--larger)"
-      }
     }
   },
   "input": {
@@ -1512,6 +1520,15 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--gap--small)",
       "large": "var(--np--gap--small)",
       "larger": "var(--np--gap)"
+    },
+    "panel": {
+      "paddingTop": {
+        "smaller": "var(--np--gap--smaller)",
+        "small": "var(--np--gap--small)",
+        "base": "var(--np--gap)",
+        "large": "var(--np--gap--large)",
+        "larger": "var(--np--gap--larger)"
+      }
     },
     "fontSize": {
       "smaller": "var(--np--font-size--smaller)",

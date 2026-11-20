@@ -1,5 +1,5 @@
 import * as React from "react"
-import Flex from "@niceprototypes/flex"
+import Flow from "@niceprototypes/flow"
 import ResetDemoItem from "./ResetDemoItem"
 import Line from "../Line"
 
@@ -39,7 +39,7 @@ const frame = (pageHtml: string, css: string): string =>
   `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">${css ? `<style>${css}</style>` : ""}</head><body><div style="padding:16px">${pageHtml}</div></body></html>`
 
 /**
- * A vertical stack of reset demo frames — the same page rendered under a
+ * A Flow column of reset demo frames, ruled apart — the same page rendered under a
  * progressively larger stack of reset stylesheets. Each example declares its
  * `layers`; the composed `srcDoc` (tokens + those layers) and the import blocks'
  * file list are both derived here, so the story only declares intent.
@@ -49,7 +49,7 @@ const ResetDemo: React.FC<ResetDemoProps> = ({
   tokensCss,
   examples,
 }) => (
-  <Flex direction="column" gap="larger">
+  <Flow>
     {examples.map((example, index) => {
       const layers = example.layers ?? []
       const css = layers.length
@@ -68,7 +68,7 @@ const ResetDemo: React.FC<ResetDemoProps> = ({
         </React.Fragment>
       )
     })}
-  </Flex>
+  </Flow>
 )
 
 export default ResetDemo

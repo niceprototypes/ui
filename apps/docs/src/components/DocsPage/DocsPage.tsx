@@ -1,7 +1,7 @@
 import * as React from "react"
 import Contents from "@niceprototypes/contents"
 import type { ContentsItemsType } from "@niceprototypes/contents"
-import Flex from "@niceprototypes/flex"
+import Flow, { FLOW_ATTRIBUTE } from "@niceprototypes/flow"
 import { DocsSettingsContext } from "./DocsSettings"
 import type { DocsPageProps, DocsPageSectionType } from "./DocsPage.types"
 import {
@@ -17,20 +17,19 @@ import {
 const toItems = (sections: ReadonlyArray<DocsPageSectionType>): ContentsItemsType =>
   sections.map(({ id, label, sections: nested }) => ({ id, label, ...(nested?.length ? { items: toItems(nested) } : {}) }))
 
-/** A section: its content, then its nested sections. */
+/** A section, a Flow column inside the page's: its content, then its nested sections. */
 const Section = ({ section }: { section: DocsPageSectionType }) => (
-  <StyledDocsPageSection id={section.id}>
-    <Flex direction="column" gap="larger">
-      {section.content}
-      {section.sections?.map(nested => <Section key={nested.id} section={nested} />)}
-    </Flex>
+  <StyledDocsPageSection id={section.id} {...{ [FLOW_ATTRIBUTE]: "" }}>
+    {section.content}
+    {section.sections?.map(nested => <Section key={nested.id} section={nested} />)}
   </StyledDocsPageSection>
 )
 
 /**
  * DocsPage
  *
- * A docs page: its sections stacked in a column capped at `docs.columnWidth` (unless not
+ * A docs page: its sections in one Flow column (each section a nested Flow column, so
+ * headings, prose and blocks keep one rhythm across sections) capped at `docs.columnWidth` (unless not
  * `wrapped`), and Contents
  * listing them (nested sections nested) in a sticky column on the right, from laptop up, and the
  * site's settings (DocsSettingsContext) in a sticky column right of that; the columns sit centred
@@ -45,9 +44,9 @@ const DocsPage: React.FC<DocsPageProps> = ({ sections, wrapped = true, contents 
   return (
     <StyledDocsPage>
       <StyledDocsPageMain $wrapped={wrapped}>
-        <Flex direction="column" gap="larger">
+        <Flow>
           {sections.map(section => <Section key={section.id} section={section} />)}
-        </Flex>
+        </Flow>
       </StyledDocsPageMain>
       <StyledDocsPageAside>
         <Contents size="base" items={contents ?? toItems(sections)} />

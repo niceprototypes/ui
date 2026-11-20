@@ -67,9 +67,9 @@ export type InkTruncateType = boolean
 /**
  * InkFlowType
  *
- * Whether the element spaces its direct children as a reading column, from the
- * `ink.flow` tokens: each heading level, paragraph, list, blockquote, table, code
- * block, rule, media and other block takes its own space before and after.
+ * Whether the element spaces its direct children as a reading column with
+ * @niceprototypes/flow's rules and `flow` tokens (Flow's base rhythm; Flow itself
+ * adds density and role overrides).
  */
 export type InkFlowType = boolean
 
@@ -204,9 +204,9 @@ export type InkProps = {
   decoration?: InkDecorationType
 
   /**
-   * Space the direct children as a reading column, from the `ink.flow` tokens: a heading more
-   * space before than after, content blocks one step apart, the first and last child flush with
-   * the edges. @default false
+   * Space the direct children as a reading column with @niceprototypes/flow (its `flow` tokens):
+   * a heading more space before than after, content blocks one step apart, the first and last
+   * child flush with the edges. @default false
    */
   flow?: InkFlowType
 

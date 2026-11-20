@@ -1,41 +1,61 @@
 import * as React from "react"
-import Flex from "@niceprototypes/flex"
+import Flow from "@niceprototypes/flow"
 import Ink from "@niceprototypes/ink"
 import DocsInk from "../../nice/Ink"
 import Code from "@niceprototypes/code"
 import type { CatalogPropType } from "../../data/catalog"
+import { renderInline } from "../../data/text"
 import type { ComponentExample } from "../../dataTables/components/demos/Components"
 import ExampleBlocks from "../ExampleBlocks"
+import { StyledPropDocsMeta } from "./PropDocs.styles"
 
-/** A heading two levels under the page title (a prop, an example), and its description. */
+/**
+ * A heading two levels under the page title (a prop, an example), and its description, in an
+ * Flow column. A string description renders its `backtick` spans as inline code.
+ */
 export const SubHeading = ({ title, description }: { title: string; description?: React.ReactNode }) => (
-  <Flex direction="column" gap="base">
+  <Flow>
     <DocsInk as="h3">{title}</DocsInk>
-    {description ? <Ink>{description}</Ink> : null}
-  </Flex>
+    {description ? <DocsInk as="p">{typeof description === "string" ? renderInline(description) : description}</DocsInk> : null}
+  </Flow>
+)
+
+/** One labelled row of a prop's metadata grid. */
+const MetaRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <>
+    <dt>
+      <Ink size="small" color="lighter">{label}</Ink>
+    </dt>
+    <dd>{children}</dd>
+  </>
 )
 
 /**
  * PropDocs
  *
- * One prop, from the catalog: its name, description, type and default as inline code, and its
- * live examples when it has some.
+ * One prop, from the catalog, in a Flow column: its name, its description, a labelled
+ * grid of its type, default and whether it is required, then its live examples when it has some.
  */
 const PropDocs = ({ prop, example }: { prop: CatalogPropType; example?: ComponentExample }) => (
-  <Flex direction="column" gap="base">
+  <Flow>
     <SubHeading title={prop.name} description={prop.description ?? example?.description} />
-    <Flex gap="small" alignItems="center" wrap="wrap">
-      <Ink size="small" color="lighter">Type</Ink>
-      <Code language="tsx" code={prop.type} inlined margin="none" />
+    <StyledPropDocsMeta>
+      <MetaRow label="Type">
+        <Code language="tsx" code={prop.type} inlined margin="none" />
+      </MetaRow>
       {prop.default !== undefined && (
-        <>
-          <Ink size="small" color="lighter">Default</Ink>
+        <MetaRow label="Default">
           <Code language="tsx" code={prop.default} inlined margin="none" />
-        </>
+        </MetaRow>
       )}
-    </Flex>
+      {prop.required ? (
+        <MetaRow label="Required">
+          <Ink size="small">Yes</Ink>
+        </MetaRow>
+      ) : null}
+    </StyledPropDocsMeta>
     {example && <ExampleBlocks example={example} />}
-  </Flex>
+  </Flow>
 )
 
 export default PropDocs

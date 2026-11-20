@@ -1,30 +1,37 @@
-import Flex from "@niceprototypes/flex"
+import * as React from "react"
+import Flow from "@niceprototypes/flow"
+import Ink from "@niceprototypes/ink"
 import Code from "@niceprototypes/code"
-import { TokenName, variantKey } from "../../dataTables/utilities"
+import DocsInk from "../../nice/Ink"
+import { variantKey } from "../../dataTables/utilities"
 import type { ComponentExample } from "../../dataTables/components/demos/Components/Components.types"
 
 /**
  * ExampleBlocks
  *
- * A facet's live examples, one per variant: the variant's name as an inline chip (the default
- * flagged with a check), and under it one full-width Code block with the live demo above its code.
+ * A facet's live examples, one per variant, in a Flow column: an h4 naming the variant as
+ * an inline chip (the default one labelled "default"), and under it one full-width Code block
+ * with the live demo above its code.
  */
 const ExampleBlocks = ({ example }: { example: ComponentExample }) => {
   const defaultVariant = example.default ?? "base"
   return (
-    <Flex direction="column" gap="large">
+    <Flow>
       {example.variants.map(item => {
         const variant = variantKey(item)
         return (
-          <Flex key={variant} direction="column" gap="small">
-            <TokenName variant={variant} isDefault={variant === defaultVariant} />
+          <React.Fragment key={variant}>
+            <DocsInk as="h4">
+              <Code code={variant} inlined margin="none" />
+              {variant === defaultVariant ? <Ink size="small" color="lighter">{" default"}</Ink> : null}
+            </DocsInk>
             <Code code={example.code(item)} language="tsx">
               {example.preview(item)}
             </Code>
-          </Flex>
+          </React.Fragment>
         )
       })}
-    </Flex>
+    </Flow>
   )
 }
 

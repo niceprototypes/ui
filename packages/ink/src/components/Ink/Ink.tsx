@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Theme } from "@niceprototypes/styles"
+import { FLOW_ATTRIBUTE } from "@niceprototypes/flow"
 import { StyledInk } from "./Ink.styles"
 import { InkProps } from "./Ink.types"
 
@@ -33,7 +34,7 @@ import { InkProps } from "./Ink.types"
  * // Custom line height
  * <Ink lineHeight="expanded">Highly readable text</Ink>
  *
- * // A reading column: headings, paragraphs and blocks spaced from the ink.flow tokens
+ * // A reading column: headings, paragraphs and blocks spaced by @niceprototypes/flow
  * <Ink as="div" flow><Ink as="h2">Title</Ink><Ink as="p">Text</Ink></Ink>
  * ```
  */
@@ -83,7 +84,7 @@ const Ink: React.FC<InkProps> = ({
       $decoration={decoration}
       $truncate={truncate}
       $flow={flow}
-      data-ink-flow={flow || undefined}
+      {...(flow ? { [FLOW_ATTRIBUTE]: "" } : {})}
       as={as}
       href={as === "a" ? href : undefined}
       id={id}

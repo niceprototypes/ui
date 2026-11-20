@@ -1,5 +1,5 @@
 import * as React from "react"
-import Flex from "@niceprototypes/flex"
+import Flow from "@niceprototypes/flow"
 import { getToken } from "@niceprototypes/styles"
 import Ink from "../../nice/Ink"
 import Code from "../../nice/Code"
@@ -47,7 +47,7 @@ export interface ResetDemoItemProps {
  * when no layers are applied), an optional description, three headed import
  * CodeBlocks — HTML `<link>`, CSS `@import`, JS `import` — each listing every
  * loaded CSS file as a line, and a "Demo"-headed `<iframe>` rendering the
- * composed HTML document at desktop or mobile width.
+ * composed HTML document at desktop or mobile width, in a Flow column.
  */
 const ResetDemoItem: React.FC<ResetDemoItemProps> = ({
   label,
@@ -56,8 +56,7 @@ const ResetDemoItem: React.FC<ResetDemoItemProps> = ({
   srcDoc,
   mobile,
 }) => (
-  // The title sits a `larger` gap below ResetDemo's rule and the same gap above its content.
-  <Flex direction="column" gap="larger">
+  <Flow>
     <Ink
       as="h3"
       size="large"
@@ -65,37 +64,31 @@ const ResetDemoItem: React.FC<ResetDemoItemProps> = ({
     >
       {label}
     </Ink>
-    <Flex direction="column" gap="large">
-      {description ? <Ink>{description}</Ink> : null}
-      {files?.length ? (
-        <Flex direction="column" gap="large">
-          {importSyntaxes.map(syntax => (
-            <Flex key={syntax.language} direction="column" gap="small">
-              <Ink as="h4" size="base" weight="semibold">
-                {syntax.heading}
-              </Ink>
-              <Code
-                code={files.map(syntax.line).join("\n")}
-                language={syntax.language}
-                margin="none"
-                showLabel={false}
-              />
-            </Flex>
-          ))}
-        </Flex>
-      ) : null}
-      <Flex direction="column" gap="small">
-        <Ink as="h4" size="base" weight="semibold">
-          Demo
-        </Ink>
-        <ThemedFrame
-          title={label}
-          srcDoc={srcDoc}
-          style={mobile ? frameStyleMobile : frameStyle}
-        />
-      </Flex>
-    </Flex>
-  </Flex>
+    {description ? <Ink as="p">{description}</Ink> : null}
+    {files?.length
+      ? importSyntaxes.map(syntax => (
+          <React.Fragment key={syntax.language}>
+            <Ink as="h4" size="base" weight="semibold">
+              {syntax.heading}
+            </Ink>
+            <Code
+              code={files.map(syntax.line).join("\n")}
+              language={syntax.language}
+              margin="none"
+              showLabel={false}
+            />
+          </React.Fragment>
+        ))
+      : null}
+    <Ink as="h4" size="base" weight="semibold">
+      Demo
+    </Ink>
+    <ThemedFrame
+      title={label}
+      srcDoc={srcDoc}
+      style={mobile ? frameStyleMobile : frameStyle}
+    />
+  </Flow>
 )
 
 export default ResetDemoItem

@@ -20,6 +20,7 @@
     "@niceprototypes/icon": "workspace:^",
     "@niceprototypes/icon-vendor": "workspace:^",
     "@niceprototypes/image-vendor": "workspace:^",
+    "@niceprototypes/flow": "workspace:^",
     "@niceprototypes/ink": "workspace:^",
     "@niceprototypes/input": "workspace:^",
     "@niceprototypes/scroll": "workspace:^",

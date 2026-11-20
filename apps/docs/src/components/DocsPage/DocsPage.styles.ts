@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { getFlowStyle } from "@niceprototypes/flow"
 import { getBreakpoint } from "@niceprototypes/styles"
 import { Scroll } from "@niceprototypes/scroll"
 import { getToken } from "../../tokens"
@@ -29,8 +30,9 @@ export const StyledDocsPageMain = styled(Scroll).attrs({ axis: "x" })<{ $wrapped
   }
 `
 
-/** One section: scrolled to one page padding below the top, where Contents sticks. */
+/** One section, a Flow column (it carries `data-flow`): scrolled to one page padding below the top, where Contents sticks. */
 export const StyledDocsPageSection = styled.section`
+  ${getFlowStyle()}
   scroll-margin-top: ${getToken("contents.top")};
 `
 
