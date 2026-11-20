@@ -14,6 +14,11 @@ import type { ComponentExample } from "../../dataTables/components/demos/Compone
 const getToken = setTokens({ frame: { height: "480px", width: "100%" } }, "appExamples")
 const FRAME = { height: getToken("appExamples.frame:height"), width: getToken("appExamples.frame:width"), overflow: "hidden" } as const
 
+/** A shell path written as an address of this docs page (`?app=/docs/welcome`), and back. */
+const APP_PARAM = "?app="
+const pageAddress = (to: string) => `${APP_PARAM}${encodeURIComponent(to)}`
+const shellPath = (to: string) => (to.startsWith(APP_PARAM) ? decodeURIComponent(to.slice(APP_PARAM.length)) : to)
+
 /** The examples' router: the location in React state, one per shell. */
 const MemoryContext = React.createContext<{ location: AppLocationType; navigate: AppNavigateType } | null>(null)
 const useMemory = () => React.useContext(MemoryContext)!
@@ -22,7 +27,7 @@ const memoryRouter: AppRouterType = {
   Provider: ({ children }) => {
     const [location, setLocation] = React.useState<AppLocationType>({ pathname: "/", search: "" })
     const navigate = React.useCallback<AppNavigateType>(to => {
-      const [pathname, search = ""] = to.split("?")
+      const [pathname, search = ""] = shellPath(to).split("?")
       setLocation({ pathname, search: search && `?${search}` })
     }, [])
     return <MemoryContext.Provider value={{ location, navigate }}>{children}</MemoryContext.Provider>
@@ -43,6 +48,8 @@ const memoryRouter: AppRouterType = {
       </a>
     )
   },
+  // An address outside the shell (docsLink's new tab) opens this docs page, not the example's own path.
+  href: pageAddress,
 }
 
 /** A page that shows its name. */
