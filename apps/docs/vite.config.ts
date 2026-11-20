@@ -83,8 +83,6 @@ export default defineConfig(({ command }) => ({
     // One React and one styled-components context for this app and the Storybook modules it reuses.
     dedupe: ["react", "react-dom", "styled-components"],
   },
-  // The fonts, favicon and vector assets the Storybook already serves.
-  publicDir: resolve(import.meta.dirname, "../storybook/public"),
   server: { port: 4020, strictPort: true },
   preview: { port: 4020, strictPort: true },
 }))

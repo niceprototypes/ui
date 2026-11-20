@@ -27,7 +27,7 @@ const FETCH_PRIORITY_OPTIONS = ["high", "low", "auto"] as const satisfies readon
 /** The Storybook static image. */
 const PHOTO = "/rasters/og-image.png"
 
-/** PHOTO's 16px thumbnail, from `nicely thumbnails apps/storybook/public/rasters`. */
+/** PHOTO's 16px thumbnail, from `nicely thumbnails apps/docs/public/rasters`. */
 const PHOTO_THUMBNAIL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAJCAMAAAAM9FwAAAABrVBMVEUTEyU2Hyk5Jy8gFCEkGCEdGCMSEyISFB4SFCAPEhkZFR8aEyInJC8oFiYSERwbGCI0HCkqHC4ZFCMtFCQfIC0gIy8fIikvEyI1JDAVEyURFRsnJDAlHCgpJTMVEyYzJzcpEiUUEyYqIzQ5NT0wLzcqKDoeGyQnJDQ2N0IYFSs3GCkoKi0XFic7FCA+FSQjEiUzGzM3OT8tNDglFykeEygcHyQtJC0xEyUmJitZPi82MyxoOi4nFC5xPjomJiwyHy8dIyY2GiswMjhnRTVnNCh9OjlaOlYcHyYdISVoJR9CHDVXRU5EPTBEGilZHyFiMCiGOjJMHiQxGCcqMnk8Om9tM1VUMG9tMzJAIDF9ME8vNDEyRGsUGyVbT0MgOHQTGyY0T2NRUD4pNDUdQmU6VlpaKzRqJ2yDOB4ZHVs9KnpAJDsdPW11LyckHklYI2l/PCcdMjc4UFBpInZSVj5AIGhhLEcgQ15HJEVcLChYJ046V1MhPldXLjNWJXpDIj1+MR8/T0GgQyl/KVGAMUBiIjN7IWRkIzdwHmSHKEyQKGGGI2OXMEhBGzGdNUeNNDAJyyzLAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoUlEQVQI12OoLkvOjgvOrC3Kq2zq7GptZyisSkmIDglLK8nIzWru7e5gaChOjPV2C40sLa+ryW/sa2MoSIrycbZ1DQhPrUivz2npYYiP8XCwsrR28Y8I9PTz9QpicHeyszDSNrN3tDHX09UyMGYwNdRQUVbT0TTRVxAXFpCQYZASExWRllVXVZIX5GVk4uFn4GTnYGNgUJSTFOJmZmHl4gMAevknqlc8skkAAAAASUVORK5CYII="
 
 /** A src that never loads (404), so the thumbnail stays painted. */

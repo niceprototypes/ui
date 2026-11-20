@@ -75,7 +75,7 @@ const config: StorybookConfig = {
     // Preset: the boot overlay (managerHead) and the preview loader replacement (previewHead).
     "@niceprototypes/storybook-spinner",
   ],
-  staticDirs: ["../public"],
+  staticDirs: ["../../docs/public"],
   // Toolbar-only features; the toolbar is hidden (manager.js).
   features: {
     backgrounds: false,
