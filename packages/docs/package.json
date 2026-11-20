@@ -9,10 +9,12 @@
     "check:data": "node scripts/check-data.ts"
   },
   "dependencies": {
+    "@niceprototypes/app": "workspace:^",
     "@niceprototypes/badge": "workspace:^",
     "@niceprototypes/button": "workspace:^",
     "@niceprototypes/calendar": "workspace:^",
     "@niceprototypes/card": "workspace:^",
+    "@niceprototypes/chat": "workspace:^",
     "@niceprototypes/checkbox": "workspace:^",
     "@niceprototypes/code": "workspace:^",
     "@niceprototypes/contents": "workspace:^",
@@ -33,6 +35,7 @@
     "@niceprototypes/list": "workspace:^",
     "@niceprototypes/listbox": "workspace:^",
     "@niceprototypes/logo": "workspace:^",
+    "@niceprototypes/markdown": "workspace:^",
     "@niceprototypes/menu": "workspace:^",
     "@niceprototypes/metrics": "workspace:^",
     "@niceprototypes/popover": "workspace:^",

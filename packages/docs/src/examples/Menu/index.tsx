@@ -97,23 +97,6 @@ const Basic = (props: Partial<MenuProps>) => (
   </Menu>
 )
 
-/** Shows the label each choice reports. */
-const ReportingMenu = () => {
-  const [last, setLast] = useState<string | null>(null)
-  return (
-    <Flex direction="column" gap="small">
-      <Menu aria-label="Actions">
-        {["Edit", "Duplicate", "Delete"].map(label => (
-          <MenuItem key={label} onSelect={() => setLast(label)}>
-            {label}
-          </MenuItem>
-        ))}
-      </Menu>
-      <Ink code>{last === null ? "–" : `onSelect → ${last}`}</Ink>
-    </Flex>
-  )
-}
-
 /** Shows the reason onClose reports (choose an item, press Escape, or press Tab). */
 const TransientMenu = () => {
   const [reason, setReason] = useState<MenuCloseReasonType | null>(null)
@@ -221,16 +204,6 @@ export const menuTheme = {
   code: (variant: string) => `<Menu aria-label="Actions" theme="${variant}">…</Menu>`,
 } satisfies ComponentExample
 
-export const menuOnSelect = {
-  name: "MenuItem onSelect",
-  description:
-    "Runs when the item is activated by a click, Enter or Space. A transient menu then asks to close; call event.preventDefault() to keep it open. A mouse moving over an item focuses it; touch does not.",
-  variants: ["handler"],
-  default: "handler",
-  preview: () => <ReportingMenu />,
-  code: () => `<MenuItem onSelect={event => edit()}>Edit</MenuItem>`,
-} satisfies ComponentExample
-
 /** Every Menu example facet, each one a section of the Menu docs page. */
 export const menuExamples = {
   children: menuChildren,
@@ -241,5 +214,4 @@ export const menuExamples = {
   "aria-labelledby": menuAriaLabelledBy,
   id: menuId,
   theme: menuTheme,
-  onSelect: menuOnSelect,
 } satisfies Record<string, ComponentExample>

@@ -1505,6 +1505,9 @@ importers:
 
   packages/docs:
     dependencies:
+      '@niceprototypes/app':
+        specifier: workspace:^
+        version: link:../app
       '@niceprototypes/badge':
         specifier: workspace:^
         version: link:../badge
@@ -1517,6 +1520,9 @@ importers:
       '@niceprototypes/card':
         specifier: workspace:^
         version: link:../card
+      '@niceprototypes/chat':
+        specifier: workspace:^
+        version: link:../chat
       '@niceprototypes/checkbox':
         specifier: workspace:^
         version: link:../checkbox
@@ -1577,6 +1583,9 @@ importers:
       '@niceprototypes/logo':
         specifier: workspace:^
         version: link:../logo
+      '@niceprototypes/markdown':
+        specifier: workspace:^
+        version: link:../markdown
       '@niceprototypes/menu':
         specifier: workspace:^
         version: link:../menu
