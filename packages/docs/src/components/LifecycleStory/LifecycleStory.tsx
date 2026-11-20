@@ -57,7 +57,7 @@ function LifecycleStory<P>({ steps, render }: LifecycleStoryProps<P>) {
               key={item.label}
               size="small"
               color={itemIndex === 0 ? "base" : "lighter"}
-              weight={itemIndex === 0 ? "bold" : undefined}
+              weight={itemIndex === 0 ? "semibold" : undefined}
             >
               {item.label}
             </Ink>

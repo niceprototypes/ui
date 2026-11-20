@@ -5,13 +5,14 @@ import { inlineCode, unwrapMdxParagraph } from "./Ink.services"
 
 type Props = InkProps & { unstyled?: boolean }
 
-/** Heading elements keep @niceprototypes/ink's own color default. */
+/** Heading elements keep @niceprototypes/ink's own color default, and are semibold: the docs use no bold. */
 const HEADINGS = new Set(["h1", "h2", "h3", "h4"])
 
 const Ink: React.FC<Props> = ({
   as,
   unstyled = true,
   color,
+  weight,
   className,
   children,
   ...props
@@ -25,6 +26,7 @@ const Ink: React.FC<Props> = ({
     <StyledInk
       forwardedAs={as}
       color={finalColor}
+      weight={weight ?? (isHeading ? "semibold" : undefined)}
       {...props}
       className={finalClassName}
     >

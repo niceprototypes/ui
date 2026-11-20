@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { getToken as getCoreToken } from "@niceprototypes/styles"
 import { getToken } from "../../nice/tokens"
 
 /**
@@ -67,6 +68,11 @@ export const StyledDocsContent = styled.div`
 
   && > :first-child {
     margin-top: 0;
+  }
+
+  /* Bare markdown elements are semibold, as the docs Ink headings are: the docs use no bold. A component's own element (it carries a class) keeps its weight. */
+  :is(strong, b, th, h1, h2, h3, h4, h5, h6):not([class]) {
+    font-weight: ${getCoreToken("fontWeight", "semibold")};
   }
 
   /* Headings scroll to where Contents sticks, like sections. */

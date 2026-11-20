@@ -250,7 +250,7 @@
                     "variants": [
                       {
                         "variant": "heading",
-                        "weight": "bold",
+                        "weight": "semibold",
                         "text": "Heading"
                       },
                       {

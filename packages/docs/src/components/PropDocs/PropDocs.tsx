@@ -1,6 +1,7 @@
 import * as React from "react"
 import Flex from "@niceprototypes/flex"
 import Ink from "@niceprototypes/ink"
+import DocsInk from "../../nice/Ink"
 import Code from "@niceprototypes/code"
 import type { CatalogPropType } from "../../data/catalog"
 import type { ComponentExample } from "../../dataTables/components/demos/Components"
@@ -9,7 +10,7 @@ import ExampleBlocks from "../ExampleBlocks"
 /** A heading two levels under the page title (a prop, an example), and its description. */
 export const SubHeading = ({ title, description }: { title: string; description?: React.ReactNode }) => (
   <Flex direction="column" gap="base">
-    <Ink as="h3">{title}</Ink>
+    <DocsInk as="h3">{title}</DocsInk>
     {description ? <Ink>{description}</Ink> : null}
   </Flex>
 )
