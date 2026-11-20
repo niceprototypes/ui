@@ -1,5 +1,5 @@
 import * as React from "react"
-import Flow from "@niceprototypes/flow"
+import Flow, { FlowItem, getBleedRadius } from "@niceprototypes/flow"
 import { getToken } from "@niceprototypes/styles"
 import Ink from "../../nice/Ink"
 import Code from "../../nice/Code"
@@ -7,7 +7,7 @@ import ThemedFrame from "../ThemedFrame"
 
 /** Shared iframe chrome; width/height/radius differ per desktop vs mobile. */
 const frameChrome = {
-  borderRadius: getToken("borderRadius"),
+  borderRadius: getBleedRadius(getToken("borderRadius")),
   background: getToken("backgroundColor"),
 }
 const frameStyle = { ...frameChrome, width: 800, height: 600, maxWidth: "100%" }
@@ -83,11 +83,13 @@ const ResetDemoItem: React.FC<ResetDemoItemProps> = ({
     <Ink as="h4" size="base" weight="semibold">
       Demo
     </Ink>
-    <ThemedFrame
-      title={label}
-      srcDoc={srcDoc}
-      style={mobile ? frameStyleMobile : frameStyle}
-    />
+    <FlowItem bleed>
+      <ThemedFrame
+        title={label}
+        srcDoc={srcDoc}
+        style={mobile ? frameStyleMobile : frameStyle}
+      />
+    </FlowItem>
   </Flow>
 )
 

@@ -63,6 +63,12 @@
   "scale": {
     "base": "0.5"
   },
+  "bleed": {
+    "base": "calc(var(--np--gap--small) * 0)"
+  },
+  "itemBleed": {
+    "base": "calc(var(--np--gap--small) * 0)"
+  },
   "$breakpoints": {
     "tablet": {
       "scale": {

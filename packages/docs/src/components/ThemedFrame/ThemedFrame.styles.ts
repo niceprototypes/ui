@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { getBleedRadius } from "@niceprototypes/flow"
 import { getToken } from "@niceprototypes/styles"
 import { Scroll } from "@niceprototypes/scroll"
 
@@ -20,7 +21,7 @@ export const FrameDiv = styled.div<{ $scrollable?: boolean }>`
   border: 1px solid
     ${({ $scrollable }) =>
       $scrollable ? getToken("borderColor") : "transparent"};
-  border-radius: ${getToken("borderRadius")};
+  border-radius: ${getBleedRadius(getToken("borderRadius"))};
 `
 
 /**

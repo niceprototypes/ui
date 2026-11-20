@@ -1,8 +1,9 @@
-import { getToken, type TokenGroup } from "@niceprototypes/styles"
+import { getToken } from "@niceprototypes/styles"
 import { FLOW_ATTRIBUTE } from "../constants"
+import type { FlowRoleType } from "../components/Flow/Flow.types"
 
-/** A child role's `flow` token group (`flow.h2`, `flow.text`, …); `flow.density` and `flow.scale` are multipliers, not roles. */
-type FlowRoleGroup = Exclude<Extract<TokenGroup, `flow.${string}`>, "flow.density" | "flow.scale">
+/** A child role's `flow` token group (`flow.h2`, `flow.text`, …). */
+type FlowRoleGroup = `flow.${FlowRoleType}`
 
 /** Each child role's selector and token group, in cascade order: the generic block first, so every specific role after it wins. */
 const FLOW_ROLES: readonly [selector: string, group: FlowRoleGroup][] = [

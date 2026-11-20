@@ -30,6 +30,14 @@ export type FlowAsType = "div" | "section" | "article" | "main" | "aside"
 export type FlowDensityType = TokenVariants["flow.density"]
 
 /**
+ * FlowSettingGroupType
+ *
+ * The `flow` token groups that are settings, not child roles: the density and breakpoint-scale
+ * multipliers, the bleed reach, and the reach inside a bleeding item.
+ */
+export type FlowSettingGroupType = "flow.density" | "flow.scale" | "flow.bleed" | "flow.itemBleed"
+
+/**
  * FlowRoleType
  *
  * A child role with its own `flow.{role}` before/after tokens.
@@ -44,7 +52,7 @@ export type FlowDensityType = TokenVariants["flow.density"]
  * - "rule": hr
  * - "block": every other child (cards, components, wrappers)
  */
-export type FlowRoleType = Exclude<Extract<TokenGroup, `flow.${string}`>, "flow.density" | "flow.scale"> extends `flow.${infer Role}` ? Role : never
+export type FlowRoleType = Exclude<Extract<TokenGroup, `flow.${string}`>, FlowSettingGroupType> extends `flow.${infer Role}` ? Role : never
 
 /**
  * FlowRoleSpaceType

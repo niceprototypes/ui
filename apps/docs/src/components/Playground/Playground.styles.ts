@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { getBleedRadius } from "@niceprototypes/flow"
 import { getToken } from "../../tokens"
 
 /** The live preview: the component on the page surface, framed, with room around it. */
@@ -8,7 +9,7 @@ export const StyledPlaygroundPreview = styled.div`
   justify-content: center;
   padding: ${getToken("gap", "large")};
   border: ${getToken("borderWidth")} solid ${getToken("borderColor")};
-  border-radius: ${getToken("borderRadius")};
+  border-radius: ${getBleedRadius(getToken("borderRadius"))};
 `
 
 /** The controls: one row per prop, its name beside its control. */

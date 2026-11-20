@@ -14,6 +14,11 @@ const componentBreakpointTokensData: ComponentBreakpointTokensData = {
         "fontSize": {
           "base": "1em"
         }
+      },
+      "docs": {
+        "bleed": {
+          "base": "calc(var(--np--gap--small) * 0)"
+        }
       }
     }
   },

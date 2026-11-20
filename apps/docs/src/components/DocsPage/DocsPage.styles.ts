@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { getFlowStyle } from "@niceprototypes/flow"
-import { getBreakpoint } from "@niceprototypes/styles"
+import { getBreakpoint, getToken as getCoreToken } from "@niceprototypes/styles"
 import { Scroll } from "@niceprototypes/scroll"
 import { getToken } from "../../tokens"
 
@@ -24,6 +24,10 @@ export const StyledDocsPage = styled.div`
 export const StyledDocsPageMain = styled(Scroll).attrs({ axis: "x" })<{ $wrapped: boolean }>`
   flex: ${({ $wrapped }) => ($wrapped ? `0 1 ${getToken("docs", "columnWidth")}` : "1 1 auto")};
   min-width: 0;
+  /* The column's box spans the page's bleed (App: its gutter on phone) and insets its content by
+     it, so a bleeding FlowItem reaches the page's edges inside this scroller instead of being clipped. */
+  margin-inline: calc(-1 * ${getCoreToken("flow.bleed")});
+  padding-inline: ${getCoreToken("flow.bleed")};
 
   ${getBreakpoint("laptop+")} {
     margin-inline-start: auto;

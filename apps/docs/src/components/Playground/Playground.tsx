@@ -1,5 +1,5 @@
 import * as React from "react"
-import Flex from "@niceprototypes/flex"
+import Flow, { FlowItem } from "@niceprototypes/flow"
 import Ink from "@niceprototypes/ink"
 import Input from "@niceprototypes/input"
 import Select from "@niceprototypes/select"
@@ -92,13 +92,15 @@ const Playground: React.FC<{ component: CatalogComponentType }> = ({ component }
   const jsx = children === undefined ? `<${component.name}${attributes} />` : `<${component.name}${attributes}>${children}</${component.name}>`
 
   return (
-    <Flex direction="column" gap="large">
-      <StyledPlaygroundPreview>
+    <Flow>
+      <FlowItem bleed>
+        <StyledPlaygroundPreview>
         {/* The context the scroll components need above them, scrolling with the page's region; the rest ignore it. */}
-        <Scroll root={region}>
-          <PreviewBoundary values={values}>{Component && <Component {...props}>{children}</Component>}</PreviewBoundary>
-        </Scroll>
-      </StyledPlaygroundPreview>
+          <Scroll root={region}>
+            <PreviewBoundary values={values}>{Component && <Component {...props}>{children}</Component>}</PreviewBoundary>
+          </Scroll>
+        </StyledPlaygroundPreview>
+      </FlowItem>
       <NiceCode code={jsx} language="tsx" fit={false} />
       <StyledPlaygroundControls>
         {controls.map(control => (
@@ -108,7 +110,7 @@ const Playground: React.FC<{ component: CatalogComponentType }> = ({ component }
           </React.Fragment>
         ))}
       </StyledPlaygroundControls>
-    </Flex>
+    </Flow>
   )
 }
 

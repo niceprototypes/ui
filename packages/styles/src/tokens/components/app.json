@@ -82,11 +82,24 @@
       "base": "var(--np--background-color--day)"
     }
   },
+  "docs": {
+    "padding": {
+      "base": "var(--np--gap--large)"
+    },
+    "bleed": {
+      "base": "var(--np--gap--large)"
+    }
+  },
   "$breakpoints": {
     "tablet": {
       "search": {
         "fontSize": {
           "base": "1em"
+        }
+      },
+      "docs": {
+        "bleed": {
+          "base": "calc(var(--np--gap--small) * 0)"
         }
       }
     }

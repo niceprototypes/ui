@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import { getConstantKey, getToken } from "@niceprototypes/styles"
 import Flow from "./Flow"
+import { getBleedRadius } from "../../services"
 import { FlowItem } from "../FlowItem"
 
 /** Text of every <style> tag styled-components injected into the document. */
@@ -57,10 +58,21 @@ describe("Flow", () => {
 })
 
 describe("FlowItem", () => {
+  it("bleeds past the column's sides by flow.bleed", () => {
+    render(<Flow><FlowItem bleed>item</FlowItem></Flow>)
+    expect(getInjectedCss()).toContain(`margin-inline:calc(-1 * ${getToken("flow.bleed")})`)
+  })
+
   it("re-maps the block tokens on itself", () => {
     render(<Flow><FlowItem before="small" after="larger">item</FlowItem></Flow>)
     const css = getInjectedCss()
     expect(css).toContain(`${getConstantKey("flow.block:before")}:${getToken("gap", "small")}`)
     expect(css).toContain(`${getConstantKey("flow.block:after")}:${getToken("gap", "larger")}`)
+  })
+})
+
+describe("getBleedRadius", () => {
+  it("is the radius less the bleed, floored at zero", () => {
+    expect(getBleedRadius("8px")).toBe(`max(calc(8px * 0), calc(8px - ${getToken("flow.itemBleed")}))`)
   })
 })

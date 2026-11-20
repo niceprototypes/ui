@@ -91,6 +91,14 @@ const componentTokensData: ComponentTokensData = {
       "backgroundColor": {
         "base": "var(--np--background-color--day)"
       }
+    },
+    "docs": {
+      "padding": {
+        "base": "var(--np--gap--large)"
+      },
+      "bleed": {
+        "base": "var(--np--gap--large)"
+      }
     }
   },
   "badge": {
@@ -816,6 +824,12 @@ const componentTokensData: ComponentTokensData = {
     },
     "scale": {
       "base": "0.5"
+    },
+    "bleed": {
+      "base": "calc(var(--np--gap--small) * 0)"
+    },
+    "itemBleed": {
+      "base": "calc(var(--np--gap--small) * 0)"
     }
   },
   "header": {

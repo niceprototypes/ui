@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle, css } from "styled-components"
-import { getToken, type FontSizeType } from "@niceprototypes/styles"
+import { getConstantKey, getToken, type FontSizeType } from "@niceprototypes/styles"
 import { Scroll } from "@niceprototypes/scroll"
 
 /** The page has no margin: the shell (or, in the bare view, the scene region) fills the viewport. */
@@ -272,5 +272,7 @@ export const StyledAppEnd = styled.div`
 
 /** A markdown or docs section page: its content with the region's padding. */
 export const StyledAppDocs = styled.div`
-  padding: ${getToken("gap:large")};
+  padding: ${getToken("app.docs.padding")};
+  /* How far a bleeding Flow child (FlowItem bleed) reaches past the column: to the page's edge on phone. */
+  ${getConstantKey("flow.bleed")}: ${getToken("app.docs.bleed")};
 `

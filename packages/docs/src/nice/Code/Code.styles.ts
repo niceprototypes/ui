@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import ContentFlex from "../ContentFlex"
-import { getToken } from "@niceprototypes/styles"
 
 /**
  * Sizing wrapper for docs Code instances: a ContentFlex the card inside always fits.
@@ -16,14 +15,6 @@ export const CodeFlex = styled(ContentFlex)`
     max-width: 100%;
   }
 
-  /* A block Code directly after another Code sits one base gap below it. Inlined
-     instances are skipped: \`+\` ignores text nodes, so two inlined Codes in one
-     sentence would otherwise count as adjacent. */
-  ${({ inlined }) =>
-    !inlined &&
-    `width: 100%;
-
-    & + & {
-      margin-top: ${getToken("gap")};
-    }`}
+  /* A block Code fills its column; a Flow column spaces it from the blocks around it. */
+  ${({ inlined }) => !inlined && `width: 100%;`}
 `
