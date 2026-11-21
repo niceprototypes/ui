@@ -18,7 +18,7 @@ const themeTokensData: ThemeTokensData = {
       "highlight": "hsla(55, 100%, 97%, 1)",
       "warning": "hsla(29, 100%, 94%, 1)",
       "error": "hsla(10, 100%, 95%, 1)",
-      "link": "hsla(212, 100%, 95%, 1)"
+      "link": "hsla(245, 100%, 95%, 1)"
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
@@ -29,7 +29,7 @@ const themeTokensData: ThemeTokensData = {
       "highlight": "hsla(48, 90%, 83%, 1)",
       "warning": "hsla(29, 100%, 82%, 1)",
       "error": "hsla(10, 100%, 85%, 1)",
-      "link": "hsla(212, 100%, 85%, 1)"
+      "link": "hsla(245, 100%, 85%, 1)"
     },
     "color": {
       "base": "hsla(210, 5%, 5%, 1)",
@@ -37,7 +37,7 @@ const themeTokensData: ThemeTokensData = {
       "lighter": "hsla(210, 5%, 50%, 1)",
       "lightest": "hsla(210, 5%, 75%, 1)",
       "disabled": "hsla(210, 5%, 5%, 0.6)",
-      "link": "hsla(212, 100%, 46%, 1)",
+      "link": "hsla(245, 100%, 59.8%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
       "highlight": "hsla(48, 95%, 50%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
@@ -62,7 +62,7 @@ const themeTokensData: ThemeTokensData = {
       "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
       "error": "hsla(10, 55%, 20%, 1)",
-      "link": "hsla(202, 50%, 18%, 1)"
+      "link": "hsla(245, 50%, 18%, 1)"
     },
     "borderColor": {
       "base": "hsla(259, 5.9%, 22.9%, 1)",
@@ -73,7 +73,7 @@ const themeTokensData: ThemeTokensData = {
       "highlight": "hsla(48, 60%, 40%, 1)",
       "warning": "hsla(29, 65%, 32%, 1)",
       "error": "hsla(10, 60%, 34%, 1)",
-      "link": "hsla(202, 60%, 32%, 1)"
+      "link": "hsla(245, 60%, 32%, 1)"
     },
     "color": {
       "base": "hsla(210, 5%, 95%, 1)",
@@ -81,7 +81,7 @@ const themeTokensData: ThemeTokensData = {
       "lighter": "hsla(210, 5%, 95%, 0.55)",
       "lightest": "hsla(210, 5%, 95%, 0.25)",
       "disabled": "hsla(210, 5%, 95%, 0.6)",
-      "link": "hsla(202, 90%, 65%, 1)",
+      "link": "hsla(245, 91.4%, 77.3%, 1)",
       "success": "hsla(146, 59%, 48%, 1)",
       "highlight": "hsla(48, 90%, 65%, 1)",
       "warning": "hsla(29, 100%, 63%, 1)",

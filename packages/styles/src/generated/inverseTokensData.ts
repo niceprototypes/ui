@@ -18,7 +18,7 @@ const inverseTokensData: InverseTokensData = {
       "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
       "error": "hsla(10, 55%, 20%, 1)",
-      "link": "hsla(202, 50%, 18%, 1)"
+      "link": "hsla(245, 50%, 18%, 1)"
     },
     "night": {
       "base": "hsla(212, 5%, 100%, 1)",
@@ -29,7 +29,7 @@ const inverseTokensData: InverseTokensData = {
       "highlight": "hsla(48, 100%, 80%, 1)",
       "warning": "hsla(29, 90%, 92%, 1)",
       "error": "hsla(10, 85%, 93%, 1)",
-      "link": "hsla(212, 70%, 92%, 1)"
+      "link": "hsla(245, 70%, 92%, 1)"
     }
   },
   "borderColor": {
@@ -42,7 +42,7 @@ const inverseTokensData: InverseTokensData = {
       "highlight": "hsla(48, 60%, 40%, 1)",
       "warning": "hsla(29, 65%, 32%, 1)",
       "error": "hsla(10, 60%, 34%, 1)",
-      "link": "hsla(202, 60%, 32%, 1)"
+      "link": "hsla(245, 60%, 32%, 1)"
     },
     "night": {
       "base": "hsla(240, 5%, 91%, 1)",
@@ -53,7 +53,7 @@ const inverseTokensData: InverseTokensData = {
       "highlight": "hsla(48, 75%, 80%, 1)",
       "warning": "hsla(29, 90%, 80%, 1)",
       "error": "hsla(10, 85%, 83%, 1)",
-      "link": "hsla(212, 70%, 83%, 1)"
+      "link": "hsla(245, 70%, 83%, 1)"
     }
   },
   "color": {
@@ -63,7 +63,7 @@ const inverseTokensData: InverseTokensData = {
       "lighter": "hsla(210, 5%, 95%, 0.55)",
       "lightest": "hsla(210, 5%, 95%, 0.25)",
       "disabled": "hsla(210, 5%, 95%, 0.6)",
-      "link": "hsla(202, 90%, 65%, 1)",
+      "link": "hsla(245, 91.4%, 77.3%, 1)",
       "success": "hsla(146, 59%, 48%, 1)",
       "highlight": "hsla(48, 90%, 65%, 1)",
       "warning": "hsla(29, 100%, 63%, 1)",
@@ -75,7 +75,7 @@ const inverseTokensData: InverseTokensData = {
       "lighter": "hsla(210, 5%, 50%, 1)",
       "lightest": "hsla(210, 5%, 75%, 1)",
       "disabled": "hsla(210, 5%, 5%, 0.6)",
-      "link": "hsla(212, 100%, 46%, 1)",
+      "link": "hsla(245, 100%, 59.8%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
       "highlight": "hsla(48, 95%, 50%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",

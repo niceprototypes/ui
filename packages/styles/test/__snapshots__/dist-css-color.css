@@ -4,7 +4,7 @@
 	--np--color--lighter: hsla(210, 5%, 50%, 1);
 	--np--color--lightest: hsla(210, 5%, 75%, 1);
 	--np--color--disabled: hsla(210, 5%, 5%, 0.6);
-	--np--color--link: hsla(212, 100%, 46%, 1);
+	--np--color--link: hsla(245, 100%, 59.8%, 1);
 	--np--color--success: hsla(146, 68%, 44%, 1);
 	--np--color--highlight: hsla(48, 95%, 50%, 1);
 	--np--color--warning: hsla(29, 98%, 62%, 1);
@@ -14,7 +14,7 @@
 	--np--color--lighter--inverse: hsla(210, 5%, 95%, 0.55);
 	--np--color--lightest--inverse: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--inverse: hsla(210, 5%, 95%, 0.6);
-	--np--color--link--inverse: hsla(202, 90%, 65%, 1);
+	--np--color--link--inverse: hsla(245, 91.4%, 77.3%, 1);
 	--np--color--success--inverse: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--inverse: hsla(48, 90%, 65%, 1);
 	--np--color--warning--inverse: hsla(29, 100%, 63%, 1);
@@ -26,7 +26,7 @@
 	--np--color--lighter--day: hsla(210, 5%, 50%, 1);
 	--np--color--lightest--day: hsla(210, 5%, 75%, 1);
 	--np--color--disabled--day: hsla(210, 5%, 5%, 0.6);
-	--np--color--link--day: hsla(212, 100%, 46%, 1);
+	--np--color--link--day: hsla(245, 100%, 59.8%, 1);
 	--np--color--success--day: hsla(146, 68%, 44%, 1);
 	--np--color--highlight--day: hsla(48, 95%, 50%, 1);
 	--np--color--warning--day: hsla(29, 98%, 62%, 1);
@@ -36,7 +36,7 @@
 	--np--color--lighter--day--inverse: hsla(210, 5%, 95%, 0.55);
 	--np--color--lightest--day--inverse: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--day--inverse: hsla(210, 5%, 95%, 0.6);
-	--np--color--link--day--inverse: hsla(202, 90%, 65%, 1);
+	--np--color--link--day--inverse: hsla(245, 91.4%, 77.3%, 1);
 	--np--color--success--day--inverse: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--day--inverse: hsla(48, 90%, 65%, 1);
 	--np--color--warning--day--inverse: hsla(29, 100%, 63%, 1);
@@ -48,7 +48,7 @@
 	--np--color--lighter--night: hsla(210, 5%, 95%, 0.55);
 	--np--color--lightest--night: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--night: hsla(210, 5%, 95%, 0.6);
-	--np--color--link--night: hsla(202, 90%, 65%, 1);
+	--np--color--link--night: hsla(245, 91.4%, 77.3%, 1);
 	--np--color--success--night: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--night: hsla(48, 90%, 65%, 1);
 	--np--color--warning--night: hsla(29, 100%, 63%, 1);
@@ -58,7 +58,7 @@
 	--np--color--lighter--night--inverse: hsla(210, 5%, 50%, 1);
 	--np--color--lightest--night--inverse: hsla(210, 5%, 75%, 1);
 	--np--color--disabled--night--inverse: hsla(210, 5%, 5%, 0.6);
-	--np--color--link--night--inverse: hsla(212, 100%, 46%, 1);
+	--np--color--link--night--inverse: hsla(245, 100%, 59.8%, 1);
 	--np--color--success--night--inverse: hsla(146, 68%, 44%, 1);
 	--np--color--highlight--night--inverse: hsla(48, 95%, 50%, 1);
 	--np--color--warning--night--inverse: hsla(29, 98%, 62%, 1);
