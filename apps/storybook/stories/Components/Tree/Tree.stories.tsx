@@ -90,7 +90,7 @@ const FOLDER_IDS = ["basics", "components", "components/forms", "components/form
  *
  * TreeProps plus the data controls: `levels` (depth of the sidebar outline), `icons`
  * (folder icons on or off), `slot` (text in the active row's `children` slot) and `folderLinks`
- * (every folder also a link: no toggle, its sub-list follows the open folder ids), and
+ * (every folder also a link, with an expander button before it), and
  * `activeColorToken`: not a Tree prop; the `color` variant the wrapper assigns to the
  * `tree.activeColor` token, the way a project recolours one tree.
  * `items` is built in `render`.
@@ -296,7 +296,7 @@ export const Slot: Story = {
   },
 }
 
-/** `folderLinks`: every folder is a link with no toggle; the open folders (the active node's ancestors) stay open. */
+/** `folderLinks`: every folder is a link with an expander before it; the open folders (the active node's ancestors) start open. */
 export const FolderLinks: Story = {
   ...Playground,
   args: { ...Playground.args, folderLinks: true },

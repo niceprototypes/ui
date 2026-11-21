@@ -1,7 +1,8 @@
 import * as React from "react"
 import Contents from "@niceprototypes/contents"
-import type { ContentsItemsType } from "@niceprototypes/contents"
+import type { AppContentsType } from "@niceprototypes/app"
 import Flow, { FLOW_ATTRIBUTE } from "@niceprototypes/flow"
+import { useAppContents } from "@niceprototypes/app"
 import DocsColumns from "@niceprototypes/docs/components/DocsColumns"
 import DocsRule from "@niceprototypes/docs/components/DocsRule"
 import { DocsSettingsContext } from "./DocsSettings"
@@ -16,12 +17,18 @@ import {
 } from "./DocsPage.styles"
 
 /** Contents rows for a level of sections, nested sections one level deeper. */
-const toItems = (sections: ReadonlyArray<DocsPageSectionType>): ContentsItemsType =>
+const toItems = (sections: ReadonlyArray<DocsPageSectionType>): AppContentsType =>
   sections.map(({ id, label, sections: nested }) => ({ id, label, ...(nested?.length ? { items: toItems(nested) } : {}) }))
 
 /** Whether a section renders anything: a heading, content, an aside or a nested section. */
 const hasContent = (section: DocsPageSectionType): boolean =>
   section.heading != null || section.content != null || section.aside != null || (section.sections ?? []).some(hasContent)
+
+/**
+ * A page's Contents rows from its sections: the rows the Contents column lists and the nav shows
+ * under the page, from the sections that render something.
+ */
+export const docsPageContents = (sections: ReadonlyArray<DocsPageSectionType>): AppContentsType => toItems(sections.filter(hasContent))
 
 /** Whether any section, at any depth, has an aside: the page is laid out in two columns. */
 const hasAside = (sections: ReadonlyArray<DocsPageSectionType>): boolean =>
@@ -68,6 +75,13 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
   // Only sections with something to render, so a rule always has a section with content on each side.
   const sections = allSections.filter(hasContent)
   const split = hasAside(sections)
+  // The rows Contents lists, reported to the nav with the section in view (useAppContents). The
+  // sections are rebuilt on every render, so the rows are compared by value: a report re-renders
+  // the shell, and with it this page.
+  const itemsKey = JSON.stringify(contents ?? toItems(sections))
+  const items = React.useMemo<AppContentsType>(() => JSON.parse(itemsKey), [itemsKey])
+  const { setItems, setActiveId } = useAppContents()
+  React.useEffect(() => setItems(items), [items, setItems])
   return (
     <StyledDocsPage>
       <StyledDocsPageMain $wrapped={wrapped} $split={split}>
@@ -82,7 +96,7 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
         </Flow>
       </StyledDocsPageMain>
       <StyledDocsPageAside $split={split}>
-        <Contents size="base" items={contents ?? toItems(sections)} />
+        <Contents size="base" items={items} onActiveChange={setActiveId} />
       </StyledDocsPageAside>
       <StyledDocsPageSettings aria-label="Settings">
         <StyledDocsPageSettingsContent>{React.useContext(DocsSettingsContext)}</StyledDocsPageSettingsContent>

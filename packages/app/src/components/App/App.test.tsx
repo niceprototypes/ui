@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 import App from "."
 import type { AppRouterType } from "./App.types"
 import { createPortal } from "react-dom"
-import { getAppPageUrl, useSceneRegion, useScenes, useSceneSidebar, useSceneSidebarFooter } from "../../services"
+import { getAppPageUrl, useAppContents, useSceneRegion, useScenes, useSceneSidebar, useSceneSidebarFooter } from "../../services"
 import { plainRouter } from "../../adapters/plain"
 import { reactRouter } from "../../adapters/react-router"
 import { tanstackRouter } from "../../adapters/tanstack-router"
@@ -83,6 +83,30 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.getByRole("link", { name: "Nine" })).toHaveAttribute("aria-current", "page")
     expect(screen.getByRole("button", { name: "Beta" })).toHaveAttribute("aria-expanded", "true")
     expect(screen.getByRole("button", { name: "Alpha" })).toHaveAttribute("aria-expanded", "false")
+  })
+
+  it("lists a page's in-page sections under it, the current page open, the section in view active", async () => {
+    /** A page that reports its section in view, as the docs Contents scroll-spy does. */
+    const Spied = () => {
+      const { setActiveId } = useAppContents()
+      return <button onClick={() => setActiveId("props")}>spy</button>
+    }
+    const withContents = { ...pages, "./docs/2 Getting started/index.tsx": () => Promise.resolve({ default: Spied }) }
+    const contents = (entry: { url: string }) =>
+      entry.url === "/docs/getting-started" ? [{ id: "intro", label: "Intro" }, { id: "props", label: "Props" }] : undefined
+    window.history.replaceState(null, "", "/docs/getting-started")
+    render(<App pages={withContents} contents={contents} router={router} />)
+    await screen.findByText("spy")
+    const expander = screen.getByRole("button", { name: "Getting started" })
+    expect(expander).toHaveAttribute("aria-expanded", "true")
+    expect(screen.getByRole("link", { name: "Props" })).toHaveAttribute("href", "/docs/getting-started#props")
+    // Ten pages has no sections: no expander.
+    expect(screen.queryByRole("button", { name: "Ten pages" })).not.toBeInTheDocument()
+    fireEvent.click(screen.getByText("spy"))
+    expect(screen.getByRole("link", { name: "Props" })).toHaveAttribute("aria-current", "page")
+    expect(screen.getByRole("link", { name: "Getting started" })).not.toHaveAttribute("aria-current")
+    fireEvent.click(expander)
+    expect(expander).toHaveAttribute("aria-expanded", "false")
   })
 
   it("lists only the current page's section: the docs pages on a docs page, the stories on a story", async () => {

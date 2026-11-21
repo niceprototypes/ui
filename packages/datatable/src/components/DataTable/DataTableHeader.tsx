@@ -2,9 +2,10 @@ import * as React from "react"
 import Checkbox from "@niceprototypes/checkbox"
 import Icon from "@niceprototypes/icon"
 import { TableCell, TableHeader } from "@niceprototypes/table"
-import { StyledDataTableCheckbox, StyledDataTableExpanderSlot, StyledDataTableSortButton } from "./DataTable.styles"
+import { StyledDataTableCheckbox, StyledDataTableSortButton } from "./DataTable.styles"
 import type { DataTableColumnType, DataTableSortType } from "./DataTable.types"
 import type { SelectionStoreType } from "../../utilities/createSelectionStore"
+import { TreeExpanderSlot } from "@niceprototypes/tree"
 
 /** The select-all checkbox: it re-renders on its own when the selection changes. */
 const SelectAll = ({ store, onToggle }: { store: SelectionStoreType; onToggle: () => void }) => {
@@ -59,7 +60,7 @@ function DataTableHeader<Row>({
         const sorted = sort?.columnId === column.id ? sort.direction : undefined
         return (
           <TableCell key={column.id} role="columnheader" tabIndex={-1} align={column.align} aria-sort={sorted}>
-            {nested && index === treeColumn ? <StyledDataTableExpanderSlot /> : null}
+            {nested && index === treeColumn ? <TreeExpanderSlot /> : null}
             {column.sortValue ? (
               <StyledDataTableSortButton type="button" tabIndex={-1} onClick={() => onSort(column.id)}>
                 {column.header}

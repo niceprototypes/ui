@@ -3,7 +3,7 @@ import Button from "@niceprototypes/button"
 import { breakpointKeyMatches, parseBreakpointKey, useBreakpoint } from "@niceprototypes/styles"
 import Logo from "@niceprototypes/logo"
 import Tree, { useTreeSize } from "@niceprototypes/tree"
-import type { AppEntryType, AppProps } from "./App.types"
+import type { AppContentsType, AppEntryType, AppProps } from "./App.types"
 import AppDocs from "./AppDocs"
 import AppPanel from "./AppPanel"
 import AppSearch from "./AppSearch"
@@ -22,7 +22,7 @@ import {
 } from "./App.styles"
 import { AppContext, type AppContextValue } from "../../utilities/AppContext"
 import { buildAppIndex, type AppIndexEntry } from "../../utilities/buildAppIndex"
-import { buildAppTree, getAppAncestorIds } from "../../utilities/buildAppTree"
+import { buildAppTree, CONTENTS_SEPARATOR, getAppAncestorIds, getAppContentsAncestorIds } from "../../utilities/buildAppTree"
 
 /** The bare view's path prefix: `/frame/stories/<page>` shows the page alone, full screen (for recording). */
 const FRAME = "/frame"
@@ -39,6 +39,7 @@ const AppShell: React.FC<AppProps> = ({
   docs,
   pages,
   sections,
+  contents: contentsProp,
   router,
   wrapper: Wrapper,
   search: searchable,
@@ -134,11 +135,36 @@ const AppShell: React.FC<AppProps> = ({
     if (bare) region.current?.focus()
   }, [bare])
 
-  // The folders above the current page open whenever it changes, chained there or picked.
-  const [expandedIds, setExpandedIds] = React.useState<string[]>(() => (current ? getAppAncestorIds(current) : []))
+  // The current page's own report of its in-page sections and the one in view (useAppContents),
+  // kept with the page it came from, so a report from another page never shows.
+  const currentId = React.useRef(current?.id)
+  currentId.current = current?.id
+  const [liveContents, setLiveContents] = React.useState<{ id?: string; items?: AppContentsType }>({})
+  const [activeContent, setActiveContent] = React.useState<{ id?: string; anchor?: string }>({})
+  const reportContents = React.useMemo(
+    () => ({
+      setItems: (items: AppContentsType | undefined) => setLiveContents({ id: currentId.current, items }),
+      setActiveId: (anchor: string | undefined) => setActiveContent({ id: currentId.current, anchor }),
+    }),
+    [],
+  )
+  const activeContentId = current && activeContent.id === current.id ? activeContent.anchor : undefined
+  const contentsOf = React.useCallback(
+    (entry: AppEntryType) => (entry.id === liveContents.id && liveContents.items ? liveContents.items : contentsProp?.(entry)),
+    [contentsProp, liveContents],
+  )
+
+  // The folders above the current page, and the page itself (its in-page sections), open whenever
+  // it changes, chained there or picked; the rows above the section in view open as it changes.
+  const [expandedIds, setExpandedIds] = React.useState<string[]>(() => (current ? [...getAppAncestorIds(current), current.id] : []))
   React.useEffect(() => {
-    if (current) setExpandedIds(ids => [...new Set([...ids, ...getAppAncestorIds(current)])])
+    if (current) setExpandedIds(ids => [...new Set([...ids, ...getAppAncestorIds(current), current.id])])
   }, [current])
+  React.useEffect(() => {
+    const contents = current && contentsOf(current)
+    if (current && contents && activeContentId)
+      setExpandedIds(ids => [...new Set([...ids, ...getAppContentsAncestorIds(current, contents, activeContentId)])])
+  }, [activeContentId, contentsOf, current])
 
   const context = React.useMemo<AppContextValue>(() => {
     const byId = (entry: AppEntryType) => index.find(({ id }) => id === entry.id)
@@ -154,8 +180,9 @@ const AppShell: React.FC<AppProps> = ({
       region,
       sidebar: bare ? null : sidebar,
       sidebarFooter: bare ? null : sidebarFooter,
+      contents: reportContents,
     }
-  }, [bare, current, index, load, location.search, navigate, sidebar, sidebarFooter])
+  }, [bare, current, index, load, location.search, navigate, reportContents, sidebar, sidebarFooter])
 
   const page = (() => {
     if (section) return <StyledAppDocs>{section.content}</StyledAppDocs>
@@ -233,12 +260,25 @@ const AppShell: React.FC<AppProps> = ({
                 <Tree
                   aria-label={ariaLabel}
                   size={navSize}
-                  items={buildAppTree(index, current, location.search, router.href, sections, section)}
+                  items={buildAppTree(index, current, location.search, router.href, sections, section, contentsOf, activeContentId)}
                   expandedIds={expandedIds}
                   onExpandedChange={setExpandedIds}
                   onSelect={(node, event) => {
                     if (node.url === undefined || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
                     event.preventDefault()
+                    // An in-page section: on the current page, scroll its heading into view; on
+                    // another, open that page at its anchor (the page lands on the hash).
+                    const [entryId, anchor] = node.id.split(CONTENTS_SEPARATOR)
+                    if (anchor !== undefined) {
+                      const entry = index.find(({ id }) => id === entryId)
+                      if (entry === current) {
+                        document.getElementById(anchor)?.scrollIntoView()
+                        window.history.replaceState(window.history.state, "", node.url)
+                        reportContents.setActiveId(anchor)
+                      } else if (entry) navigate(`${entry.url}${location.search}${CONTENTS_SEPARATOR}${anchor}`)
+                      if (open) setOpen(false)
+                      return
+                    }
                     // The row's URL is the router's href; navigate takes the entry's or section's own path.
                     const urls = [...index.map(({ url }) => url), ...(sections ?? []).map(({ id }) => `/${id}`)]
                     const url = urls.find(url => (router.href?.(`${url}${location.search}`) ?? `${url}${location.search}`) === node.url)

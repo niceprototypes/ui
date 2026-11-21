@@ -1,7 +1,21 @@
 import type { TreeItemsType, TreeNodeType } from "@niceprototypes/tree"
-import type { AppEntryType, AppSectionType } from "../components/App/App.types"
+import type { AppContentsType, AppEntryType, AppSectionType } from "../components/App/App.types"
 
 type MutableNode = Omit<TreeNodeType, "items"> & { items?: MutableNode[] }
+
+/** The separator between a page's id and one of its sections' anchors in a nav row's id. */
+export const CONTENTS_SEPARATOR = "#"
+
+/** A page's in-page sections as its sub-rows: links to their anchors, the one in view active. */
+const contentsRows = (entry: AppEntryType, contents: AppContentsType, url: string, activeId: string | undefined): MutableNode[] =>
+  contents.map(item => ({
+    id: `${entry.id}${CONTENTS_SEPARATOR}${item.id}`,
+    name: item.label,
+    icon: null,
+    url: `${url}${CONTENTS_SEPARATOR}${item.id}`,
+    status: item.id === activeId ? "active" : undefined,
+    ...(item.items?.length ? { items: contentsRows(entry, item.items, url, activeId) } : {}),
+  }))
 
 /** Whether an entry is in the docs section (`/docs`) rather than the stories (`/stories`). */
 const isDocs = (entry: AppEntryType | undefined) => entry?.kind === "page"
@@ -13,6 +27,8 @@ const isDocs = (entry: AppEntryType | undefined) => entry?.kind === "page"
  * query string (`search`), so a setting such as `?device=` survives the switch; the current page is active.
  * Each link's URL goes through `href` (the router's, which adds a base path) when given.
  * After them, a link per section (`/<id>`), active when it is the current page (`section`).
+ * A page with in-page sections (`contentsOf`) lists them as its sub-rows; on the current page the
+ * one in view (`activeContentId`) is the active row, the page its ancestor.
  */
 export const buildAppTree = (
   entries: AppEntryType[],
@@ -21,6 +37,8 @@ export const buildAppTree = (
   href: (to: string) => string = to => to,
   sections: AppSectionType[] = [],
   section?: AppSectionType,
+  contentsOf: (entry: AppEntryType) => AppContentsType | undefined = () => undefined,
+  activeContentId?: string,
 ): TreeItemsType => {
   const root: MutableNode[] = []
   // Before a page is current (the root, on its way to the first page), the first page's section.
@@ -32,7 +50,17 @@ export const buildAppTree = (
     entry.names.forEach((name, depth) => {
       const id = slugs.slice(0, depth + 2).join("/")
       if (depth === entry.names.length - 1) {
-        level.push({ id, name, icon: null, url: href(`${entry.url}${search}`), status: entry === current ? "active" : undefined })
+        const url = href(`${entry.url}${search}`)
+        const contents = contentsOf(entry)
+        const activeId = entry === current ? activeContentId : undefined
+        level.push({
+          id,
+          name,
+          icon: null,
+          url,
+          status: entry === current && activeId === undefined ? "active" : undefined,
+          ...(contents?.length ? { items: contentsRows(entry, contents, url, activeId) } : {}),
+        })
         return
       }
       let folder = level.find(node => node.id === id)
@@ -57,3 +85,16 @@ export const getAppAncestorIds = (entry: AppEntryType) =>
     .split("/")
     .slice(0, -1)
     .map((_, depth, slugs) => slugs.slice(0, depth + 1).join("/"))
+
+/** The nav row ids above a page's section (its nested sections' parents), the page's own first. */
+export const getAppContentsAncestorIds = (entry: AppEntryType, contents: AppContentsType, sectionId: string): string[] => {
+  const walk = (items: AppContentsType, parents: string[]): string[] | undefined => {
+    for (const item of items) {
+      if (item.id === sectionId) return parents
+      const found = item.items && walk(item.items, [...parents, `${entry.id}${CONTENTS_SEPARATOR}${item.id}`])
+      if (found) return found
+    }
+    return undefined
+  }
+  return walk(contents, [entry.id]) ?? [entry.id]
+}

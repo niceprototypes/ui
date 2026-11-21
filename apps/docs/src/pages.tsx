@@ -1,9 +1,9 @@
 import type * as React from "react"
-import { getAppPageUrl, type AppPagesType } from "@niceprototypes/app"
+import { getAppPageUrl, type AppContentsType, type AppEntryType, type AppPagesType } from "@niceprototypes/app"
 import { getItem, getTree, sanitize, type DataItem } from "@niceprototypes/docs/data"
-import ComponentPage from "./components/ComponentPage"
-import MdxPage, { type MdxModuleType } from "./components/MdxPage"
-import TokensPage from "./components/TokensPage"
+import ComponentPage, { componentContents } from "./components/ComponentPage"
+import MdxPage, { mdxContents, type MdxModuleType } from "./components/MdxPage"
+import TokensPage, { tokensContents } from "./components/TokensPage"
 import ScrollPageBehaviour from "./components/ScrollPageBehaviour"
 import { catalogComponents, catalogWidgets, subcomponentsOf, type CatalogComponentType } from "./catalog"
 
@@ -117,6 +117,28 @@ const entries: [string, AppPagesType[string], string?][] = getTree().flatMap((it
 
 /** Every page of the site, keyed as `@niceprototypes/app` reads docs section pages. */
 export const pages: AppPagesType = Object.fromEntries(entries.map(([key, load]) => [key, load]))
+
+/**
+ * Each page's in-page sections by URL, from what lists its Contents column: a component page's
+ * sections, the Tokens page's groups, an MDX page's headings (read from its source).
+ */
+const contentsByUrl = new Map<string, () => AppContentsType | undefined>(
+  entries.flatMap(([key, , itemId]): [string, () => AppContentsType | undefined][] => {
+    const url = getAppPageUrl(key)
+    const component = [...catalogComponents, ...catalogWidgets].find(candidate => candidate.docsId === itemId)
+    if (component) return [[url, () => componentContents(component)]]
+    if (itemId === "tokens") return [[url, tokensContents]]
+    const path = itemId ? mdxByItemId.get(itemId) : undefined
+    return path ? [[url, () => mdxContents(mdxText[path])]] : []
+  }),
+)
+const contentsCache = new Map<string, AppContentsType | undefined>()
+
+/** A page's in-page sections for the nav (App `contents`), worked out once per page. */
+export const pageContents = (entry: AppEntryType): AppContentsType | undefined => {
+  if (!contentsCache.has(entry.url)) contentsCache.set(entry.url, contentsByUrl.get(entry.url)?.())
+  return contentsCache.get(entry.url)
+}
 
 /** The docs URL of a Storybook page id (`onboarding-tokens--docs`, `components-forms-button--docs`), for links written for Storybook. */
 /**

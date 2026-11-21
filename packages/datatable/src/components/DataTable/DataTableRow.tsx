@@ -1,12 +1,10 @@
 import * as React from "react"
 import Checkbox from "@niceprototypes/checkbox"
-import Icon from "@niceprototypes/icon"
 import { TableCell, TableRow } from "@niceprototypes/table"
+import { TreeExpander, TreeExpanderSlot } from "@niceprototypes/tree"
 import {
   StyledDataTableActions,
   StyledDataTableCheckbox,
-  StyledDataTableExpander,
-  StyledDataTableExpanderSlot,
 } from "./DataTable.styles"
 import { MenuButton } from "@niceprototypes/menu"
 import type {
@@ -111,17 +109,15 @@ function DataTableRow<Row>({
         index === treeColumn ? (
           <TableCell key={column.id} role="rowheader" tabIndex={-1} align={column.align} guide={nested ? guide : undefined}>
             {hasChildren ? (
-              <StyledDataTableExpander
-                type="button"
+              <TreeExpander
+                caret={expanded ? "bottom" : "right"}
+                expanded={expanded}
                 tabIndex={-1}
                 aria-label={label}
-                aria-expanded={expanded}
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => toggle(id, event)}
-              >
-                <Icon name={expanded ? "carat-bottom" : "carat-right"} />
-              </StyledDataTableExpander>
+                onToggle={event => toggle(id, event)}
+              />
             ) : nested ? (
-              <StyledDataTableExpanderSlot />
+              <TreeExpanderSlot />
             ) : null}
             {column.cell(row, cellContext)}
           </TableCell>

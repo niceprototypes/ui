@@ -9,7 +9,7 @@ import ThemeToggle from "./components/ThemeToggle"
 import DocsGlobalStyle from "./components/DocsGlobalStyle"
 import { DocsSettingsContext } from "./components/DocsPage"
 import { DocsNavigationContext } from "@niceprototypes/docs/components/DocsNavigation"
-import { docsUrlOf, pages, redirectOf } from "./pages"
+import { docsUrlOf, pageContents, pages, redirectOf } from "./pages"
 import { docsRouter, withBase, withoutBase } from "./router"
 
 // Old addresses (moved pages, Storybook links) open where their page is now.
@@ -32,6 +32,7 @@ createRoot(document.getElementById("root")!).render(
     <DocsSettingsContext.Provider value={<ThemeToggle />}>
       <App
         pages={pages}
+        contents={pageContents}
         router={docsRouter}
         aria-label="Docs"
         navSize="base"

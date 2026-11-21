@@ -69,7 +69,7 @@ const Control = ({ control, value, onChange }: { control: PlaygroundControlType;
 }
 
 /** A playground's two parts: the live preview over its JSX (the code column), and a control per prop (the prose column). */
-type PlaygroundPartsType = { preview: React.ReactNode; controls: React.ReactNode }
+export type PlaygroundPartsType = { preview: React.ReactNode; controls: React.ReactNode }
 
 /**
  * usePlayground

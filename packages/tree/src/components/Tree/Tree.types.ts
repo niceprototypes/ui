@@ -25,8 +25,8 @@ export type TreeNodeIconType = React.ReactNode
  * TreeNodeUrlType
  *
  * Link target of the row. A node with `items` and no `url` is a folder whose row
- * toggles it; with a `url`, the row is a link instead and the sub-list shows while
- * the node's id is in `expandedIds`.
+ * toggles it; with a `url`, the row is a link and an expander button before it toggles the
+ * sub-list (shown while the node's id is in `expandedIds`).
  */
 export type TreeNodeUrlType = string
 
@@ -87,11 +87,13 @@ export type TreeExpandedIdsType = ReadonlyArray<TreeNodeIdType>
 /**
  * TreeOnExpandedChangeType
  *
- * Called when a folder row is toggled, with the next open folder ids and the click event.
+ * Called when a row is opened or closed (a click on its folder button or expander, or Right and
+ * Left on the row), with the next open ids and the event. Closing a row closes the rows under it
+ * too, except those on the active path.
  */
 export type TreeOnExpandedChangeType = (
   expandedIds: TreeNodeIdType[],
-  event: React.MouseEvent<HTMLButtonElement>,
+  event: React.SyntheticEvent<HTMLElement>,
 ) => void
 
 /**

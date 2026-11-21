@@ -39,57 +39,6 @@ export const StyledDataTableToolbar = styled.div`
   font-size: ${getToken("datatable.toolbar.fontSize")};
 `
 
-/**
- * The expander: a bare icon button the size of `tree.icon.size`, so the guide's rail drops from
- * its centre. A circle centred on it (`datatable.expander.size`, the small Checkbox box) holds the
- * caret (`datatable.expander.iconSize`); circle and caret take `datatable.expander.color`, the
- * Checkbox's unchecked border, and its hover border on hover. No fill. The circle is drawn, not
- * laid out, so the row and the guide geometry do not move.
- */
-export const StyledDataTableExpander = styled.button`
-  position: relative;
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  width: ${getToken("tree.icon.size")};
-  height: ${getToken("tree.icon.size")};
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: ${getToken("datatable.expander.color")};
-  cursor: pointer;
-  ${getToken("icon.color", { as: "key" })}: currentColor;
-  ${getToken("icon.size", { as: "key" })}: ${getToken("datatable.expander.iconSize")};
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: ${getToken("datatable.expander.size")};
-    height: ${getToken("datatable.expander.size")};
-    box-sizing: border-box;
-    border: ${getToken("datatable.expander.borderWidth")} solid currentColor;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-
-  &:hover {
-    color: ${getToken("datatable.expander.color:hover")};
-  }
-  ${focusRing}
-  ${touchTarget}
-`
-
-/** The empty expander slot of a row without children, so labels line up. */
-export const StyledDataTableExpanderSlot = styled.span`
-  flex: none;
-  width: ${getToken("tree.icon.size")};
-`
-
 /** A sortable column header: the header text and the sort direction icon. */
 export const StyledDataTableSortButton = styled.button`
   position: relative;

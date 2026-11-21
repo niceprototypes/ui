@@ -102,6 +102,25 @@ export type AppEntryType = {
 }
 
 /**
+ * AppContentsItemType
+ *
+ * One of a page's in-page sections, as its Contents column lists it: the anchor `id` of its
+ * heading, its `label`, and nested sections in `items`.
+ */
+export type AppContentsItemType = {
+  id: string
+  label: string
+  items?: ReadonlyArray<AppContentsItemType>
+}
+
+/**
+ * AppContentsType
+ *
+ * A page's in-page sections, in page order; empty or undefined for a page without any.
+ */
+export type AppContentsType = ReadonlyArray<AppContentsItemType>
+
+/**
  * AppProps
  *
  * Complete prop definition for the App component.
@@ -150,6 +169,13 @@ export interface AppProps {
    */
   end?: React.ReactNode
 
+  /**
+   * A page's in-page sections (the same rows as its Contents column), shown in the nav as the
+   * page's sub-rows behind a circled caret; the current page opens on arrival, its section in view
+   * active. The current page may replace its rows once rendered (useAppContents)
+   */
+  contents?: (entry: AppEntryType) => AppContentsType | undefined
+
   /** Accessible name of the nav landmark */
   "aria-label"?: string
 
@@ -173,6 +199,8 @@ namespace AppTypes {
   export type Location = AppLocationType
   export type Navigate = AppNavigateType
   export type Router = AppRouterType
+  export type ContentsItem = AppContentsItemType
+  export type Contents = AppContentsType
   export type Scenes = AppScenesType
   export type Docs = AppDocsType
   export type Pages = AppPagesType

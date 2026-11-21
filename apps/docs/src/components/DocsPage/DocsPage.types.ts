@@ -1,5 +1,5 @@
 import type * as React from "react"
-import type { ContentsItemsType } from "@niceprototypes/contents"
+import type { AppContentsType } from "@niceprototypes/app"
 
 /**
  * DocsPageSectionType
@@ -35,5 +35,5 @@ export interface DocsPageProps {
   wrapped?: boolean
 
   /** Contents rows in place of the sections' (an MDX page lists its headings) */
-  contents?: ContentsItemsType
+  contents?: AppContentsType
 }

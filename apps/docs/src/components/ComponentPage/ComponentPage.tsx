@@ -1,7 +1,7 @@
 import * as React from "react"
 import Ink from "@niceprototypes/ink"
-import DocsPage, { type DocsPageSectionType } from "../DocsPage"
-import { usePlayground } from "../Playground"
+import DocsPage, { docsPageContents, type DocsPageSectionType } from "../DocsPage"
+import { usePlayground, type PlaygroundPartsType } from "../Playground"
 import { hasPlayground } from "../Playground/Playground.controls"
 import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"
 import PropDocs from "@niceprototypes/docs/components/PropDocs"
@@ -34,22 +34,21 @@ const propSections = (props: CatalogPropType[], examples: Record<string, Compone
   }))
 
 /**
- * ComponentPage
+ * componentSections
  *
- * One component's docs page, from the catalog, in Stripe's API reference layout (DocsPage): the
+ * One component's docs page sections (ComponentPage), from the catalog, in Stripe's API reference layout (DocsPage): the
  * overview (install and import), a playground (when the props allow one: its controls beside the
  * live preview and its JSX), every prop as a parameter list item beside its live examples, a
  * section per subcomponent with its props, the examples that are not one prop (each a subsection
  * beside its code), and the component tokens when its prefix has any.
  */
-const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ component }) => {
+const componentSections = (component: CatalogComponentType, playground: PlaygroundPartsType): DocsPageSectionType[] => {
   const examples = componentExamples[component.name] ?? {}
   const propNames = new Set(component.props.map(prop => prop.name))
   const prefix = `${component.name.charAt(0).toLowerCase()}${component.name.slice(1)}` as ComponentPrefixWithTokens
   const importLine = component.named
     ? `import { ${component.name} } from "${component.package}"`
     : `import ${component.name} from "${component.package}"`
-  const playground = usePlayground(component, hasPlayground(component))
 
   const sections: DocsPageSectionType[] = [
     {
@@ -131,7 +130,16 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
       content: <ComponentTokenTable prefix={prefix} />,
     })
 
-  return <DocsPage sections={sections} />
+  return sections
 }
+
+/** A component page's Contents rows, without rendering it: the nav lists them under the page. */
+export const componentContents = (component: CatalogComponentType) =>
+  docsPageContents(componentSections(component, { preview: null, controls: null }))
+
+/** ComponentPage: one component's docs page (componentSections) with its live playground. */
+const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ component }) => (
+  <DocsPage sections={componentSections(component, usePlayground(component, hasPlayground(component)))} />
+)
 
 export default ComponentPage

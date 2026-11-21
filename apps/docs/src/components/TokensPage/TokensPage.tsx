@@ -1,5 +1,5 @@
 import * as React from "react"
-import DocsPage, { type DocsPageSectionType } from "../DocsPage"
+import DocsPage, { docsPageContents, type DocsPageSectionType } from "../DocsPage"
 import { getItem, getTokenTable, type DataItem, type TokenTable } from "@niceprototypes/docs/data"
 import { ModuleTokenTable, type ModuleTokenTableSectionConfig } from "@niceprototypes/docs/dataTables/components/tokens/Modules"
 import { StoryHeader } from "@niceprototypes/docs/components/Story"
@@ -23,6 +23,9 @@ const tokenSections = (): DocsPageSectionType[] => {
     return config ? [{ id: item.id, label: item.name, content: <ModuleTokenTable sections={[config]} sectionWrapped={sectionWrapped} /> }] : []
   })
 }
+
+/** The Tokens page's Contents rows, without rendering it: the nav lists them under the page. */
+export const tokensContents = () => docsPageContents(tokenSections())
 
 /**
  * TokensPage

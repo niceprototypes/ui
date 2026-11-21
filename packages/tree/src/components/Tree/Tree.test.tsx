@@ -74,7 +74,8 @@ describe("Tree", () => {
       { id: "step", name: "Step", icon: null, url: "#step", items: [{ id: "sub", name: "Sub", icon: null, url: "#sub" }] },
     ]
     const { rerender } = render(<Tree items={linked} expandedIds={["step"]} onSelect={onSelect} />)
-    expect(screen.queryByRole("button")).toBeNull()
+    // Its expander is a separate button; the link itself does not toggle.
+    expect(screen.getByRole("button", { name: "Step" })).toHaveAttribute("aria-expanded", "true")
     fireEvent.click(screen.getByRole("link", { name: "Step" }))
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: "step" }), expect.anything())
     expect(screen.getByRole("link", { name: "Sub" })).toBeVisible()
@@ -87,5 +88,61 @@ describe("Tree", () => {
       <Tree items={[{ id: "a", name: "A", icon: null, url: "/a", children: <span>badge</span> }]} />,
     )
     expect(screen.getByRole("link", { name: "A" }).parentElement).toHaveTextContent("Abadge")
+  })
+
+  it("toggles a linked folder from its expander, the caret right while open and down while closed", () => {
+    const onExpandedChange = jest.fn()
+    const linked: TreeItemsType = [
+      { id: "step", name: "Step", icon: null, url: "#step", items: [{ id: "sub", name: "Sub", icon: null, url: "#sub" }] },
+    ]
+    render(<Tree items={linked} defaultExpandedIds={[]} onExpandedChange={onExpandedChange} />)
+    const expander = screen.getByRole("button", { name: "Step" })
+    expect(expander).toHaveAttribute("aria-expanded", "false")
+    expect(expander.querySelector("[data-icon]")).toHaveAttribute("data-icon", "carat-bottom")
+    fireEvent.click(expander)
+    expect(expander).toHaveAttribute("aria-expanded", "true")
+    expect(expander.querySelector("[data-icon]")).toHaveAttribute("data-icon", "carat-right")
+    expect(onExpandedChange).toHaveBeenLastCalledWith(["step"], expect.anything())
+  })
+
+  it("opens a closed row with Right and closes an open one with Left", () => {
+    render(<Tree items={items} defaultExpandedIds={[]} />)
+    const guides = screen.getByRole("button", { name: "Guides" })
+    fireEvent.keyDown(guides, { key: "ArrowRight" })
+    expect(guides).toHaveAttribute("aria-expanded", "true")
+    fireEvent.keyDown(guides, { key: "ArrowRight" })
+    expect(guides).toHaveAttribute("aria-expanded", "true")
+    fireEvent.keyDown(guides, { key: "ArrowLeft" })
+    expect(guides).toHaveAttribute("aria-expanded", "false")
+  })
+
+  it("closes every row under a closing row, except the active path", () => {
+    const nested: TreeItemsType = [
+      {
+        id: "root",
+        name: "Root",
+        icon: null,
+        items: [
+          { id: "a", name: "A", icon: null, items: [{ id: "a1", name: "A1", icon: null, url: "/a1" }] },
+          { id: "b", name: "B", icon: null, items: [{ id: "b1", name: "B1", icon: null, url: "/b1", status: "active" }] },
+        ],
+      },
+    ]
+    const onExpandedChange = jest.fn()
+    render(<Tree items={nested} defaultExpandedIds={["root", "a", "b"]} onExpandedChange={onExpandedChange} />)
+    fireEvent.click(screen.getByRole("button", { name: "Root" }))
+    // A closes with Root; B stays open, on the way to the active page.
+    expect(onExpandedChange).toHaveBeenLastCalledWith(["b"], expect.anything())
+    fireEvent.click(screen.getByRole("button", { name: "Root" }))
+    expect(screen.getByRole("button", { name: "A" })).toHaveAttribute("aria-expanded", "false")
+    expect(screen.getByRole("button", { name: "B" })).toHaveAttribute("aria-expanded", "true")
+  })
+
+  it("keeps an expander slot on rows without sub-rows, so labels line up", () => {
+    const { container } = render(<Tree items={items} />)
+    const leafRow = screen.getByRole("link", { name: "Start" }).parentElement!
+    expect(leafRow.firstElementChild).toHaveAttribute("aria-hidden", "true")
+    expect(leafRow.firstElementChild?.tagName).toBe("SPAN")
+    expect(container.querySelectorAll('[data-icon="carat-right"], [data-icon="carat-bottom"]').length).toBeGreaterThan(0)
   })
 })
