@@ -64,10 +64,10 @@
     "base": "0.5"
   },
   "bleed": {
-    "base": "calc(var(--np--gap--small) * 0)"
+    "base": "var(--np--gap--none)"
   },
   "itemBleed": {
-    "base": "calc(var(--np--gap--small) * 0)"
+    "base": "var(--np--gap--none)"
   },
   "$breakpoints": {
     "tablet": {

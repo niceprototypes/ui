@@ -15,7 +15,8 @@ interface StyledCardProps {
   $padding?: CardPaddingType
   $gap?: CardGapType
   $borderRadius?: CardBorderRadiusType
-  $backgroundColor: ColorTokenProp<CardBackgroundColorType>
+  /** Unset: the variant's fill (`card.filled.backgroundColor` for filled, `card.backgroundColor:base` otherwise). */
+  $backgroundColor?: ColorTokenProp<CardBackgroundColorType>
   $selected: boolean
   $interactive: boolean
   $disabled: boolean
@@ -56,7 +57,10 @@ export const StyledCard = styled.div<StyledCardProps>`
   gap: ${({ $gap }) => ($gap ? getGapSize($gap) : getToken("card.gap:base"))};
   ${({ $padding }) =>
     $padding ? styleSpacing("padding", getSpacingValue($padding)) : `padding: ${getToken("card.padding:base")};`}
-  background-color: ${({ $backgroundColor }) => resolveColorProp("card", "backgroundColor", $backgroundColor)};
+  background-color: ${({ $backgroundColor, $variant }) =>
+    $backgroundColor
+      ? resolveColorProp("card", "backgroundColor", $backgroundColor)
+      : getToken($variant === "filled" ? "card.filled.backgroundColor:base" : "card.backgroundColor:base")};
   border-style: solid;
   border-width: ${getToken("card.borderWidth:base")};
   border-color: ${borderColor};

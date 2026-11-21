@@ -9,7 +9,7 @@
 
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { installDomStub, stylesheetText } from './helpers/dom.js'
+import { installDomStub, stylesheetOrder, stylesheetText } from './helpers/dom.js'
 import { matchSnapshot } from './helpers/snapshot.js'
 import { generateTokenCSS, injectTokenCSS, getBreakpointValue, getBreakpoint } from '../src/index.js'
 
@@ -65,6 +65,9 @@ test('breakpoints key: applied first, re-emitted, earlier CSS regenerated', () =
   matchSnapshot('runtime-breakpoints-tokens-sheet.css', stylesheetText('data-nice-tokens'))
   // The generated breakpoint cascade re-emitted at the new floor
   matchSnapshot('runtime-breakpoints-breakpoint-sheet.css', stylesheetText('data-nice-breakpoints'))
+  // The re-emitted cascade redeclares component aliases (`--np--ink--font-size--large: var(…)`), so it
+  // sits before the tokens sheet, which was created first: a map's overrides win at every breakpoint
+  assert.deepEqual(stylesheetOrder(), ['data-nice-breakpoints', 'data-nice-tokens'])
 })
 
 // `breakpoints: {}` is valid (nothing to change) and must neither warn, throw,

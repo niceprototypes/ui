@@ -2,8 +2,8 @@
   "backgroundColor": {
     "base": "var(--np--background-color)",
     "header": "var(--np--table--background-color)",
-    "child": "var(--np--background-color--raised)",
-    "stripe": "color-mix(in oklch, var(--np--table--background-color), var(--np--background-color--raised) 50%)",
+    "child": "var(--np--table--background-color--stripe)",
+    "stripe": "color-mix(in oklab, var(--np--table--background-color), var(--np--background-color--sunken) 35%)",
     "hover": "var(--np--background-color--sunken)",
     "selected": "var(--np--table--background-color--hover)"
   },

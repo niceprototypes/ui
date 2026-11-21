@@ -1061,7 +1061,7 @@ describe("Input component colour defaults", () => {
   it("reads the filled background from the input tokens", () => {
     render(<Input aria-label="x" filled />)
     const fieldCss = cssFor(screen.getByRole("textbox").parentElement!)
-    expect(fieldCss).toContain(`background-color:${getToken("input.backgroundColor:raised")}`)
+    expect(fieldCss).toContain(`background-color:${getToken("input.filled.backgroundColor:base")}`)
   })
 })
 

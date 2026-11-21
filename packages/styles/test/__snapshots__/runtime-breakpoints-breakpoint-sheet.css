@@ -37,12 +37,15 @@
 @media (min-width: 641px) {
 	:root {
 		--np--app--search--font-size: var(--np--app--search--font-size--tablet);
+		--np--app--docs--bleed: var(--np--app--docs--bleed--tablet);
+		--np--flow--scale: var(--np--flow--scale--tablet);
 		--np--logo--height: var(--np--logo--height--tablet);
 	}
 }
 
 @media (min-width: 1100px) {
 	:root {
+		--np--flow--scale: var(--np--flow--scale--laptop);
 		--np--logo--height: var(--np--logo--height--laptop);
 	}
 }

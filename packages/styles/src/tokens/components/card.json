@@ -8,6 +8,11 @@
     "error": "var(--np--background-color--error)",
     "link": "var(--np--background-color--link)"
   },
+  "filled": {
+    "backgroundColor": {
+      "base": "var(--np--background-color--sunken)"
+    }
+  },
   "borderColor": {
     "base": "var(--np--border-color)",
     "selected": "var(--np--border-color--link)"
@@ -48,6 +53,12 @@
     "base": "var(--np--opacity--disabled)"
   },
   "$themes": {
-    "night": {}
+    "night": {
+      "filled": {
+        "backgroundColor": {
+          "base": "var(--np--background-color--raised)"
+        }
+      }
+    }
   }
 }

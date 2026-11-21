@@ -15,10 +15,29 @@ const componentNightTokensData: ComponentNightTokensData = {
       }
     }
   },
-  "badge": {},
+  "badge": {
+    "color": {
+      "success": "color-mix(in oklab, var(--np--color--success), var(--np--color) 20%)",
+      "warning": "color-mix(in oklab, var(--np--color--warning), var(--np--color) 20%)",
+      "error": "color-mix(in oklab, var(--np--color--error), var(--np--color) 20%)"
+    }
+  },
   "button": {},
   "calendar": {},
-  "card": {},
+  "card": {
+    "filled": {
+      "backgroundColor": {
+        "base": "var(--np--background-color--raised)"
+      }
+    }
+  },
+  "chat": {
+    "message": {
+      "backgroundColor": {
+        "user": "var(--np--background-color--raised)"
+      }
+    }
+  },
   "checkbox": {},
   "code": {
     "syntaxColor": {
@@ -36,7 +55,13 @@ const componentNightTokensData: ComponentNightTokensData = {
   "icon": {},
   "image": {},
   "ink": {},
-  "input": {},
+  "input": {
+    "filled": {
+      "backgroundColor": {
+        "base": "var(--np--background-color--raised)"
+      }
+    }
+  },
   "lightbox": {},
   "line": {},
   "list": {},

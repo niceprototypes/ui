@@ -17,7 +17,7 @@ const componentBreakpointTokensData: ComponentBreakpointTokensData = {
       },
       "docs": {
         "bleed": {
-          "base": "calc(var(--np--gap--small) * 0)"
+          "base": "var(--np--gap--none)"
         }
       }
     }

@@ -106,8 +106,8 @@ export type InputStatusType =
 /**
  * InputFilledType
  *
- * Whether the input renders filled. When true, the input sits on the raised
- * background variant with no border (status-colored border for error / success /
+ * Whether the input renders filled. When true, the input sits on the
+ * `input.filled.backgroundColor` fill (a step below the page in day, above it in night) with no border (status-colored border for error / success /
  * warning); when false (default) it is an outline on the base background.
  */
 export type InputFilledType = boolean

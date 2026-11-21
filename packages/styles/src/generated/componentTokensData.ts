@@ -104,15 +104,15 @@ const componentTokensData: ComponentTokensData = {
   "badge": {
     "backgroundColor": {
       "base": "color-mix(in oklch, color-mix(in oklch, var(--np--background-color), var(--np--color) 14%) 75%, transparent)",
-      "success": "color-mix(in oklch, var(--np--background-color--success) 75%, transparent)",
-      "warning": "color-mix(in oklch, var(--np--background-color--warning) 75%, transparent)",
-      "error": "color-mix(in oklch, var(--np--background-color--error) 75%, transparent)"
+      "success": "color-mix(in oklab, var(--np--color--success) 12%, transparent)",
+      "warning": "color-mix(in oklab, var(--np--color--warning) 12%, transparent)",
+      "error": "color-mix(in oklab, var(--np--color--error) 12%, transparent)"
     },
     "color": {
       "base": "var(--np--color--light)",
-      "success": "var(--np--color--success)",
-      "warning": "var(--np--color--warning)",
-      "error": "var(--np--color--error)"
+      "success": "color-mix(in oklab, var(--np--color--success), var(--np--color) 45%)",
+      "warning": "color-mix(in oklab, var(--np--color--warning), var(--np--color) 45%)",
+      "error": "color-mix(in oklab, var(--np--color--error), var(--np--color) 45%)"
     },
     "dot": {
       "color": {
@@ -307,6 +307,11 @@ const componentTokensData: ComponentTokensData = {
       "error": "var(--np--background-color--error)",
       "link": "var(--np--background-color--link)"
     },
+    "filled": {
+      "backgroundColor": {
+        "base": "var(--np--background-color--sunken)"
+      }
+    },
     "borderColor": {
       "base": "var(--np--border-color)",
       "selected": "var(--np--border-color--link)"
@@ -362,7 +367,7 @@ const componentTokensData: ComponentTokensData = {
         "assistant": "var(--np--border-radius--none)"
       },
       "backgroundColor": {
-        "user": "var(--np--background-color--raised)",
+        "user": "var(--np--background-color--sunken)",
         "assistant": "transparent"
       }
     },
@@ -706,7 +711,7 @@ const componentTokensData: ComponentTokensData = {
   },
   "dialog": {
     "backgroundColor": {
-      "base": "var(--np--background-color--raised)"
+      "base": "var(--np--background-color--overlay)"
     },
     "color": {
       "base": "var(--np--color)"
@@ -826,10 +831,10 @@ const componentTokensData: ComponentTokensData = {
       "base": "0.5"
     },
     "bleed": {
-      "base": "calc(var(--np--gap--small) * 0)"
+      "base": "var(--np--gap--none)"
     },
     "itemBleed": {
-      "base": "calc(var(--np--gap--small) * 0)"
+      "base": "var(--np--gap--none)"
     }
   },
   "header": {
@@ -1059,6 +1064,11 @@ const componentTokensData: ComponentTokensData = {
       "warning": "var(--np--background-color--warning)",
       "error": "var(--np--background-color--error)",
       "link": "var(--np--background-color--link)"
+    },
+    "filled": {
+      "backgroundColor": {
+        "base": "var(--np--background-color--sunken)"
+      }
     },
     "borderColor": {
       "base": "var(--np--border-color)",
@@ -1323,7 +1333,7 @@ const componentTokensData: ComponentTokensData = {
       "base": "calc(var(--np--size) * 6)"
     },
     "backgroundColor": {
-      "base": "var(--np--background-color--raised)"
+      "base": "var(--np--background-color--overlay)"
     },
     "color": {
       "base": "var(--np--color)"
@@ -1442,8 +1452,8 @@ const componentTokensData: ComponentTokensData = {
     "backgroundColor": {
       "base": "var(--np--background-color)",
       "header": "var(--np--table--background-color)",
-      "child": "var(--np--background-color--raised)",
-      "stripe": "color-mix(in oklch, var(--np--table--background-color), var(--np--background-color--raised) 50%)",
+      "child": "var(--np--table--background-color--stripe)",
+      "stripe": "color-mix(in oklab, var(--np--table--background-color), var(--np--background-color--sunken) 35%)",
       "hover": "var(--np--background-color--sunken)",
       "selected": "var(--np--table--background-color--hover)"
     },

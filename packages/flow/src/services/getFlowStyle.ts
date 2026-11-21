@@ -38,8 +38,7 @@ const space = (group: FlowRoleGroup, side: "before" | "after") =>
  * text, lists, blockquotes, tables, code, media and other blocks a step after, rules a step on
  * each side. Margins collapse, so a heading's larger before-space wins over the block above it.
  *
- * - Each side is its own declaration: a side mapped to `gap: none` (a unitless 0) makes its
- *   calc a number, which a margin rejects, so that side alone falls back to 0.
+ * - Each side is its own declaration (`margin-block-start`, `margin-block-end`).
  * - The doubled `&&` outranks a child's own single-class margin reset; `:where` keeps the
  *   element part at no specificity. Grandchildren are untouched.
  * - A flow container that is a child of another keeps its edge margins, so they collapse

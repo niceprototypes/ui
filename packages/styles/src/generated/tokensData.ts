@@ -72,7 +72,7 @@ const tokensData: TokensData = {
     "black": "900"
   },
   "gap": {
-    "none": "0",
+    "none": "0px",
     "smaller": "4px",
     "small": "8px",
     "base": "16px",

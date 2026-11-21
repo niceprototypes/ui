@@ -42,10 +42,10 @@ describe("Card", () => {
     expect(css).toContain("border-color:transparent")
   })
 
-  it("filled: the raised background and a hidden border", () => {
+  it("filled: the card.filled background and a hidden border", () => {
     const { container } = render(<Card variant="filled">Content</Card>)
     const css = cssFor(container.firstElementChild!)
-    expect(css).toContain(`background-color:${getToken("card.backgroundColor:raised")}`)
+    expect(css).toContain(`background-color:${getToken("card.filled.backgroundColor:base")}`)
     expect(css).toContain("border-color:transparent")
   })
 

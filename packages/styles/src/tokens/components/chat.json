@@ -13,7 +13,7 @@
       "assistant": "var(--np--border-radius--none)"
     },
     "backgroundColor": {
-      "user": "var(--np--background-color--raised)",
+      "user": "var(--np--background-color--sunken)",
       "assistant": "transparent"
     }
   },
@@ -74,6 +74,15 @@
     },
     "animationEasing": {
       "base": "var(--np--animation-easing)"
+    }
+  },
+  "$themes": {
+    "night": {
+      "message": {
+        "backgroundColor": {
+          "user": "var(--np--background-color--raised)"
+        }
+      }
     }
   }
 }

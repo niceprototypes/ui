@@ -623,7 +623,7 @@ Each file's top-level keys hold the group's base variants: static groups (`gap`,
 
 ```css
 :root {
-  --np--gap--none: 0;
+  --np--gap--none: 0px;
   --np--font-size: 14px;
   --np--color: hsla(210, 5%, 5%, 1);
   --np--color--day: hsla(210, 5%, 5%, 1);

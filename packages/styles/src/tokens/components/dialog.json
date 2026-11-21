@@ -1,6 +1,6 @@
 {
   "backgroundColor": {
-    "base": "var(--np--background-color--raised)"
+    "base": "var(--np--background-color--overlay)"
   },
   "color": {
     "base": "var(--np--color)"

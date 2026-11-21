@@ -17,7 +17,7 @@ export type CardChildrenType = React.ReactNode
  * Values:
  * - "outline": bordered, default
  * - "elevated": shadow, no visible border
- * - "filled": raised background, no visible border
+ * - "filled": the `card.filled.backgroundColor` fill (a step below the page in day, above it in night), no visible border
  */
 export type CardVariantType = "outline" | "elevated" | "filled"
 
@@ -51,8 +51,8 @@ export type CardBorderRadiusType = BorderRadiusType
  * Surface fill, from the `card.backgroundColor` component tokens (the Tile set).
  *
  * Values:
- * - "base": default for outline and elevated
- * - "raised": default for filled
+ * - "base": default for outline and elevated (filled defaults to `card.filled.backgroundColor`)
+ * - "raised"
  * - "success"
  * - "highlight"
  * - "warning"

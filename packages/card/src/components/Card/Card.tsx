@@ -97,7 +97,7 @@ const Card: React.FC<CardProps> = ({
       $padding={padding}
       $gap={gap}
       $borderRadius={borderRadius}
-      $backgroundColor={backgroundColor ?? (variant === "filled" ? "raised" : "base")}
+      $backgroundColor={backgroundColor}
       $selected={selected ?? false}
       $interactive={interactive}
       $disabled={disabled}

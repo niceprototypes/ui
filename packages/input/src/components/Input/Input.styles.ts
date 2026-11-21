@@ -192,9 +192,7 @@ export const StyledField = styled.div.withConfig({
         `}
     padding-block: 0;
     padding-inline: ${getToken(`input.spacing:${$size}`)};
-    background-color: ${getToken(
-      `input.backgroundColor:${$filled ? "raised" : "base"}`
-    )};
+    background-color: ${getToken($filled ? "input.filled.backgroundColor:base" : "input.backgroundColor:base")};
     border-style: solid;
     border-width: ${getToken(`input.borderWidth:${$borderWidth}`)};
     border-color: ${getBorderColor($status, $filled)};
