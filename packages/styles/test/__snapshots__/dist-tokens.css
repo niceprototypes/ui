@@ -137,18 +137,18 @@
 	--np--font-size--larger: 28px;
 
 	/* Inverse colors */
-	--np--background-color--inverse: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--inverse: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--inverse: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--inverse: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--inverse: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--inverse: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--inverse: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--inverse: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--inverse: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--inverse: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--inverse: hsla(29, 60%, 18%, 1);
 	--np--background-color--error--inverse: hsla(10, 55%, 20%, 1);
 	--np--background-color--link--inverse: hsla(202, 50%, 18%, 1);
-	--np--border-color--inverse: hsla(240, 5%, 25%, 1);
-	--np--border-color--subtle--inverse: hsla(240, 5%, 20%, 1);
-	--np--border-color--strong--inverse: hsla(240, 5%, 50%, 1);
+	--np--border-color--inverse: hsla(259, 5.9%, 22.9%, 1);
+	--np--border-color--subtle--inverse: hsla(260, 7.4%, 17.3%, 1);
+	--np--border-color--strong--inverse: hsla(259, 3.3%, 46.5%, 1);
 	--np--border-color--stronger--inverse: hsla(240, 5%, 100%, 1);
 	--np--border-color--success--inverse: hsla(146, 50%, 32%, 1);
 	--np--border-color--highlight--inverse: hsla(48, 60%, 40%, 1);
@@ -198,18 +198,18 @@
 	--np--color--error--day: hsla(10, 92%, 63%, 1);
 	--np--focus-ring--color--day: var(--np--color--link--day);
 	--np--stroke-width-scale--day: 1;
-	--np--background-color--day--inverse: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--day--inverse: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--day--inverse: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--day--inverse: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--day--inverse: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--day--inverse: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--day--inverse: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--day--inverse: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--day--inverse: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--day--inverse: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--day--inverse: hsla(29, 60%, 18%, 1);
 	--np--background-color--error--day--inverse: hsla(10, 55%, 20%, 1);
 	--np--background-color--link--day--inverse: hsla(202, 50%, 18%, 1);
-	--np--border-color--day--inverse: hsla(240, 5%, 25%, 1);
-	--np--border-color--subtle--day--inverse: hsla(240, 5%, 20%, 1);
-	--np--border-color--strong--day--inverse: hsla(240, 5%, 50%, 1);
+	--np--border-color--day--inverse: hsla(259, 5.9%, 22.9%, 1);
+	--np--border-color--subtle--day--inverse: hsla(260, 7.4%, 17.3%, 1);
+	--np--border-color--strong--day--inverse: hsla(259, 3.3%, 46.5%, 1);
 	--np--border-color--stronger--day--inverse: hsla(240, 5%, 100%, 1);
 	--np--border-color--success--day--inverse: hsla(146, 50%, 32%, 1);
 	--np--border-color--highlight--day--inverse: hsla(48, 60%, 40%, 1);
@@ -229,18 +229,18 @@
 	--np--focus-ring--color--day--inverse: var(--np--color--link--day--inverse);
 
 	/* Night mode primitives */
-	--np--background-color--night: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--night: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--night: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--night: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--night: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--night: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--night: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--night: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--night: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--night: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--night: hsla(29, 60%, 18%, 1);
 	--np--background-color--error--night: hsla(10, 55%, 20%, 1);
 	--np--background-color--link--night: hsla(202, 50%, 18%, 1);
-	--np--border-color--night: hsla(240, 5%, 25%, 1);
-	--np--border-color--subtle--night: hsla(240, 5%, 20%, 1);
-	--np--border-color--strong--night: hsla(240, 5%, 50%, 1);
+	--np--border-color--night: hsla(259, 5.9%, 22.9%, 1);
+	--np--border-color--subtle--night: hsla(260, 7.4%, 17.3%, 1);
+	--np--border-color--strong--night: hsla(259, 3.3%, 46.5%, 1);
 	--np--border-color--stronger--night: hsla(240, 5%, 100%, 1);
 	--np--border-color--success--night: hsla(146, 50%, 32%, 1);
 	--np--border-color--highlight--night: hsla(48, 60%, 40%, 1);

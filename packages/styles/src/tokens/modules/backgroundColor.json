@@ -10,10 +10,10 @@
   "link": "hsla(212, 100%, 95%, 1)",
   "$themes": {
     "night": {
-      "base": "hsla(240, 4%, 12.5%, 1)",
-      "raised": "hsla(240, 4%, 15.5%, 1)",
-      "sunken": "hsla(240, 3%, 8.5%, 1)",
-      "overlay": "hsla(240, 4%, 18.5%, 1)",
+      "base": "hsla(260, 12.5%, 9.4%, 1)",
+      "raised": "hsla(260, 9.5%, 13%, 1)",
+      "sunken": "hsla(260, 22.3%, 4.9%, 1)",
+      "overlay": "hsla(260, 8%, 15.9%, 1)",
       "success": "hsla(146, 45%, 18%, 1)",
       "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
@@ -22,10 +22,10 @@
     }
   },
   "$inverse": {
-    "base": "hsla(240, 4%, 12.5%, 1)",
-    "raised": "hsla(240, 4%, 15.5%, 1)",
-    "sunken": "hsla(240, 3%, 8.5%, 1)",
-    "overlay": "hsla(240, 4%, 18.5%, 1)",
+    "base": "hsla(260, 12.5%, 9.4%, 1)",
+    "raised": "hsla(260, 9.5%, 13%, 1)",
+    "sunken": "hsla(260, 22.3%, 4.9%, 1)",
+    "overlay": "hsla(260, 8%, 15.9%, 1)",
     "success": "hsla(146, 45%, 18%, 1)",
     "highlight": "hsla(48, 55%, 22%, 1)",
     "warning": "hsla(29, 60%, 18%, 1)",

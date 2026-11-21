@@ -10,10 +10,10 @@ export type InverseTokensData = Record<string, { day: TokenDefinition; night: To
 const inverseTokensData: InverseTokensData = {
   "backgroundColor": {
     "day": {
-      "base": "hsla(240, 4%, 12.5%, 1)",
-      "raised": "hsla(240, 4%, 15.5%, 1)",
-      "sunken": "hsla(240, 3%, 8.5%, 1)",
-      "overlay": "hsla(240, 4%, 18.5%, 1)",
+      "base": "hsla(260, 12.5%, 9.4%, 1)",
+      "raised": "hsla(260, 9.5%, 13%, 1)",
+      "sunken": "hsla(260, 22.3%, 4.9%, 1)",
+      "overlay": "hsla(260, 8%, 15.9%, 1)",
       "success": "hsla(146, 45%, 18%, 1)",
       "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
@@ -34,9 +34,9 @@ const inverseTokensData: InverseTokensData = {
   },
   "borderColor": {
     "day": {
-      "base": "hsla(240, 5%, 25%, 1)",
-      "subtle": "hsla(240, 5%, 20%, 1)",
-      "strong": "hsla(240, 5%, 50%, 1)",
+      "base": "hsla(259, 5.9%, 22.9%, 1)",
+      "subtle": "hsla(260, 7.4%, 17.3%, 1)",
+      "strong": "hsla(259, 3.3%, 46.5%, 1)",
       "stronger": "hsla(240, 5%, 100%, 1)",
       "success": "hsla(146, 50%, 32%, 1)",
       "highlight": "hsla(48, 60%, 40%, 1)",

@@ -8,10 +8,10 @@
 	--np--background-color--warning: hsla(29, 100%, 94%, 1);
 	--np--background-color--error: hsla(10, 100%, 95%, 1);
 	--np--background-color--link: hsla(212, 100%, 95%, 1);
-	--np--background-color--inverse: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--inverse: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--inverse: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--inverse: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--inverse: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--inverse: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--inverse: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--inverse: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--inverse: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--inverse: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--inverse: hsla(29, 60%, 18%, 1);
@@ -28,10 +28,10 @@
 	--np--background-color--warning--day: hsla(29, 100%, 94%, 1);
 	--np--background-color--error--day: hsla(10, 100%, 95%, 1);
 	--np--background-color--link--day: hsla(212, 100%, 95%, 1);
-	--np--background-color--day--inverse: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--day--inverse: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--day--inverse: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--day--inverse: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--day--inverse: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--day--inverse: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--day--inverse: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--day--inverse: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--day--inverse: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--day--inverse: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--day--inverse: hsla(29, 60%, 18%, 1);
@@ -39,10 +39,10 @@
 	--np--background-color--link--day--inverse: hsla(202, 50%, 18%, 1);
 
 	/* Night mode primitives */
-	--np--background-color--night: hsla(240, 4%, 12.5%, 1);
-	--np--background-color--raised--night: hsla(240, 4%, 15.5%, 1);
-	--np--background-color--sunken--night: hsla(240, 3%, 8.5%, 1);
-	--np--background-color--overlay--night: hsla(240, 4%, 18.5%, 1);
+	--np--background-color--night: hsla(260, 12.5%, 9.4%, 1);
+	--np--background-color--raised--night: hsla(260, 9.5%, 13%, 1);
+	--np--background-color--sunken--night: hsla(260, 22.3%, 4.9%, 1);
+	--np--background-color--overlay--night: hsla(260, 8%, 15.9%, 1);
 	--np--background-color--success--night: hsla(146, 45%, 18%, 1);
 	--np--background-color--highlight--night: hsla(48, 55%, 22%, 1);
 	--np--background-color--warning--night: hsla(29, 60%, 18%, 1);
