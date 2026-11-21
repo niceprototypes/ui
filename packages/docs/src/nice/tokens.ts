@@ -31,12 +31,6 @@ export const AppTokenMap = {
     ruleColor: getCoreToken("borderColor"),
     // Every active or selected state on the docs site: the link purple of each theme.
     activeColor: getCoreToken("color", "link"),
-    // The active sidebar row's tint: the active colour, faint, so the row sits close to the surface
-    // and its label keeps the link colour's contrast (Stripe tints with its purple the same way).
-    activeBackgroundColor: {
-      day: getCoreToken("color", "link", { theme: "day", transform: [null, null, null, "*0.08"] }),
-      night: getCoreToken("color", "link", { theme: "night", transform: [null, null, null, "*0.12"] }),
-    },
     // A panel a step off the page (code, previews, callouts), Stripe's ladder: the sunken grey by
     // day, where base and raised are both white; the raised step at night, lighter than the page.
     panelBackgroundColor: {

@@ -1464,7 +1464,7 @@
 	--np--table--border-color--row--day: var(--np--border-color);
 
 	/* Component night mode primitives */
-	--np--app--search--background-color--night: hsla(0, 0%, 0%, 1);
+	--np--app--search--background-color--night: var(--np--background-color--raised);
 	--np--badge--color--success--night: color-mix(in oklab, var(--np--color--success), var(--np--color) 20%);
 	--np--badge--color--warning--night: color-mix(in oklab, var(--np--color--warning), var(--np--color) 20%);
 	--np--badge--color--error--night: color-mix(in oklab, var(--np--color--error), var(--np--color) 20%);

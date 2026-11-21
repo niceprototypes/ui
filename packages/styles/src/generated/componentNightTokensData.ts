@@ -11,7 +11,7 @@ const componentNightTokensData: ComponentNightTokensData = {
   "app": {
     "search": {
       "backgroundColor": {
-        "base": "hsla(0, 0%, 0%, 1)"
+        "base": "var(--np--background-color--raised)"
       }
     }
   },
