@@ -3849,6 +3849,15 @@ importers:
       '@niceprototypes/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
+      '@niceprototypes/flow':
+        specifier: workspace:*
+        version: link:../flow
+      '@niceprototypes/ink':
+        specifier: workspace:*
+        version: link:../ink
+      '@niceprototypes/select':
+        specifier: workspace:*
+        version: link:../select
       '@niceprototypes/styles':
         specifier: workspace:*
         version: link:../styles

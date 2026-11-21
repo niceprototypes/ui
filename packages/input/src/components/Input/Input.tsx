@@ -15,6 +15,7 @@ const Input: React.FC<InputProps> = ({
   "aria-expanded": ariaExpanded,
   "aria-haspopup": ariaHasPopup,
   "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
   as = "input",
   autoComplete,
   autoFocus = false,
@@ -158,6 +159,7 @@ const Input: React.FC<InputProps> = ({
         // Invalid from the Field or from status="error"; only ever "true" — never render aria-invalid="false"
         aria-invalid={fieldContext?.invalid || effectiveStatus === "error" ? true : undefined}
         aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
         data-testid={testId}

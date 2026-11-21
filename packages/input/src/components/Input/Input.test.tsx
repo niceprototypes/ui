@@ -743,6 +743,16 @@ describe("Input", () => {
       expect(control).toHaveAttribute("id", "own")
       expect(control).toHaveAttribute("aria-describedby", "a b")
     })
+
+    it("takes its accessible name from aria-labelledby", () => {
+      render(
+        <>
+          <h2 id="heading">After</h2>
+          <Input aria-labelledby="heading" />
+        </>
+      )
+      expect(screen.getByRole("textbox", { name: "After" })).toHaveAttribute("aria-labelledby", "heading")
+    })
   })
 
   it("applies the font-size floor token to the control", () => {

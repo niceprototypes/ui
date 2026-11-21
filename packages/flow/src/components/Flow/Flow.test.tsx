@@ -97,6 +97,28 @@ describe("Flow", () => {
     expect(screen.getByText("later").matches(selectors)).toBe(false)
   })
 
+  it("spaces a child marked data-flow-role as that role, and treats a heading row after a rule as a heading", () => {
+    render(
+      <Flow>
+        <hr />
+        <div data-flow-role="h2">row</div>
+      </Flow>,
+    )
+    const rules = getInjectedCss().split("}")
+    const selectorsWith = (declaration: string) =>
+      rules
+        .filter(rule => rule.includes(declaration))
+        .map(rule => rule.slice(0, rule.indexOf("{")))
+        .join(",")
+    const row = screen.getByText("row")
+    expect(row.matches(selectorsWith(margins("h2")))).toBe(true)
+    const afterRule = rules
+      .filter(rule => rule.includes(":where(hr)+") || rule.includes(":where(hr) +"))
+      .map(rule => rule.slice(0, rule.indexOf("{")))
+      .join(",")
+    expect(row.matches(afterRule)).toBe(true)
+  })
+
   it("sets the density multiplier and role overrides on the instance", () => {
     render(<Flow density="spacious" space={{ h2: { before: "large" }, code: { after: "base" } }}><p>text</p></Flow>)
     const css = getInjectedCss()

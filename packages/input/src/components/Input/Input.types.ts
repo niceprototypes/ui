@@ -492,6 +492,13 @@ export type InputClassNameType = string
 export type InputAriaLabelType = string
 
 /**
+ * InputAriaLabelledByType
+ *
+ * Id reference to visible text elsewhere that names the control (e.g., a section heading).
+ */
+export type InputAriaLabelledByType = string
+
+/**
  * InputAriaDescribedByType
  *
  * Id reference to descriptive text (e.g., helper or error message).
@@ -730,6 +737,9 @@ export interface InputBaseProps {
   /** Accessible label when no visible label is associated */
   "aria-label"?: InputAriaLabelType
 
+  /** Id reference to visible text that names the control */
+  "aria-labelledby"?: InputAriaLabelledByType
+
   /** Id reference to descriptive text */
   "aria-describedby"?: InputAriaDescribedByType
 
@@ -861,6 +871,7 @@ namespace InputTypes {
   export type OnKeyDown = InputOnKeyDownType
   export type ClassName = InputClassNameType
   export type AriaLabel = InputAriaLabelType
+  export type AriaLabelledBy = InputAriaLabelledByType
   export type AriaDescribedBy = InputAriaDescribedByType
   export type Role = InputRoleType
   export type AriaExpanded = InputAriaExpandedType

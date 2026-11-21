@@ -11,6 +11,7 @@
     "getBleedRadius"
   ],
   "constants": [
-    "FLOW_ATTRIBUTE"
+    "FLOW_ATTRIBUTE",
+    "FLOW_ROLE_ATTRIBUTE"
   ]
 }

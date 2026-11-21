@@ -303,7 +303,7 @@ const docsPages = new Set(
   isDirectory(examplesRoot) ? listDirectory(examplesRoot).filter(name => existsSync(join(examplesRoot, name, "index.tsx"))) : [],
 )
 /** Components in a nav section other than Components: Widgets, built on the primitives. */
-const DOCS_SECTIONS = { DataTable: "widgets" }
+const DOCS_SECTIONS = { DataTable: "widgets", TabsSection: "widgets" }
 /** Components in a folder of their section's nav, as its path. */
 const DOCS_FOLDERS = {
   Button: "forms",
@@ -367,6 +367,12 @@ function readExports(indexPath) {
       const name = part.trim().split(/\s+as\s+/).pop()?.trim()
       if (name) names.add(match[1] ? `type ${name}` : name)
     }
+  }
+  // `export * from "./components/CardHeader"`: that folder's index exports too (default excluded, as `export *` does).
+  for (const [, specifier] of text.matchAll(/export\s+\*\s+from\s+"(\.[^"]+)"/g)) {
+    const target = join(dirname(indexPath), specifier)
+    const file = [join(target, "index.ts"), `${target}.ts`].find(path => existsSync(path))
+    if (file) readExports(file).filter(name => name !== "default").forEach(name => names.add(name))
   }
   return [...names]
 }

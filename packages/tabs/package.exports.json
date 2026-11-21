@@ -1,8 +1,9 @@
 {
   "$schema": "../config-exports/src/schema.json",
-  "description": "Tabs: a WAI-ARIA tablist with any node as a tab label, and the selected tab's panel.",
+  "description": "Tabs: a WAI-ARIA tablist with any node as a tab label, and the selected tab's panel; TabsSection: a heading with its tabs on the right (a select on phone) over the panel.",
   "default": "Tabs",
   "components": [
-    "Tabs"
+    "Tabs",
+    "TabsSection"
   ]
 }

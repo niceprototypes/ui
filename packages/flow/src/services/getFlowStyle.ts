@@ -1,5 +1,5 @@
 import { getToken } from "@niceprototypes/styles"
-import { FLOW_ATTRIBUTE } from "../constants"
+import { FLOW_ATTRIBUTE, FLOW_ROLE_ATTRIBUTE } from "../constants"
 import type { FlowRoleType } from "../components/Flow/Flow.types"
 
 /** A child role's `flow` token group (`flow.h2`, `flow.text`, …). */
@@ -48,8 +48,14 @@ const edgeChains = (side: "first" | "last") => {
   ).join(", ")
 }
 
-/** Every heading level, as one selector. */
-const HEADINGS = "h1, h2, h3, h4, h5, h6"
+/** A role's elements, or any element that takes the role through `data-flow-role`. */
+const roleSelector = (selector: string, group: FlowRoleGroup) =>
+  `${selector}, [${FLOW_ROLE_ATTRIBUTE}="${group.slice("flow.".length)}"]`
+
+/** Every heading level, and every element that takes a heading's role, as one selector. */
+const HEADINGS = ["h1", "h2", "h3", "h4", "h5", "h6"]
+  .map(level => roleSelector(level, `flow.${level}` as FlowRoleGroup))
+  .join(", ")
 
 /**
  * A heading straight after a rule, as one selector list: the rule's next sibling when it is a
@@ -76,7 +82,8 @@ const headingAfterRule = () => {
  * its role's `flow` tokens times `flow.density` (per instance) and `flow.scale` (per breakpoint:
  * a tighter rhythm on phone and tablet): each heading level more space before than after,
  * text, lists, blockquotes, tables, code, media and other blocks a step after, rules a step on
- * each side. Margins collapse, so a heading's larger before-space wins over the block above it.
+ * each side. A child with `data-flow-role` (FLOW_ROLE_ATTRIBUTE) takes that role's space, so a
+ * heading row (a div holding a heading and its controls) is spaced as its heading. Margins collapse, so a heading's larger before-space wins over the block above it.
  *
  * - Each side is its own declaration (`margin-block-start`, `margin-block-end`).
  * - The doubled `&&` outranks a child's own single-class margin reset; `:where` keeps the
@@ -98,7 +105,7 @@ export const getFlowStyle = (): string =>
   [
     ...FLOW_ROLES.map(
       ([selector, group]) =>
-        `&& > :where(${selector}) { margin-block-start: ${space(group, "before")}; margin-block-end: ${space(group, "after")}; }`,
+        `&& > :where(${roleSelector(selector, group)}) { margin-block-start: ${space(group, "before")}; margin-block-end: ${space(group, "after")}; }`,
     ),
     `${edgeChains("first")} { margin-block-start: 0; }`,
     `${edgeChains("last")} { margin-block-end: 0; }`,

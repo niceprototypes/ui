@@ -6,5 +6,5 @@
 export { default, default as Flow } from "./components/Flow"
 export * from "./components/Flow"
 export * from "./components/FlowItem"
-export { FLOW_ATTRIBUTE } from "./constants"
+export { FLOW_ATTRIBUTE, FLOW_ROLE_ATTRIBUTE } from "./constants"
 export { getFlowStyle, getBleedRadius } from "./services"

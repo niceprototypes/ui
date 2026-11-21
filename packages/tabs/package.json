@@ -2,7 +2,7 @@
   "name": "@niceprototypes/tabs",
   "version": "0.2.0",
   "type": "module",
-  "description": "Tabs (WAI-ARIA tablist, tabs and one panel) with any node as a tab label, for nice-react",
+  "description": "Tabs (WAI-ARIA tablist, tabs and one panel) with any node as a tab label, and TabsSection (a heading with its tabs on the right, a select on phone, over the panel), for nice-react",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
@@ -28,6 +28,9 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
+    "@niceprototypes/flow": "workspace:^",
+    "@niceprototypes/ink": "workspace:^",
+    "@niceprototypes/select": "workspace:^",
     "@niceprototypes/styles": "workspace:^",
     "react": ">=19.2.0 <20.0.0",
     "react-dom": ">=19.2.0 <20.0.0",
@@ -61,7 +64,10 @@
     "styled-components": "catalog:",
     "ts-jest": "^29.4.6",
     "tslib": "^2.6.2",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "@niceprototypes/flow": "workspace:*",
+    "@niceprototypes/ink": "workspace:*",
+    "@niceprototypes/select": "workspace:*"
   },
   "repository": {
     "type": "git",
