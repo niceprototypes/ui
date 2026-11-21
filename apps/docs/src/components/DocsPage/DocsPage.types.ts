@@ -25,7 +25,10 @@ export type DocsPageSectionType = {
  * Complete prop definition for the DocsPage component.
  */
 export interface DocsPageProps {
-  /** The page's sections, in page order */
+  /** The page's title block (a StoryHeader), above the first section with no rule after it */
+  header?: React.ReactNode
+
+  /** The page's sections, in page order; a section with nothing to render is left out */
   sections: ReadonlyArray<DocsPageSectionType>
 
   /** Cap the sections column at `docs.columnWidth`; off, it takes the width Contents leaves. @default true */

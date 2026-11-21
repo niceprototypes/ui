@@ -35,7 +35,8 @@ const TokensPage: React.FC = () => {
   return (
     <DocsPage
       wrapped={getItem("tokens")?.settings.wrapped === true}
-      sections={[{ id: "tokens", label: "Tokens", content: <StoryHeader title="Tokens" /> }, ...sections]}
+      header={<StoryHeader title="Tokens" />}
+      sections={sections}
     />
   )
 }

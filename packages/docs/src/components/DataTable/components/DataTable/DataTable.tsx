@@ -11,13 +11,14 @@ import type { DataTableProps } from "./DataTable.types"
  * sub-tables one heading level deeper). The same shape serves every instance: a
  * single demo table is `[{ rows }]`, a token group is `[{ name, rows }]`, and a
  * cluster is `[{ name, tables: [...] }]`. Each entry is rendered by
- * `DataTableRows`, with a rule above each top-level entry.
+ * `DataTableRows`, with a section rule between top-level entries (none before the first:
+ * the page's own rule or title sits there).
  */
 export const DataTable = ({ columns, tables, columnWidths, showHeader = true, showLines = false, condensed = false, rowSpacing = "base", rowFrom, sectionWrapped = false }: DataTableProps) => (
   <Flex direction="column" gap="larger">
     {tables.map((table, index) => (
       <React.Fragment key={tableKey(table, index)}>
-        <Line />
+        {index > 0 ? <Line /> : null}
         <DataTableRows table={table} columns={columns} columnWidths={columnWidths} showHeader={showHeader} showLines={showLines} condensed={condensed} rowSpacing={rowSpacing} rowFrom={rowFrom} sectionWrapped={sectionWrapped} />
       </React.Fragment>
     ))}
