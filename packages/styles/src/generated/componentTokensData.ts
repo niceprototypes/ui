@@ -820,7 +820,7 @@ const componentTokensData: ComponentTokensData = {
     },
     "rule": {
       "before": "var(--np--gap--larger)",
-      "after": "var(--np--gap--larger)"
+      "after": "calc(var(--np--gap--large) + var(--np--gap--small))"
     },
     "density": {
       "compact": "0.5",
@@ -1749,6 +1749,15 @@ const componentTokensData: ComponentTokensData = {
     },
     "activeColor": {
       "base": "var(--np--color--link)"
+    },
+    "activeBackgroundColor": {
+      "base": "transparent"
+    },
+    "activeBorderRadius": {
+      "base": "var(--np--border-radius--small)"
+    },
+    "activePaddingInline": {
+      "base": "var(--np--gap--none)"
     },
     "inactive": {
       "color": {

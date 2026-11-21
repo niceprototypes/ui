@@ -60,7 +60,11 @@ export const StyledTreeRowContent = styled.div<{ $onPath: boolean; $receded: boo
     `}
 `
 
-/** The row's link, folder button or plain label: icon then label. */
+/**
+ * The row's link, folder button or plain label: icon then label. The current page's link takes
+ * the active row's background, radius and inline padding (`tree.active*` tokens; transparent and
+ * none by default), its padding drawn into the indent so its text stays in line with the rows'.
+ */
 export const StyledTreeTarget = styled.span`
   display: flex;
   flex: 1 1 auto;
@@ -78,6 +82,13 @@ export const StyledTreeTarget = styled.span`
 
   &:is(a, button) {
     cursor: pointer;
+  }
+
+  &[aria-current="page"] {
+    margin-inline-start: calc(-1 * ${getToken("tree.activePaddingInline")});
+    padding-inline: ${getToken("tree.activePaddingInline")};
+    border-radius: ${getToken("tree.activeBorderRadius")};
+    background-color: ${getToken("tree.activeBackgroundColor")};
   }
 `
 

@@ -22,7 +22,12 @@ export const getToken = setTokens({
     indicator: { color: AppTokenMap.docs.activeColor },
   },
   // The sidebar's active path, the selected tab and its indicator, and every focus ring: the docs active colour.
-  tree: { activeColor: AppTokenMap.docs.activeColor },
+  // The sidebar's active page row as Stripe's API reference marks it: on a faint tint of the active colour, padded into the indent.
+  tree: {
+    activeColor: AppTokenMap.docs.activeColor,
+    activeBackgroundColor: AppTokenMap.docs.activeBackgroundColor,
+    activePaddingInline: getCoreToken("gap", "smaller"),
+  },
   tabs: { color: { selected: AppTokenMap.docs.activeColor }, indicator: { color: AppTokenMap.docs.activeColor } },
   focusRing: { color: AppTokenMap.docs.activeColor },
   // One scale at every breakpoint, base 14 to larger 48: base to larger grows by one ratio each

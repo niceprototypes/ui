@@ -19,21 +19,9 @@ export const StyledDocsColumns = styled.div`
   }
 `
 
-/**
- * A column's cell: lets its content shrink below its intrinsic width, so wide code scrolls inside
- * its card. Its column sits flush at both ends, one Flow column deep too: Flow flushes a nested
- * column's ends only when no Flow column encloses its root, and the page's does (backlog).
- */
+/** A column's cell: lets its content shrink below its intrinsic width, so wide code scrolls inside its card. */
 export const StyledDocsColumnsCell = styled.div`
   min-width: 0;
-
-  &&& > :where([data-flow]) > :where([data-flow]:first-child) > :where(:first-child) {
-    margin-block-start: 0;
-  }
-
-  &&& > :where([data-flow]) > :where([data-flow]:last-child) > :where(:last-child) {
-    margin-block-end: 0;
-  }
 `
 
 /** The aside's cell: from laptop up it sticks where Contents sticks while the main column scrolls past. */

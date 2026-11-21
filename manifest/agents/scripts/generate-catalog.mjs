@@ -325,6 +325,8 @@ const DOCS_FOLDERS = {
   ChatSuggestions: "chat",
   ChatThinking: "chat",
   ChatToolCall: "chat",
+  DocsColumns: "docs",
+  DocsRule: "docs",
   SectionLinks: "scroll",
   StickySection: "scroll",
 }

@@ -662,7 +662,7 @@
 	--np--flow--block--before: var(--np--gap--none);
 	--np--flow--block--after: var(--np--gap--large);
 	--np--flow--rule--before: var(--np--gap--larger);
-	--np--flow--rule--after: var(--np--gap--larger);
+	--np--flow--rule--after: calc(var(--np--gap--large) + var(--np--gap--small));
 	--np--flow--density--compact: 0.5;
 	--np--flow--density: 1;
 	--np--flow--density--spacious: 1.5;
@@ -1151,6 +1151,9 @@
 	--np--tree--color--warning: var(--np--color--warning);
 	--np--tree--color--error: var(--np--color--error);
 	--np--tree--active-color: var(--np--color--link);
+	--np--tree--active-background-color: transparent;
+	--np--tree--active-border-radius: var(--np--border-radius--small);
+	--np--tree--active-padding-inline: var(--np--gap--none);
 	--np--tree--inactive--color: var(--np--color--lighter);
 	--np--tree--font-weight: var(--np--font-weight--medium);
 	--np--tree--font-weight--active: var(--np--font-weight--semibold);

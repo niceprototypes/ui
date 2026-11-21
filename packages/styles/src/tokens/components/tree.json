@@ -14,6 +14,15 @@
   "activeColor": {
     "base": "var(--np--color--link)"
   },
+  "activeBackgroundColor": {
+    "base": "transparent"
+  },
+  "activeBorderRadius": {
+    "base": "var(--np--border-radius--small)"
+  },
+  "activePaddingInline": {
+    "base": "var(--np--gap--none)"
+  },
   "inactive": {
     "color": {
       "base": "var(--np--color--lighter)"

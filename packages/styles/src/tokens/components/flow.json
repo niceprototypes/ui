@@ -53,7 +53,7 @@
   },
   "rule": {
     "before": "var(--np--gap--larger)",
-    "after": "var(--np--gap--larger)"
+    "after": "calc(var(--np--gap--large) + var(--np--gap--small))"
   },
   "density": {
     "compact": "0.5",

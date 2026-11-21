@@ -1,6 +1,7 @@
 import * as React from "react"
 import { fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
+import { getToken } from "@niceprototypes/styles"
 import Tree from "."
 import type { TreeItemsType } from "./Tree.types"
 
@@ -29,6 +30,16 @@ describe("Tree", () => {
     expect(screen.getByRole("button", { name: "Guides" })).toHaveAttribute("aria-expanded", "true")
     expect(screen.getByRole("button", { name: "API" })).toHaveAttribute("aria-expanded", "false")
     expect(screen.getByRole("link", { name: "Theming" })).toHaveAttribute("aria-current", "page")
+  })
+
+  it("styles the current page's link from the tree.active* tokens", () => {
+    render(<Tree aria-label="Docs" items={items} />)
+    const link = screen.getByRole("link", { name: "Theming" })
+    const css = Array.from(document.querySelectorAll("style")).map(element => element.textContent).join("\n")
+    const rule = css.split("}").find(text => text.includes('[aria-current="page"]') && link.classList.contains(text.match(/\.([\w-]+)\[aria-current/)?.[1] ?? ""))
+    expect(rule).toContain(`background-color:${getToken("tree.activeBackgroundColor")}`)
+    expect(rule).toContain(`border-radius:${getToken("tree.activeBorderRadius")}`)
+    expect(rule).toContain(`padding-inline:${getToken("tree.activePaddingInline")}`)
   })
 
   it("toggles a folder and hides its sub-list when closed", () => {
