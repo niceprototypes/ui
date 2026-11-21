@@ -1,0 +1,5 @@
+---
+"@niceprototypes/docs": minor
+---
+
+Docs pages take Stripe's API reference layout. New `DocsColumns` (prose column beside a sticky code column from laptop up, one column below, 1:1 with a `docs.gutter` gutter) and `DocsRule` (`level="section"`: edge to edge, bleeding by `flow.bleed`; `level="subsection"`: inset to its column), spaced by Flow. `PropDocs` is a parameter list item (subsection rule, semibold code name with its type and presence small and muted on one baseline, then the description) and no longer renders the prop's examples; `SubHeading` is removed. The docs `Line` is a section rule, MDX `h3`s in DocsContent carry a subsection rule, and a typed `Callout` is a panel with an uppercase header bar. New `docs` tokens: `gutter`, `ruleWidth`, `ruleColor`, `activeColor` and `activeBackgroundColor` (Nice UI's night-mode purple, `code.syntaxColor.purple` night, in both themes), `selectionColor`, `panelBackgroundColor` (sunken by day, raised at night) and `panelHeaderBackgroundColor` (sunken by day, overlay at night); docs surfaces that sat on `backgroundColor.raised` use the panel token.

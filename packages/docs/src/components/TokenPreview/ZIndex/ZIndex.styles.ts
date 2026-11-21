@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { getToken, type TokenVariants } from "@niceprototypes/styles"
+import { getToken as getDocsToken } from "../../../nice/tokens"
 import { REFERENCE_Z } from "./ZIndex.constants"
 
 /** The stacking context both squares share — relative, so it mints one; neither child isolates. */
@@ -22,7 +23,7 @@ export const ZIndexReference = styled(ZIndexSquare)`
   top: 0;
   left: 0;
   z-index: ${REFERENCE_Z};
-  background-color: ${getToken("backgroundColor", "raised")};
+  background-color: ${getDocsToken("docs", "panelBackgroundColor")};
   border: 1px solid ${getToken("borderColor")};
 `
 

@@ -24,6 +24,28 @@ export const AppTokenMap = {
     // The fixed storybook-navigation bar's height at laptop+ (its ReservedSpaceStyle): docs
     // sections scroll to just below it.
     barHeight: `calc(${getCoreToken("gap", "large")} * 2 + ${getCoreToken("size", "small")})`,
+    // DocsColumns' gutter between the prose column and the code column (Stripe's API reference: 42px).
+    gutter: getCoreToken("gap", "larger"),
+    // DocsRule (section and subsection rules) and the parameter list's rules.
+    ruleWidth: getCoreToken("borderWidth", "small"),
+    ruleColor: getCoreToken("borderColor"),
+    // Every active or selected state on the docs site: Nice UI's night-mode purple, in both themes.
+    activeColor: getCoreToken("code.syntaxColor", "purple", { theme: "night" }),
+    // The active sidebar row's tint: the active colour, faint (Stripe tints with its purple the same way).
+    activeBackgroundColor: getCoreToken("code.syntaxColor", "purple", { theme: "night", transform: [null, null, null, "*0.14"] }),
+    // A panel a step off the page (code, previews, callouts), Stripe's ladder: the sunken grey by
+    // day, where base and raised are both white; the raised step at night, lighter than the page.
+    panelBackgroundColor: {
+      day: getCoreToken("backgroundColor", "sunken", { theme: "day" }),
+      night: getCoreToken("backgroundColor", "raised", { theme: "night" }),
+    },
+    // A panel's header bar (a callout's title): the panel's grey by day, under its rule; the overlay step at night.
+    panelHeaderBackgroundColor: {
+      day: getCoreToken("backgroundColor", "sunken", { theme: "day" }),
+      night: getCoreToken("backgroundColor", "overlay", { theme: "night" }),
+    },
+    // Selected text: the active colour, stronger than the sidebar tint so a selection reads on text.
+    selectionColor: getCoreToken("code.syntaxColor", "purple", { theme: "night", transform: [null, null, null, "*0.4"] }),
   },
   // Contents sticks a large gap below the navigation bar.
   contents: {

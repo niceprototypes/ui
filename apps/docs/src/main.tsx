@@ -6,6 +6,7 @@ import "@niceprototypes/icon-vendor"
 import "@niceprototypes/image-vendor"
 import "./tokens"
 import ThemeToggle from "./components/ThemeToggle"
+import DocsGlobalStyle from "./components/DocsGlobalStyle"
 import { DocsSettingsContext } from "./components/DocsPage"
 import { DocsNavigationContext } from "@niceprototypes/docs/components/DocsNavigation"
 import { docsUrlOf, pages, redirectOf } from "./pages"
@@ -26,6 +27,7 @@ const openStory = (storyId: string) => {
 
 createRoot(document.getElementById("root")!).render(
   <StylesProvider links={[{ rel: "stylesheet", href: `${import.meta.env.BASE_URL}fonts/avenir.css` }]}>
+    <DocsGlobalStyle />
     <DocsNavigationContext.Provider value={openStory}>
     <DocsSettingsContext.Provider value={<ThemeToggle />}>
       <App

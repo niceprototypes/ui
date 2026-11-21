@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components"
 import { getToken, type AnimationDurationType } from "@niceprototypes/styles"
+import { getToken as getDocsToken } from "../../nice/tokens"
 import Flex from "@niceprototypes/flex"
 import { DOT_SIZE } from "./constants"
 
@@ -37,7 +38,7 @@ export const Dot = styled.div<{ $variant: AnimationDurationType }>`
 // padding) — the exact span the dot should travel.
 export const Track = styled(Flex)`
   container-type: inline-size;
-  background-color: ${getToken("backgroundColor", "raised")};
+  background-color: ${getDocsToken("docs", "panelBackgroundColor")};
   border: 1px solid ${getToken("borderColor")};
   border-radius: 8px;
   padding: ${getToken("gap", "smaller")};

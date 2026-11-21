@@ -1,16 +1,20 @@
 import * as React from "react"
 import Ink from "@niceprototypes/ink"
 import DocsPage, { type DocsPageSectionType } from "../DocsPage"
-import Playground from "../Playground"
+import { usePlayground } from "../Playground"
 import { hasPlayground } from "../Playground/Playground.controls"
-import { subcomponentsOf, type CatalogComponentType } from "../../catalog"
-import PropDocs, { SubHeading } from "@niceprototypes/docs/components/PropDocs"
+import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"
+import PropDocs from "@niceprototypes/docs/components/PropDocs"
 import ExampleBlocks from "@niceprototypes/docs/components/ExampleBlocks"
+import DocsRule from "@niceprototypes/docs/components/DocsRule"
 import { ComponentTokenTable, componentPrefixesWithTokens, type ComponentPrefixWithTokens } from "@niceprototypes/docs/dataTables/components/tokens/Components"
 import { componentExamples } from "@niceprototypes/docs/examples"
+import type { ComponentExample } from "@niceprototypes/docs/dataTables/components/demos/Components"
 import { StoryHeader } from "@niceprototypes/docs/components/Story"
 import { StoryHeaderLevel } from "@niceprototypes/docs/components/Story/StoryHeader/StoryHeaderLevel"
+import DocsInk from "@niceprototypes/docs/nice/Ink"
 import Code from "@niceprototypes/docs/nice/Code"
+import { renderInline } from "@niceprototypes/docs/data/text"
 
 
 /** A section heading one level under the page title. */
@@ -20,13 +24,23 @@ const SectionHeading = ({ title }: { title: string }) => (
   </StoryHeaderLevel.Provider>
 )
 
+/** Each prop as a parameter list item (PropDocs), its live examples beside it when it has some. */
+const propSections = (props: CatalogPropType[], examples: Record<string, ComponentExample>, anchor: string): DocsPageSectionType[] =>
+  props.map(prop => ({
+    id: `${anchor}${prop.name}`,
+    label: prop.name,
+    content: <PropDocs prop={prop} example={examples[prop.name]} />,
+    aside: examples[prop.name] ? <ExampleBlocks example={examples[prop.name]} /> : null,
+  }))
+
 /**
  * ComponentPage
  *
- * One component's docs page, from the catalog: the overview (install and import), a playground
- * (when the props allow one), every prop (its type, default and live examples), a section per
- * subcomponent with its props, the examples that are not one prop, and the component tokens
- * when its prefix has any.
+ * One component's docs page, from the catalog, in Stripe's API reference layout (DocsPage): the
+ * overview (install and import), a playground (when the props allow one: its controls beside the
+ * live preview and its JSX), every prop as a parameter list item beside its live examples, a
+ * section per subcomponent with its props, the examples that are not one prop (each a subsection
+ * beside its code), and the component tokens when its prefix has any.
  */
 const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ component }) => {
   const examples = componentExamples[component.name] ?? {}
@@ -35,6 +49,7 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
   const importLine = component.named
     ? `import { ${component.name} } from "${component.package}"`
     : `import ${component.name} from "${component.package}"`
+  const playground = usePlayground(component, hasPlayground(component))
 
   const sections: DocsPageSectionType[] = [
     {
@@ -55,44 +70,32 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
           {
             id: "playground",
             label: "Playground",
-            content: (
-              <>
-                <SectionHeading title="Playground" />
-                <Playground component={component} />
-              </>
-            ),
+            heading: <SectionHeading title="Playground" />,
+            content: playground.controls,
+            aside: playground.preview,
           },
         ]
       : []),
     {
       id: "props",
       label: "Props",
-      content: <SectionHeading title="Props" />,
-      sections: component.props.map(prop => ({
-        id: `prop-${prop.name}`,
-        label: prop.name,
-        content: <PropDocs prop={prop} example={examples[prop.name]} />,
-      })),
+      heading: <SectionHeading title="Props" />,
+      sections: propSections(component.props, examples, "prop-"),
     },
     // Each subcomponent (CardHeader on Card) as a section: its import, then its props.
     ...subcomponentsOf(component.name).map(sub => {
-      const subExamples = componentExamples[sub.name] ?? {}
       const anchor = sub.name.toLowerCase()
       return {
         id: anchor,
         label: sub.name,
+        heading: <SectionHeading title={sub.name} />,
         content: (
           <>
-            <SectionHeading title={sub.name} />
             <Code language="tsx" code={`import { ${sub.name} } from "${sub.package}"`} />
             {sub.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
           </>
         ),
-        sections: sub.props.map(prop => ({
-          id: `${anchor}-prop-${prop.name}`,
-          label: prop.name,
-          content: <PropDocs prop={prop} example={subExamples[prop.name]} />,
-        })),
+        sections: propSections(sub.props, componentExamples[sub.name] ?? {}, `${anchor}-prop-`),
       }
     }),
   ]
@@ -102,16 +105,21 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
     sections.push({
       id: "examples",
       label: "Examples",
-      content: <SectionHeading title="Examples" />,
+      heading: <SectionHeading title="Examples" />,
+      // Each example a subsection: its heading, a subsection rule, its description beside its code.
       sections: otherExamples.map(([key, example]) => ({
         id: `example-${key}`,
         label: example.name,
+        heading: <DocsInk as="h3">{example.name}</DocsInk>,
         content: (
           <>
-            <SubHeading title={example.name} description={example.description} />
-            <ExampleBlocks example={example} />
+            <DocsRule level="subsection" />
+            {example.description ? (
+              <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
+            ) : null}
           </>
         ),
+        aside: <ExampleBlocks example={example} />,
       })),
     })
 
@@ -119,12 +127,8 @@ const ComponentPage: React.FC<{ component: CatalogComponentType }> = ({ componen
     sections.push({
       id: "tokens",
       label: "Tokens",
-      content: (
-        <>
-          <SectionHeading title="Tokens" />
-          <ComponentTokenTable prefix={prefix} />
-        </>
-      ),
+      heading: <SectionHeading title="Tokens" />,
+      content: <ComponentTokenTable prefix={prefix} />,
     })
 
   return <DocsPage sections={sections} />

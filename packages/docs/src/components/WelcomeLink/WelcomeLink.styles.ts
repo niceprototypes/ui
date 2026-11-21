@@ -2,6 +2,7 @@ import styled from "styled-components"
 import Icon from "@niceprototypes/icon"
 
 import { getBreakpoint, getTextHeight, getToken } from "@niceprototypes/styles"
+import { getToken as getDocsToken } from "../../nice/tokens"
 
 /**
  * The trailing arrow.
@@ -28,8 +29,8 @@ export const WelcomeLinkDiv = styled.div<{ $stripped?: boolean }>`
   border: ${({ $stripped }) => ($stripped ? "0" : `1px solid ${getToken("borderColor")}`)};
   border-radius: ${getToken("borderRadius")};
   box-shadow: ${({ $stripped }) => ($stripped ? "none" : getToken("boxShadow"))};
-  /* A raised surface, like a code block. */
-  background-color: ${({ $stripped }) => ($stripped ? "transparent" : getToken("backgroundColor", "raised"))};
+  /* A docs panel, like a code block. */
+  background-color: ${({ $stripped }) => ($stripped ? "transparent" : getDocsToken("docs", "panelBackgroundColor"))};
 
   h3 {
     line-height: ${getToken("size", "small")};

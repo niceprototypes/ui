@@ -53,7 +53,7 @@ const ScrollPageBehaviour = () => {
         />
         <Code language="tsx" code={STICKY_CODE} />
         <Scroll sticky={{ onChange: setIsSticky }} data-testid="page-behaviour-sticky">
-          <Flex padding="base" style={{ backgroundColor: getToken("backgroundColor", "raised") }}>
+          <Flex padding="base" style={{ backgroundColor: getToken("docs", "panelBackgroundColor") }}>
             <Ink>{`onChange(${isSticky})`}</Ink>
           </Flex>
         </Scroll>

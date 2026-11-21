@@ -1,4 +1,5 @@
 import { getToken } from "@niceprototypes/styles"
+import { getToken as getDocsToken } from "../../nice/tokens"
 import Flex from "@niceprototypes/flex"
 import Image from "@niceprototypes/image"
 import Ink from "../../nice/Ink"
@@ -31,7 +32,7 @@ export const tokenRenderers: Record<string, Renderer> = {
       grow={1}
       padding="smaller"
       style={{
-        backgroundColor: getToken("backgroundColor", "raised"),
+        backgroundColor: getDocsToken("docs", "panelBackgroundColor"),
         border: `1px solid ${getToken("borderColor")}`,
         borderRadius: getToken("borderRadius", "small"),
       }}
@@ -55,7 +56,7 @@ export const tokenRenderers: Record<string, Renderer> = {
   // The cell grows with the variant, one size step each; size has no "none", so that row takes the smallest.
   "tokens-borders-borderradius": (variant) => (
     <PreviewCell
-      backgroundColor={getToken("backgroundColor", "raised")}
+      backgroundColor={getDocsToken("docs", "panelBackgroundColor")}
       borderColor={getToken("borderColor")}
       height={getToken("size", variant === "none" ? "smaller" : variant)}
       borderRadius={getToken("borderRadius", variant)}
@@ -144,7 +145,7 @@ export const tokenRenderers: Record<string, Renderer> = {
 
   "tokens-sizes-size": (variant) => (
     <PreviewCell
-      backgroundColor={getToken("backgroundColor", "raised")}
+      backgroundColor={getDocsToken("docs", "panelBackgroundColor")}
       borderColor={getToken("borderColor")}
       height={getToken("size", variant)}
       borderRadius={getToken("borderRadius", "small")}
@@ -156,7 +157,7 @@ export const tokenRenderers: Record<string, Renderer> = {
       grow={1}
       padding="large"
       style={{
-        backgroundColor: getToken("backgroundColor", "raised"),
+        backgroundColor: getDocsToken("docs", "panelBackgroundColor"),
         border: `1px solid ${getToken("borderColor")}`,
         borderRadius: getToken("borderRadius", "small"),
       }}
@@ -179,7 +180,7 @@ export const tokenRenderers: Record<string, Renderer> = {
   "tokens-focusring": () => (
     <Flex grow={1} padding="smaller">
       <PreviewCell
-        backgroundColor={getToken("backgroundColor", "raised")}
+        backgroundColor={getDocsToken("docs", "panelBackgroundColor")}
         borderColor={getToken("borderColor")}
         height={getToken("size", "large")}
         borderRadius={getToken("borderRadius", "small")}

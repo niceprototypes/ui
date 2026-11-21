@@ -10,7 +10,7 @@ interface LineProps {
 }
 
 /**
- * The storybook divider: an `<hr>` whose colour and margin come from tokens.
+ * The storybook divider, a section rule: an `<hr>` whose colour and margin come from tokens.
  * Use it in place of `<hr />` and the markdown thematic break (`---`).
  */
 const Line: React.FC<LineProps> = ({ margin = "none", color = "base" }) => (

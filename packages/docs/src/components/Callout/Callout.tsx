@@ -1,12 +1,15 @@
 import * as React from "react"
+import Ink from "@niceprototypes/ink"
+import DocsInk from "../../nice/Ink"
+import { StyledCallout, StyledCalloutBody, StyledCalloutHeader } from "./Callout.styles"
 
 /**
- * Callout variants. Each maps to a leading emoji prefixed before the text.
+ * Callout variants. Each maps to a header bar: its emoji and its name.
  * Extend by adding a key here and an entry in {@link CALLOUT_EMOJI}.
  */
 export type CalloutType = "hint" | "learning"
 
-// Variant → leading emoji shown before the text.
+// Variant → the emoji shown before its name in the header bar.
 const CALLOUT_EMOJI: Record<CalloutType, string> = {
   hint: "💡",
   learning: "🧠",
@@ -14,8 +17,8 @@ const CALLOUT_EMOJI: Record<CalloutType, string> = {
 
 interface CalloutProps {
   /**
-   * Callout variant. When set, prefixes the matching emoji (e.g. `hint` → 💡).
-   * Omit for a plain blockquote with no emoji — effectively `> {children}`.
+   * Callout variant. When set, the callout is a panel with a header bar naming it (e.g. `hint` →
+   * 💡 HINT). Omit for a plain blockquote, effectively `> {children}`.
    */
   type?: CalloutType
   /** Callout text. */
@@ -23,9 +26,9 @@ interface CalloutProps {
 }
 
 /**
- * A blockquote callout for MDX docs. Renders `> {children}`; with a `type` set
- * it prefixes that variant's emoji inline before the text. With no `type` it is
- * a plain blockquote and no emoji.
+ * A callout for MDX docs. With a `type` it is a panel as Stripe's API reference draws one: a
+ * header bar with the variant's emoji and name in small capitals, then the text. With no `type`
+ * it is a plain blockquote.
  */
 const Callout: React.FC<CalloutProps> = ({ type, children }) => {
   // Unwrap the <p> MDX wraps block-style children in, so we don't nest a <p>
@@ -36,17 +39,24 @@ const Callout: React.FC<CalloutProps> = ({ type, children }) => {
       : child
   )
 
+  if (type)
+    return (
+      <StyledCallout>
+        <StyledCalloutHeader>
+          <Ink size="smaller" weight="semibold" letterSpacing="wide">{`${CALLOUT_EMOJI[type]} ${type}`}</Ink>
+        </StyledCalloutHeader>
+        <StyledCalloutBody>
+          <DocsInk as="p">{content}</DocsInk>
+        </StyledCalloutBody>
+      </StyledCallout>
+    )
+
   return (
     <blockquote>
       {/* Wrap in a <p> to match the native markdown blockquote structure
           (<blockquote><p>…</p></blockquote>) the docs CSS styles via `blockquote p`;
-          a bare text child renders unstyled as body text. The emoji sits inside
-          the <p> so it stays inline with the text. */}
-      <p>
-        {/* Trailing nbsp + space — a second regular space would collapse in HTML. */}
-        {type ? `${CALLOUT_EMOJI[type]} \u00A0` : null}
-        {content}
-      </p>
+          a bare text child renders unstyled as body text. */}
+      <p>{content}</p>
     </blockquote>
   )
 }

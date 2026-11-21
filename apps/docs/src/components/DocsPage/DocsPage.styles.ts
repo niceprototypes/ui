@@ -16,14 +16,22 @@ export const StyledDocsPage = styled.div`
   }
 `
 
+/** Two prose columns and the gutter between them: a two-column page's cap (Stripe's API reference: 1540px). */
+const splitWidth = `calc(${getToken("docs", "columnWidth")} * 2 + ${getToken("docs", "gutter")})`
+
 /**
  * The sections column: capped at `docs.columnWidth` when wrapped, else the width Contents leaves; a
- * wider table scrolls sideways. From laptop up its auto margin shares the free space with the
+ * wider table scrolls sideways. A two-column page (`$split`) is capped at two prose columns and
+ * the gutter from laptop up. From laptop up its auto margin shares the free space with the
  * settings column's, so the sections and Contents stay near the centre.
  */
-export const StyledDocsPageMain = styled(Scroll).attrs({ axis: "x" })<{ $wrapped: boolean }>`
+export const StyledDocsPageMain = styled(Scroll).attrs({ axis: "x" })<{ $wrapped: boolean; $split: boolean }>`
   flex: ${({ $wrapped }) => ($wrapped ? `0 1 ${getToken("docs", "columnWidth")}` : "1 1 auto")};
   min-width: 0;
+
+  ${getBreakpoint("laptop+")} {
+    ${({ $split }) => ($split ? `flex: 0 1 ${splitWidth};` : "")}
+  }
   /* The column's box spans the page's bleed (App: its gutter on phone) and insets its content by
      it, so a bleeding FlowItem reaches the page's edges inside this scroller instead of being clipped. */
   margin-inline: calc(-1 * ${getCoreToken("flow.bleed")});
@@ -40,13 +48,16 @@ export const StyledDocsPageSection = styled.section`
   scroll-margin-top: ${getToken("contents.top")};
 `
 
-/** The Contents column: laptop and up, where there is room beside the sections (Atlassian hides it narrower). */
-export const StyledDocsPageAside = styled.aside`
+/**
+ * The Contents column: laptop and up, where there is room beside the sections (Atlassian hides it
+ * narrower); desktop and up beside a two-column page (`$split`), whose code column takes the room.
+ */
+export const StyledDocsPageAside = styled.aside<{ $split: boolean }>`
   display: none;
   flex: none;
   width: ${getToken("docs", "contentsWidth")};
 
-  ${getBreakpoint("laptop+")} {
+  ${({ $split }) => getBreakpoint($split ? "desktop+" : "laptop+")} {
     display: flex;
     flex-direction: column;
   }

@@ -1,5 +1,5 @@
 import * as React from "react"
-import Flow, { FlowItem } from "@niceprototypes/flow"
+import { FlowItem } from "@niceprototypes/flow"
 import Ink from "@niceprototypes/ink"
 import Input from "@niceprototypes/input"
 import Select from "@niceprototypes/select"
@@ -21,13 +21,14 @@ const packages: Record<string, () => Promise<Record<string, unknown>>> = {
   "../../../../../packages/icon/src/index.ts": () => import("@niceprototypes/icon"),
 }
 
-/** A component from its package entry: the named export, else the default. */
-const useComponent = (component: CatalogComponentType) => {
+/** A component from its package entry: the named export, else the default; nothing loads unless `enabled`. */
+const useComponent = (component: CatalogComponentType, enabled: boolean) => {
   const [Component, setComponent] = React.useState<React.ComponentType<Record<string, unknown>>>()
   React.useEffect(() => {
+    if (!enabled) return
     const load = packages[`../../../../../${component.directory}/src/index.ts`]
     void load?.().then(module => setComponent(() => (module[component.name] ?? module.default) as React.ComponentType<Record<string, unknown>>))
-  }, [component])
+  }, [component, enabled])
   return Component
 }
 
@@ -67,21 +68,26 @@ const Control = ({ control, value, onChange }: { control: PlaygroundControlType;
   )
 }
 
+/** A playground's two parts: the live preview over its JSX (the code column), and a control per prop (the prose column). */
+type PlaygroundPartsType = { preview: React.ReactNode; controls: React.ReactNode }
+
 /**
- * Playground
+ * usePlayground
  *
  * A component rendered live from its props, with a control for every prop the catalog types
  * allow (unions as selects, booleans as switches, numbers and text as fields) and the JSX for
- * the current values. For components that pass `hasPlayground`.
+ * the current values, as two parts a docs section lays out in its two columns. For components
+ * that pass `hasPlayground`; with `enabled` off nothing loads and both parts are empty.
  */
-const Playground: React.FC<{ component: CatalogComponentType }> = ({ component }) => {
+export const usePlayground = (component: CatalogComponentType, enabled: boolean): PlaygroundPartsType => {
   const controls = React.useMemo(() => component.props.flatMap(prop => controlOf(prop) ?? []), [component])
   const [values, setValues] = React.useState<Record<string, PlaygroundValueType>>(() =>
     Object.fromEntries(controls.map(control => [control.prop.name, initialOf(control, component.name)])),
   )
-  const Component = useComponent(component)
+  const Component = useComponent(component, enabled)
   // The docs page scrolls in the App's region, not the window.
   const region = useSceneRegion()
+  if (!enabled) return { preview: null, controls: null }
 
   const set = (name: string) => (value: PlaygroundValueType) => setValues(current => ({ ...current, [name]: value }))
   const { children, ...props } = values
@@ -91,17 +97,21 @@ const Playground: React.FC<{ component: CatalogComponentType }> = ({ component }
     .join("")
   const jsx = children === undefined ? `<${component.name}${attributes} />` : `<${component.name}${attributes}>${children}</${component.name}>`
 
-  return (
-    <Flow>
-      <FlowItem bleed>
-        <StyledPlaygroundPreview>
-        {/* The context the scroll components need above them, scrolling with the page's region; the rest ignore it. */}
-          <Scroll root={region}>
-            <PreviewBoundary values={values}>{Component && <Component {...props}>{children}</Component>}</PreviewBoundary>
-          </Scroll>
-        </StyledPlaygroundPreview>
-      </FlowItem>
-      <NiceCode code={jsx} language="tsx" fit={false} />
+  return {
+    preview: (
+      <>
+        <FlowItem bleed>
+          <StyledPlaygroundPreview>
+            {/* The context the scroll components need above them, scrolling with the page's region; the rest ignore it. */}
+            <Scroll root={region}>
+              <PreviewBoundary values={values}>{Component && <Component {...props}>{children}</Component>}</PreviewBoundary>
+            </Scroll>
+          </StyledPlaygroundPreview>
+        </FlowItem>
+        <NiceCode code={jsx} language="tsx" fit={false} />
+      </>
+    ),
+    controls: (
       <StyledPlaygroundControls>
         {controls.map(control => (
           <React.Fragment key={control.prop.name}>
@@ -110,8 +120,6 @@ const Playground: React.FC<{ component: CatalogComponentType }> = ({ component }
           </React.Fragment>
         ))}
       </StyledPlaygroundControls>
-    </Flow>
-  )
+    ),
+  }
 }
-
-export default Playground

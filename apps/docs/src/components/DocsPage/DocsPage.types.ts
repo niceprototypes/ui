@@ -5,13 +5,17 @@ import type { ContentsItemsType } from "@niceprototypes/contents"
  * DocsPageSectionType
  *
  * One section of a docs page: an anchor `id` (unique on the page), the `label` Contents lists it
- * by, its `content`, and optional nested `sections`, rendered after the content and listed one
- * level deeper in Contents.
+ * by, its `heading` (above both columns), its `content`, an optional `aside` beside the content
+ * (code and live previews: the page becomes two columns, DocsColumns; `null` keeps the content in
+ * the prose column with nothing beside it), and optional nested `sections`, rendered after the
+ * content and listed one level deeper in Contents.
  */
 export type DocsPageSectionType = {
   id: string
   label: string
+  heading?: React.ReactNode
   content?: React.ReactNode
+  aside?: React.ReactNode
   sections?: ReadonlyArray<DocsPageSectionType>
 }
 

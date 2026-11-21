@@ -31,6 +31,13 @@ export const StyledDocsContent = styled.div`
     font-weight: ${getCoreToken("fontWeight", "semibold")};
   }
 
+  /* A subsection heading is underlined by a subsection rule (DocsRule's tokens), inset to the
+     column, a base gap below its text; the h3's flow after-space follows the rule. */
+  && > h3 {
+    padding-block-end: ${getCoreToken("gap", "base")};
+    border-block-end: ${getToken("docs", "ruleWidth")} solid ${getToken("docs", "ruleColor")};
+  }
+
   /* Headings scroll to where Contents sticks, like sections. */
   h2[id],
   h3[id] {

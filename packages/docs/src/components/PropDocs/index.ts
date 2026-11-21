@@ -1,1 +1,1 @@
-export { default, SubHeading } from "./PropDocs"
+export { default } from "./PropDocs"
