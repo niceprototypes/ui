@@ -87,7 +87,7 @@ const Tree: React.FC<TreeProps> = ({
   const expandedIds = expandedIdsProp ?? internalExpandedIds
 
   // Collapsing a node collapses everything under it too, the active path included, so reopening
-  // it shows all its children closed; the active page opens only on arrival (defaultExpandedIds,
+  // it shows all its children closed; rows open otherwise only from defaultExpandedIds (uncontrolled
   // or a controlling consumer).
   const toggle = (node: TreeNodeType, event: React.SyntheticEvent<HTMLElement>) => {
     const closing = expandedIds.includes(node.id)
@@ -131,7 +131,7 @@ const Tree: React.FC<TreeProps> = ({
           aria-controls={expandable ? `${idPrefix}-${node.id}` : undefined}
           onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
             // On the active path (the page is open), the title toggles its sub-rows as the circle
-            // does; elsewhere it follows the link, and the page opens on arrival.
+            // does; elsewhere it follows the link (the consumer opens the page it navigates to).
             if (expandable && onPath && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) {
               event.preventDefault()
               toggle(node, event)

@@ -80,12 +80,13 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.queryByRole("button", { name: "Docs" })).not.toBeInTheDocument()
     expect(screen.queryByRole("button", { name: "Stories" })).not.toBeInTheDocument()
     expect(screen.getAllByRole("button").map(button => button.textContent)).toEqual(["Alpha", "Beta", "Gamma"])
-    expect(screen.getByRole("link", { name: "Nine" })).toHaveAttribute("aria-current", "page")
-    expect(screen.getByRole("button", { name: "Beta" })).toHaveAttribute("aria-expanded", "true")
+    expect(screen.getByRole("link", { name: "Nine", hidden: true })).toHaveAttribute("aria-current", "page")
+    // Arriving at an address opens nothing; the active path shows on the open row above it.
+    expect(screen.getByRole("button", { name: "Beta" })).toHaveAttribute("aria-expanded", "false")
     expect(screen.getByRole("button", { name: "Alpha" })).toHaveAttribute("aria-expanded", "false")
   })
 
-  it("lists a page's in-page sections under it, the current page open, the section in view active", async () => {
+  it("lists a page's in-page sections under it, closed on arrival, the section in view active", async () => {
     /** A page that reports its section in view, as the docs Contents scroll-spy does. */
     const Spied = () => {
       const { setActiveId } = useAppContents()
@@ -106,18 +107,40 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     render(<App pages={withContents} contents={contents} router={router} />)
     await screen.findByText("spy")
     const expander = screen.getByRole("link", { name: "Getting started" })
-    expect(expander).toHaveAttribute("aria-expanded", "true")
-    expect(screen.getByRole("link", { name: "Props" })).toHaveAttribute("href", "/docs/getting-started#props")
+    expect(expander).toHaveAttribute("aria-expanded", "false")
+    expect(screen.getByRole("link", { name: "Props", hidden: true })).toHaveAttribute("href", "/docs/getting-started#props")
     // Neither its own title nor a sibling page's name shows as a section.
     expect(screen.getAllByRole("link", { name: "Getting started" })).toHaveLength(1)
     expect(screen.getAllByRole("link", { name: "Ten pages" })).toHaveLength(1)
     // Ten pages has no sections: no open state.
     expect(screen.getByRole("link", { name: "Ten pages" })).not.toHaveAttribute("aria-expanded")
     fireEvent.click(screen.getByText("spy"))
-    expect(screen.getByRole("link", { name: "Props" })).toHaveAttribute("aria-current", "page")
+    expect(screen.getByRole("link", { name: "Props", hidden: true })).toHaveAttribute("aria-current", "page")
     expect(screen.getByRole("link", { name: "Getting started" })).not.toHaveAttribute("aria-current")
-    fireEvent.click(expander)
+    // The section in view opens nothing; the open page's title opens it, as its circle would.
     expect(expander).toHaveAttribute("aria-expanded", "false")
+    fireEvent.click(expander)
+    expect(expander).toHaveAttribute("aria-expanded", "true")
+  })
+
+  it("leaves every row's open state as it is while the section in view changes", async () => {
+    /** A page whose scroll-spy reports a nested section, as scrolling past it does. */
+    const Spied = () => {
+      const { setActiveId } = useAppContents()
+      return <button onClick={() => setActiveId("size")}>spy</button>
+    }
+    const contents = (entry: { url: string }) =>
+      entry.url === "/docs/getting-started" ? [{ id: "props", label: "Props", items: [{ id: "size", label: "size" }] }] : undefined
+    window.history.replaceState(null, "", "/docs/getting-started")
+    render(<App pages={{ ...pages, "./docs/2 Getting started/index.tsx": () => Promise.resolve({ default: Spied }) }} contents={contents} router={router} />)
+    await screen.findByText("spy")
+    fireEvent.click(screen.getByRole("link", { name: "Getting started" }))
+    const props = screen.getByRole("link", { name: "Props" })
+    expect(props).toHaveAttribute("aria-expanded", "false")
+    fireEvent.click(screen.getByText("spy"))
+    // The section is active, but its parent row stays closed.
+    expect(screen.getByRole("link", { name: "size", hidden: true })).toHaveAttribute("aria-current", "page")
+    expect(props).toHaveAttribute("aria-expanded", "false")
   })
 
   it("lists no sections for a page whose contents are an empty list, whatever the page reports", async () => {
@@ -160,9 +183,9 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.queryByRole("button", { name: "Docs" })).not.toBeInTheDocument()
     const rows = screen.getAllByRole("link", { hidden: true }).map(link => link.textContent)
     expect(rows).toEqual(["Tokens", "Card", "Button"])
-    expect(screen.getByRole("button", { name: "Components" })).toHaveAttribute("aria-expanded", "true")
-    expect(screen.getByRole("button", { name: "Forms" })).toHaveAttribute("aria-expanded", "true")
-    expect(screen.getByRole("link", { name: "Button" })).toHaveAttribute("aria-current", "page")
+    expect(screen.getByRole("button", { name: "Components" })).toHaveAttribute("aria-expanded", "false")
+    expect(screen.getByRole("button", { name: "Forms", hidden: true })).toHaveAttribute("aria-expanded", "false")
+    expect(screen.getByRole("link", { name: "Button", hidden: true })).toHaveAttribute("aria-current", "page")
   })
 
   it("renders a docs section page without the wrapper or a scene's sidebar", async () => {
@@ -195,9 +218,12 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     window.history.replaceState(null, "", "/stories/alpha/solo")
     render(<App scenes={scenes} docs={docs} router={router} />)
     await screen.findByText("solo")
+    fireEvent.click(screen.getByRole("button", { name: "Alpha" }))
     fireEvent.click(screen.getByRole("button", { name: "Pair" }))
     fireEvent.click(screen.getByRole("link", { name: "Second", hidden: true }))
     expect(await screen.findByText("second")).toBeInTheDocument()
+    // A page opened from the nav keeps the rows above it open.
+    expect(screen.getByRole("button", { name: "Pair" })).toHaveAttribute("aria-expanded", "true")
     expect(window.location.pathname).toBe("/stories/alpha/pair/second")
     await act(async () => window.history.back())
     expect(await screen.findByText("solo")).toBeInTheDocument()
@@ -322,7 +348,7 @@ describe("App below laptop", () => {
     expect(screen.queryByRole("navigation")).not.toBeInTheDocument()
   })
 
-  it("opens the drawer over the scene region, focus on the current page's link, and closes it again, focus back on the button", async () => {
+  it("opens the drawer over the scene region, focus on the current page's row (the open row above it), and closes it again, focus back on the button", async () => {
     const menu = await renderPhone()
     fireEvent.click(menu)
     expect(menu).toHaveAttribute("aria-expanded", "true")
@@ -330,7 +356,7 @@ describe("App below laptop", () => {
     // The drawer and the scene region (after the sidebar) share the cell under the header row.
     expect(drawer).toHaveStyle({ display: "flex", gridRow: "2", gridColumn: "1" })
     expect(drawer.parentElement!.nextElementSibling).toHaveStyle({ gridRow: "2", gridColumn: "1" })
-    expect(screen.getByRole("link", { name: "Nine" })).toHaveFocus()
+    expect(screen.getByRole("button", { name: "Beta" })).toHaveFocus()
     fireEvent.click(menu)
     expect(menu).toHaveAttribute("aria-expanded", "false")
     expect(drawer).toHaveStyle({ display: "none" })
@@ -340,7 +366,7 @@ describe("App below laptop", () => {
   it("closes on Escape", async () => {
     const menu = await renderPhone()
     fireEvent.click(menu)
-    fireEvent.keyDown(screen.getByRole("link", { name: "Nine" }), { key: "Escape" })
+    fireEvent.keyDown(screen.getByRole("button", { name: "Beta" }), { key: "Escape" })
     expect(menu).toHaveAttribute("aria-expanded", "false")
     expect(menu).toHaveFocus()
   })
@@ -348,6 +374,7 @@ describe("App below laptop", () => {
   it("closes when a page is picked, on that page", async () => {
     const menu = await renderPhone()
     fireEvent.click(menu)
+    fireEvent.click(screen.getByRole("button", { name: "Beta" }))
     fireEvent.click(screen.getByRole("link", { name: "Ten" }))
     expect(await screen.findByText("ten")).toBeInTheDocument()
     expect(window.location.pathname).toBe("/stories/beta/ten")

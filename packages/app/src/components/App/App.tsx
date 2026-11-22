@@ -22,7 +22,7 @@ import {
 } from "./App.styles"
 import { AppContext, type AppContextValue } from "../../utilities/AppContext"
 import { buildAppIndex, type AppIndexEntry } from "../../utilities/buildAppIndex"
-import { buildAppTree, CONTENTS_SEPARATOR, getAppAncestorIds, getAppContentsAncestorIds } from "../../utilities/buildAppTree"
+import { buildAppTree, CONTENTS_SEPARATOR, getAppAncestorIds } from "../../utilities/buildAppTree"
 
 /** The bare view's path prefix: `/frame/stories/<page>` shows the page alone, full screen (for recording). */
 const FRAME = "/frame"
@@ -32,6 +32,16 @@ const DRAWER = parseBreakpointKey("tablet-")
 
 /** What can take focus when the drawer opens, after the current page's link. */
 const FOCUSABLE = 'a[href], button:not(:disabled), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
+/**
+ * The current page's row in the nav, or, while it sits in a closed row, the nearest open row's
+ * control above it (where its active path shows).
+ */
+const visibleCurrentRow = (element: HTMLElement | null) => {
+  let target = element?.querySelector<HTMLElement>('[aria-current="page"]') ?? null
+  while (target?.closest("[hidden]")) target = target.closest("[hidden]")?.closest("li")?.querySelector<HTMLElement>(":scope > div a, :scope > div button") ?? null
+  return target
+}
 
 /** The shell inside the router's Provider, where the router's hooks work. */
 const AppShell: React.FC<AppProps> = ({
@@ -87,7 +97,7 @@ const AppShell: React.FC<AppProps> = ({
   React.useEffect(() => {
     if (open) {
       const element = drawerElement.current
-      ;(element?.querySelector<HTMLElement>('[aria-current="page"]') ?? element?.querySelector<HTMLElement>(FOCUSABLE))?.focus()
+      ;(visibleCurrentRow(element) ?? element?.querySelector<HTMLElement>(FOCUSABLE))?.focus()
     } else if (wasOpen.current) menu.current?.focus()
     wasOpen.current = open
   }, [open])
@@ -159,20 +169,15 @@ const AppShell: React.FC<AppProps> = ({
     [contentsProp, liveContents],
   )
 
-  // The folders above the current page, and the page itself (its in-page sections), open whenever
-  // it changes, chained there or picked (on arrival only, not when a row is reopened).
-  const [expandedIds, setExpandedIds] = React.useState<string[]>(() => (current ? [...getAppAncestorIds(current), current.id] : []))
-  React.useEffect(() => {
-    if (current) setExpandedIds(ids => [...new Set([...ids, ...getAppAncestorIds(current), current.id])])
-  }, [current])
-  // While the page's row is open, the rows above its section in view open as the section changes;
-  // a closed page row stays closed (closing it closed everything under it).
-  React.useEffect(() => {
-    const contents = current && contentsOf(current)
-    if (!current || !contents || !activeContentId) return
-    const parents = getAppContentsAncestorIds(current, contents, activeContentId).filter(id => id !== current.id)
-    setExpandedIds(ids => (ids.includes(current.id) ? [...new Set([...ids, ...parents])] : ids))
-  }, [activeContentId, contentsOf, current])
+  // Rows open and close only from the reader: a click or key on a row, and a click on a page's row
+  // (or one of its sections) in the nav, which opens that page and keeps the rows above it open.
+  // Arriving otherwise (opening the site at an address, search, a scene's own navigation, back
+  // and forward) and scrolling open nothing: the active path shows on the nearest open row.
+  const [expandedIds, setExpandedIds] = React.useState<string[]>([])
+  const openFromNav = React.useCallback(
+    (entry: AppEntryType) => setExpandedIds(ids => [...new Set([...ids, ...getAppAncestorIds(entry), entry.id])]),
+    [],
+  )
 
   const context = React.useMemo<AppContextValue>(() => {
     const byId = (entry: AppEntryType) => index.find(({ id }) => id === entry.id)
@@ -279,6 +284,7 @@ const AppShell: React.FC<AppProps> = ({
                     const [entryId, anchor] = node.id.split(CONTENTS_SEPARATOR)
                     if (anchor !== undefined) {
                       const entry = index.find(({ id }) => id === entryId)
+                      if (entry) openFromNav(entry)
                       if (entry === current) {
                         document.getElementById(anchor)?.scrollIntoView()
                         window.history.replaceState(window.history.state, "", node.url)
@@ -291,6 +297,8 @@ const AppShell: React.FC<AppProps> = ({
                     const urls = [...index.map(({ url }) => url), ...(sections ?? []).map(({ id }) => `/${id}`)]
                     const url = urls.find(url => (router.href?.(`${url}${location.search}`) ?? `${url}${location.search}`) === node.url)
                     if (!url) return
+                    const entry = index.find(candidate => candidate.url === url)
+                    if (entry) openFromNav(entry)
                     navigate(`${url}${location.search}`)
                     if (open) setOpen(false)
                   }}

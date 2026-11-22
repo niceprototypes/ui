@@ -106,16 +106,3 @@ export const getAppAncestorIds = (entry: AppEntryType) =>
     .split("/")
     .slice(0, -1)
     .map((_, depth, slugs) => slugs.slice(0, depth + 1).join("/"))
-
-/** The nav row ids above a page's section (its nested sections' parents), the page's own first. */
-export const getAppContentsAncestorIds = (entry: AppEntryType, contents: AppContentsType, sectionId: string): string[] => {
-  const walk = (items: AppContentsType, parents: string[]): string[] | undefined => {
-    for (const item of items) {
-      if (item.id === sectionId) return parents
-      const found = item.items && walk(item.items, [...parents, `${entry.id}${CONTENTS_SEPARATOR}${item.id}`])
-      if (found) return found
-    }
-    return undefined
-  }
-  return walk(contents, [entry.id]) ?? [entry.id]
-}
