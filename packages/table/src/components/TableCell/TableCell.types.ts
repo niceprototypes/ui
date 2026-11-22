@@ -35,10 +35,10 @@ export type TableCellSpanType = "full"
 /**
  * TableCellGuideType
  *
- * The row's TreeGuide data (from `getTreeRows`): the cell draws the guide slice before its content,
- * over the row's full height.
+ * The row's TreeGuide data (from `getTreeRows`), with `rooted` for an empty root column first:
+ * the cell draws the guide slice before its content, over the row's full height.
  */
-export type TableCellGuideType = TreeGuideRowType
+export type TableCellGuideType = TreeGuideRowType & { rooted?: boolean }
 
 /**
  * TableCellSortType

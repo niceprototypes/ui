@@ -1,17 +1,21 @@
 import { getToken } from "@niceprototypes/styles"
 
-/* Geometry shared by Tree and TreeGuide. A row's icon sits at the start of its content; its
-   sub-rows' guide hangs from the icon's centre line, runs an arm towards each sub-row and stops
-   `iconGap` short of the sub-row's icon or label. `column` is one level's indent. */
+/* Geometry shared by Tree, TreeGuide and TreeExpander. Each level is one column
+   (`tree.guide.indent`): a rail on its axis (`tree.icon.size` / 2 in) and an arm from the axis to
+   the column's end, where the label gap (`tree.guide.labelGap`) starts. A row's expander circle
+   sits on its own column's junction, over the rail and the arm's start. */
 const icon = getToken("tree.icon.size")
 const arm = getToken("tree.guide.arm")
 const stroke = getToken("tree.guide.width")
 
-/** Space between a row's icon and its label, and between a guide's arm and the row content. */
+/** Space between a row's icon and its label. */
 export const iconGap = getToken("tree.icon.gap")
 
-/** One nesting level's indent: one guide column. */
-export const column = `calc(${icon} / 2 + ${arm} + ${iconGap})`
+/** One nesting level's indent: one guide column, its arm running to its end. */
+export const column = getToken("tree.guide.indent")
+
+/** The space between the guide (its arm's end) and the row's label. */
+export const labelGap = getToken("tree.guide.labelGap")
 
 const axis = `calc(${icon} / 2 - ${stroke} / 2)`
 

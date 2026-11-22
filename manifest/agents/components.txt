@@ -90,7 +90,7 @@ Slider(slider) [components-slider--playground] children:node[] currentIndex?:num
 FontLoader(styles) links:LinkAttributes[]
 StylesProvider(styles) children:node googleFonts?:string|GoogleFontsConfig adobeFonts?:string|AdobeFontsConfig links?:LinkAttributes[] detectDevice?:boolean=false detectTheme?:boolean=false locale?:string dir?:'ltr'|'rtl'
 Table(table) [components-table--playground] role?:"grid"|"treegrid" columnWidths:ReadonlyArray<"fit"|"small"|"base"|"large"> maxHeight?:"none"|"small"|"base"|"large" alignItems?:"start"|"center"|"end" striped?:boolean toolbar?:node children?:node onKeyDown?:React.KeyboardEventHandler<HTMLDivElement> onFocus?:React.FocusEventHandler<HTMLDivElement>
-TableCell(table) children?:node role?:"gridcell"|"rowheader"|"columnheader" align?:"start"|"end" span?:"full" guide?:TreeGuideRowType tabIndex?:number
+TableCell(table) children?:node role?:"gridcell"|"rowheader"|"columnheader" align?:"start"|"end" span?:"full" guide?:TreeGuideRowType & { rooted?: boolean } tabIndex?:number
 TableHeader(table) children?:node
 TableRow(table) children?:node density?:"base"|"compact" alignItems?:"start"|"center"|"end" divider?:boolean tabIndex?:number
 Tabs(tabs) [components-tabs--playground] items:TabsItemType[] selected?:string defaultSelected?:string onSelect?:fn end?:node children?:node size?:SizeType justifyContent?:"flex-start"|"flex-end"|"center"|"space-between"|"space-around"|"space-evenly" gap?:GapType variant?:"underline"|"pill" theme?:"day"|"night"|(string & {})
@@ -102,5 +102,5 @@ TileLayout(tile) contentLeft?:node contentRight?:node padding?:GapType|`${GapTyp
 Toggle(toggle) [components-forms-toggle--playground] checked?:boolean defaultChecked?:boolean onChange?:fn disabled?:boolean size?:SizeType children?:node name?:string theme?:"day"|"night"|(string & {})
 Tooltip(tooltip) [components-tooltip--playground] content:node children:node trigger?:"hover"|"click"="hover" position?:"top"|"bottom"|"left"|"right"="top" anchor?:"trigger"|"cursor"="trigger" delayShow?:number=0 delayHide?:number=0 open?:boolean theme?:"day"|"night"|(string & {})
 Tree(tree) [components-tree--playground] items:ReadonlyArray<TreeNodeType> expandedIds?:ReadonlyArray<string> defaultExpandedIds?:ReadonlyArray<string> onExpandedChange?:fn onSelect?:fn size?:"small"|"base"
-TreeExpander(tree) caret:"right"|"bottom" expanded?:boolean active?:boolean onToggle?:fn controls?:string tabIndex?:number onKeyDown?:fn
-TreeGuide(tree) [components-treeguide--playground] depth:number last:boolean continues?:ReadonlyArray<boolean> onPath?:boolean pathContinues?:ReadonlyArray<boolean>
+TreeExpander(tree) caret:"right"|"bottom" expanded?:boolean active?:boolean onToggle?:fn controls?:string tabIndex?:number onKeyDown?:fn decorative?:boolean
+TreeGuide(tree) [components-treeguide--playground] depth:number last:boolean continues?:ReadonlyArray<boolean> onPath?:boolean pathContinues?:ReadonlyArray<boolean> rooted?:boolean=false

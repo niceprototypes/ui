@@ -1,15 +1,17 @@
 import * as React from "react"
 import Icon from "@niceprototypes/icon"
-import { StyledTreeExpander, StyledTreeExpanderSlot } from "./TreeExpander.styles"
-import type { TreeExpanderProps, TreeExpanderSlotProps } from "./TreeExpander.types"
+import { StyledTreeExpander, StyledTreeExpanderCaret, StyledTreeExpanderSlot } from "./TreeExpander.styles"
+import type { TreeExpanderProps } from "./TreeExpander.types"
 
 /**
  * TreeExpander
  *
- * The circled caret that opens and closes a tree row (Tree's nav, DataTable's rows): a button
- * with `aria-expanded` when given `onToggle`, else a decorative mark inside the row's own button.
- * It sits in the icon slot, so the guide's arm runs into its circle and its rail drops from its
- * centre. Rows without one keep the slot with TreeExpanderSlot, so labels line up.
+ * The circled caret that opens and closes a tree row (Tree's nav, DataTable's rows), drawn as a
+ * node on the guide: placed right after the row's TreeGuide, it sits on the row's own junction,
+ * the rail through it hidden, the arm leaving its right edge. A button with `aria-expanded` when
+ * given `onToggle`; `decorative` (a folder whose row is already the toggle) keeps it out of the
+ * tab order and the accessibility tree, a click on it still toggling. One caret icon, turned by
+ * transform (`caret`), the turn animated with the expander's animation tokens.
  *
  * @example
  * <TreeExpander caret={open ? "bottom" : "right"} expanded={open} aria-label="src" onToggle={toggle} />
@@ -23,11 +25,21 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
   "aria-label": ariaLabel,
   tabIndex,
   onKeyDown,
+  decorative = false,
 }) => {
-  const icon = <Icon name={caret === "right" ? "carat-right" : "carat-bottom"} />
-  if (!onToggle)
+  const icon = (
+    <StyledTreeExpanderCaret $caret={caret}>
+      <Icon name="carat-right" />
+    </StyledTreeExpanderCaret>
+  )
+  if (!onToggle || decorative)
     return (
-      <StyledTreeExpander $active={active} aria-hidden="true">
+      <StyledTreeExpander
+        $active={active}
+        aria-hidden="true"
+        data-decorative={onToggle ? "" : undefined}
+        onClick={onToggle as React.MouseEventHandler<HTMLElement> | undefined}
+      >
         {icon}
       </StyledTreeExpander>
     )
@@ -48,9 +60,7 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
   )
 }
 
-/** The expander's slot in a row without one (see TreeExpanderSlotProps). */
-export const TreeExpanderSlot: React.FC<TreeExpanderSlotProps> = ({ arm = false, active = false }) => (
-  <StyledTreeExpanderSlot $arm={arm} $active={active} aria-hidden="true" />
-)
+/** The expander's place in a row without one: no width, so labels line up in a row that spaces its items with a gap. */
+export const TreeExpanderSlot: React.FC = () => <StyledTreeExpanderSlot aria-hidden="true" />
 
 export default TreeExpander

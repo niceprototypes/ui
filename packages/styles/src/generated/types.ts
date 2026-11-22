@@ -423,6 +423,9 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.activeBorderRadius": "base"
   "tree.activePaddingInline": "base"
   "tree.expander.color": "base" | "hover" | "active"
+  "tree.expander.backgroundColor": "base"
+  "tree.expander.animationDuration": "base"
+  "tree.expander.animationEasing": "base"
   "tree.expander.size": "base"
   "tree.expander.iconSize": "base"
   "tree.expander.borderWidth": "base"
@@ -436,6 +439,8 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.guide.width": "base"
   "tree.guide.arm": "base"
   "tree.guide.armOffset": "base"
+  "tree.guide.indent": "base"
+  "tree.guide.labelGap": "base"
 }
 
 /** Variant union of every token group that has the `:inverse` effect. */
@@ -539,6 +544,7 @@ export interface TokenInverseVariants {
   "tooltip.color": "base"
   "tree.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
   "tree.activeColor": "base"
+  "tree.expander.backgroundColor": "base"
   "tree.inactive.color": "base"
   "tree.guide.color": "base"
 }

@@ -107,7 +107,7 @@ function DataTableRow<Row>({
       ) : null}
       {columns.map((column, index) =>
         index === treeColumn ? (
-          <TableCell key={column.id} role="rowheader" tabIndex={-1} align={column.align} guide={nested ? guide : undefined}>
+          <TableCell key={column.id} role="rowheader" tabIndex={-1} align={column.align} guide={nested ? { ...guide, rooted: true } : undefined}>
             {hasChildren ? (
               <TreeExpander
                 caret={expanded ? "bottom" : "right"}

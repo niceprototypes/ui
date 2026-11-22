@@ -42,6 +42,15 @@ export type TreeGuideOnPathType = boolean
 export type TreeGuidePathContinuesType = ReadonlyArray<boolean>
 
 /**
+ * TreeGuideRootedType
+ *
+ * Whether the guide starts with a root column: an empty column before the first level, drawn on
+ * every row (a top-level row too), so a top-level row's expander circle has a junction to sit on
+ * and every level, the first included, indents by one column.
+ */
+export type TreeGuideRootedType = boolean
+
+/**
  * TreeGuideRowType
  *
  * The guide data of one row: everything TreeGuide draws. `getTreeRows` computes it for a nested
@@ -108,7 +117,7 @@ export type TreeRowType<Item> = {
  * Complete prop definition for the TreeGuide component: one row's guide data.
  */
 export interface TreeGuideProps {
-  /** Nesting level, 0-based; 0 draws nothing */
+  /** Nesting level, 0-based; 0 draws nothing (only the root column when `rooted`) */
   depth: TreeGuideDepthType
 
   /** Last of its siblings: an elbow instead of a tee */
@@ -122,6 +131,9 @@ export interface TreeGuideProps {
 
   /** Per column: whether the active path's line runs through the row */
   pathContinues?: TreeGuidePathContinuesType
+
+  /** Start with an empty root column, a top-level row included. @default false */
+  rooted?: TreeGuideRootedType
 }
 
 const TreeGuideTypes = {} as const
@@ -132,6 +144,7 @@ namespace TreeGuideTypes {
   export type Continues = TreeGuideContinuesType
   export type OnPath = TreeGuideOnPathType
   export type PathContinues = TreeGuidePathContinuesType
+  export type Rooted = TreeGuideRootedType
   export type Row = TreeGuideRowType
   export type Props = TreeGuideProps
   export type GetRowsOptions<Item> = GetTreeRowsOptionsType<Item>

@@ -1,24 +1,33 @@
 import styled, { css } from "styled-components"
 import { getToken } from "@niceprototypes/styles"
-import { activeColor, guideColor, iconGap } from "../../utilities/treeGuideGeometry"
+import { column } from "../../utilities/treeGuideGeometry"
+
+/** The ancestor a whole row hovers on (Tree's row, a table row): hovering it lights the expander like the label. */
+export const TREE_ROW_ATTRIBUTE = "data-tree-row"
 
 /**
- * The expander: the size of `tree.icon.size`, so the guide's rail drops from its centre. A circle
- * centred on it (`tree.expander.size`, the small Checkbox box) holds the caret
- * (`tree.expander.iconSize`); circle and caret take `tree.expander.color` (the Checkbox's
- * unchecked border; its hover border on hover; `active` on the active path). No fill. The circle
- * is drawn, not laid out, so the row and the guide geometry do not move. A button gets a hit area
- * of at least `tree.expander.touchTarget` on coarse pointers, without a taller row.
+ * The expander: a node on the guide. Its box (`tree.icon.size`) comes right after the guide in
+ * the row and is pulled back one column (`tree.guide.indent`) with no net width, so the circle
+ * centres on the row's own junction (the rail's axis at mid-height) and the label keeps its place.
+ * The circle (`tree.expander.size`) has an opaque fill (`tree.expander.backgroundColor`, the
+ * surface), so the rail and the arm's start do not show through it; the arm leaves its right
+ * edge. Circle and caret are drawn like the guide lines: `tree.guide.width` thick in
+ * `tree.expander.color` (the guide colour; `hover` while the row or the expander is hovered, the
+ * label's own hover colour; `active` on the active path). A button gets a hit area of at least
+ * `tree.expander.touchTarget` on coarse pointers, without a taller row.
  */
 export const StyledTreeExpander = styled.span<{ $active: boolean }>`
   position: relative;
   display: inline-flex;
   flex: none;
+  align-self: center;
   align-items: center;
   justify-content: center;
   width: ${getToken("tree.icon.size")};
   height: ${getToken("tree.icon.size")};
   margin: 0;
+  margin-inline-start: calc(-1 * ${column});
+  margin-inline-end: calc(${column} - ${getToken("tree.icon.size")});
   padding: 0;
   border: 0;
   background: none;
@@ -34,22 +43,32 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
     width: ${getToken("tree.expander.size")};
     height: ${getToken("tree.expander.size")};
     box-sizing: border-box;
-    border: ${getToken("tree.expander.borderWidth")} solid currentColor;
+    border: ${getToken("tree.guide.width")} solid currentColor;
     border-radius: 50%;
+    background-color: ${getToken("tree.expander.backgroundColor")};
     transform: translate(-50%, -50%);
     pointer-events: none;
   }
 
+  & svg {
+    position: relative;
+  }
+
+  & svg :is(path, polyline, line) {
+    stroke-width: ${getToken("tree.guide.width")};
+  }
+
+  ${({ $active }) =>
+    !$active &&
+    css`
+      &:hover,
+      [${TREE_ROW_ATTRIBUTE}]:hover & {
+        color: ${getToken("tree.expander.color:hover")};
+      }
+    `}
+
   &:is(button) {
     cursor: pointer;
-
-    ${({ $active }) =>
-      !$active &&
-      css`
-        &:hover {
-          color: ${getToken("tree.expander.color:hover")};
-        }
-      `}
 
     &:focus-visible {
       outline: ${getToken("focusRing", "width")} solid ${getToken("focusRing", "color")};
@@ -71,30 +90,32 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
       }
     }
   }
+
+  &[data-decorative] {
+    cursor: pointer;
+  }
 `
 
 /**
- * The expander's slot in a row without one, so labels line up. With `$arm`, the guide's arm runs
- * on through it (and the icon gap before it) at mid-height, in the guide colour or, on the active
- * path, `tree.activeColor`.
+ * The caret: one right-pointing icon, turned a quarter to point down, the turn animated over
+ * `tree.expander.animationDuration` with `tree.expander.animationEasing`; no animation under
+ * reduced motion.
  */
-export const StyledTreeExpanderSlot = styled.span<{ $arm: boolean; $active: boolean }>`
-  position: relative;
-  flex: none;
-  align-self: stretch;
-  width: ${getToken("tree.icon.size")};
+export const StyledTreeExpanderCaret = styled.span<{ $caret: "right" | "bottom" }>`
+  display: inline-flex;
+  transform: rotate(${({ $caret }) => ($caret === "bottom" ? "90deg" : "0deg")});
+  transition: transform ${getToken("tree.expander.animationDuration")} ${getToken("tree.expander.animationEasing")};
 
-  ${({ $arm, $active }) =>
-    $arm &&
-    css`
-      &::before {
-        content: "";
-        position: absolute;
-        top: calc(50% - ${getToken("tree.guide.width")} / 2);
-        left: calc(-1 * ${iconGap});
-        right: 0;
-        height: ${getToken("tree.guide.width")};
-        background: ${$active ? activeColor : guideColor};
-      }
-    `}
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`
+
+/**
+ * The expander's place in a row without one: no width, so a row that spaces its items with a gap
+ * (a table cell) puts its label at the same x as a row with an expander.
+ */
+export const StyledTreeExpanderSlot = styled.span`
+  flex: none;
+  width: 0;
 `

@@ -98,10 +98,13 @@ describe("Tree", () => {
     render(<Tree items={linked} defaultExpandedIds={[]} onExpandedChange={onExpandedChange} />)
     const expander = screen.getByRole("button", { name: "Step" })
     expect(expander).toHaveAttribute("aria-expanded", "false")
-    expect(expander.querySelector("[data-icon]")).toHaveAttribute("data-icon", "carat-bottom")
+    // One icon, turned by transform: down while closed, right while open.
+    expect(expander.querySelectorAll("[data-icon]")).toHaveLength(1)
+    const turn = () => getComputedStyle(expander.querySelector("[data-icon]")!.parentElement!).transform
+    expect(turn()).toBe("rotate(90deg)")
     fireEvent.click(expander)
     expect(expander).toHaveAttribute("aria-expanded", "true")
-    expect(expander.querySelector("[data-icon]")).toHaveAttribute("data-icon", "carat-right")
+    expect(turn()).toBe("rotate(0deg)")
     expect(onExpandedChange).toHaveBeenLastCalledWith(["step"], expect.anything())
   })
 
@@ -138,11 +141,17 @@ describe("Tree", () => {
     expect(screen.getByRole("button", { name: "B" })).toHaveAttribute("aria-expanded", "true")
   })
 
-  it("keeps an expander slot on rows without sub-rows, so labels line up", () => {
+  it("indents every level by one root-first guide column, an expander only on rows with sub-rows", () => {
     const { container } = render(<Tree items={items} />)
-    const leafRow = screen.getByRole("link", { name: "Start" }).parentElement!
-    expect(leafRow.firstElementChild).toHaveAttribute("aria-hidden", "true")
-    expect(leafRow.firstElementChild?.tagName).toBe("SPAN")
-    expect(container.querySelectorAll('[data-icon="carat-right"], [data-icon="carat-bottom"]').length).toBeGreaterThan(0)
+    const columnsOf = (name: string) => {
+      const row = screen.getByRole(name === "Guides" ? "button" : "link", { name }).closest("[data-tree-row]")!
+      return Array.from(row.querySelector(":scope > [aria-hidden]")!.children).map(column => column.getAttribute("data-branch"))
+    }
+    // A top-level row has the root column only; its child adds its own connector.
+    expect(columnsOf("Guides")).toEqual(["none"])
+    expect(columnsOf("Start")).toEqual(["none", "tee"])
+    const startRow = screen.getByRole("link", { name: "Start" }).closest("[data-tree-row]")!
+    expect(startRow.querySelector("[data-icon]")).toBeNull()
+    expect(container.querySelectorAll('[data-icon="carat-right"]').length).toBeGreaterThan(0)
   })
 })

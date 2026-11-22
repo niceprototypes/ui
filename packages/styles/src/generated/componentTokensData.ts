@@ -1746,9 +1746,18 @@ const componentTokensData: ComponentTokensData = {
     },
     "expander": {
       "color": {
-        "base": "var(--np--checkbox--border-color--strong)",
-        "hover": "var(--np--checkbox--hover--border-color--strong)",
+        "base": "var(--np--tree--guide--color)",
+        "hover": "var(--np--tree--color)",
         "active": "var(--np--tree--active-color)"
+      },
+      "backgroundColor": {
+        "base": "var(--np--background-color)"
+      },
+      "animationDuration": {
+        "base": "var(--np--animation-duration--fast)"
+      },
+      "animationEasing": {
+        "base": "var(--np--animation-easing)"
       },
       "size": {
         "base": "var(--np--checkbox--size--small)"
@@ -1797,6 +1806,12 @@ const componentTokensData: ComponentTokensData = {
       },
       "armOffset": {
         "base": "50%"
+      },
+      "indent": {
+        "base": "calc(var(--np--tree--icon--size) / 2 + var(--np--tree--guide--arm))"
+      },
+      "labelGap": {
+        "base": "var(--np--tree--icon--gap)"
       }
     }
   }

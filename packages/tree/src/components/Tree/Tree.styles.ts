@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 import { getToken, type FontSizeType } from "@niceprototypes/styles"
-import { activeColor, iconGap } from "../../utilities/treeGuideGeometry"
+import { activeColor, iconGap, labelGap } from "../../utilities/treeGuideGeometry"
 
 /**
  * The `<nav>` root. Its font size is the label size, so the `em` gap and indent
@@ -38,8 +38,8 @@ export const StyledTreeRow = styled.div`
 `
 
 /**
- * A row's content. Rows on the path take the active colour and weight; with an active node, rows
- * off the path recede until hovered.
+ * A row's content, a label gap (`tree.guide.labelGap`) after the guide. Rows on the path take the
+ * active colour and weight; with an active node, rows off the path recede until the row is hovered.
  */
 export const StyledTreeRowContent = styled.div<{ $onPath: boolean; $receded: boolean }>`
   display: flex;
@@ -47,6 +47,7 @@ export const StyledTreeRowContent = styled.div<{ $onPath: boolean; $receded: boo
   align-items: center;
   gap: ${iconGap};
   min-width: 0;
+  padding-inline-start: ${labelGap};
   color: ${getRowColor};
   font-weight: ${({ $onPath }) => getToken(`tree.fontWeight:${$onPath ? "active" : "base"}`)};
   ${getToken("icon.color", { as: "key" })}: currentColor;
@@ -54,7 +55,7 @@ export const StyledTreeRowContent = styled.div<{ $onPath: boolean; $receded: boo
   ${({ $receded }) =>
     $receded &&
     css`
-      &:hover {
+      ${StyledTreeRow}:hover > & {
         color: ${getToken("tree.color:base")};
       }
     `}
