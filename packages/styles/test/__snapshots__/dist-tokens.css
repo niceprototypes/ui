@@ -1173,7 +1173,7 @@
 	--np--tree--icon--gap: 0.5em;
 	--np--tree--guide--color: var(--np--border-color);
 	--np--tree--guide--width: var(--np--border-width);
-	--np--tree--guide--arm: var(--np--gap);
+	--np--tree--guide--arm: calc(var(--np--tree--expander--size) / 2);
 	--np--tree--guide--arm-offset: 50%;
 	--np--tree--guide--indent: calc(var(--np--tree--expander--size) / 2 + var(--np--tree--guide--arm));
 	--np--tree--guide--label-gap: 0.375em;

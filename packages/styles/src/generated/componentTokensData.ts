@@ -1820,7 +1820,7 @@ const componentTokensData: ComponentTokensData = {
         "base": "var(--np--border-width)"
       },
       "arm": {
-        "base": "var(--np--gap)"
+        "base": "calc(var(--np--tree--expander--size) / 2)"
       },
       "armOffset": {
         "base": "50%"
