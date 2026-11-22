@@ -25,8 +25,8 @@ export type TreeNodeIconType = React.ReactNode
  * TreeNodeUrlType
  *
  * Link target of the row. A node with `items` and no `url` is a folder whose row
- * toggles it; with a `url`, the row is a link and an expander button before it toggles the
- * sub-list (shown while the node's id is in `expandedIds`).
+ * toggles it; with a `url`, the row is a link with `aria-expanded`: its circle, and its title on
+ * the active path, toggle the sub-list (shown while the node's id is in `expandedIds`).
  */
 export type TreeNodeUrlType = string
 

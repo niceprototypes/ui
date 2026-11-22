@@ -32,8 +32,9 @@ import { getTreeRows } from "../../services/getTreeRows"
  * Navigation tree, built on the WAI-ARIA disclosure navigation pattern: a `<nav>` of
  * nested lists, where a node with `items` is a folder whose `<button aria-expanded>`
  * shows or hides its sub-list, and a node with a `url` is a link (`aria-current="page"`
- * when active). A folder with a `url` is a link too, with an expander button (TreeExpander,
- * `aria-expanded`) before it that shows its sub-list. Every row with sub-rows shows the circled
+ * when active). A folder with a `url` is a link too, carrying `aria-expanded`: on the active path
+ * its title toggles its sub-list as its circle does (TreeExpander, a mark), elsewhere it follows
+ * the link; Space acts as Enter on it. Every row with sub-rows shows the circled
  * caret after the guide's arm (right while open, down while closed), sub-rows' rail dropping from
  * its centre; a row without has the arm drawn to where the circle would end. Each level indents by
  * one `tree.guide.indent`, labels a `tree.guide.labelGap` after the circle, so they line up. Closing a row closes every row under it. Keys: Tab between rows, Enter or Space toggles a folder or expander,
@@ -119,13 +120,34 @@ const Tree: React.FC<TreeProps> = ({
       </>
     )
     if (node.url !== undefined) {
+      const expandable = !!node.items?.length
       return (
         <StyledTreeTarget
           as="a"
           href={node.url}
           aria-current={node.status === "active" ? "page" : undefined}
-          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSelect?.(node, event)}
-          onKeyDown={onRowKeyDown(node)}
+          // A link with sub-rows is the row's one control: it carries the open state its circle shows.
+          aria-expanded={expandable ? open : undefined}
+          aria-controls={expandable ? `${idPrefix}-${node.id}` : undefined}
+          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+            // On the active path (the page is open), the title toggles its sub-rows as the circle
+            // does; elsewhere it follows the link, and the page opens on arrival.
+            if (expandable && onPath && !(event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) {
+              event.preventDefault()
+              toggle(node, event)
+              return
+            }
+            onSelect?.(node, event)
+          }}
+          onKeyDown={(event: React.KeyboardEvent<HTMLAnchorElement>) => {
+            // Space acts as Enter on a link with sub-rows, as on the circle.
+            if (expandable && event.key === " ") {
+              event.preventDefault()
+              event.currentTarget.click()
+              return
+            }
+            onRowKeyDown(node)(event)
+          }}
         >
           {label}
         </StyledTreeTarget>
@@ -150,26 +172,14 @@ const Tree: React.FC<TreeProps> = ({
   }
 
   /**
-   * A row's expander, right after its guide (TreeExpander): a link with sub-rows gets an expander
-   * button; a folder's is a mark its click still toggles (its row button is the toggle). A row
-   * without sub-rows keeps the circle's place, the guide's arm drawn through it.
+   * A row's expander, right after its guide (TreeExpander): a mark its click toggles, the row's
+   * title being its one control (a folder's button, or a link with `aria-expanded`). A row without
+   * sub-rows keeps the circle's place, the guide's arm drawn through it.
    */
   const renderExpander = (node: TreeNodeType, onPath: boolean, depth: number) => {
     if (!node.items?.length) return <TreeExpanderSlot arm={depth > 0} active={onPath} />
     const open = expandedIds.includes(node.id)
-    if (node.url === undefined)
-      return <TreeExpander caret={caretOf(open)} active={onPath} decorative onToggle={event => toggle(node, event)} />
-    return (
-      <TreeExpander
-        caret={caretOf(open)}
-        expanded={open}
-        active={onPath}
-        aria-label={node.name}
-        controls={`${idPrefix}-${node.id}`}
-        onToggle={event => toggle(node, event)}
-        onKeyDown={onRowKeyDown(node)}
-      />
-    )
+    return <TreeExpander caret={caretOf(open)} active={onPath} decorative onToggle={event => toggle(node, event)} />
   }
 
   const renderList = (level: TreeItemsType, id?: string, hidden?: boolean) => (

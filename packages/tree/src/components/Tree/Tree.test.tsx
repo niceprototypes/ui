@@ -74,8 +74,9 @@ describe("Tree", () => {
       { id: "step", name: "Step", icon: null, url: "#step", items: [{ id: "sub", name: "Sub", icon: null, url: "#sub" }] },
     ]
     const { rerender } = render(<Tree items={linked} expandedIds={["step"]} onSelect={onSelect} />)
-    // Its expander is a separate button; the link itself does not toggle.
-    expect(screen.getByRole("button", { name: "Step" })).toHaveAttribute("aria-expanded", "true")
+    // The link is the row's one control: it carries the open state; its circle is a mark.
+    expect(screen.getByRole("link", { name: "Step" })).toHaveAttribute("aria-expanded", "true")
+    expect(screen.queryByRole("button")).toBeNull()
     fireEvent.click(screen.getByRole("link", { name: "Step" }))
     expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: "step" }), expect.anything())
     expect(screen.getByRole("link", { name: "Sub" })).toBeVisible()
@@ -90,22 +91,40 @@ describe("Tree", () => {
     expect(screen.getByRole("link", { name: "A" }).parentElement).toHaveTextContent("Abadge")
   })
 
-  it("toggles a linked folder from its expander, the caret right while open and down while closed", () => {
+  it("toggles a linked folder from its circle, the caret right while open and down while closed", () => {
     const onExpandedChange = jest.fn()
     const linked: TreeItemsType = [
       { id: "step", name: "Step", icon: null, url: "#step", items: [{ id: "sub", name: "Sub", icon: null, url: "#sub" }] },
     ]
     render(<Tree items={linked} defaultExpandedIds={[]} onExpandedChange={onExpandedChange} />)
-    const expander = screen.getByRole("button", { name: "Step" })
-    expect(expander).toHaveAttribute("aria-expanded", "false")
+    const link = screen.getByRole("link", { name: "Step" })
+    const circle = link.closest("[data-tree-row]")!.querySelector("[data-icon]")!.parentElement!.parentElement!
+    expect(link).toHaveAttribute("aria-expanded", "false")
     // One icon, turned by transform: down while closed, right while open.
-    expect(expander.querySelectorAll("[data-icon]")).toHaveLength(1)
-    const turn = () => getComputedStyle(expander.querySelector("[data-icon]")!.parentElement!).transform
+    expect(circle.querySelectorAll("[data-icon]")).toHaveLength(1)
+    const turn = () => getComputedStyle(circle.querySelector("[data-icon]")!.parentElement!).transform
     expect(turn()).toBe("rotate(90deg)")
-    fireEvent.click(expander)
-    expect(expander).toHaveAttribute("aria-expanded", "true")
+    fireEvent.click(circle)
+    expect(link).toHaveAttribute("aria-expanded", "true")
     expect(turn()).toBe("rotate(0deg)")
     expect(onExpandedChange).toHaveBeenLastCalledWith(["step"], expect.anything())
+  })
+
+  it("toggles an open page's sub-rows from its title as from its circle, and follows another page's title", () => {
+    const onSelect = jest.fn()
+    const linked: TreeItemsType = [
+      { id: "here", name: "Here", icon: null, url: "#here", status: "active", items: [{ id: "a", name: "A", icon: null, url: "#a" }] },
+      { id: "there", name: "There", icon: null, url: "#there", items: [{ id: "b", name: "B", icon: null, url: "#b" }] },
+    ]
+    render(<Tree items={linked} defaultExpandedIds={["here"]} onSelect={onSelect} />)
+    const here = screen.getByRole("link", { name: "Here" })
+    fireEvent.click(here)
+    expect(here).toHaveAttribute("aria-expanded", "false")
+    fireEvent.keyDown(here, { key: " " })
+    expect(here).toHaveAttribute("aria-expanded", "true")
+    expect(onSelect).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole("link", { name: "There" }))
+    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: "there" }), expect.anything())
   })
 
   it("opens a closed row with Right and closes an open one with Left", () => {

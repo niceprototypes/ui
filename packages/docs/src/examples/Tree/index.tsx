@@ -186,7 +186,7 @@ const ReportingSelectTree = () => {
 export const treeItems = {
   name: "items",
   description:
-    "The top-level rows. A node with url is a link, a node with items is a folder; a folder with a url is a link with an expander before it. Every row with sub-rows shows a circled caret on its junction of the guide (right while open, down while closed); a row without has an arm one circle radius long, so labels line up. Closing a row closes every row under it. Each variant shows one node field.",
+    "The top-level rows. A node with url is a link, a node with items is a folder; a folder with a url is a link carrying the open state: on the active path its title toggles as its circle does, elsewhere it follows the link. Every row with sub-rows shows a circled caret on its junction of the guide (right while open, down while closed); a row without has an arm one circle radius long, so labels line up. Closing a row closes every row under it. Each variant shows one node field.",
   variants: ["links", "folder", "folder link", "icon", "status", "children"],
   default: "links",
   preview: variant => (
