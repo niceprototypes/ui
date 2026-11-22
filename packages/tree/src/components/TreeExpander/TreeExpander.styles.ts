@@ -13,7 +13,7 @@ export const TREE_ROW_ATTRIBUTE = "data-tree-row"
  * active path). A button gets a hit area of at least `tree.expander.touchTarget` on coarse
  * pointers, without a taller row.
  */
-export const StyledTreeExpander = styled.span<{ $active: boolean }>`
+export const StyledTreeExpander = styled.span<{ $active: boolean; $stem?: "base" | "active" }>`
   position: relative;
   display: inline-flex;
   flex: none;
@@ -39,6 +39,34 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
     border-radius: 50%;
     pointer-events: none;
   }
+
+  /* An open row's stem: the box runs the row's height, the circle stays centred in it, and the
+     rail starts at the circle's bottom edge and runs to the row's bottom, where the sub-rows'
+     rail goes on. */
+  ${({ $stem }) =>
+    $stem &&
+    css`
+      align-self: stretch;
+      height: auto;
+
+      &::before {
+        inset: auto 0;
+        top: 50%;
+        height: ${getToken("tree.expander.size")};
+        transform: translateY(-50%);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(50% + ${getToken("tree.expander.size")} / 2);
+        bottom: 0;
+        left: calc(50% - ${getToken("tree.guide.width")} / 2);
+        width: ${getToken("tree.guide.width")};
+        background: ${$stem === "active" ? activeColor : guideColor};
+        pointer-events: none;
+      }
+    `}
 
   /* The caret's stroke stays the guide's width at any icon size, like the circle's. */
   & svg :is(path, polyline, line) {

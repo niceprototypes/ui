@@ -17,6 +17,8 @@ export type TreeExpanderCaretType = "right" | "bottom"
  * - active: on the active path, so circle and caret take `tree.expander.color:active`
  * - onToggle: makes it a button; without it the expander is a mark only
  * - decorative: with onToggle, a mark a click still toggles (a folder whose row button is the toggle)
+ * - stem: an open row's rail start, from the circle's bottom to the row's bottom, so the sub-rows'
+ *   rail meets the circle: in the guide colour, or `active` (`tree.activeColor`) where the active path continues below
  * - controls: the id of the list it shows, as `aria-controls`
  * - aria-label: the button's name (the row's label)
  * - tabIndex: the button's tab stop (a grid row moves focus itself and passes -1)
@@ -32,6 +34,7 @@ export interface TreeExpanderProps {
   tabIndex?: number
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
   decorative?: boolean
+  stem?: "base" | "active"
 }
 
 /**

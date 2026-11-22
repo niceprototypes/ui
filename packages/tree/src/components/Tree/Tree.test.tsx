@@ -169,4 +169,14 @@ describe("Tree", () => {
     expect(startRow.querySelector("[data-icon]")).toBeNull()
     expect(container.querySelectorAll('[data-icon="carat-right"]').length).toBeGreaterThan(0)
   })
+
+  it("starts an open row's rail at its circle, active where the active path goes on below", () => {
+    render(<Tree items={items} defaultExpandedIds={["guides"]} />)
+    const circleOf = (name: string) => screen.getByRole("button", { name }).closest("[data-tree-row]")!.querySelector("[data-icon]")!.closest("span[aria-hidden]")!
+    // Guides is open and leads to the active Theming page; API is closed.
+    expect(circleOf("Guides")).toHaveAttribute("data-stem", "active")
+    expect(circleOf("API")).not.toHaveAttribute("data-stem")
+    fireEvent.click(screen.getByRole("button", { name: "API" }))
+    expect(circleOf("API")).toHaveAttribute("data-stem", "base")
+  })
 })

@@ -27,6 +27,7 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
   tabIndex,
   onKeyDown,
   decorative = false,
+  stem,
 }) => {
   const icon = (
     <StyledTreeExpanderCaret $caret={caret}>
@@ -37,6 +38,8 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
     return (
       <StyledTreeExpander
         $active={active}
+        $stem={stem}
+        data-stem={stem}
         aria-hidden="true"
         data-decorative={onToggle ? "" : undefined}
         onClick={onToggle as React.MouseEventHandler<HTMLElement> | undefined}
@@ -49,6 +52,8 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
       as="button"
       type="button"
       $active={active}
+      $stem={stem}
+      data-stem={stem}
       aria-label={ariaLabel}
       aria-expanded={expanded}
       aria-controls={controls}

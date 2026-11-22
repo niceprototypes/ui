@@ -179,7 +179,9 @@ const Tree: React.FC<TreeProps> = ({
   const renderExpander = (node: TreeNodeType, onPath: boolean, depth: number) => {
     if (!node.items?.length) return <TreeExpanderSlot arm={depth > 0} active={onPath} />
     const open = expandedIds.includes(node.id)
-    return <TreeExpander caret={caretOf(open)} active={onPath} decorative onToggle={event => toggle(node, event)} />
+    // An open row's rail starts at its circle; active where the active path goes on below it.
+    const stem = open ? (onPath && activePath[activePath.length - 1] !== node.id ? "active" : "base") : undefined
+    return <TreeExpander caret={caretOf(open)} active={onPath} decorative onToggle={event => toggle(node, event)} stem={stem} />
   }
 
   const renderList = (level: TreeItemsType, id?: string, hidden?: boolean) => (
