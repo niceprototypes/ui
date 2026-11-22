@@ -2,8 +2,9 @@ import { getToken } from "@niceprototypes/styles"
 
 /* Geometry shared by Tree, TreeGuide and TreeExpander. Each level is one column
    (`tree.guide.indent`): a rail on its axis (`tree.icon.size` / 2 in) and an arm from the axis to
-   the column's end, where the label gap (`tree.guide.labelGap`) starts. A row's expander circle
-   sits on its own column's junction, over the rail and the arm's start. */
+   the column's end, one circle radius long (`tree.guide.arm`), where the label gap
+   (`tree.guide.labelGap`) starts. A row's expander circle sits on its own column's junction and
+   covers the whole arm, so a row with a circle shows no arm and its label keeps the same x. */
 const icon = getToken("tree.icon.size")
 const arm = getToken("tree.guide.arm")
 const stroke = getToken("tree.guide.width")
