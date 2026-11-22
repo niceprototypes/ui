@@ -13,7 +13,7 @@ const IMPORT = `import DocsRule from "@niceprototypes/docs/components/DocsRule"`
 export const docsRuleLevel = {
   name: "level",
   description:
-    "The break it marks. A section rule runs past its column by the page's bleed (to the screen's edges on phone) and, between two-column sections, across the gutter; a subsection rule stays inside its column. In a Flow column the flow.rule tokens space both, and a heading straight after a rule sits the rule's after-space below it.",
+    "The break it marks: a section between top-level sections, a subsection between sibling items or above a subsection heading. Both are as wide as their column (inside a tile, its content inset), never under a heading. In a Flow column the flow.rule tokens space both, and a heading straight after a rule sits the rule's after-space below it.",
   variants: ["section", "subsection"],
   default: "section",
   preview: variant => (
@@ -33,36 +33,39 @@ export const docsRuleLevel = {
 export const docsRuleGutter = {
   name: "Section and subsection",
   description:
-    "Both levels on a two-column section: the section rule spans the prose column, the gutter and the code column; the subsection rule under the heading stops at the gutter.",
+    "Both levels in a tile: the section rule and a subsection rule above its heading both keep the tile's content inset (DocsPage's own rules between tiles run line to line).",
   variants: ["base"],
   preview: () => (
     <Flow>
       <DocsRule />
       <DocsColumns aside={<Code language="tsx" code={`const page = await list({ limit: 3 })`} />}>
-        <Ink as="h3">Parameters</Ink>
-        <DocsRule level="subsection" />
         <Ink as="p">Every list method takes a limit and a cursor.</Ink>
+        <DocsRule level="subsection" />
+        <Ink as="h3">Parameters</Ink>
+        <Ink as="p">Each is optional.</Ink>
       </DocsColumns>
     </Flow>
   ),
   code: () =>
-    `${IMPORT}\n\n<Flow>\n  <DocsRule />\n  <DocsColumns aside={<Code language="tsx" code={source} />}>\n    <Ink as="h3">Parameters</Ink>\n    <DocsRule level="subsection" />\n    <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n  </DocsColumns>\n</Flow>`,
+    `${IMPORT}\n\n<Flow>\n  <DocsRule />\n  <DocsColumns aside={<Code language="tsx" code={source} />}>\n    <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n    <DocsRule level="subsection" />\n    <Ink as="h3">Parameters</Ink>\n    <Ink as="p">Each is optional.</Ink>\n  </DocsColumns>\n</Flow>`,
 } satisfies ComponentExample
 
 export const docsRuleList = {
   name: "Between list items",
-  description: "A parameter list: each PropDocs item opens with a subsection rule, a base gap above its name.",
+  description: "A parameter list: a subsection rule between PropDocs items, never under the heading.",
   variants: ["base"],
   preview: () => (
     <Flow>
       <Ink as="h3">Parameters</Ink>
       <PropDocs prop={{ name: "limit", type: "number", default: "10", description: "How many objects to return." }} />
+      <DocsRule level="subsection" />
       <PropDocs prop={{ name: "startingAfter", type: "string", description: "The object ID the page starts after." }} />
+      <DocsRule level="subsection" />
       <PropDocs prop={{ name: "apiKey", type: "string", required: true, description: "The key the request is made with." }} />
     </Flow>
   ),
   code: () =>
-    `<Flow>\n  <Ink as="h3">Parameters</Ink>\n  <PropDocs prop={limit} />\n  <PropDocs prop={startingAfter} />\n  <PropDocs prop={apiKey} />\n</Flow>`,
+    `<Flow>\n  <Ink as="h3">Parameters</Ink>\n  <PropDocs prop={limit} />\n  <DocsRule level="subsection" />\n  <PropDocs prop={startingAfter} />\n  <DocsRule level="subsection" />\n  <PropDocs prop={apiKey} />\n</Flow>`,
 } satisfies ComponentExample
 
 export const docsRuleExamples = {

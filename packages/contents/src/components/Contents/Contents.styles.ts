@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { getToken } from "@niceprototypes/styles"
 import { Scroll } from "@niceprototypes/scroll"
 
@@ -33,7 +33,7 @@ export const StyledContentsItem = styled.li`
 /**
  * A row's link, indented one `contents.indent` per level; flex, so its height is the
  * label's line box rather than the inherited font's. The active row takes the active
- * colour and weight, and an indicator bar over the rail.
+ * colour and weight; the indicator bar over the rail is the list's own (StyledContentsIndicator).
  */
 export const StyledContentsLink = styled.a<{ $depth: number; $active: boolean }>`
   position: relative;
@@ -47,19 +47,35 @@ export const StyledContentsLink = styled.a<{ $depth: number; $active: boolean }>
   text-decoration: none;
 
   &:hover {
-    color: ${getToken("contents.color:active")};
+    color: ${({ $active }) => getToken(`contents.color:${$active ? "active" : "hover"}`)};
   }
 
-  ${({ $active }) =>
-    $active &&
-    css`
-      &::before {
-        content: "";
-        position: absolute;
-        inset-block: 0;
-        inset-inline-start: calc(-1 * ${railWidth});
-        width: ${getToken("contents.indicator.width")};
-        background-color: ${getToken("contents.indicator.color")};
-      }
-    `}
+`
+
+/**
+ * The active row's indicator: one bar over the rail (`contents.indicator.width` in
+ * `contents.indicator.color`), placed on the active row by transform (a 1px bar moved down and
+ * stretched to the row's height), so it slides between rows over `contents.indicator.animationDuration`
+ * with `contents.indicator.animationEasing` without layout work; no slide until the reader first
+ * acts (`data-placed`: a page opened at a hash starts in place), and none under reduced motion.
+ */
+export const StyledContentsIndicator = styled.span`
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: ${getToken("contents.indicator.width")};
+  height: 1px;
+  background-color: ${getToken("contents.indicator.color")};
+  transform-origin: top;
+  pointer-events: none;
+
+  &[data-placed] {
+    transition: transform ${getToken("contents.indicator.animationDuration")} ${getToken("contents.indicator.animationEasing")};
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &[data-placed] {
+      transition: none;
+    }
+  }
 `

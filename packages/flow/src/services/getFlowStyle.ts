@@ -94,6 +94,8 @@ const headingAfterRule = () => {
  *   lose their outer margin (edgeChains), judged from the root down only, so a root inside
  *   another flow's later child (a grid cell under a page's column) still flushes its nested
  *   containers' ends.
+ * - A link or span child is made block-level (a link `flex`, as wide as its content), so its
+ *   margins collapse with its neighbours' instead of adding to them.
  * - A heading straight after a rule (or opening the column after it) drops its before-space,
  *   so the rule's after-space alone sits between them (headingAfterRule).
  *
@@ -107,6 +109,10 @@ export const getFlowStyle = (): string =>
       ([selector, group]) =>
         `&& > :where(${roleSelector(selector, group)}) { margin-block-start: ${space(group, "before")}; margin-block-end: ${space(group, "after")}; }`,
     ),
+    // Every child block-level, so neighbouring margins collapse to one gap: an inline link or span
+    // (inline-flex, inline) sits in a line box, and its margins would add to the next block's.
+    `&& > :where(a) { display: flex; width: fit-content; }`,
+    `&& > :where(span) { display: block; }`,
     `${edgeChains("first")} { margin-block-start: 0; }`,
     `${edgeChains("last")} { margin-block-end: 0; }`,
     `${headingAfterRule()} { margin-block-start: 0; }`,

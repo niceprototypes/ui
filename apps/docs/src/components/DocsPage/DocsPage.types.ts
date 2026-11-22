@@ -31,7 +31,7 @@ export interface DocsPageProps {
   /** The page's sections, in page order; a section with nothing to render is left out */
   sections: ReadonlyArray<DocsPageSectionType>
 
-  /** Cap the sections column at `docs.columnWidth`; off, it takes the width Contents leaves. @default true */
+  /** Keep each tile's text to the measure (`docs.columnWidth`, two of them on a two-column page); off, tiles use the full width. @default true */
   wrapped?: boolean
 
   /** Contents rows in place of the sections' (an MDX page lists its headings) */

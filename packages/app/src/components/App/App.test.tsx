@@ -92,14 +92,25 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
       return <button onClick={() => setActiveId("props")}>spy</button>
     }
     const withContents = { ...pages, "./docs/2 Getting started/index.tsx": () => Promise.resolve({ default: Spied }) }
+    // The page's title repeated as a section is left out.
     const contents = (entry: { url: string }) =>
-      entry.url === "/docs/getting-started" ? [{ id: "intro", label: "Intro" }, { id: "props", label: "Props" }] : undefined
+      entry.url === "/docs/getting-started"
+        ? [
+            { id: "getting-started", label: "Getting started" },
+            { id: "intro", label: "Intro" },
+            { id: "ten", label: "Ten pages" },
+            { id: "props", label: "Props" },
+          ]
+        : undefined
     window.history.replaceState(null, "", "/docs/getting-started")
     render(<App pages={withContents} contents={contents} router={router} />)
     await screen.findByText("spy")
     const expander = screen.getByRole("button", { name: "Getting started" })
     expect(expander).toHaveAttribute("aria-expanded", "true")
     expect(screen.getByRole("link", { name: "Props" })).toHaveAttribute("href", "/docs/getting-started#props")
+    // Neither its own title nor a sibling page's name shows as a section.
+    expect(screen.getAllByRole("link", { name: "Getting started" })).toHaveLength(1)
+    expect(screen.getAllByRole("link", { name: "Ten pages" })).toHaveLength(1)
     // Ten pages has no sections: no expander.
     expect(screen.queryByRole("button", { name: "Ten pages" })).not.toBeInTheDocument()
     fireEvent.click(screen.getByText("spy"))
@@ -107,6 +118,19 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.getByRole("link", { name: "Getting started" })).not.toHaveAttribute("aria-current")
     fireEvent.click(expander)
     expect(expander).toHaveAttribute("aria-expanded", "false")
+  })
+
+  it("lists no sections for a page whose contents are an empty list, whatever the page reports", async () => {
+    const Reporting = () => {
+      const { setItems } = useAppContents()
+      React.useEffect(() => setItems([{ id: "card", label: "Card" }]), [setItems])
+      return <p>reporting</p>
+    }
+    window.history.replaceState(null, "", "/docs/getting-started")
+    render(<App pages={{ ...pages, "./docs/2 Getting started/index.tsx": () => Promise.resolve({ default: Reporting }) }} contents={() => []} router={router} />)
+    await screen.findByText("reporting")
+    expect(screen.queryByRole("link", { name: "Card", hidden: true })).not.toBeInTheDocument()
+    expect(screen.queryByRole("button", { name: "Getting started" })).not.toBeInTheDocument()
   })
 
   it("lists only the current page's section: the docs pages on a docs page, the stories on a story", async () => {

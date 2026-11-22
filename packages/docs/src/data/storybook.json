@@ -112,7 +112,11 @@
       "Onboarding": {
         "wrapped": true,
         "items": [
-          "Welcome",
+          {
+            "Welcome": {
+              "navContents": false
+            }
+          },
           "Reset",
           "Tokens",
           "Fonts",

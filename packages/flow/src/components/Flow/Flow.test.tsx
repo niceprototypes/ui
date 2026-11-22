@@ -119,6 +119,13 @@ describe("Flow", () => {
     expect(row.matches(afterRule)).toBe(true)
   })
 
+  it("makes link and span children block-level, so their margins collapse with their neighbours'", () => {
+    render(<Flow><a href="#x" style={{ display: "inline-flex" }}>link</a><span>text</span><h3>next</h3></Flow>)
+    const css = getInjectedCss()
+    expect(css).toMatch(/>:where\(a\)\{display:flex;width:fit-content;\}/)
+    expect(css).toMatch(/>:where\(span\)\{display:block;\}/)
+  })
+
   it("sets the density multiplier and role overrides on the instance", () => {
     render(<Flow density="spacious" space={{ h2: { before: "large" }, code: { after: "base" } }}><p>text</p></Flow>)
     const css = getInjectedCss()

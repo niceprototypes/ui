@@ -1,3 +1,4 @@
+import * as React from "react"
 import Flex from "@niceprototypes/flex"
 import Ink from "@niceprototypes/ink"
 import Code from "@niceprototypes/code"
@@ -6,6 +7,7 @@ import { componentExamples } from "../../examples"
 import PropDocs from "../PropDocs"
 import DocsColumns from "../DocsColumns"
 import ExampleBlocks from "../ExampleBlocks"
+import DocsRule from "../DocsRule"
 import { StoryHeader } from "../Story"
 import { StoryHeaderLevel } from "../Story/StoryHeader/StoryHeaderLevel"
 
@@ -28,10 +30,13 @@ const SubcomponentDocs = ({ name }: { name: string }) => {
         <Code language="tsx" code={`import { ${name} } from "${entry.package}"`} />
         {entry.props.length === 0 && <Ink>No props of its own.</Ink>}
       </Flex>
-      {entry.props.map(prop => (
-        <DocsColumns key={prop.name} aside={examples[prop.name] && <ExampleBlocks example={examples[prop.name]} />}>
-          <PropDocs prop={prop} example={examples[prop.name]} />
-        </DocsColumns>
+      {entry.props.map((prop, index) => (
+        <React.Fragment key={prop.name}>
+          {index > 0 ? <DocsRule level="subsection" /> : null}
+          <DocsColumns aside={examples[prop.name] && <ExampleBlocks example={examples[prop.name]} />}>
+            <PropDocs prop={prop} example={examples[prop.name]} />
+          </DocsColumns>
+        </React.Fragment>
       ))}
     </Flex>
   )

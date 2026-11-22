@@ -2,6 +2,14 @@
   "sidebar": {
     "minWidth": {
       "base": "24em"
+    },
+    "rule": {
+      "width": {
+        "base": "var(--np--border-width--small)"
+      },
+      "color": {
+        "base": "transparent"
+      }
     }
   },
   "end": {
@@ -85,6 +93,9 @@
   "docs": {
     "padding": {
       "base": "var(--np--gap--large)"
+    },
+    "paddingInline": {
+      "base": "var(--np--app--docs--padding)"
     },
     "bleed": {
       "base": "var(--np--gap--large)"

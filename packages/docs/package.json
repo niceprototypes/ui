@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "check:data": "node scripts/check-data.ts"
+    "check:data": "node scripts/check-data.ts",
+    "test": "jest"
   },
   "dependencies": {
     "@niceprototypes/app": "workspace:^",
@@ -68,7 +69,12 @@
     "react-dom": "catalog:",
     "styled-components": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.1.9"
+    "vite": "^7.1.9",
+    "@niceprototypes/config-jest": "workspace:*",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.4.6"
   },
   "exports": {
     "./components/Callout": "./src/components/Callout/index.ts",

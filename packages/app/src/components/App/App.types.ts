@@ -172,7 +172,8 @@ export interface AppProps {
   /**
    * A page's in-page sections (the same rows as its Contents column), shown in the nav as the
    * page's sub-rows behind a circled caret; the current page opens on arrival, its section in view
-   * active. The current page may replace its rows once rendered (useAppContents)
+   * active. The current page may replace its rows once rendered (useAppContents); an empty list
+   * opts a page out (no expander, its report ignored)
    */
   contents?: (entry: AppEntryType) => AppContentsType | undefined
 

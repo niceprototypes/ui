@@ -291,6 +291,8 @@
 
 	/* app component tokens */
 	--np--app--sidebar--min-width: 24em;
+	--np--app--sidebar--rule--width: var(--np--border-width--small);
+	--np--app--sidebar--rule--color: transparent;
 	--np--app--end--width: 24em;
 	--np--app--panel--rule--width: var(--np--border-width);
 	--np--app--panel--rule--color: var(--np--border-color);
@@ -312,6 +314,7 @@
 	--np--app--search--focus-color: var(--np--border-color);
 	--np--app--search--background-color: var(--np--background-color--day);
 	--np--app--docs--padding: var(--np--gap--large);
+	--np--app--docs--padding-inline: var(--np--app--docs--padding);
 	--np--app--docs--bleed: var(--np--gap--large);
 
 	/* badge component tokens */
@@ -584,6 +587,7 @@
 
 	/* contents component tokens */
 	--np--contents--color: var(--np--color--light);
+	--np--contents--color--hover: var(--np--contents--color--active);
 	--np--contents--color--active: var(--np--color--link);
 	--np--contents--font-weight: var(--np--font-weight);
 	--np--contents--font-weight--active: var(--np--font-weight--medium);
@@ -595,6 +599,8 @@
 	--np--contents--rail--width: var(--np--border-width);
 	--np--contents--indicator--color: var(--np--color--link);
 	--np--contents--indicator--width: var(--np--border-width--large);
+	--np--contents--indicator--animation-duration: var(--np--animation-duration);
+	--np--contents--indicator--animation-easing: var(--np--animation-easing);
 	--np--contents--item--padding-block: var(--np--gap--smaller);
 	--np--contents--item--padding-inline: var(--np--gap--small);
 	--np--contents--indent: var(--np--gap);

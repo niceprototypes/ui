@@ -12,6 +12,14 @@ const componentTokensData: ComponentTokensData = {
     "sidebar": {
       "minWidth": {
         "base": "24em"
+      },
+      "rule": {
+        "width": {
+          "base": "var(--np--border-width--small)"
+        },
+        "color": {
+          "base": "transparent"
+        }
       }
     },
     "end": {
@@ -95,6 +103,9 @@ const componentTokensData: ComponentTokensData = {
     "docs": {
       "padding": {
         "base": "var(--np--gap--large)"
+      },
+      "paddingInline": {
+        "base": "var(--np--app--docs--padding)"
       },
       "bleed": {
         "base": "var(--np--gap--large)"
@@ -616,6 +627,7 @@ const componentTokensData: ComponentTokensData = {
   "contents": {
     "color": {
       "base": "var(--np--color--light)",
+      "hover": "var(--np--contents--color--active)",
       "active": "var(--np--color--link)"
     },
     "fontWeight": {
@@ -650,6 +662,12 @@ const componentTokensData: ComponentTokensData = {
       },
       "width": {
         "base": "var(--np--border-width--large)"
+      },
+      "animationDuration": {
+        "base": "var(--np--animation-duration)"
+      },
+      "animationEasing": {
+        "base": "var(--np--animation-easing)"
       }
     },
     "item": {

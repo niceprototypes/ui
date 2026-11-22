@@ -5,9 +5,9 @@ import type { DocsRuleProps } from "./DocsRule.types"
 /**
  * DocsRule
  *
- * The docs pages' horizontal rule, as Stripe's API reference draws them: a section rule between
- * top-level sections runs edge to edge, a subsection rule stays inside its column, so the gutter
- * shows beside it. Inside a Flow column, the `flow.rule` tokens space it.
+ * The docs pages' horizontal rule, as wide as its column: inside a DocsPage tile it keeps the
+ * tile's content inset, and DocsPage's own rules between tiles run line to line. Inside a Flow
+ * column, the `flow.rule` tokens space it.
  *
  * @example
  * <DocsRule />

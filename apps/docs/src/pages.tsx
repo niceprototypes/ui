@@ -2,7 +2,8 @@ import type * as React from "react"
 import { getAppPageUrl, type AppContentsType, type AppEntryType, type AppPagesType } from "@niceprototypes/app"
 import { getItem, getTree, sanitize, type DataItem } from "@niceprototypes/docs/data"
 import ComponentPage, { componentContents } from "./components/ComponentPage"
-import MdxPage, { mdxContents, type MdxModuleType } from "./components/MdxPage"
+import MdxPage, { type MdxModuleType } from "./components/MdxPage"
+import { docsHeadingsOfSource } from "@niceprototypes/docs/services"
 import TokensPage, { tokensContents } from "./components/TokensPage"
 import ScrollPageBehaviour from "./components/ScrollPageBehaviour"
 import { catalogComponents, catalogWidgets, subcomponentsOf, type CatalogComponentType } from "./catalog"
@@ -25,10 +26,14 @@ const mdxByItemId = new Map(
   }),
 )
 
+/** Each MDX page's title (its nav label) by its data item id, as its page shows it. */
+const mdxLabelByItemId = new Map<string, string>()
+
 /** An item's MDX page, wrapped as storybook.json says; none when no file has its title. */
 const mdxPage = (item: DataItem, label: string) => {
   const path = mdxByItemId.get(item.id)
   if (!path) return undefined
+  mdxLabelByItemId.set(item.id, label)
   return () =>
     mdxModules[path]().then(module => ({
       default: () => <MdxPage id={item.id} label={label} wrapped={item.settings.wrapped === true} Content={module.default} />,
@@ -129,7 +134,11 @@ const contentsByUrl = new Map<string, () => AppContentsType | undefined>(
     if (component) return [[url, () => componentContents(component)]]
     if (itemId === "tokens") return [[url, tokensContents]]
     const path = itemId ? mdxByItemId.get(itemId) : undefined
-    return path ? [[url, () => mdxContents(mdxText[path])]] : []
+    if (!path || !itemId) return []
+    // A page whose data says `navContents: false` lists no sections in the nav (an empty list, so
+    // the page's own report cannot add them either).
+    if (getItem(itemId)?.settings.navContents === false) return [[url, () => []]]
+    return [[url, () => docsHeadingsOfSource(mdxText[path], mdxLabelByItemId.get(itemId))]]
   }),
 )
 const contentsCache = new Map<string, AppContentsType | undefined>()

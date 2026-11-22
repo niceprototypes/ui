@@ -25,8 +25,9 @@ export const StyledApp = styled.div<{ $drawer: boolean }>`
 
 /**
  * The sidebar: the header row over the nav and the scene sidebar side by side, over the footer, the
- * viewport's full height, at least `app.sidebar.minWidth` wide. With `$drawer` (below laptop) it
- * generates no box: the header row and the drawer are the shell grid's own items.
+ * viewport's full height, at least `app.sidebar.minWidth` wide, a full-height rule on its end edge
+ * (`app.sidebar.rule.*`, transparent by default). With `$drawer` (below laptop) it generates no
+ * box: the header row and the drawer are the shell grid's own items.
  */
 export const StyledAppAside = styled.div<{ $drawer: boolean }>`
   flex: none;
@@ -34,6 +35,7 @@ export const StyledAppAside = styled.div<{ $drawer: boolean }>`
   display: ${({ $drawer }) => ($drawer ? "contents" : "flex")};
   flex-direction: column;
   min-height: 0;
+  border-inline-end: ${getToken("app.sidebar.rule.width")} solid ${getToken("app.sidebar.rule.color")};
 `
 
 /**
@@ -270,9 +272,10 @@ export const StyledAppEnd = styled.div`
   border-inline-start: ${getToken("app.panel.rule.width")} solid ${getToken("app.panel.rule.color")};
 `
 
-/** A markdown or docs section page: its content with the region's padding. */
+/** A markdown or docs section page: its content with the region's padding (`app.docs.padding`; `app.docs.paddingInline` across, for a page that insets its own tiles). */
 export const StyledAppDocs = styled.div`
-  padding: ${getToken("app.docs.padding")};
+  padding-block: ${getToken("app.docs.padding")};
+  padding-inline: ${getToken("app.docs.paddingInline")};
   /* How far a bleeding Flow child (FlowItem bleed) reaches past the column: to the page's edge on phone. */
   ${getConstantKey("flow.bleed")}: ${getToken("app.docs.bleed")};
 `

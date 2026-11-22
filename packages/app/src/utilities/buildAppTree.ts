@@ -6,16 +6,33 @@ type MutableNode = Omit<TreeNodeType, "items"> & { items?: MutableNode[] }
 /** The separator between a page's id and one of its sections' anchors in a nav row's id. */
 export const CONTENTS_SEPARATOR = "#"
 
-/** A page's in-page sections as its sub-rows: links to their anchors, the one in view active. */
-const contentsRows = (entry: AppEntryType, contents: AppContentsType, url: string, activeId: string | undefined): MutableNode[] =>
-  contents.map(item => ({
-    id: `${entry.id}${CONTENTS_SEPARATOR}${item.id}`,
-    name: item.label,
-    icon: null,
-    url: `${url}${CONTENTS_SEPARATOR}${item.id}`,
-    status: item.id === activeId ? "active" : undefined,
-    ...(item.items?.length ? { items: contentsRows(entry, item.items, url, activeId) } : {}),
-  }))
+/**
+ * A page's in-page sections as its sub-rows: links to their anchors, the one in view active. A
+ * section repeating the page's name, an ancestor folder's (a page title read as a section) or a
+ * page's beside it in its folder is left out, so a page never shows itself, or a sibling page,
+ * again under it.
+ */
+const contentsRows = (
+  entry: AppEntryType,
+  contents: AppContentsType,
+  url: string,
+  activeId: string | undefined,
+  siblingNames: readonly string[],
+): MutableNode[] => {
+  const names = new Set([...entry.names, ...siblingNames].map(name => name.trim().toLowerCase()))
+  const rows = (items: AppContentsType): MutableNode[] =>
+    items
+      .filter(item => !names.has(item.label.trim().toLowerCase()))
+      .map(item => ({
+        id: `${entry.id}${CONTENTS_SEPARATOR}${item.id}`,
+        name: item.label,
+        icon: null,
+        url: `${url}${CONTENTS_SEPARATOR}${item.id}`,
+        status: item.id === activeId ? ("active" as const) : undefined,
+        ...(item.items?.length ? { items: rows(item.items) } : {}),
+      }))
+  return rows(contents)
+}
 
 /** Whether an entry is in the docs section (`/docs`) rather than the stories (`/stories`). */
 const isDocs = (entry: AppEntryType | undefined) => entry?.kind === "page"
@@ -41,6 +58,10 @@ export const buildAppTree = (
   activeContentId?: string,
 ): TreeItemsType => {
   const root: MutableNode[] = []
+  // The names of the pages in an entry's folder, itself left out.
+  const folderOf = (entry: AppEntryType) => entry.id.split("/").slice(0, -1).join("/")
+  const siblingNamesOf = (entry: AppEntryType) =>
+    entries.filter(other => other !== entry && folderOf(other) === folderOf(entry)).map(other => other.names[other.names.length - 1])
   // Before a page is current (the root, on its way to the first page), the first page's section.
   const docs = isDocs(current ?? entries[0])
   for (const entry of entries.filter(entry => isDocs(entry) === docs)) {
@@ -59,7 +80,7 @@ export const buildAppTree = (
           icon: null,
           url,
           status: entry === current && activeId === undefined ? "active" : undefined,
-          ...(contents?.length ? { items: contentsRows(entry, contents, url, activeId) } : {}),
+          ...(contents?.length ? { items: contentsRows(entry, contents, url, activeId, siblingNamesOf(entry)) } : {}),
         })
         return
       }

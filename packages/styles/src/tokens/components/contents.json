@@ -1,6 +1,7 @@
 {
   "color": {
     "base": "var(--np--color--light)",
+    "hover": "var(--np--contents--color--active)",
     "active": "var(--np--color--link)"
   },
   "fontWeight": {
@@ -35,6 +36,12 @@
     },
     "width": {
       "base": "var(--np--border-width--large)"
+    },
+    "animationDuration": {
+      "base": "var(--np--animation-duration)"
+    },
+    "animationEasing": {
+      "base": "var(--np--animation-easing)"
     }
   },
   "item": {

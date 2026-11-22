@@ -4,7 +4,6 @@ import DocsInk from "../../nice/Ink"
 import type { CatalogPropType } from "../../data/catalog"
 import { renderInline } from "../../data/text"
 import type { ComponentExample } from "../../dataTables/components/demos/Components"
-import DocsRule from "../DocsRule"
 import { StyledPropDocsName } from "./PropDocs.styles"
 
 /** Whether the prop is required, else optional with its default when it has one. */
@@ -22,16 +21,15 @@ const Presence = ({ prop }: { prop: CatalogPropType }) => {
 /**
  * PropDocs
  *
- * One prop, from the catalog, as an item of a parameter list (Stripe's API reference): a
- * subsection rule, then its name in semibold code with its type and whether it is required (or
- * its default) small and muted on the same baseline, then its description. The rule and the
- * name sit a base gap apart, the name and the description a small gap.
+ * One prop, from the catalog, as an item of a parameter list (Stripe's API reference): its name
+ * in semibold code with its type and whether it is required (or its default) small and muted on
+ * the same baseline, then its description, a small gap below. The list puts a subsection rule
+ * between items (DocsPage), never above the first, under its heading.
  */
 const PropDocs = ({ prop, example }: { prop: CatalogPropType; example?: ComponentExample }) => {
   const description = prop.description ?? example?.description
   return (
-    <Flow space={{ rule: { after: "base" }, h4: { before: "none", after: "small" } }}>
-      <DocsRule level="subsection" />
+    <Flow space={{ h4: { before: "none", after: "small" } }}>
       <StyledPropDocsName>
         <Ink code weight="semibold">{prop.name}</Ink>
         <Ink code size="small" color="lighter" wordBreak="break-word">{prop.type}</Ink>

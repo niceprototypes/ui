@@ -126,6 +126,10 @@
         "sectionWrapped": {
           "description": "Cap each data-table section's heading at the docs column width (its rows stay full width).",
           "type": "boolean"
+        },
+        "navContents": {
+          "description": "List the page's in-page sections under it in the docs nav. Off, the page is a plain row (no expander).",
+          "type": "boolean"
         }
       }
     },

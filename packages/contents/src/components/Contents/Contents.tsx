@@ -4,6 +4,7 @@ import {
   StyledContents,
   StyledContentsItem,
   StyledContentsLink,
+  StyledContentsIndicator,
   StyledContentsList,
 } from "./Contents.styles"
 import type { ContentsItemsType, ContentsProps } from "./Contents.types"
@@ -94,10 +95,33 @@ const Contents: React.FC<ContentsProps> = ({
     }
   }, [ids, activate])
 
+  // The indicator on the active row: moved by transform, so it slides. It jumps until the reader
+  // first acts (scroll input, or a click on a row: data-placed turns the slide on), so the page's
+  // own scrolls on opening (to a #hash) place it without a slide from the top.
+  const indicatorRef = React.useRef<HTMLSpanElement>(null)
+  const placeIndicator = React.useCallback(() => {
+    const indicator = indicatorRef.current
+    const link = navRef.current?.querySelector<HTMLElement>('[aria-current="location"]')
+    if (!indicator) return
+    indicator.style.opacity = link ? "1" : "0"
+    if (link) indicator.style.transform = `translateY(${link.offsetTop}px) scaleY(${link.offsetHeight})`
+  }, [])
+  const enableSlide = React.useCallback(() => indicatorRef.current?.setAttribute("data-placed", ""), [])
+  React.useLayoutEffect(placeIndicator, [activeId, items, placeIndicator])
+  React.useEffect(() => {
+    window.addEventListener("resize", placeIndicator)
+    USER_SCROLL_EVENTS.forEach(type => window.addEventListener(type, enableSlide, { passive: true, once: true }))
+    return () => {
+      window.removeEventListener("resize", placeIndicator)
+      USER_SCROLL_EVENTS.forEach(type => window.removeEventListener(type, enableSlide))
+    }
+  }, [placeIndicator, enableSlide])
+
   const select = (id: string, event: React.MouseEvent<HTMLAnchorElement>) => {
     const target = document.getElementById(id)
     if (!target) return
     event.preventDefault()
+    enableSlide()
     heldId.current = id
     activate(id)
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
@@ -131,6 +155,7 @@ const Contents: React.FC<ContentsProps> = ({
       ref={navRef}
       aria-label={ariaLabel}
     >
+      <StyledContentsIndicator ref={indicatorRef} aria-hidden="true" />
       {renderList(items, 0)}
     </StyledContents>
   )

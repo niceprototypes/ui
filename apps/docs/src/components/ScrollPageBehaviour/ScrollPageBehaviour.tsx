@@ -41,7 +41,7 @@ const ScrollPageBehaviour = () => {
   const [isSticky, setIsSticky] = React.useState(false)
   return (
     <Scroll root={region}>
-      <Flex direction="column" gap="larger" style={{ maxInlineSize: getToken("docs", "columnWidth"), marginInline: "auto" }}>
+      <Flex direction="column" gap="larger" style={{ maxInlineSize: getToken("docs", "columnWidth"), marginInline: "auto", paddingInline: getToken("docs", "tilePadding") }}>
         <StoryHeader
           title="Page behaviour"
           description="Scroll's page-wide behaviours, driven by the page scroller: a <Scroll root> (the window, or the element the page scrolls in) above them. Scroll this page to see them."

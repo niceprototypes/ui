@@ -149,8 +149,13 @@ const AppShell: React.FC<AppProps> = ({
     [],
   )
   const activeContentId = current && activeContent.id === current.id ? activeContent.anchor : undefined
+  // An empty list from `contents` opts the page out: its own report does not add sections.
   const contentsOf = React.useCallback(
-    (entry: AppEntryType) => (entry.id === liveContents.id && liveContents.items ? liveContents.items : contentsProp?.(entry)),
+    (entry: AppEntryType) => {
+      const own = contentsProp?.(entry)
+      if (own?.length === 0) return own
+      return entry.id === liveContents.id && liveContents.items ? liveContents.items : own
+    },
     [contentsProp, liveContents],
   )
 

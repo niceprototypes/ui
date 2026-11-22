@@ -6,7 +6,6 @@ import { hasPlayground } from "../Playground/Playground.controls"
 import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"
 import PropDocs from "@niceprototypes/docs/components/PropDocs"
 import ExampleBlocks from "@niceprototypes/docs/components/ExampleBlocks"
-import DocsRule from "@niceprototypes/docs/components/DocsRule"
 import { ComponentTokenTable, componentPrefixesWithTokens, type ComponentPrefixWithTokens } from "@niceprototypes/docs/dataTables/components/tokens/Components"
 import { componentExamples } from "@niceprototypes/docs/examples"
 import type { ComponentExample } from "@niceprototypes/docs/dataTables/components/demos/Components"
@@ -105,19 +104,14 @@ const componentSections = (component: CatalogComponentType, playground: Playgrou
       id: "examples",
       label: "Examples",
       heading: <SectionHeading title="Examples" />,
-      // Each example a subsection: its heading, a subsection rule, its description beside its code.
+      // Each example a subsection: its heading, its description beside its code.
       sections: otherExamples.map(([key, example]) => ({
         id: `example-${key}`,
         label: example.name,
         heading: <DocsInk as="h3">{example.name}</DocsInk>,
-        content: (
-          <>
-            <DocsRule level="subsection" />
-            {example.description ? (
-              <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
-            ) : null}
-          </>
-        ),
+        content: example.description ? (
+          <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
+        ) : null,
         aside: <ExampleBlocks example={example} />,
       })),
     })

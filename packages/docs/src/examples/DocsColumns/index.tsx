@@ -71,26 +71,28 @@ const mains: Record<string, { node: React.ReactNode; code: string }> = {
       <>
         <Ink as="h3">Parameters</Ink>
         <PropDocs prop={limit} />
+        <DocsRule level="subsection" />
         <PropDocs prop={cursor} />
       </>
     ),
-    code: `<DocsColumns aside={<Code language="tsx" code={source} />}>\n  <Ink as="h3">Parameters</Ink>\n  <PropDocs prop={{ name: "limit", type: "number", default: "10", description: "…" }} />\n  <PropDocs prop={{ name: "startingAfter", type: "string", description: "…" }} />\n</DocsColumns>`,
+    code: `<DocsColumns aside={<Code language="tsx" code={source} />}>\n  <Ink as="h3">Parameters</Ink>\n  <PropDocs prop={{ name: "limit", type: "number", default: "10", description: "…" }} />\n  <DocsRule level="subsection" />\n  <PropDocs prop={{ name: "startingAfter", type: "string", description: "…" }} />\n</DocsColumns>`,
   },
   subsection: {
     node: (
       <>
-        <Ink as="h3">List response</Ink>
+        <Prose />
         <DocsRule level="subsection" />
+        <Ink as="h3">List response</Ink>
         <Prose />
       </>
     ),
-    code: `<DocsColumns aside={<Code language="tsx" code={source} />}>\n  <Ink as="h3">List response</Ink>\n  <DocsRule level="subsection" />\n  <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n</DocsColumns>`,
+    code: `<DocsColumns aside={<Code language="tsx" code={source} />}>\n  <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n  <DocsRule level="subsection" />\n  <Ink as="h3">List response</Ink>\n  <Ink as="p">The page and whether more follow.</Ink>\n</DocsColumns>`,
   },
 }
 
 export const docsColumnsChildren = {
   name: "children",
-  description: "The main column, a Flow column: prose, a parameter list (PropDocs items, each opening with a subsection rule), or a subsection under its heading and rule.",
+  description: "The main column, a Flow column: prose, a parameter list (PropDocs items, a subsection rule between them), or a subsection with its rule above its heading.",
   variants: Object.keys(mains),
   default: "prose",
   preview: variant => (
@@ -102,22 +104,22 @@ export const docsColumnsChildren = {
 export const docsColumnsSection = {
   name: "A section",
   description:
-    "A whole section as DocsPage builds one: a section rule edge to edge, the heading above both columns, then the prose and parameters beside the code. The section rule crosses the gutter; the subsection rules stop at it.",
+    "A whole section as DocsPage builds one: the heading above both columns, then the prose and parameters beside the code, a subsection rule between parameters (never under a heading).",
   variants: ["base"],
   preview: () => (
     <Flow>
-      <DocsRule />
       <Ink as="h2">Pagination</Ink>
       <DocsColumns aside={<Code language="tsx" code={SOURCE} />}>
         <Prose />
         <Ink as="h3">Parameters</Ink>
         <PropDocs prop={limit} />
+        <DocsRule level="subsection" />
         <PropDocs prop={cursor} />
       </DocsColumns>
     </Flow>
   ),
   code: () =>
-    `${IMPORT}\n\n<Flow>\n  <DocsRule />\n  <Ink as="h2">Pagination</Ink>\n  <DocsColumns aside={<Code language="tsx" code={source} />}>\n    <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n    <Ink as="h3">Parameters</Ink>\n    <PropDocs prop={limit} />\n    <PropDocs prop={startingAfter} />\n  </DocsColumns>\n</Flow>`,
+    `${IMPORT}\n\n<Flow>\n  <Ink as="h2">Pagination</Ink>\n  <DocsColumns aside={<Code language="tsx" code={source} />}>\n    <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n    <Ink as="h3">Parameters</Ink>\n    <PropDocs prop={limit} />\n    <DocsRule level="subsection" />\n    <PropDocs prop={startingAfter} />\n  </DocsColumns>\n</Flow>`,
 } satisfies ComponentExample
 
 export const docsColumnsExamples = {

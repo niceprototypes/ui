@@ -26,6 +26,14 @@ export const AppTokenMap = {
     barHeight: `calc(${getCoreToken("gap", "large")} * 2 + ${getCoreToken("size", "small")})`,
     // DocsColumns' gutter between the prose column and the code column (Stripe's API reference: 42px).
     gutter: getCoreToken("gap", "larger"),
+    // A section tile's inset from the grid lines (DocsPage): its content, and every rule inside it,
+    // sit this far in; the rules between tiles run line to line.
+    tilePadding: { "phone+": getCoreToken("gap", "large"), "laptop+": getCoreToken("gap", "larger") },
+    // A tile's text measure, as the tile sets it for what is inside (its full width unless capped).
+    tileMeasure: "100cqi",
+    // The page's grid lines: the nav's end edge, the Contents column's start edge, the band's bottom.
+    gridLineWidth: getCoreToken("borderWidth", "small"),
+    gridLineColor: getCoreToken("borderColor", "subtle"),
     // DocsRule (section and subsection rules) and the parameter list's rules.
     ruleWidth: getCoreToken("borderWidth", "small"),
     ruleColor: getCoreToken("borderColor"),
