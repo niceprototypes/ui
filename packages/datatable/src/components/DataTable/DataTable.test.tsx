@@ -96,8 +96,7 @@ describe("DataTable", () => {
     render(<DataTable {...base} defaultExpandedIds="all" />)
     const deep = bodyRows()[3]
     const guide = within(deep).getByRole("rowheader").querySelector('[aria-hidden="true"]')
-    // The root column, then one per level.
-    expect(guide?.children).toHaveLength(4)
+    expect(guide?.children).toHaveLength(3)
   })
 
   it("expands and collapses on the caret, reporting the next ids", () => {

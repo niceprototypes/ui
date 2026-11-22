@@ -1,20 +1,17 @@
 import styled, { css } from "styled-components"
 import { getToken } from "@niceprototypes/styles"
-import { column } from "../../utilities/treeGuideGeometry"
+import { activeColor, guideColor } from "../../utilities/treeGuideGeometry"
 
 /** The ancestor a whole row hovers on (Tree's row, a table row): hovering it lights the expander like the label. */
 export const TREE_ROW_ATTRIBUTE = "data-tree-row"
 
 /**
- * The expander: a node on the guide. Its box (`tree.icon.size`) comes right after the guide in
- * the row and is pulled back one column (`tree.guide.indent`) with no net width, so the circle
- * centres on the row's own junction (the rail's axis at mid-height) and the label keeps its place.
- * The circle (`tree.expander.size`) has an opaque fill (`tree.expander.backgroundColor`, the
- * surface), so the rail and the arm's start do not show through it; the arm leaves its right
- * edge. Circle and caret are drawn like the guide lines: `tree.guide.width` thick in
- * `tree.expander.color` (the guide colour; `hover` while the row or the expander is hovered, the
- * label's own hover colour; `active` on the active path). A button gets a hit area of at least
- * `tree.expander.touchTarget` on coarse pointers, without a taller row.
+ * The expander: a circle (`tree.expander.size`) right after the row's guide, its left edge where
+ * the guide's arm ends, holding the caret (`tree.expander.iconSize`). Circle and caret are drawn
+ * like the guide lines: `tree.guide.width` thick in `tree.expander.color` (the guide colour;
+ * `hover` while the row or the expander is hovered, the label's own hover colour; `active` on the
+ * active path). A button gets a hit area of at least `tree.expander.touchTarget` on coarse
+ * pointers, without a taller row.
  */
 export const StyledTreeExpander = styled.span<{ $active: boolean }>`
   position: relative;
@@ -23,11 +20,9 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
   align-self: center;
   align-items: center;
   justify-content: center;
-  width: ${getToken("tree.icon.size")};
-  height: ${getToken("tree.icon.size")};
+  width: ${getToken("tree.expander.size")};
+  height: ${getToken("tree.expander.size")};
   margin: 0;
-  margin-inline-start: calc(-1 * ${column});
-  margin-inline-end: calc(${column} - ${getToken("tree.icon.size")});
   padding: 0;
   border: 0;
   background: none;
@@ -38,24 +33,17 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
   &::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: ${getToken("tree.expander.size")};
-    height: ${getToken("tree.expander.size")};
+    inset: 0;
     box-sizing: border-box;
     border: ${getToken("tree.guide.width")} solid currentColor;
     border-radius: 50%;
-    background-color: ${getToken("tree.expander.backgroundColor")};
-    transform: translate(-50%, -50%);
     pointer-events: none;
   }
 
-  & svg {
-    position: relative;
-  }
-
+  /* The caret's stroke stays the guide's width at any icon size, like the circle's. */
   & svg :is(path, polyline, line) {
     stroke-width: ${getToken("tree.guide.width")};
+    vector-effect: non-scaling-stroke;
   }
 
   ${({ $active }) =>
@@ -94,6 +82,13 @@ export const StyledTreeExpander = styled.span<{ $active: boolean }>`
   &[data-decorative] {
     cursor: pointer;
   }
+
+  /* Top-aligned rows (a table's offset mode): on the first text line, where the guide's arm meets
+     the row, however many lines the label wraps to. */
+  [data-tree-guide-arm="offset"] & {
+    align-self: flex-start;
+    margin-block-start: calc((1lh - ${getToken("tree.expander.size")}) / 2);
+  }
 `
 
 /**
@@ -112,10 +107,34 @@ export const StyledTreeExpanderCaret = styled.span<{ $caret: "right" | "bottom" 
 `
 
 /**
- * The expander's place in a row without one: no width, so a row that spaces its items with a gap
- * (a table cell) puts its label at the same x as a row with an expander.
+ * The expander's place in a row without one: a circle-wide slot, so labels line up. With `$arm`
+ * (a row under a guide) the guide's arm runs on through it at mid-height to its end, the circle's
+ * right edge, in the guide colour or, on the active path, `tree.activeColor`.
  */
-export const StyledTreeExpanderSlot = styled.span`
+export const StyledTreeExpanderSlot = styled.span<{ $arm: boolean; $active: boolean }>`
+  position: relative;
   flex: none;
-  width: 0;
+  align-self: stretch;
+  width: ${getToken("tree.expander.size")};
+
+  ${({ $arm, $active }) =>
+    $arm &&
+    css`
+      &::before {
+        content: "";
+        position: absolute;
+        top: calc(50% - ${getToken("tree.guide.width")} / 2);
+        left: 0;
+        right: 0;
+        height: ${getToken("tree.guide.width")};
+        background: ${$active ? activeColor : guideColor};
+      }
+    `}
+
+  /* Top-aligned rows (a table's offset mode): the arm on the first text line, like the guide's. */
+  [data-tree-guide-arm="offset"] & {
+    &::before {
+      top: calc(0.5lh - ${getToken("tree.guide.width")} / 2);
+    }
+  }
 `

@@ -20,15 +20,12 @@ export const StyledTableRow = styled.div`
   grid-column: 1 / -1;
   color: ${getToken("table.color:row")};
   font-size: ${getToken("table.fontSize:base")};
-  /* A tree column's expander circle is filled with the row's own surface, in every state below. */
-  ${getToken("tree.expander.backgroundColor", { as: "key" })}: ${getToken("table.backgroundColor:base")};
 
   :where([data-striped]) > & {
     box-shadow: inset 0 ${getToken("table.borderWidth")} 0 ${getToken("table.borderColor:row")};
   }
   :where([data-striped]) > &:where(:nth-child(even of [role="row"]:not([data-header]))) {
     background-color: ${getToken("table.backgroundColor:stripe")};
-    ${getToken("tree.expander.backgroundColor", { as: "key" })}: ${getToken("table.backgroundColor:stripe")};
   }
   &[data-divider] {
     box-shadow: inset 0 ${getToken("table.borderWidth")} 0 ${getToken("table.borderColor")};
@@ -41,16 +38,13 @@ export const StyledTableRow = styled.div`
   }
   :where(:not([data-striped])) > &[data-density="compact"] {
     background-color: ${getToken("table.backgroundColor:child")};
-    ${getToken("tree.expander.backgroundColor", { as: "key" })}: ${getToken("table.backgroundColor:child")};
   }
   &:hover {
     background-color: ${getToken("table.backgroundColor:hover")};
-    ${getToken("tree.expander.backgroundColor", { as: "key" })}: ${getToken("table.backgroundColor:hover")};
     color: ${getToken("table.color:hover")};
   }
   &[aria-selected="true"] {
     background-color: ${getToken("table.backgroundColor:selected")};
-    ${getToken("tree.expander.backgroundColor", { as: "key" })}: ${getToken("table.backgroundColor:selected")};
     color: ${getToken("table.color:selected")};
   }
   &:focus-visible {

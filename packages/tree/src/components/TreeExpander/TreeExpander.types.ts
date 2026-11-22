@@ -33,3 +33,15 @@ export interface TreeExpanderProps {
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void
   decorative?: boolean
 }
+
+/**
+ * TreeExpanderSlotProps
+ *
+ * Complete prop definition for the TreeExpanderSlot component.
+ * - arm: draw the guide's arm on through the slot to the circle's right edge (a row under a guide)
+ * - active: on the active path, so that arm takes `tree.activeColor`
+ */
+export interface TreeExpanderSlotProps {
+  arm?: boolean
+  active?: boolean
+}

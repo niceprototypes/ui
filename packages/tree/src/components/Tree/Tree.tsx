@@ -20,7 +20,7 @@ const CLOSED_CARET: TreeExpanderCaretType = OPEN_CARET === "right" ? "bottom" : 
 const descendantIds = (node: TreeNodeType): string[] =>
   (node.items ?? []).flatMap(child => [child.id, ...descendantIds(child)])
 import { TreeGuide } from "../TreeGuide"
-import { TreeExpander, type TreeExpanderCaretType } from "../TreeExpander"
+import { TreeExpander, TreeExpanderSlot, type TreeExpanderCaretType } from "../TreeExpander"
 import { TREE_ROW_ATTRIBUTE } from "../TreeExpander/TreeExpander.styles"
 import { getTreeActivePath } from "../../utilities/getTreeActivePath"
 import { useTreeSize } from "../../services/useTreeSize"
@@ -34,10 +34,9 @@ import { getTreeRows } from "../../services/getTreeRows"
  * shows or hides its sub-list, and a node with a `url` is a link (`aria-current="page"`
  * when active). A folder with a `url` is a link too, with an expander button (TreeExpander,
  * `aria-expanded`) before it that shows its sub-list. Every row with sub-rows shows the circled
- * caret, a node on the row's junction of the guide (right while open, down while closed); a row
- * without has a plain tee or elbow. Every level, the top one included (a root column), indents by
- * one `tree.guide.indent`, labels a `tree.guide.labelGap` after the guide, so they line up. Closing a row closes the rows under it,
- * except the active path. Keys: Tab between rows, Enter or Space toggles a folder or expander,
+ * caret after the guide's arm (right while open, down while closed), sub-rows' rail dropping from
+ * its centre; a row without has the arm drawn to where the circle would end. Each level indents by
+ * one `tree.guide.indent`, labels a `tree.guide.labelGap` after the circle, so they line up. Closing a row closes every row under it. Keys: Tab between rows, Enter or Space toggles a folder or expander,
  * Enter follows a link, Right opens a closed row and Left closes an open one (the APG tree
  * pattern's keys). Guide lines join each folder to its sub-rows;
  * the active node, its ancestors and the guide leading to it take the `tree.activeColor`
@@ -86,11 +85,12 @@ const Tree: React.FC<TreeProps> = ({
   )
   const expandedIds = expandedIdsProp ?? internalExpandedIds
 
-  // Collapsing a node collapses everything under it too, except the active path, so reopening it
-  // shows its children closed and the active page still open.
+  // Collapsing a node collapses everything under it too, the active path included, so reopening
+  // it shows all its children closed; the active page opens only on arrival (defaultExpandedIds,
+  // or a controlling consumer).
   const toggle = (node: TreeNodeType, event: React.SyntheticEvent<HTMLElement>) => {
     const closing = expandedIds.includes(node.id)
-    const closed = closing ? new Set([node.id, ...descendantIds(node).filter(id => !activePath.includes(id))]) : undefined
+    const closed = closing ? new Set([node.id, ...descendantIds(node)]) : undefined
     const next = closed ? expandedIds.filter(open => !closed.has(open)) : [...expandedIds, node.id]
     if (expandedIdsProp === undefined) setInternalExpandedIds(next)
     onExpandedChange?.(next, event)
@@ -150,12 +150,12 @@ const Tree: React.FC<TreeProps> = ({
   }
 
   /**
-   * A row's expander, a node on its own junction (TreeExpander): a link with sub-rows gets an
-   * expander button; a folder's is a mark its click still toggles (its row button is the toggle).
-   * A row without sub-rows has none: its plain tee or elbow runs to the label gap.
+   * A row's expander, right after its guide (TreeExpander): a link with sub-rows gets an expander
+   * button; a folder's is a mark its click still toggles (its row button is the toggle). A row
+   * without sub-rows keeps the circle's place, the guide's arm drawn through it.
    */
-  const renderExpander = (node: TreeNodeType, onPath: boolean) => {
-    if (!node.items?.length) return null
+  const renderExpander = (node: TreeNodeType, onPath: boolean, depth: number) => {
+    if (!node.items?.length) return <TreeExpanderSlot arm={depth > 0} active={onPath} />
     const open = expandedIds.includes(node.id)
     if (node.url === undefined)
       return <TreeExpander caret={caretOf(open)} active={onPath} decorative onToggle={event => toggle(node, event)} />
@@ -180,8 +180,8 @@ const Tree: React.FC<TreeProps> = ({
         return (
           <StyledTreeNode key={node.id}>
             <StyledTreeRow {...{ [TREE_ROW_ATTRIBUTE]: "" }}>
-              {guide ? <TreeGuide {...guide} rooted /> : null}
-              {renderExpander(node, onPath)}
+              {guide ? <TreeGuide {...guide} /> : null}
+              {renderExpander(node, onPath, guide?.depth ?? 0)}
               <StyledTreeRowContent $onPath={onPath} $receded={activePath.length > 0 && !onPath}>
                 {renderTarget(node, onPath)}
                 {node.children}

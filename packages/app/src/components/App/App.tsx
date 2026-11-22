@@ -155,15 +155,18 @@ const AppShell: React.FC<AppProps> = ({
   )
 
   // The folders above the current page, and the page itself (its in-page sections), open whenever
-  // it changes, chained there or picked; the rows above the section in view open as it changes.
+  // it changes, chained there or picked (on arrival only, not when a row is reopened).
   const [expandedIds, setExpandedIds] = React.useState<string[]>(() => (current ? [...getAppAncestorIds(current), current.id] : []))
   React.useEffect(() => {
     if (current) setExpandedIds(ids => [...new Set([...ids, ...getAppAncestorIds(current), current.id])])
   }, [current])
+  // While the page's row is open, the rows above its section in view open as the section changes;
+  // a closed page row stays closed (closing it closed everything under it).
   React.useEffect(() => {
     const contents = current && contentsOf(current)
-    if (current && contents && activeContentId)
-      setExpandedIds(ids => [...new Set([...ids, ...getAppContentsAncestorIds(current, contents, activeContentId)])])
+    if (!current || !contents || !activeContentId) return
+    const parents = getAppContentsAncestorIds(current, contents, activeContentId).filter(id => id !== current.id)
+    setExpandedIds(ids => (ids.includes(current.id) ? [...new Set([...ids, ...parents])] : ids))
   }, [activeContentId, contentsOf, current])
 
   const context = React.useMemo<AppContextValue>(() => {

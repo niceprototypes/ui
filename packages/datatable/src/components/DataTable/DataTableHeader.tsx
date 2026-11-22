@@ -7,9 +7,6 @@ import type { DataTableColumnType, DataTableSortType } from "./DataTable.types"
 import type { SelectionStoreType } from "../../utilities/createSelectionStore"
 import { TreeExpanderSlot } from "@niceprototypes/tree"
 
-/** The tree column header's guide: the rows' root column only, so the header lines up with the labels. */
-const HEADER_GUIDE = { depth: 0, last: true, continues: [], rooted: true }
-
 /** The select-all checkbox: it re-renders on its own when the selection changes. */
 const SelectAll = ({ store, onToggle }: { store: SelectionStoreType; onToggle: () => void }) => {
   const state = React.useSyncExternalStore(store.subscribe, store.allState)
@@ -29,7 +26,7 @@ const SelectAll = ({ store, onToggle }: { store: SelectionStoreType; onToggle: (
 /**
  * The header row: the select-all checkbox, each column's header (a sort button when the column
  * has a `sortValue`, with `aria-sort` on the sorted one) and the actions header. In a nested table the
- * tree column's header keeps the rows' root guide column and expander place, so it lines up with the row labels.
+ * tree column's header keeps the expander's place, so it lines up with the row labels.
  */
 function DataTableHeader<Row>({
   columns,
@@ -68,7 +65,6 @@ function DataTableHeader<Row>({
             tabIndex={-1}
             align={column.align}
             aria-sort={sorted}
-            guide={nested && index === treeColumn ? HEADER_GUIDE : undefined}
           >
             {nested && index === treeColumn ? <TreeExpanderSlot /> : null}
             {column.sortValue ? (

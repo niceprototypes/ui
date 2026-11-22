@@ -13,8 +13,6 @@ import { getTreeGuideColumns } from "../../utilities/getTreeGuideColumns"
  * draws over the full height of its nearest positioned ancestor, so it works in a flex row, a
  * list item or a table cell: give the row or cell `position: relative`, place TreeGuide before
  * the content, and keep consecutive rows touching (no gap between them) so the lines join.
- * With `rooted`, an empty root column comes first on every row, so a top-level row's expander
- * (TreeExpander) sits on a junction too and every level indents by one column.
  * Decorative: hidden from assistive technology; convey nesting with `aria-level` on the row.
  *
  * @example
@@ -28,10 +26,9 @@ import { getTreeGuideColumns } from "../../utilities/getTreeGuideColumns"
  * ```
  */
 const TreeGuide: React.FC<TreeGuideProps> = props => {
-  if (props.depth < 1 && !props.rooted) return null
+  if (props.depth < 1) return null
   return (
     <StyledTreeGuide aria-hidden="true">
-      {props.rooted ? <StyledTreeGuideColumn data-branch="none" data-path="none" /> : null}
       {getTreeGuideColumns(props).map(({ branch, path }, index) => (
         <StyledTreeGuideColumn key={index} data-branch={branch} data-path={path} />
       ))}

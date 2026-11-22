@@ -423,7 +423,6 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.activeBorderRadius": "base"
   "tree.activePaddingInline": "base"
   "tree.expander.color": "base" | "hover" | "active"
-  "tree.expander.backgroundColor": "base"
   "tree.expander.animationDuration": "base"
   "tree.expander.animationEasing": "base"
   "tree.expander.size": "base"
@@ -431,6 +430,7 @@ export interface TokenVariants extends CustomTokenVariants {
   "tree.expander.borderWidth": "base"
   "tree.expander.touchTarget": "base"
   "tree.inactive.color": "base"
+  "tree.lineHeight": "base"
   "tree.fontWeight": "base" | "active"
   "tree.row.paddingBlock": "base"
   "tree.icon.size": "base"
@@ -544,7 +544,6 @@ export interface TokenInverseVariants {
   "tooltip.color": "base"
   "tree.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
   "tree.activeColor": "base"
-  "tree.expander.backgroundColor": "base"
   "tree.inactive.color": "base"
   "tree.guide.color": "base"
 }

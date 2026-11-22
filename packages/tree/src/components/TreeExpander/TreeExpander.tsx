@@ -1,14 +1,15 @@
 import * as React from "react"
 import Icon from "@niceprototypes/icon"
 import { StyledTreeExpander, StyledTreeExpanderCaret, StyledTreeExpanderSlot } from "./TreeExpander.styles"
-import type { TreeExpanderProps } from "./TreeExpander.types"
+import type { TreeExpanderProps, TreeExpanderSlotProps } from "./TreeExpander.types"
 
 /**
  * TreeExpander
  *
- * The circled caret that opens and closes a tree row (Tree's nav, DataTable's rows), drawn as a
- * node on the guide: placed right after the row's TreeGuide, it sits on the row's own junction,
- * the rail through it hidden, the arm leaving its right edge. A button with `aria-expanded` when
+ * The circled caret that opens and closes a tree row (Tree's nav, DataTable's rows): placed right
+ * after the row's TreeGuide, the guide's arm touching its left edge; a sub-row's rail drops from
+ * its centre. Rows without one keep its place with TreeExpanderSlot (the arm drawn through it),
+ * so labels line up. A button with `aria-expanded` when
  * given `onToggle`; `decorative` (a folder whose row is already the toggle) keeps it out of the
  * tab order and the accessibility tree, a click on it still toggling. One caret icon, turned by
  * transform (`caret`), the turn animated with the expander's animation tokens.
@@ -60,7 +61,9 @@ const TreeExpander: React.FC<TreeExpanderProps> = ({
   )
 }
 
-/** The expander's place in a row without one: no width, so labels line up in a row that spaces its items with a gap. */
-export const TreeExpanderSlot: React.FC = () => <StyledTreeExpanderSlot aria-hidden="true" />
+/** The expander's place in a row without one (see TreeExpanderSlotProps): circle-wide, so labels line up. */
+export const TreeExpanderSlot: React.FC<TreeExpanderSlotProps> = ({ arm = false, active = false }) => (
+  <StyledTreeExpanderSlot $arm={arm} $active={active} aria-hidden="true" />
+)
 
 export default TreeExpander

@@ -119,7 +119,7 @@ describe("Tree", () => {
     expect(guides).toHaveAttribute("aria-expanded", "false")
   })
 
-  it("closes every row under a closing row, except the active path", () => {
+  it("closes every row under a closing row, the active path included, so reopening shows them all closed", () => {
     const nested: TreeItemsType = [
       {
         id: "root",
@@ -134,23 +134,19 @@ describe("Tree", () => {
     const onExpandedChange = jest.fn()
     render(<Tree items={nested} defaultExpandedIds={["root", "a", "b"]} onExpandedChange={onExpandedChange} />)
     fireEvent.click(screen.getByRole("button", { name: "Root" }))
-    // A closes with Root; B stays open, on the way to the active page.
-    expect(onExpandedChange).toHaveBeenLastCalledWith(["b"], expect.anything())
+    expect(onExpandedChange).toHaveBeenLastCalledWith([], expect.anything())
     fireEvent.click(screen.getByRole("button", { name: "Root" }))
     expect(screen.getByRole("button", { name: "A" })).toHaveAttribute("aria-expanded", "false")
-    expect(screen.getByRole("button", { name: "B" })).toHaveAttribute("aria-expanded", "true")
+    // B leads to the active page, and closes too.
+    expect(screen.getByRole("button", { name: "B" })).toHaveAttribute("aria-expanded", "false")
   })
 
-  it("indents every level by one root-first guide column, an expander only on rows with sub-rows", () => {
+  it("keeps the circle's place on rows without sub-rows, the arm drawn through it, so labels line up", () => {
     const { container } = render(<Tree items={items} />)
-    const columnsOf = (name: string) => {
-      const row = screen.getByRole(name === "Guides" ? "button" : "link", { name }).closest("[data-tree-row]")!
-      return Array.from(row.querySelector(":scope > [aria-hidden]")!.children).map(column => column.getAttribute("data-branch"))
-    }
-    // A top-level row has the root column only; its child adds its own connector.
-    expect(columnsOf("Guides")).toEqual(["none"])
-    expect(columnsOf("Start")).toEqual(["none", "tee"])
     const startRow = screen.getByRole("link", { name: "Start" }).closest("[data-tree-row]")!
+    const guide = startRow.querySelector(":scope > [aria-hidden]")!
+    expect(Array.from(guide.children).map(column => column.getAttribute("data-branch"))).toEqual(["tee"])
+    expect(guide.nextElementSibling).toHaveAttribute("aria-hidden", "true")
     expect(startRow.querySelector("[data-icon]")).toBeNull()
     expect(container.querySelectorAll('[data-icon="carat-right"]').length).toBeGreaterThan(0)
   })

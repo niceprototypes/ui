@@ -88,8 +88,8 @@ export type TreeExpandedIdsType = ReadonlyArray<TreeNodeIdType>
  * TreeOnExpandedChangeType
  *
  * Called when a row is opened or closed (a click on its folder button or expander, or Right and
- * Left on the row), with the next open ids and the event. Closing a row closes the rows under it
- * too, except those on the active path.
+ * Left on the row), with the next open ids and the event. Closing a row closes every row under it
+ * too, the active path included.
  */
 export type TreeOnExpandedChangeType = (
   expandedIds: TreeNodeIdType[],

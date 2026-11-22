@@ -4,10 +4,11 @@ import { activeColor, iconGap, labelGap } from "../../utilities/treeGuideGeometr
 
 /**
  * The `<nav>` root. Its font size is the label size, so the `em` gap and indent
- * match the labels.
+ * match the labels; its labels' line height is `tree.lineHeight`.
  */
 export const StyledTree = styled.nav<{ $size: FontSizeType }>`
   font-size: ${({ $size }) => getToken("fontSize", $size)};
+  ${getToken("ink.lineHeight", { as: "key" })}: ${getToken("tree.lineHeight")};
 `
 
 /** One level's rows. Each row indents itself with its TreeGuide. */

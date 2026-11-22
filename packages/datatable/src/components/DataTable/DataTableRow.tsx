@@ -107,7 +107,7 @@ function DataTableRow<Row>({
       ) : null}
       {columns.map((column, index) =>
         index === treeColumn ? (
-          <TableCell key={column.id} role="rowheader" tabIndex={-1} align={column.align} guide={nested ? { ...guide, rooted: true } : undefined}>
+          <TableCell key={column.id} role="rowheader" tabIndex={-1} align={column.align} guide={nested ? guide : undefined}>
             {hasChildren ? (
               <TreeExpander
                 caret={expanded ? "bottom" : "right"}
@@ -117,7 +117,7 @@ function DataTableRow<Row>({
                 onToggle={event => toggle(id, event)}
               />
             ) : nested ? (
-              <TreeExpanderSlot />
+              <TreeExpanderSlot arm={guide.depth > 0} />
             ) : null}
             {column.cell(row, cellContext)}
           </TableCell>

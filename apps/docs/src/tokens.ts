@@ -23,7 +23,13 @@ export const getToken = setTokens({
   },
   // The sidebar's active path, the selected tab and its indicator, and every focus ring: the docs active colour.
   // The sidebar's active page row: the active colour as text only, on no background.
-  tree: { activeColor: AppTokenMap.docs.activeColor },
+  // The sidebar's rows: a line height of 2 (no core step is 2), labels at the normal weight, the
+  // active row's at medium.
+  tree: {
+    activeColor: AppTokenMap.docs.activeColor,
+    lineHeight: { base: "2" },
+    fontWeight: { base: getCoreToken("fontWeight", "base"), active: getCoreToken("fontWeight", "medium") },
+  },
   tabs: { color: { selected: AppTokenMap.docs.activeColor }, indicator: { color: AppTokenMap.docs.activeColor } },
   focusRing: { color: AppTokenMap.docs.activeColor },
   // One scale at every breakpoint, base 14 to larger 48: base to larger grows by one ratio each

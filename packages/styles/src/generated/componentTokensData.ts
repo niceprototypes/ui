@@ -1750,9 +1750,6 @@ const componentTokensData: ComponentTokensData = {
         "hover": "var(--np--tree--color)",
         "active": "var(--np--tree--active-color)"
       },
-      "backgroundColor": {
-        "base": "var(--np--background-color)"
-      },
       "animationDuration": {
         "base": "var(--np--animation-duration--fast)"
       },
@@ -1763,7 +1760,7 @@ const componentTokensData: ComponentTokensData = {
         "base": "var(--np--checkbox--size--small)"
       },
       "iconSize": {
-        "base": "var(--np--checkbox--icon--size--small)"
+        "base": "8px"
       },
       "borderWidth": {
         "base": "var(--np--checkbox--border-width)"
@@ -1776,6 +1773,9 @@ const componentTokensData: ComponentTokensData = {
       "color": {
         "base": "var(--np--color--lighter)"
       }
+    },
+    "lineHeight": {
+      "base": "var(--np--line-height)"
     },
     "fontWeight": {
       "base": "var(--np--font-weight--medium)",
@@ -1802,16 +1802,16 @@ const componentTokensData: ComponentTokensData = {
         "base": "var(--np--border-width)"
       },
       "arm": {
-        "base": "calc(var(--np--tree--expander--size) / 2)"
+        "base": "var(--np--gap)"
       },
       "armOffset": {
         "base": "50%"
       },
       "indent": {
-        "base": "calc(var(--np--tree--icon--size) / 2 + var(--np--tree--guide--arm))"
+        "base": "calc(var(--np--tree--expander--size) / 2 + var(--np--tree--guide--arm))"
       },
       "labelGap": {
-        "base": "var(--np--tree--icon--gap)"
+        "base": "0.375em"
       }
     }
   }

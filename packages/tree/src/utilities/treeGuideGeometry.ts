@@ -1,11 +1,12 @@
 import { getToken } from "@niceprototypes/styles"
 
 /* Geometry shared by Tree, TreeGuide and TreeExpander. Each level is one column
-   (`tree.guide.indent`): a rail on its axis (`tree.icon.size` / 2 in) and an arm from the axis to
-   the column's end, one circle radius long (`tree.guide.arm`), where the label gap
-   (`tree.guide.labelGap`) starts. A row's expander circle sits on its own column's junction and
-   covers the whole arm, so a row with a circle shows no arm and its label keeps the same x. */
-const icon = getToken("tree.icon.size")
+   (`tree.guide.indent`): a rail on its axis, half a circle (`tree.expander.size`) in, and an arm
+   (`tree.guide.arm`) from the axis to the column's end. Right after the guide sits a circle-wide
+   slot: the expander circle, which the arm touches, or on a row without one the arm drawn on to
+   the slot's end, so both end at the circle's right edge; the label follows a `tree.guide.labelGap`
+   later. A sub-row's rail, on the next column's axis, drops from the centre of its parent's circle. */
+const circle = getToken("tree.expander.size")
 const arm = getToken("tree.guide.arm")
 const stroke = getToken("tree.guide.width")
 
@@ -18,7 +19,7 @@ export const column = getToken("tree.guide.indent")
 /** The space between the guide (its arm's end) and the row's label. */
 export const labelGap = getToken("tree.guide.labelGap")
 
-const axis = `calc(${icon} / 2 - ${stroke} / 2)`
+const axis = `calc(${circle} / 2 - ${stroke} / 2)`
 
 /** The neutral guide colour. */
 export const guideColor = getToken("tree.guide.color")
