@@ -138,9 +138,15 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
           end.element,
         )
       ) : (
-        <StyledDocsPageSettings aria-label="Settings">
-          <StyledDocsPageSettingsContent>{settings}</StyledDocsPageSettingsContent>
-        </StyledDocsPageSettings>
+        <>
+          <StyledDocsPageSettings aria-label="Settings">
+            <StyledDocsPageSettingsContent>{settings}</StyledDocsPageSettingsContent>
+          </StyledDocsPageSettings>
+          {/* No room for the column: Contents stays mounted, hidden, so its scroll-spy still tells the nav the section in view. */}
+          <div hidden>
+            <Contents size="base" items={items} onActiveChange={setActiveId} />
+          </div>
+        </>
       )}
     </StyledDocsPage>
   )
