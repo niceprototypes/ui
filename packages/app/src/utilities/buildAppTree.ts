@@ -34,6 +34,10 @@ const contentsRows = (
   return rows(contents)
 }
 
+/** Whether any row, at any depth, is the active one. */
+const hasActiveRow = (rows: readonly MutableNode[]): boolean =>
+  rows.some(row => row.status === "active" || hasActiveRow(row.items ?? []))
+
 /** Whether an entry is in the docs section (`/docs`) rather than the stories (`/stories`). */
 const isDocs = (entry: AppEntryType | undefined) => entry?.kind === "page"
 
@@ -74,13 +78,16 @@ export const buildAppTree = (
         const url = href(`${entry.url}${search}`)
         const contents = contentsOf(entry)
         const activeId = entry === current ? activeContentId : undefined
+        const items = contents?.length ? contentsRows(entry, contents, url, activeId, siblingNamesOf(entry)) : []
+        // The page is the active row unless one of its section rows is: a section in view with
+        // no row (none listed, or left out) keeps the page active.
         level.push({
           id,
           name,
           icon: null,
           url,
-          status: entry === current && activeId === undefined ? "active" : undefined,
-          ...(contents?.length ? { items: contentsRows(entry, contents, url, activeId, siblingNamesOf(entry)) } : {}),
+          status: entry === current && !hasActiveRow(items) ? "active" : undefined,
+          ...(items.length ? { items } : {}),
         })
         return
       }

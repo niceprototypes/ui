@@ -143,6 +143,18 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(props).toHaveAttribute("aria-expanded", "false")
   })
 
+  it("keeps the page active when the section in view has no row (a page opted out of sections)", async () => {
+    const Spied = () => {
+      const { setActiveId } = useAppContents()
+      return <button onClick={() => setActiveId("for-agents")}>spy</button>
+    }
+    window.history.replaceState(null, "", "/docs/getting-started")
+    render(<App pages={{ ...pages, "./docs/2 Getting started/index.tsx": () => Promise.resolve({ default: Spied }) }} contents={() => []} router={router} />)
+    await screen.findByText("spy")
+    fireEvent.click(screen.getByText("spy"))
+    expect(screen.getByRole("link", { name: "Getting started" })).toHaveAttribute("aria-current", "page")
+  })
+
   it("lists no sections for a page whose contents are an empty list, whatever the page reports", async () => {
     const Reporting = () => {
       const { setItems } = useAppContents()
