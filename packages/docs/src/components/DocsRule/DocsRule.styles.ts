@@ -41,8 +41,9 @@ const tileInsetInside = `max(${getToken("docs", "tilePadding")}, calc((100cqi - 
  *
  * A Flow column's heading rules from HEADING_RULES (for DocsContent): each mapped heading draws its
  * rule as its own top border, the rule-then-heading space (`flow.rule` after) below it; an edge
- * rule inside a tile reaches the grid lines. No rule on a first heading or one straight after a
- * heading (a title), so a rule never sits under a title; an author's `<hr>` straight before a
+ * rule inside a tile reaches the grid lines. No rule on a first heading, one straight after a
+ * heading, or the first one after the page's title block (an element holding the h1), whose
+ * before-space also gives way to the title's after-space, so a rule never sits under a title; an author's `<hr>` straight before a
  * heading gives way to the heading's own rule (or to none, for h4 and below), so rules never double.
  */
 export const getHeadingRuleStyle = () => css`
@@ -50,9 +51,16 @@ export const getHeadingRuleStyle = () => css`
     display: none;
   }
 
+  /* The first heading after the page's title block (a StoryHeader, its h1 inside) sits the
+     title's own after-space below it, with no rule: nothing underlines a title. */
+  && > :has(h1) + :is(${HEADINGS}),
+  && > :has(h1) + hr + :is(${HEADINGS}) {
+    margin-block-start: 0;
+  }
+
   ${Object.entries(HEADING_RULES).map(
     ([level, kind]) => css`
-      && > ${level}:not(:first-child):not(:is(${HEADINGS}) + ${level}):not(:is(${HEADINGS}) + hr + ${level}) {
+      && > ${level}:not(:first-child):not(:is(${HEADINGS}, :has(h1)) + ${level}):not(:is(${HEADINGS}, :has(h1)) + hr + ${level}) {
         padding-block-start: calc(${getCoreToken("flow.rule:after")} * ${getCoreToken("flow.density")} * ${getCoreToken("flow.scale")});
         border-block-start: ${getToken("docs", "ruleWidth")} solid ${getToken("docs", "ruleColor")};
         ${kind === "edge"
