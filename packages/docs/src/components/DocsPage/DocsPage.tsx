@@ -52,11 +52,10 @@ const hasAside = (sections: ReadonlyArray<DocsPageSectionType>): boolean =>
  * each between two of them: rules separate siblings, never underline a heading.
  */
 const Section = ({ section, split, measure }: { section: DocsPageSectionType; split: boolean; measure?: TileMeasureType | false }) => {
-  const Element = measure === undefined ? StyledDocsPageSection : StyledDocsPageTile
-  return (
-    <Element id={section.id} $measure={measure || undefined} {...{ [FLOW_ATTRIBUTE]: "" }}>
+  const body = (
+    <>
       {section.heading}
-      {split && section.aside !== undefined ? <DocsColumns aside={section.aside} sticky={section.sticky}>{section.content}</DocsColumns> : section.content}
+      {split && section.aside !== undefined ? <DocsColumns aside={section.aside} sticky={section.sticky} split={section.split}>{section.content}</DocsColumns> : section.content}
       {section.sections?.length ? (
         <Flow space={{ block: { after: "base" }, h3: { after: "base" }, rule: { before: "base", after: "base" } }}>
           {section.sections.map((nested, index) => (
@@ -67,7 +66,18 @@ const Section = ({ section, split, measure }: { section: DocsPageSectionType; sp
           ))}
         </Flow>
       ) : null}
-    </Element>
+    </>
+  )
+  // A nested section, or a top-level one as a tile. Two elements, not one variable over both: a
+  // union of styled components is not callable in every consumer's type setup.
+  return measure === undefined ? (
+    <StyledDocsPageSection id={section.id} {...{ [FLOW_ATTRIBUTE]: "" }}>
+      {body}
+    </StyledDocsPageSection>
+  ) : (
+    <StyledDocsPageTile id={section.id} $measure={measure || undefined} {...{ [FLOW_ATTRIBUTE]: "" }}>
+      {body}
+    </StyledDocsPageTile>
   )
 }
 

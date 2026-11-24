@@ -1,2 +1,2 @@
 export { default } from "./DocsColumns"
-export type { DocsColumnsProps } from "./DocsColumns.types"
+export type { DocsColumnsProps, DocsColumnsSplitType } from "./DocsColumns.types"

@@ -1,5 +1,6 @@
 import type * as React from "react"
 import type { AppContentsType } from "@niceprototypes/app"
+import type { DocsColumnsSplitType } from "../DocsColumns"
 
 /**
  * DocsPageSectionType
@@ -18,6 +19,8 @@ export type DocsPageSectionType = {
   aside?: React.ReactNode
   /** Which column stays in view beside the other (DocsColumns `sticky`). @default "aside" */
   sticky?: "main" | "aside"
+  /** How the content and the aside share the width (DocsColumns `split`). @default "even" */
+  split?: DocsColumnsSplitType
   sections?: ReadonlyArray<DocsPageSectionType>
 }
 

@@ -97,6 +97,7 @@
     "./components/PreviewCell": "./src/components/PreviewCell/index.ts",
     "./components/PropDocs": "./src/components/PropDocs/index.ts",
     "./components/Props": "./src/components/Props/index.ts",
+    "./components/ScaledPreview": "./src/components/ScaledPreview/index.ts",
     "./components/ShikiPre": "./src/components/ShikiPre/index.ts",
     "./components/Story": "./src/components/Story/index.ts",
     "./components/Story/StoryHeader/StoryHeaderLevel": "./src/components/Story/StoryHeader/StoryHeaderLevel.ts",

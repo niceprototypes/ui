@@ -101,6 +101,25 @@ export const docsColumnsChildren = {
   code: variant => mains[variant].code,
 } satisfies ComponentExample
 
+const splits: Record<string, string> = {
+  even: `<DocsColumns aside={<Code language="tsx" code={source} />}>`,
+  wideAside: `<DocsColumns split="wideAside" aside={<Code language="tsx" code={source} />}>`,
+  wideMain: `<DocsColumns split="wideMain" aside={<Code language="tsx" code={source} />}>`,
+}
+
+export const docsColumnsSplit = {
+  name: "split",
+  description: "How the columns share the width from laptop up: equal, the aside wider (2:3) for demos that need the room, or the main column wider (3:2). Stacked below laptop at every split.",
+  variants: Object.keys(splits),
+  default: "even",
+  preview: variant => (
+    <DocsColumns split={variant as "even" | "wideAside" | "wideMain"} aside={<Code language="tsx" code={SOURCE} />}>
+      <Prose />
+    </DocsColumns>
+  ),
+  code: variant => `${splits[variant]}\n  <Ink as="p">Every list method takes a limit and a cursor.</Ink>\n</DocsColumns>`,
+} satisfies ComponentExample
+
 export const docsColumnsSection = {
   name: "A section",
   description:
@@ -125,5 +144,6 @@ export const docsColumnsSection = {
 export const docsColumnsExamples = {
   aside: docsColumnsAside,
   children: docsColumnsChildren,
+  split: docsColumnsSplit,
   section: docsColumnsSection,
 }

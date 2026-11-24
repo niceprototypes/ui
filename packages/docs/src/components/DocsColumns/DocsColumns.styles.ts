@@ -1,19 +1,21 @@
 import styled from "styled-components"
 import { getBreakpoint, getToken as getCoreToken } from "@niceprototypes/styles"
 import { getToken } from "../../nice/tokens"
+import type { DocsColumnsSplitType } from "./DocsColumns.types"
 
 /**
  * The two columns: one column below laptop, the aside after the main column, a Flow block's
- * after-space apart; from laptop up, two equal columns (Stripe's API reference: 1:1) a
- * `docs.gutter` apart, both from the top.
+ * after-space apart; from laptop up, two columns sharing the width by `$split`
+ * (`docsColumnsSplit`: equal by default, Stripe's API reference 1:1) a `docs.gutter` apart, both
+ * from the top.
  */
-export const StyledDocsColumns = styled.div`
+export const StyledDocsColumns = styled.div<{ $split: DocsColumnsSplitType }>`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   row-gap: calc(${getCoreToken("flow.block:after")} * ${getCoreToken("flow.density")} * ${getCoreToken("flow.scale")});
 
   ${getBreakpoint("laptop+")} {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: ${({ $split }) => getToken("docsColumnsSplit", $split)};
     column-gap: ${getToken("docs", "gutter")};
     align-items: start;
   }

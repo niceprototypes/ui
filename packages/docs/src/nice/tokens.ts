@@ -23,6 +23,10 @@ export const AppTokenMap = {
     contentsWidth: "200px",
     // The settings column right of Contents (DocsPage), as wide as its Dark toggle (ThemeToggle).
     settingsWidth: "80px",
+    // The width a ScaledPreview lays its demo out at (a laptop screen), before scaling it to its column.
+    previewWidth: "1440px",
+    // A ScaledPreview's zoom under the pointer and on keyboard focus, hinting that it opens larger.
+    previewHoverScale: "1.02",
     // The fixed storybook-navigation bar's height at laptop+ (its ReservedSpaceStyle): docs
     // sections scroll to just below it.
     barHeight: `calc(${getCoreToken("gap", "large")} * 2 + ${getCoreToken("size", "small")})`,
@@ -57,6 +61,13 @@ export const AppTokenMap = {
       day: getCoreToken("color", "link", { theme: "day", transform: [null, null, null, "*0.25"] }),
       night: getCoreToken("color", "link", { theme: "night", transform: [null, null, null, "*0.4"] }),
     },
+  },
+  // DocsColumns' column widths from laptop up, main then aside, by `split`: equal (Stripe's API
+  // reference, 1:1), or the aside or the main column given the larger share (2:3).
+  docsColumnsSplit: {
+    even: "minmax(0, 1fr) minmax(0, 1fr)",
+    wideAside: "minmax(0, 2fr) minmax(0, 3fr)",
+    wideMain: "minmax(0, 3fr) minmax(0, 2fr)",
   },
   // Contents sticks a large gap below the navigation bar.
   contents: {
