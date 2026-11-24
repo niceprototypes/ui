@@ -1315,7 +1315,7 @@ const componentTokensData: ComponentTokensData = {
   "metrics": {
     "label": {
       "maxWidth": {
-        "base": "24ch"
+        "base": "16ch"
       }
     }
   },

@@ -928,7 +928,7 @@
 	--np--menu--trigger--border-color--hover: var(--np--checkbox--hover--border-color--strong);
 
 	/* metrics component tokens */
-	--np--metrics--label--max-width: 24ch;
+	--np--metrics--label--max-width: 16ch;
 
 	/* popover component tokens */
 	--np--popover--offset: var(--np--gap--small);

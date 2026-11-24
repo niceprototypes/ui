@@ -39,7 +39,7 @@ export const metricsLabel = {
   code: (variant: string) => `<Metrics value="90%" label="${variant === "short" ? "Exact answers" : LABEL}" />`,
 } satisfies ComponentExample
 
-/** maxWidth per variant: unset (the metrics.label.maxWidth token, 24ch) or a project length token. */
+/** maxWidth per variant: unset (the metrics.label.maxWidth token, 16ch) or a project length token. */
 const WIDTHS: Record<string, string | undefined> = {
   "metrics.label.maxWidth token": undefined,
   "12ch": getToken("metricsExamples.length:narrow"),
@@ -48,7 +48,7 @@ const WIDTHS: Record<string, string | undefined> = {
 
 export const metricsMaxWidth = {
   name: "maxWidth",
-  description: "The label's maximum width, a CSS length; unset, the metrics.label.maxWidth token (24ch). Set it from a project token, not an inline literal.",
+  description: "The label's maximum width, a CSS length; unset, the metrics.label.maxWidth token (16ch). Set it from a project token, not an inline literal.",
   variants: Object.keys(WIDTHS),
   default: "metrics.label.maxWidth token",
   preview: (variant: string) => <Metrics value="90%" label={LABEL} maxWidth={WIDTHS[variant]} />,

@@ -18,7 +18,7 @@ export type MetricsLabelType = React.ReactNode
  * MetricsMaxWidthType
  *
  * The label's maximum width, a CSS length (`"30ch"`, `"200px"`). Defaults to the
- * `metrics.label.maxWidth` component token (24ch).
+ * `metrics.label.maxWidth` component token (16ch).
  */
 export type MetricsMaxWidthType = string
 
