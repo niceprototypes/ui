@@ -81,6 +81,9 @@ const Section = ({ section, split, measure }: { section: DocsPageSectionType; sp
   )
 }
 
+/** From laptop up the settings are on the page (beside Contents, or a row above the sections); below, in the header row. */
+const SETTINGS_IN_PAGE = parseBreakpointKey("laptop+")
+
 /** A tile's text measure: one prose column, or two and the gutter. */
 type TileMeasureType = "column" | "split"
 
@@ -96,8 +99,8 @@ type TileMeasureType = "column" | "split"
  * A page with code beside its prose (a section with an `aside`) is two columns from laptop up.
  * Contents lists the sections (nested sections nested) in a sticky column on the right, from
  * laptop up (desktop up on a two-column page, where the code column needs the room), and the
- * site's settings (DocsSettingsContext) sit right of that; below laptop they are a row above the
- * sections.
+ * site's settings (DocsSettingsContext) sit right of that; where the end column is not shown they
+ * are a row above the sections from laptop up, and in the App's header row below (DocsApp).
  */
 const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrapped = true, contents }) => {
   // A link to a section or heading (`#cardheader`, `#for-agents`) lands on it once the page is in:
@@ -137,6 +140,8 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
     return () => setShown(false)
   }, [endShown, setShown])
   const settings = React.useContext(DocsSettingsContext)
+  // Below laptop the settings are in the App's header row (DocsApp), not on the page.
+  const settingsInPage = breakpointKeyMatches(SETTINGS_IN_PAGE, useBreakpoint())
   return (
     <StyledDocsPage>
       <StyledDocsPageMain>
@@ -160,13 +165,11 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
           </>,
           end.element,
         )
-      ) : (
-        <>
-          <StyledDocsPageSettings aria-label="Settings">
-            <StyledDocsPageSettingsContent>{settings}</StyledDocsPageSettingsContent>
-          </StyledDocsPageSettings>
-        </>
-      )}
+      ) : settingsInPage ? (
+        <StyledDocsPageSettings aria-label="Settings">
+          <StyledDocsPageSettingsContent>{settings}</StyledDocsPageSettingsContent>
+        </StyledDocsPageSettings>
+      ) : null}
       {/* The scroll-spy over every section, mounted at every width (hidden): it tells the nav and the Contents column the section in view. */}
       <div hidden>
         <Contents items={items} onActiveChange={setSpiedId} />

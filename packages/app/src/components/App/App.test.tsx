@@ -327,6 +327,16 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.queryByRole("link", { name: "Nice Prototypes" })).not.toBeInTheDocument()
   })
 
+  it("renders headerActions in the header row after the search, before the menu button", async () => {
+    window.history.replaceState(null, "", "/stories/gamma/steps")
+    render(<App scenes={scenes} router={router} search headerActions={<button type="button">Theme</button>} />)
+    await screen.findByText("steps")
+    const action = screen.getByRole("button", { name: "Theme" })
+    const search = screen.getByRole("button", { name: /^Search/ })
+    expect(search.compareDocumentPosition(action) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    expect(action.closest("nav")).toBeNull()
+  })
+
   it("sizes the sidebar from the app.sidebar.minWidth token", async () => {
     window.history.replaceState(null, "", "/stories/alpha/solo")
     render(<App scenes={scenes} router={router} />)

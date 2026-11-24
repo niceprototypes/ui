@@ -156,6 +156,9 @@ export interface AppProps {
    */
   docsLink?: boolean
 
+  /** Controls in the header row after the search and the docs link, before the menu button (a docs site's theme switch) */
+  headerActions?: React.ReactNode
+
   /**
    * Labels for the panels under the nav: the scene sidebar panel and its footer panel. Each shows at
    * the panel's top left, on its drag handle's line

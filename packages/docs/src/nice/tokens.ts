@@ -21,7 +21,7 @@ export const AppTokenMap = {
     columnWidth: "756px",
     // The Contents column beside a component docs page (ComponentDocs) and the Contents story.
     contentsWidth: "200px",
-    // The settings column right of Contents (DocsPage), as wide as its Dark toggle (ThemeToggle).
+    // The settings column right of Contents (DocsPage), holding the theme switch (ThemeToggle).
     settingsWidth: "80px",
     // The width a ScaledPreview lays its demo out at (a laptop screen), before scaling it to its column.
     previewWidth: "1440px",

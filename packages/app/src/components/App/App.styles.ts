@@ -84,7 +84,7 @@ const headerButtonTokens = css`
 `
 
 /**
- * The header row's icon group (the search, the docs link): side by side at the row's end, the
+ * The header row's icon group (the search, the docs link, `headerActions`): side by side at the row's end, the
  * smaller gap apart, taking the row's free space so the expanded search can fill it.
  */
 export const StyledAppActions = styled.div`

@@ -55,6 +55,7 @@ const AppShell: React.FC<AppProps> = ({
   wrapper: Wrapper,
   search: searchable,
   docsLink,
+  headerActions,
   panelLabels,
   end,
   "aria-label": ariaLabel = "Scenes",
@@ -234,7 +235,7 @@ const AppShell: React.FC<AppProps> = ({
               ) : (
                 <Logo />
               )}
-              {(searchable || docsPage) && (
+              {(searchable || docsPage || headerActions != null) && (
                 <StyledAppActions>
                   {searchable && (
                     <AppSearch
@@ -263,6 +264,7 @@ const AppShell: React.FC<AppProps> = ({
                       />
                     </StyledAppDocsLink>
                   )}
+                  {headerActions}
                 </StyledAppActions>
               )}
               {drawer && (
