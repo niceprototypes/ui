@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { getToken } from "../../tokens"
+import { getToken } from "@niceprototypes/styles"
 
 /** The switch's label in the Contents rows' colour and weight, as it sits beside them. */
 export const StyledThemeToggleLabel = styled.span`

@@ -120,6 +120,9 @@ importers:
       '@mdx-js/rollup':
         specifier: ^3.1.1
         version: 3.1.1(rollup@4.65.1)
+      '@niceprototypes/config-vite':
+        specifier: workspace:^
+        version: link:../../packages/config-vite
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.14

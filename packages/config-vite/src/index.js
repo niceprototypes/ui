@@ -1,1 +1,1 @@
-export { createNiceViteConfig } from './config.js'
+export { createNiceViteConfig, niceThemeBootstrap } from './config.js'

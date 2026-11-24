@@ -1,4 +1,4 @@
-import type { UserConfig } from 'vite'
+import type { Plugin, UserConfig } from 'vite'
 
 export type NiceViteConfigOptions = {
   /** The app's folder, whose node_modules holds the shared React and styled-components. */
@@ -9,3 +9,13 @@ export type NiceViteConfigOptions = {
 
 /** Vite settings for an app consuming @niceprototypes/* packages; merge with `mergeConfig`. */
 export declare const createNiceViteConfig: (options: NiceViteConfigOptions) => UserConfig
+
+export type NiceThemeBootstrapOptions = {
+  /** The theme when nothing is stored, whatever the OS preference. */
+  theme: 'day' | 'night'
+  /** The localStorage key holding the reader's choice; written to `<html data-theme-storage>` for a theme switch to store into. */
+  storageKey: string
+}
+
+/** Vite plugin: the stored theme (else `theme`) on `<html data-theme>` before the first paint, from an inline script in `<head>`. */
+export declare const niceThemeBootstrap: (options: NiceThemeBootstrapOptions) => Plugin

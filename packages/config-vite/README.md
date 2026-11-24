@@ -35,6 +35,7 @@ export default defineConfig(
 | `resolve.alias` for react, react-dom, styled-components → the app's `node_modules` | local | Checkout packages resolve imports from their real folder, which would load a second copy |
 | `server.fs.allow`: the app and the checkout | local | Serve files from the checkout (setting `allow` replaces Vite's default, so the app is listed too) |
 | `optimizeDeps.exclude`: the checkout's publishable packages | local | A stale optimizer cache would hide changes in the checkout |
+| Private checkout packages (`@niceprototypes/docs/…`) resolve to the file their `exports` names | local | They are not in the umbrella's install |
 
 Local packages load the way their `package.json` points (their `dist/` builds today); rebuild a changed package with `pnpm --filter <name> build` in the checkout.
 
@@ -43,6 +44,7 @@ Local packages load the way their `package.json` points (their `dist/` builds to
 | Export | Purpose |
 |---|---|
 | `createNiceViteConfig({ appRoot, local? })` | The settings above, as a `UserConfig` to merge |
+| `niceThemeBootstrap({ theme, storageKey })` | Plugin: the stored theme (else `theme`) on `<html data-theme>` before the first paint; the key on `<html data-theme-storage>` for a theme switch to store into |
 
 ## License
 

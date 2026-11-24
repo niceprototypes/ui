@@ -1,8 +1,8 @@
 import styled from "styled-components"
 import { getFlowStyle } from "@niceprototypes/flow"
 import { getBreakpoint, getConstantKey, getToken as getCoreToken } from "@niceprototypes/styles"
-import { DOCS_TILE_ATTRIBUTE } from "@niceprototypes/docs/components/DocsRule"
-import { getToken } from "../../tokens"
+import { DOCS_TILE_ATTRIBUTE } from "../DocsRule"
+import { getToken } from "../../nice/tokens"
 
 /** The region's padding above and below the page (the App screen's `app.docs.padding`). */
 const regionPadding = getCoreToken("app.docs.padding")

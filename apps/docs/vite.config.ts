@@ -4,6 +4,7 @@ import { defineConfig, type Plugin } from "vite"
 import react from "@vitejs/plugin-react"
 import mdx from "@mdx-js/rollup"
 import remarkGfm from "remark-gfm"
+import { niceThemeBootstrap } from "@niceprototypes/config-vite"
 
 /** The monorepo's packages folder. */
 const packagesRoot = resolve(import.meta.dirname, "../../packages")
@@ -77,7 +78,13 @@ const baseOf = (command: string) => (command === "build" ? "/ui" : "")
 export default defineConfig(({ command }) => ({
   base: `${baseOf(command)}/`,
   // MDX before React, so the compiled pages get React's transform.
-  plugins: [mdxPages(baseOf(command)), react({ include: /\.(mdx|tsx?)$/ }), watchExamples()],
+  // Night unless the reader chose day (ThemeToggle stores it), set before first paint.
+  plugins: [
+    niceThemeBootstrap({ theme: "night", storageKey: "nice-docs-theme" }),
+    mdxPages(baseOf(command)),
+    react({ include: /\.(mdx|tsx?)$/ }),
+    watchExamples(),
+  ],
   resolve: {
     alias: [...sourceAliases, ...storybookShims],
     // One React and one styled-components context for this app and the Storybook modules it reuses.

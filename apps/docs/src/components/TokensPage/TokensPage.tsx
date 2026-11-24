@@ -1,5 +1,5 @@
 import * as React from "react"
-import DocsPage, { docsPageContents, type DocsPageSectionType } from "../DocsPage"
+import DocsPage, { docsPageContents, type DocsPageSectionType } from "@niceprototypes/docs/components/DocsPage"
 import { getItem, getTokenTable, type DataItem, type TokenTable } from "@niceprototypes/docs/data"
 import { ModuleTokenTable, type ModuleTokenTableSectionConfig } from "@niceprototypes/docs/dataTables/components/tokens/Modules"
 import { StoryHeader } from "@niceprototypes/docs/components/Story"

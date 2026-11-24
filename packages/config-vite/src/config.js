@@ -11,21 +11,40 @@ const SINGLETON_PACKAGES = ['@niceprototypes/styles', '@niceprototypes/icon']
 /** Expands a leading `~` to the home folder and resolves the path. */
 const expandHome = (folder) => path.resolve(folder.replace(/^~(?=$|\/)/, os.homedir()))
 
-/** Names of the publishable packages in a nice-ux checkout (`packages/*`, not private). */
-const getLocalPackageNames = (local) => {
+/** Every package in a nice-ux checkout (`packages/*`): its folder and its manifest. */
+const getLocalPackages = (local) => {
   const packagesFolder = path.join(expandHome(local), 'packages')
   return fs
     .readdirSync(packagesFolder)
-    .map((folder) => path.join(packagesFolder, folder, 'package.json'))
-    .filter((file) => fs.existsSync(file))
-    .map((file) => JSON.parse(fs.readFileSync(file, 'utf8')))
-    .filter((manifest) => !manifest.private)
-    .map((manifest) => manifest.name)
+    .map((folder) => ({ folder: path.join(packagesFolder, folder), file: path.join(packagesFolder, folder, 'package.json') }))
+    .filter(({ file }) => fs.existsSync(file))
+    .map(({ folder, file }) => ({ folder, manifest: JSON.parse(fs.readFileSync(file, 'utf8')) }))
+}
+
+/** Names of the publishable packages in a nice-ux checkout (`packages/*`, not private). */
+const getLocalPackageNames = (local) =>
+  getLocalPackages(local)
+    .filter(({ manifest }) => !manifest.private)
+    .map(({ manifest }) => manifest.name)
+
+/**
+ * The file a private checkout package's import points to (`@niceprototypes/docs/components/DocsPage`):
+ * its `exports` entry for the subpath (string entries), else undefined. Private packages are not
+ * in the umbrella's install, so they resolve from their own folder.
+ */
+const resolvePrivateExport = (privatePackages, source) => {
+  const match = privatePackages.find(({ manifest }) => source === manifest.name || source.startsWith(`${manifest.name}/`))
+  if (!match) return undefined
+  const subpath = `.${source.slice(match.manifest.name.length)}`
+  const target = match.manifest.exports?.[subpath]
+  return typeof target === 'string' ? path.join(match.folder, target) : undefined
 }
 
 /**
  * Vite plugin for local mode: resolves every `@niceprototypes/*` import as if it were
- * imported by the umbrella package (`packages/ux`), whose install holds every package.
+ * imported by the umbrella package (`packages/ux`), whose install holds every publishable
+ * package; a private package's import (`@niceprototypes/docs/…`) resolves to the file its
+ * `exports` names in its own folder.
  * The import stays a bare module request, so each package's `exports` (subpaths such as
  * `@niceprototypes/styles/tokens.css`) apply, and the result is the package's real folder
  * in the checkout.
@@ -35,11 +54,14 @@ const getLocalPackageNames = (local) => {
  */
 const niceLocal = (local) => {
   const importer = path.join(expandHome(local), 'packages/ux/package.json')
+  const privatePackages = getLocalPackages(local).filter(({ manifest }) => manifest.private)
   return {
     name: '@niceprototypes/config-vite:local',
     enforce: 'pre',
     resolveId(source, _importer, options) {
       if (!source.startsWith('@niceprototypes/')) return null
+      const privateFile = resolvePrivateExport(privatePackages, source)
+      if (privateFile) return this.resolve(privateFile, importer, { ...options, skipSelf: true })
       return this.resolve(source, importer, { ...options, skipSelf: true })
     },
   }
@@ -77,5 +99,31 @@ export const createNiceViteConfig = ({ appRoot, local }) => {
     optimizeDeps: { exclude: getLocalPackageNames(local) },
     server: { fs: { allow: [appRoot, expandHome(local)] } },
     plugins: [niceLocal(local)],
+  }
+}
+
+/**
+ * Vite plugin: the stored day/night theme on `<html data-theme>` before the first paint, `theme`
+ * when nothing is stored (whatever the OS preference). An inline script at the top of `<head>`
+ * reads `localStorage[storageKey]` (in try/catch: blocked storage gives `theme`) and writes the
+ * key to `<html data-theme-storage>`, where a theme switch finds it to store the reader's choice.
+ *
+ * @param {{ theme: 'day' | 'night', storageKey: string }} options
+ * @returns {import('vite').Plugin}
+ */
+export const niceThemeBootstrap = ({ theme, storageKey }) => {
+  const key = JSON.stringify(storageKey)
+  const fallback = JSON.stringify(theme)
+  const script = `var root = document.documentElement;
+root.setAttribute("data-theme-storage", ${key});
+try {
+  var stored = localStorage.getItem(${key});
+  root.setAttribute("data-theme", stored === "day" || stored === "night" ? stored : ${fallback});
+} catch (error) {
+  root.setAttribute("data-theme", ${fallback});
+}`
+  return {
+    name: '@niceprototypes/config-vite:theme-bootstrap',
+    transformIndexHtml: () => [{ tag: 'script', children: script, injectTo: 'head-prepend' }],
   }
 }

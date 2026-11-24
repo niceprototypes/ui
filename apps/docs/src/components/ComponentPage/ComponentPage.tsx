@@ -1,6 +1,6 @@
 import * as React from "react"
 import Ink from "@niceprototypes/ink"
-import DocsPage, { docsPageContents, type DocsPageSectionType } from "../DocsPage"
+import DocsPage, { docsPageContents, type DocsPageSectionType } from "@niceprototypes/docs/components/DocsPage"
 import { usePlayground, type PlaygroundPartsType } from "../Playground"
 import { hasPlayground } from "../Playground/Playground.controls"
 import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"

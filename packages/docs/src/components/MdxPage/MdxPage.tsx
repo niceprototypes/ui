@@ -1,10 +1,10 @@
 import * as React from "react"
 import Code from "@niceprototypes/code"
 import type { AppContentsItemType } from "@niceprototypes/app"
-import { docsHeadingsOfContent } from "@niceprototypes/docs/services"
-import { ShikiPre } from "@niceprototypes/docs/components/ShikiPre"
+import { docsHeadingsOfContent } from "../../services/docsHeadings"
+import { ShikiPre } from "../ShikiPre"
 import DocsPage from "../DocsPage"
-import DocsContent from "@niceprototypes/docs/components/DocsContent"
+import DocsContent from "../DocsContent"
 
 /** Markdown inline code as the inline Code chip; fenced code goes through ShikiPre, which reads its own `<code>`. */
 const InlineCode = ({ children }: { children?: React.ReactNode }) => <Code code={String(children)} inlined margin="none" />
@@ -15,7 +15,7 @@ export type MdxModuleType = { default: React.ComponentType<{ components?: Record
 /**
  * MdxPage
  *
- * One MDX page on the docs site: its content as the page's one section, fenced code through
+ * One MDX page of a docs site: its content as the page's one section, fenced code through
  * Code (ShikiPre), inline code as Code chips, the docs rhythm (DocsContent), Contents listing
  * its own headings (docsHeadingsOfContent: the title and components' headings left out), the column capped
  * unless the page's data says `wrapped: false`.

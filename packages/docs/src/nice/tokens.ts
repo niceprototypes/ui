@@ -21,6 +21,8 @@ export const AppTokenMap = {
     columnWidth: "756px",
     // The Contents column beside a component docs page (ComponentDocs) and the Contents story.
     contentsWidth: "200px",
+    // The settings column right of Contents (DocsPage), as wide as its Dark toggle (ThemeToggle).
+    settingsWidth: "80px",
     // The fixed storybook-navigation bar's height at laptop+ (its ReservedSpaceStyle): docs
     // sections scroll to just below it.
     barHeight: `calc(${getCoreToken("gap", "large")} * 2 + ${getCoreToken("size", "small")})`,
