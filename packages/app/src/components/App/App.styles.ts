@@ -84,15 +84,16 @@ const headerButtonTokens = css`
 `
 
 /**
- * The header row's icon group (the search, the docs link, `headerActions`): side by side at the row's end, the
- * smaller gap apart, taking the row's free space so the expanded search can fill it.
+ * The header row's icon group (the search, the docs link, `headerActions`, below laptop the menu
+ * button): siblings at the row's end, the large gap apart (the row's own gap, from the logo),
+ * taking the row's free space so the expanded search can fill it.
  */
 export const StyledAppActions = styled.div`
   flex: 1 1 auto;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: ${getToken("gap:smaller")};
+  gap: ${getToken("gap:large")};
   min-width: 0;
 `
 

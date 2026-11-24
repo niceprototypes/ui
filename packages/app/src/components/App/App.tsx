@@ -235,7 +235,7 @@ const AppShell: React.FC<AppProps> = ({
               ) : (
                 <Logo />
               )}
-              {(searchable || docsPage || headerActions != null) && (
+              {(searchable || docsPage || headerActions != null || drawer) && (
                 <StyledAppActions>
                   {searchable && (
                     <AppSearch
@@ -265,17 +265,17 @@ const AppShell: React.FC<AppProps> = ({
                     </StyledAppDocsLink>
                   )}
                   {headerActions}
+                  {drawer && (
+                    <Button
+                      ref={menu}
+                      iconLeft="menu"
+                      aria-label="Menu"
+                      aria-expanded={open}
+                      aria-controls={drawerId}
+                      onClick={() => setOpen(!open)}
+                    />
+                  )}
                 </StyledAppActions>
-              )}
-              {drawer && (
-                <Button
-                  ref={menu}
-                  iconLeft="menu"
-                  aria-label="Menu"
-                  aria-expanded={open}
-                  aria-controls={drawerId}
-                  onClick={() => setOpen(!open)}
-                />
               )}
             </StyledAppHeader>
             <StyledAppDrawer ref={drawerElement} id={drawerId} $drawer={drawer} $open={open}>

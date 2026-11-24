@@ -335,6 +335,11 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     const search = screen.getByRole("button", { name: /^Search/ })
     expect(search.compareDocumentPosition(action) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     expect(action.closest("nav")).toBeNull()
+    // The search, the actions and the menu button are one group's children, one gap apart; the logo is outside it.
+    const group = action.parentElement!
+    expect(group).toContainElement(search)
+    expect(group).not.toContainElement(screen.getByRole("img", { name: "Nice Prototypes" }))
+    expect(getComputedStyle(group).gap).toBe("var(--np--gap--large)")
   })
 
   it("sizes the sidebar from the app.sidebar.minWidth token", async () => {
@@ -662,9 +667,9 @@ describe("App docs link", () => {
     expect(link).toHaveAttribute("target", "_blank")
     expect(link.getAttribute("rel")).toContain("noopener")
     const block = link.parentElement!
-    // Beside the search in the icon group, the smaller gap apart.
+    // Beside the search in the icon group, the group's one gap (large) apart.
     expect(block.previousElementSibling).toContainElement(screen.getByRole("button", { name: "Search Scenes" }))
-    expect(block.parentElement).toHaveStyle({ gap: "var(--np--gap--smaller)" })
+    expect(block.parentElement).toHaveStyle({ gap: "var(--np--gap--large)" })
     expect(getComputedStyle(block).getPropertyValue("--np--button--icon--color")).toBe("var(--np--app--header--icon--color)")
   })
 

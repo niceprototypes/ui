@@ -156,7 +156,7 @@ export interface AppProps {
    */
   docsLink?: boolean
 
-  /** Controls in the header row after the search and the docs link, before the menu button (a docs site's theme switch) */
+  /** Controls in the header row's icon group after the search and the docs link, before the menu button (a docs site's theme switch) */
   headerActions?: React.ReactNode
 
   /**
