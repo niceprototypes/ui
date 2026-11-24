@@ -2,6 +2,7 @@ import * as React from "react"
 import { RuleType, type MarkdownToJSX } from "markdown-to-jsx/react"
 import Ink from "@niceprototypes/ink"
 import Code from "@niceprototypes/code"
+import MarkdownList from "../components/Markdown/MarkdownList"
 import type { MarkdownProps } from "../components/Markdown/Markdown.types"
 
 type Children = { children?: React.ReactNode }
@@ -32,6 +33,7 @@ export const getMarkdownOptions = ({
   linkComponent: Link,
   size,
   overrides,
+  listLimit,
 }: Omit<MarkdownProps, "children">): MarkdownToJSX.Options => ({
   // Top-level blocks render one by one, so none needs a wrapper.
   wrapper: null,
@@ -40,13 +42,12 @@ export const getMarkdownOptions = ({
     h2: ({ children, id }: Heading) => <Ink as="h2" id={id} size="large" weight="semibold">{children}</Ink>,
     h3: ({ children, id }: Heading) => <Ink as="h3" id={id} weight="semibold">{children}</Ink>,
     p: ({ children }: Children) => <Ink as="p" size={size}>{children}</Ink>,
-    // Lists keep their list role (their markers are drawn, not list-style, which some screen readers read as no list).
-    ul: ({ children }: Children) => <ul role="list">{children}</ul>,
+    // Lists keep their list role (their markers are drawn); a top-level one shows `listLimit` items before its toggle.
+    ul: ({ children }: Children) => <MarkdownList as="ul" limit={listLimit}>{children}</MarkdownList>,
     ol: ({ children, start }: Children & { start?: number }) => (
-      // The drawn numbers count from `start` (counter-reset below the first number).
-      <ol role="list" start={start} style={start === undefined ? undefined : { counterReset: `markdown-list ${start - 1}` }}>
+      <MarkdownList as="ol" start={start} limit={listLimit}>
         {children}
-      </ol>
+      </MarkdownList>
     ),
     li: ({ children }: Children) => (
       <li>

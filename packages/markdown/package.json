@@ -27,6 +27,7 @@
   "author": "",
   "license": "MIT",
   "peerDependencies": {
+    "@niceprototypes/button": "workspace:^",
     "@niceprototypes/code": "workspace:^",
     "@niceprototypes/ink": "workspace:^",
     "@niceprototypes/styles": "workspace:^",
@@ -48,6 +49,7 @@
     "@types/react-dom": "catalog:",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "@niceprototypes/button": "workspace:*",
     "@niceprototypes/code": "workspace:*",
     "@niceprototypes/config-exports": "workspace:*",
     "@niceprototypes/config-jest": "workspace:*",

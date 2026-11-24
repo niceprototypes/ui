@@ -11,12 +11,13 @@ import { getMarkdownOptions } from "../../utilities/getMarkdownOptions"
  *
  * The source is parsed whole (reference links resolve across blocks), then each top-level block
  * renders on its own and is memoised on its content, so a streaming reply re-renders only the
- * block still growing. Blocks sit `markdown.gap` apart.
+ * block still growing. Blocks sit `markdown.gap` apart. With `listLimit` a top-level list shows
+ * that many items before a "Show N more" button (MarkdownList).
  */
-const Markdown: React.FC<MarkdownProps> = ({ children, linkComponent, size, overrides }) => {
+const Markdown: React.FC<MarkdownProps> = ({ children, linkComponent, size, overrides, listLimit }) => {
   const options = React.useMemo(
-    () => getMarkdownOptions({ linkComponent, size, overrides }),
-    [linkComponent, size, overrides],
+    () => getMarkdownOptions({ linkComponent, size, overrides, listLimit }),
+    [linkComponent, size, overrides, listLimit],
   )
   const blocks = React.useMemo(
     () => parser(children).map(node => ({ node, signature: JSON.stringify(node) })),

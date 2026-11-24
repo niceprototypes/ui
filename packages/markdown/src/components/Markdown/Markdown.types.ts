@@ -33,6 +33,14 @@ export type MarkdownSizeType = FontSizeType
 export type MarkdownOverridesType = MarkdownToJSX.Overrides
 
 /**
+ * MarkdownListLimitType
+ *
+ * How many items a top-level list shows before a "Show N more" button reveals the rest (the
+ * button then reads "Show less"). Unset, every item shows.
+ */
+export type MarkdownListLimitType = number
+
+/**
  * MarkdownProps
  *
  * Complete prop definition for the Markdown component.
@@ -46,6 +54,8 @@ export interface MarkdownProps {
   size?: MarkdownSizeType
   /** markdown-to-jsx overrides, merged over the Nice defaults */
   overrides?: MarkdownOverridesType
+  /** Items a top-level list shows before a "Show N more" button; unset, all */
+  listLimit?: MarkdownListLimitType
 }
 
 // Declaration merging: const + namespace creates an exportable type namespace.
@@ -56,6 +66,7 @@ namespace MarkdownTypes {
   export type LinkComponent = MarkdownLinkComponentType
   export type Size = MarkdownSizeType
   export type Overrides = MarkdownOverridesType
+  export type ListLimit = MarkdownListLimitType
   export type Props = MarkdownProps
 }
 

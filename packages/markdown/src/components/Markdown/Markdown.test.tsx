@@ -1,5 +1,5 @@
 import * as React from "react"
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import Markdown from "."
 import type { MarkdownLinkComponentType } from "./Markdown.types"
@@ -89,6 +89,24 @@ describe("Markdown", () => {
     const lists = screen.getAllByRole("list")
     expect(lists.map(list => list.tagName)).toEqual(["UL", "OL"])
     expect(container.querySelector("ol")).toHaveStyle({ counterReset: "markdown-list 2" })
+  })
+
+  it("limits a top-level list to listLimit items behind a Show N more button that toggles the rest", () => {
+    const { container } = render(<Markdown listLimit={1}>{"- one\n- two\n- three"}</Markdown>)
+    const list = screen.getByRole("list")
+    const toggle = screen.getByRole("button", { name: "Show 2 more" })
+    expect(toggle).toHaveAttribute("aria-expanded", "false")
+    expect(toggle).toHaveAttribute("aria-controls", list.id)
+    expect(container.querySelectorAll("li")).toHaveLength(3)
+    fireEvent.click(toggle)
+    expect(screen.getByRole("button", { name: "Show less" })).toHaveAttribute("aria-expanded", "true")
+  })
+
+  it("shows every item without listLimit, or when the list fits it", () => {
+    const { rerender } = render(<Markdown>{"- one\n- two"}</Markdown>)
+    expect(screen.queryByRole("button")).not.toBeInTheDocument()
+    rerender(<Markdown listLimit={2}>{"- one\n- two"}</Markdown>)
+    expect(screen.queryByRole("button")).not.toBeInTheDocument()
   })
 })
 

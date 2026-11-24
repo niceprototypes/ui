@@ -3007,6 +3007,9 @@ importers:
         specifier: ^9.10.4
         version: 9.10.4(react@19.2.0)
     devDependencies:
+      '@niceprototypes/button':
+        specifier: workspace:*
+        version: link:../button
       '@niceprototypes/code':
         specifier: workspace:*
         version: link:../code
