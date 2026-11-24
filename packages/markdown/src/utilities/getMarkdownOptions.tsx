@@ -40,6 +40,14 @@ export const getMarkdownOptions = ({
     h2: ({ children, id }: Heading) => <Ink as="h2" id={id} size="large" weight="semibold">{children}</Ink>,
     h3: ({ children, id }: Heading) => <Ink as="h3" id={id} weight="semibold">{children}</Ink>,
     p: ({ children }: Children) => <Ink as="p" size={size}>{children}</Ink>,
+    // Lists keep their list role (their markers are drawn, not list-style, which some screen readers read as no list).
+    ul: ({ children }: Children) => <ul role="list">{children}</ul>,
+    ol: ({ children, start }: Children & { start?: number }) => (
+      // The drawn numbers count from `start` (counter-reset below the first number).
+      <ol role="list" start={start} style={start === undefined ? undefined : { counterReset: `markdown-list ${start - 1}` }}>
+        {children}
+      </ol>
+    ),
     li: ({ children }: Children) => (
       <li>
         <Ink size={size}>{children}</Ink>

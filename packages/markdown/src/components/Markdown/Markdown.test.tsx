@@ -83,4 +83,12 @@ describe("Markdown", () => {
     expect(inkRenders).toHaveBeenCalledTimes(1)
     expect(screen.getByText("Second paragraph")).toBeInTheDocument()
   })
+
+  it("keeps lists' list role, draws their markers, and counts a numbered list from its start", () => {
+    const { container } = render(<Markdown>{"- one\n- two\n\n3. three\n4. four"}</Markdown>)
+    const lists = screen.getAllByRole("list")
+    expect(lists.map(list => list.tagName)).toEqual(["UL", "OL"])
+    expect(container.querySelector("ol")).toHaveStyle({ counterReset: "markdown-list 2" })
+  })
 })
+
