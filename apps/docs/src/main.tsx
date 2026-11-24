@@ -13,9 +13,9 @@ import { DocsNavigationContext } from "@niceprototypes/docs/components/DocsNavig
 import { docsUrlOf, pageContents, pages, redirectOf } from "./pages"
 import { docsRouter, withBase, withoutBase } from "./router"
 
-// Old addresses (moved pages, Storybook links) open where their page is now.
+// Old addresses (moved pages, Storybook links) open where their page is now, at the same section.
 const redirect = redirectOf(withoutBase(window.location.pathname), window.location.search)
-if (redirect) window.history.replaceState(null, "", withBase(redirect))
+if (redirect) window.history.replaceState(null, "", withBase(redirect.includes("#") ? redirect : `${redirect}${window.location.hash}`))
 
 // The site opens in the OS theme; ThemeToggle switches it.
 applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day")

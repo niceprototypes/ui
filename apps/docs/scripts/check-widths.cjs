@@ -8,7 +8,7 @@
 const { chromium } = require("playwright")
 
 const base = (process.env.DOCS_URL ?? "http://localhost:4020").replace(/\/$/, "")
-const PAGES = ["/docs/onboarding/welcome", "/docs/components/forms/button", "/docs/tokens", "/docs/onboarding/reset"]
+const PAGES = ["/docs/onboarding/welcome", "/docs/components/button", "/docs/tokens", "/docs/onboarding/reset"]
 const VIEWPORTS = [1280, 1000, 700, 390]
 const MIN_SECTIONS_WIDTH = 320
 

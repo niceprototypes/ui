@@ -149,9 +149,9 @@ export const pageContents = (entry: AppEntryType): AppContentsType | undefined =
   return contentsCache.get(entry.url)
 }
 
-/** The docs URL of a Storybook page id (`onboarding-tokens--docs`, `components-forms-button--docs`), for links written for Storybook. */
+/** The docs URL of a Storybook page id (`onboarding-tokens--docs`, `components-button--docs`; the former `components-forms-…` ids too), for links written for Storybook. */
 /**
- * Subcomponents' old pages (`/docs/components/cardheader`, `/docs/components/forms/radio`): the
+ * Subcomponents' old pages (`/docs/components/cardheader`, `/docs/components/radio`): the
  * parent's URL with its last segment the subcomponent's, now the parent page at its section.
  */
 const subcomponentPages = [...catalogComponents, ...catalogWidgets].flatMap(component => {
@@ -165,7 +165,11 @@ const subcomponentPages = [...catalogComponents, ...catalogWidgets].flatMap(comp
   }))
 })
 
-export const docsUrlOf = (storyId: string): string | undefined => {
+/** A docs id from before the Forms folder was flattened (`components-forms-button--docs`) as it is now (`components-button--docs`). */
+const unfolded = (id: string) => id.replace(/^components-forms-/, "components-")
+
+export const docsUrlOf = (rawStoryId: string): string | undefined => {
+  const storyId = unfolded(rawStoryId)
   // A subcomponent's old Storybook id (`components-cardheader--docs`): its parent's section.
   const sub = storyId.startsWith("components-") ? subcomponentPages.find(page => storyId.replace(/--.*$/, "").endsWith(`-${page.id}`)) : undefined
   if (sub) return sub.to
@@ -208,6 +212,8 @@ export const redirectOf = (pathname: string, search: string): string | undefined
   if (pathname === "/index.html") return "/"
   if (pathname.startsWith("/docs/manifest")) return docsUrlOf("manifest")
   if (pathname.startsWith("/docs/basics")) return pathname.replace(/^\/docs\/basics/, "/docs/onboarding")
+  // The Forms folder is flattened: its pages sit under Components (`/docs/components/forms/button` → `/docs/components/button`).
+  if (pathname.startsWith("/docs/components/forms/")) return pathname.replace(/^\/docs\/components\/forms\//, "/docs/components/")
   // A group's removed Overview opens its first page; a numbered CLI page, its unnumbered one.
   const path = pathname.replace(/\/+$/, "")
   const urls = entries.map(([key]) => getAppPageUrl(key))

@@ -306,18 +306,7 @@ const docsPages = new Set(
 const DOCS_SECTIONS = { DataTable: "widgets", TabsSection: "widgets" }
 /** Components in a folder of their section's nav, as its path. */
 const DOCS_FOLDERS = {
-  Button: "forms",
-  Calendar: "forms",
-  Checkbox: "forms",
-  DateField: "forms",
-  Field: "forms",
-  Fieldset: "forms/field",
-  Form: "forms",
-  Input: "forms",
-  Listbox: "forms",
-  RadioGroup: "forms",
-  Select: "forms",
-  Toggle: "forms",
+  Fieldset: "field",
   ChatComposer: "chat",
   ChatCopyAction: "chat",
   ChatLog: "chat",
