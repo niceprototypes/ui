@@ -1,6 +1,7 @@
 import * as React from "react"
 import Flow, { FlowItem } from "@niceprototypes/flow"
 import Ink from "@niceprototypes/ink"
+import Flex from "@niceprototypes/flex"
 import Code from "@niceprototypes/code"
 import DocsInk from "../../nice/Ink"
 import { StyledExampleBlocksTile } from "./ExampleBlocks.styles"
@@ -43,19 +44,23 @@ const ExampleBlocks = ({ example, labels = true }: { example: ComponentExample; 
   )
 }
 
+/** Source around a value line, so it highlights as a JSX attribute (and its comment) inside a tag. */
+const JSX_ATTRIBUTE = { before: "<X ", after: "\n/>" }
+
 /** A variant as a JSX attribute value: a boolean, number or null as an expression, else a string. */
 const attributeValue = (variant: string) => (/^(true|false|null|-?\d+(\.\d+)?)$/.test(variant) ? `{${variant}}` : `"${variant}"`)
 
 /**
  * ExampleValues
  *
- * A facet's variants as code lines, one per variant in its demos' order: `name="value"`, and
- * `// default` (a comment) after the default one. Display only: no copy button, no copy on click.
+ * A facet's variants as inline code, sized to its text, one per line in its demos' order, the
+ * smallest gap apart: `name="value"`, and `// default` (a comment) after the default one. Display only: no
+ * copy button, no copy on click.
  */
 export const ExampleValues = ({ name, example }: { name: string; example: ComponentExample }) => {
   const defaultVariant = example.default ?? "base"
   return (
-    <>
+    <Flex direction="column" alignItems="flex-start" gap="smaller">
       {example.variants.map(item => {
         const variant = variantKey(item)
         return (
@@ -64,13 +69,16 @@ export const ExampleValues = ({ name, example }: { name: string; example: Compon
             language="tsx"
             code={`${name}=${attributeValue(variant)}${variant === defaultVariant ? " // default" : ""}`}
             inlined
+            fit
+            // Highlighted as an attribute in a tag, as in the code panels; only the attribute shows.
+            highlightContext={JSX_ATTRIBUTE}
             margin="none"
             showLabel={false}
             copyOnClick={false}
           />
         )
       })}
-    </>
+    </Flex>
   )
 }
 

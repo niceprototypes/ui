@@ -111,15 +111,51 @@ export const ALIASES: Record<string, string> = {
 const resolveLang = (language?: string): string =>
   ALIASES[(language ?? "").toLowerCase()] ?? "text"
 
+/** Text as HTML text. */
+const escapeHtml = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+
+/** A highlighted token as a span, with Shiki's own colour and italic/bold. */
+const tokenSpan = (content: string, color?: string, fontStyle = 0) => {
+  const style = [
+    color ? `color:${color}` : "",
+    fontStyle & 1 ? "font-style:italic" : "",
+    fontStyle & 2 ? "font-weight:bold" : "",
+  ].filter(Boolean).join(";")
+  return `<span${style ? ` style="${style}"` : ""}>${escapeHtml(content)}</span>`
+}
+
 /**
  * Highlight `code` as Shiki HTML in the token theme. The trailing newline is
  * stripped so single-line snippets don't render a blank last line. `inline`
  * gives the token spans alone (no `<pre>`/`<code>`), for code inside a line of text.
+ * With `context`, the code is highlighted inside `before + code + after` (a JSX attribute in a
+ * tag) and only its own characters are drawn, in the colours that context gives them.
  */
-export function highlightCode(code: string, language?: string, inline = false): string {
-  return highlighter.codeToHtml(code.replace(/\n$/, ""), {
-    lang: resolveLang(language),
-    theme: theme.name!,
-    structure: inline ? "inline" : "classic",
+export function highlightCode(code: string, language?: string, inline = false, context?: { before: string; after: string }): string {
+  const source = code.replace(/\n$/, "")
+  if (!context)
+    return highlighter.codeToHtml(source, {
+      lang: resolveLang(language),
+      theme: theme.name!,
+      structure: inline ? "inline" : "classic",
+    })
+  const { tokens } = highlighter.codeToTokens(`${context.before}${source}${context.after}`, { lang: resolveLang(language), theme: theme.name! })
+  const start = context.before.length
+  const end = start + source.length
+  let offset = 0
+  const lines: string[] = [""]
+  tokens.forEach((line, index) => {
+    if (index > 0) {
+      if (offset >= start && offset < end) lines.push("")
+      offset += 1
+    }
+    for (const token of line) {
+      const from = Math.max(offset, start)
+      const to = Math.min(offset + token.content.length, end)
+      if (from < to) lines[lines.length - 1] += tokenSpan(token.content.slice(from - offset, to - offset), token.color, token.fontStyle)
+      offset += token.content.length
+    }
   })
+  if (inline) return lines.join("<br>")
+  return `<pre class="shiki ${theme.name}" tabindex="0"><code>${lines.map(line => `<span class="line">${line}</span>`).join("\n")}</code></pre>`
 }

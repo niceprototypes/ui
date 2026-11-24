@@ -81,6 +81,15 @@ export type CodeClassNameType = string
 export type CodeChildrenType = React.ReactNode
 
 /**
+ * CodeHighlightContextType
+ *
+ * Source around the code, for highlighting only: the code is highlighted as part of
+ * `before + code + after` and only its own text shows. A bare JSX attribute (`size="small"`)
+ * reads as an attribute inside `{ before: "<X ", after: " />" }`, as it does in a tag.
+ */
+export type CodeHighlightContextType = { before: string; after: string }
+
+/**
  * CodeProps
  *
  * Complete prop definition for the Code component.
@@ -98,6 +107,8 @@ export interface CodeProps {
   inlined?: CodeInlinedType
   /** Shrink the card to its content width. @default false */
   fit?: CodeFitType
+  /** Source around the code, for highlighting only (a JSX attribute inside a tag); only the code shows */
+  highlightContext?: CodeHighlightContextType
   /** Top/bottom margin as a `gap` token variant. @default "none" */
   margin?: CodeMarginType
   /** Collapse card blocks taller than this `code.maxHeight` token, with a fade and a drag bar. @default "base" */
@@ -118,6 +129,7 @@ namespace CodeTypes {
   export type CopyOnClick = CodeCopyOnClickType
   export type Inlined = CodeInlinedType
   export type Fit = CodeFitType
+  export type HighlightContext = CodeHighlightContextType
   export type Margin = CodeMarginType
   export type MaxHeight = CodeMaxHeightType
   export type ClassName = CodeClassNameType

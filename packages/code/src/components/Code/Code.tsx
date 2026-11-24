@@ -34,6 +34,7 @@ const Code: React.FC<CodeProps> = ({
   copyOnClick = true,
   inlined = false,
   fit = false,
+  highlightContext,
   margin = "none",
   maxHeight = "base",
   className,
@@ -94,9 +95,9 @@ const Code: React.FC<CodeProps> = ({
 
   // Inline: the token spans in a <code>, which may sit in a paragraph; a block: Shiki's <pre>.
   const highlighted = inlined ? (
-    <InlineCode dangerouslySetInnerHTML={{ __html: highlightCode(code, language, true) }} />
+    <InlineCode dangerouslySetInnerHTML={{ __html: highlightCode(code, language, true, highlightContext) }} />
   ) : (
-    <div dangerouslySetInnerHTML={{ __html: highlightCode(code, language) }} />
+    <div dangerouslySetInnerHTML={{ __html: highlightCode(code, language, false, highlightContext) }} />
   )
 
   // Copy on click, except clicks on the copy icon, the drag bar and the live demo, which act on their own.
