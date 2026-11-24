@@ -10,7 +10,8 @@ import type { PropsProps } from "./Props.types"
  *
  * A component's props demoed as stories: at its top, a list of every story (Contents in the
  * page's flow: a link scrolls smoothly to its story, instantly under reduced motion, and names it
- * in the address), then each story in the story layout (DocsColumns: its text beside its demo), a
+ * in the address), then each story in the story layout (DocsColumns: its text, pinned while its
+ * demos scroll past, beside its demo), a
  * subsection rule between two of them. The list is content, not the page's navigation: the
  * stories are not sections, so neither the nav nor the Contents column lists them.
  *
@@ -26,7 +27,7 @@ const Props: React.FC<PropsProps> = ({ stories, "aria-label": ariaLabel = "Props
       <React.Fragment key={story.id}>
         {index > 0 ? <DocsRule level="subsection" /> : null}
         <StyledPropsStory id={story.id}>
-          <DocsColumns aside={story.aside ?? null}>{story.content}</DocsColumns>
+          <DocsColumns aside={story.aside ?? null} sticky="main">{story.content}</DocsColumns>
         </StyledPropsStory>
       </React.Fragment>
     ))}

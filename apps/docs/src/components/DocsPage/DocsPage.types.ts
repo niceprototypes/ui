@@ -16,6 +16,8 @@ export type DocsPageSectionType = {
   heading?: React.ReactNode
   content?: React.ReactNode
   aside?: React.ReactNode
+  /** Which column stays in view beside the other (DocsColumns `sticky`). @default "aside" */
+  sticky?: "main" | "aside"
   sections?: ReadonlyArray<DocsPageSectionType>
 }
 

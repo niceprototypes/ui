@@ -56,7 +56,7 @@ const Section = ({ section, split, measure }: { section: DocsPageSectionType; sp
   return (
     <Element id={section.id} $measure={measure || undefined} {...{ [FLOW_ATTRIBUTE]: "" }}>
       {section.heading}
-      {split && section.aside !== undefined ? <DocsColumns aside={section.aside}>{section.content}</DocsColumns> : section.content}
+      {split && section.aside !== undefined ? <DocsColumns aside={section.aside} sticky={section.sticky}>{section.content}</DocsColumns> : section.content}
       {section.sections?.length ? (
         <Flow space={{ block: { after: "base" }, h3: { after: "base" }, rule: { before: "base", after: "base" } }}>
           {section.sections.map((nested, index) => (

@@ -19,15 +19,15 @@ export const StyledDocsColumns = styled.div`
   }
 `
 
-/** A column's cell: lets its content shrink below its intrinsic width, so wide code scrolls inside its card. */
-export const StyledDocsColumnsCell = styled.div`
+/**
+ * A column's cell: lets its content shrink below its intrinsic width, so wide code scrolls inside
+ * its card. The `$sticky` cell, from laptop up, sticks where Contents sticks (`contents.top`) while
+ * the other column scrolls past, until the pair ends; stacked below laptop, nothing sticks.
+ */
+export const StyledDocsColumnsCell = styled.div<{ $sticky: boolean }>`
   min-width: 0;
-`
 
-/** The aside's cell: from laptop up it sticks where Contents sticks while the main column scrolls past. */
-export const StyledDocsColumnsAside = styled(StyledDocsColumnsCell)`
   ${getBreakpoint("laptop+")} {
-    position: sticky;
-    top: ${getCoreToken("contents.top")};
+    ${({ $sticky }) => ($sticky ? `position: sticky; top: ${getCoreToken("contents.top")};` : "")}
   }
 `

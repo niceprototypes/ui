@@ -42,6 +42,7 @@ const exampleSection = (example: ComponentExample, id: string): DocsPageSectionT
   label: example.name,
   content: <StoryText example={example} name={example.name} />,
   aside: <ExampleBlocks example={example} labels={false} />,
+  sticky: "main",
 })
 
 /**

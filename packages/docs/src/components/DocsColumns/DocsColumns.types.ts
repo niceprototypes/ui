@@ -10,4 +10,6 @@ export interface DocsColumnsProps {
   children?: React.ReactNode
   /** The aside column: code, live previews, examples */
   aside?: React.ReactNode
+  /** The column that stays in view from laptop up while the other scrolls past, until the pair ends. @default "aside" */
+  sticky?: "main" | "aside"
 }

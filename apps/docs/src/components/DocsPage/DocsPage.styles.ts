@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import { getFlowStyle } from "@niceprototypes/flow"
 import { getBreakpoint, getConstantKey, getToken as getCoreToken } from "@niceprototypes/styles"
-import { Scroll } from "@niceprototypes/scroll"
 import { DOCS_TILE_ATTRIBUTE } from "@niceprototypes/docs/components/DocsRule"
 import { getToken } from "../../tokens"
 
@@ -24,8 +23,12 @@ export const StyledDocsPage = styled.div`
   }
 `
 
-/** The sections column: the whole width between the grid lines (a wider table scrolls sideways). */
-export const StyledDocsPageMain = styled(Scroll).attrs({ axis: "x" })`
+/**
+ * The sections column: the whole width between the grid lines. Not a scroll container: the App's
+ * region scrolls the page both ways (a wider table scrolls the region sideways), so a sticky
+ * story column inside sticks to the region, the element that scrolls.
+ */
+export const StyledDocsPageMain = styled.div`
   /* Sized by the row, not its content (the sections column is a size container): a line of its
      own below laptop, under the settings row; the room the settings leave from laptop up. */
   flex: 1 1 100%;
