@@ -45,6 +45,22 @@ export type LightboxOpenType = boolean
 export type LightboxOnOpenChangeType = (open: boolean) => void
 
 /**
+ * LightboxContentType
+ *
+ * Content shown in the overlay in place of an image, at its real size (never scaled to the
+ * viewport): the overlay scrolls in both directions when it is larger than the screen, and a
+ * Close button sits in its corner.
+ */
+export type LightboxContentType = React.ReactNode
+
+/**
+ * LightboxLabelType
+ *
+ * Accessible name of the trigger and the overlay, for content with no image alt or title.
+ */
+export type LightboxLabelType = string
+
+/**
  * LightboxProps
  *
  * Complete prop definition for the Lightbox component.
@@ -52,8 +68,12 @@ export type LightboxOnOpenChangeType = (open: boolean) => void
 export interface LightboxProps {
   /** Content that triggers the lightbox on click */
   children: React.ReactNode
-  /** URL of the image to display fullscreen */
-  imageUrl: LightboxImageUrlType
+  /** URL of the image to display fullscreen; or `content` */
+  imageUrl?: LightboxImageUrlType
+  /** Content shown at real size in place of an image (the overlay scrolls; a Close button) */
+  content?: LightboxContentType
+  /** Accessible name of the trigger and the overlay */
+  label?: LightboxLabelType
   /** Alt text for the image */
   alt?: LightboxAltType
   /** Title shown below the image in the overlay */
@@ -79,6 +99,8 @@ namespace LightboxTypes {
   export type Description = LightboxDescriptionType
   export type Open = LightboxOpenType
   export type OnOpenChange = LightboxOnOpenChangeType
+  export type Content = LightboxContentType
+  export type Label = LightboxLabelType
   export type Props = LightboxProps
 }
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { createPortal } from "react-dom"
+import Button from "@niceprototypes/button"
 import LightboxCaption from "../LightboxCaption"
-import { Trigger, Overlay, Image } from "./Lightbox.styles"
+import { Trigger, Overlay, Image, Content, Close } from "./Lightbox.styles"
 import type { LightboxProps } from "./Lightbox.types"
 
 /**
@@ -11,10 +12,16 @@ import type { LightboxProps } from "./Lightbox.types"
  * with `showModal()`, so the page behind it is inert and focus stays inside. Escape and a click
  * outside the image and caption close it; focus then returns to the trigger. `open` controls it,
  * `onOpenChange` receives every requested change; without `open` it manages its own state.
+ *
+ * With `content` in place of an image, the overlay shows it at its real size, never scaled to the
+ * viewport: larger than the screen, the overlay scrolls in both directions; a Close button sits in
+ * its corner. The overlay fades in and out over the animation tokens (none under reduced motion).
  */
 const Lightbox: React.FC<LightboxProps> = ({
   children,
   imageUrl,
+  content,
+  label,
   alt = "",
   title,
   description,
@@ -28,6 +35,21 @@ const Lightbox: React.FC<LightboxProps> = ({
   const isOpen = isControlled ? open : uncontrolledOpen
   const triggerRef = useRef<HTMLDivElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
+  // The overlay stays rendered while it fades out after a close, then unmounts.
+  const [rendered, setRendered] = useState(isOpen)
+  const [leaving, setLeaving] = useState(false)
+  useEffect(() => {
+    if (isOpen) {
+      setRendered(true)
+      setLeaving(false)
+      return
+    }
+    const overlay = dialogRef.current
+    // No fade (reduced motion, or no animation applied): unmount at once.
+    const fades = overlay !== null && parseFloat(getComputedStyle(overlay).animationDuration) > 0
+    if (fades) setLeaving(true)
+    else setRendered(false)
+  }, [isOpen])
 
   // Controlled: only report the request; uncontrolled: also apply it.
   const requestOpen = useCallback(
@@ -72,7 +94,7 @@ const Lightbox: React.FC<LightboxProps> = ({
   // not reported.
   useEffect(() => {
     const dialog = dialogRef.current
-    if (!isOpen || !dialog) return
+    if (!rendered || !dialog) return
     const trigger = triggerRef.current
 
     const handleCancel = (event: Event) => {
@@ -97,7 +119,7 @@ const Lightbox: React.FC<LightboxProps> = ({
       document.body.style.overflow = ""
       trigger?.focus()
     }
-  }, [isOpen])
+  }, [rendered])
 
   return (
     <>
@@ -107,23 +129,43 @@ const Lightbox: React.FC<LightboxProps> = ({
         tabIndex={0}
         onClick={openOverlay}
         onKeyDown={handleTriggerKeyDown}
+        aria-label={label}
         className={className}
         style={style}
       >
         {children}
       </Trigger>
-      {isOpen &&
+      {rendered &&
         createPortal(
           <Overlay
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
-            aria-label={title || alt || undefined}
+            aria-label={title || alt || label || undefined}
             tabIndex={-1}
             onClick={closeOverlay}
             onKeyDown={handleOverlayKeyDown}
+            onAnimationEnd={() => {
+              if (!leaving) return
+              setLeaving(false)
+              setRendered(false)
+            }}
+            $content={content !== undefined}
+            $leaving={leaving}
           >
-            <Image src={imageUrl} alt={alt} onClick={(event) => event.stopPropagation()} />
+            {content !== undefined ? (
+              <>
+                {/* The Close button first, so the first Tab in the overlay reaches it before the content. */}
+                <Close onClick={(event) => event.stopPropagation()}>
+                  <Button size="small" onClick={closeOverlay}>
+                    Close
+                  </Button>
+                </Close>
+                <Content onClick={(event) => event.stopPropagation()}>{content}</Content>
+              </>
+            ) : (
+              <Image src={imageUrl} alt={alt} onClick={(event) => event.stopPropagation()} />
+            )}
             <LightboxCaption title={title} description={description} />
           </Overlay>,
           document.body

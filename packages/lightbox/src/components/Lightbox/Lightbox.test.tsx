@@ -201,3 +201,40 @@ describe("Lightbox open state", () => {
     expect(trigger()).toHaveFocus()
   })
 })
+
+describe("Lightbox content", () => {
+  const renderContent = () =>
+    render(
+      <Lightbox content={<p>Full size</p>} label="Metrics after">
+        <p>Scaled</p>
+      </Lightbox>
+    )
+
+  it("names the trigger and the overlay by label and shows the content in place of an image", () => {
+    renderContent()
+    expect(screen.getByRole("button", { name: "Metrics after" })).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "Metrics after" }))
+    expect(screen.getByRole("dialog", { name: "Metrics after" })).toBeInTheDocument()
+    expect(screen.getByText("Full size")).toBeInTheDocument()
+    expect(screen.queryByRole("img")).not.toBeInTheDocument()
+  })
+
+  it("closes from its Close button, not from a click on the content, and returns focus", () => {
+    renderContent()
+    const opener = screen.getByRole("button", { name: "Metrics after" })
+    fireEvent.click(opener)
+    fireEvent.click(screen.getByText("Full size"))
+    expect(dialog()).toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "Close" }))
+    expect(dialog()).not.toBeInTheDocument()
+    expect(opener).toHaveFocus()
+  })
+
+  it("scrolls the overlay in both directions and never shrinks the content", () => {
+    renderContent()
+    fireEvent.click(screen.getByRole("button", { name: "Metrics after" }))
+    expect(cssFor(dialog()!)).toContain("overflow:auto")
+    expect(cssFor(screen.getByText("Full size").parentElement!)).toContain("flex:none")
+  })
+})
+

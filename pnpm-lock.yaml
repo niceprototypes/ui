@@ -2604,6 +2604,9 @@ importers:
 
   packages/lightbox:
     devDependencies:
+      '@niceprototypes/button':
+        specifier: workspace:*
+        version: link:../button
       '@niceprototypes/config-exports':
         specifier: workspace:*
         version: link:../config-exports
