@@ -53,6 +53,11 @@ describe("Contents", () => {
     expect(screen.getByRole("link", { name: "size" })).not.toHaveAttribute("aria-current")
   })
 
+  it("sits in the page's flow when not sticky", () => {
+    render(<Contents items={items} sticky={false} />)
+    expect(screen.getByRole("navigation")).not.toHaveStyle({ position: "sticky" })
+  })
+
   it("marks the controlled activeId with aria-current", () => {
     render(<Contents items={items} activeId="color" />)
     expect(screen.getByRole("link", { name: "color" })).toHaveAttribute("aria-current", "location")
@@ -77,6 +82,7 @@ describe("Contents", () => {
     })
     expect(color.scrollIntoView).toHaveBeenCalledWith(expect.objectContaining({ block: "start" }))
     expect(screen.getByRole("link", { name: "color" })).toHaveAttribute("aria-current", "location")
+    expect(window.location.hash).toBe("#color")
     unmount()
   })
 })

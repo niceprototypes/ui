@@ -78,6 +78,9 @@ export interface ContentsProps {
 
   /** Text size of the rows. @default "smaller" */
   size?: ContentsSizeType
+
+  /** Stick below the top of the scroll container (a side column); off for a list in the page's flow. @default true */
+  sticky?: boolean
 }
 
 const ContentsTypes = {} as const

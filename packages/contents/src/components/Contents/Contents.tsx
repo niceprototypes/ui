@@ -23,7 +23,8 @@ const USER_SCROLL_EVENTS = ["wheel", "touchstart", "keydown"] as const
  * under an optional `heading` row (the section they belong to, a link spied like them). Scroll-spy marks
  * the section in view with `aria-current="location"`, the active colour and an indicator
  * bar over the rail. A click scrolls smoothly to the section (instantly under
- * `prefers-reduced-motion`) and holds the highlight on it until the scroll ends. Targets
+ * `prefers-reduced-motion`), puts its `#id` in the address, and holds the highlight on it until
+ * the scroll ends. Off `sticky`, it sits in the page's flow (an in-page list of stories). Targets
  * set their own `scroll-margin-top` to clear a sticky header.
  *
  * @example
@@ -43,6 +44,7 @@ const Contents: React.FC<ContentsProps> = ({
   onActiveChange,
   "aria-label": ariaLabel = "Contents",
   size = "smaller",
+  sticky = true,
 }) => {
   const ids = React.useMemo(() => [...(heading ? [heading.id] : []), ...getContentsIds(items)], [heading, items])
   const [spiedId, setSpiedId] = React.useState<string | undefined>(ids[0])
@@ -129,6 +131,8 @@ const Contents: React.FC<ContentsProps> = ({
     activate(id)
     const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
     target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" })
+    // The address names the section, so it can be shared and Back returns there.
+    window.history.replaceState(window.history.state, "", `#${id}`)
   }
 
   const renderList = (level: ContentsItemsType, depth: number) => (
@@ -157,6 +161,7 @@ const Contents: React.FC<ContentsProps> = ({
     <StyledContents
       ref={navRef}
       aria-label={ariaLabel}
+      $sticky={sticky}
     >
       <StyledContentsIndicator ref={indicatorRef} aria-hidden="true" />
       {heading ? (
