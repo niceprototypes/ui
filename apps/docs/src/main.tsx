@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client"
 import App from "@niceprototypes/app"
-import { applyTheme, StylesProvider } from "@niceprototypes/styles"
+import { StylesProvider } from "@niceprototypes/styles"
 import "@niceprototypes/styles/reset.css"
 import "@niceprototypes/icon-vendor"
 import "@niceprototypes/image-vendor"
@@ -16,9 +16,6 @@ import { docsRouter, withBase, withoutBase } from "./router"
 // Old addresses (moved pages, Storybook links) open where their page is now, at the same section.
 const redirect = redirectOf(withoutBase(window.location.pathname), window.location.search)
 if (redirect) window.history.replaceState(null, "", withBase(redirect.includes("#") ? redirect : `${redirect}${window.location.hash}`))
-
-// The site opens in the OS theme; ThemeToggle switches it.
-applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day")
 
 /** Docs links written for Storybook open the docs page of their Storybook id. */
 const openStory = (storyId: string) => {

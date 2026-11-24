@@ -6,6 +6,14 @@
     <link rel="stylesheet" href="https://use.typekit.net/kyc2pju.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nice docs</title>
+    <!-- Before first paint: the reader's stored theme (ThemeToggle writes "nice-docs-theme"), else night. -->
+    <script>
+      try {
+        document.documentElement.setAttribute("data-theme", localStorage.getItem("nice-docs-theme") === "day" ? "day" : "night")
+      } catch {
+        document.documentElement.setAttribute("data-theme", "night")
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
