@@ -145,9 +145,10 @@ const contentsByUrl = new Map<string, () => AppContentsType | undefined>(
 )
 const contentsCache = new Map<string, AppContentsType | undefined>()
 
-/** A page's in-page sections for the nav (App `contents`), worked out once per page. */
+/** A page's top-level sections for the nav (App `contents`), worked out once per page. */
 export const pageContents = (entry: AppEntryType): AppContentsType | undefined => {
-  if (!contentsCache.has(entry.url)) contentsCache.set(entry.url, contentsByUrl.get(entry.url)?.())
+  // The nav lists a page's top-level sections only; their own sections are the Contents column's.
+  if (!contentsCache.has(entry.url)) contentsCache.set(entry.url, contentsByUrl.get(entry.url)?.()?.map(({ id, label }) => ({ id, label })))
   return contentsCache.get(entry.url)
 }
 

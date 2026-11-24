@@ -79,3 +79,20 @@ export const StyledContentsIndicator = styled.span`
     }
   }
 `
+
+/**
+ * The heading row (`heading`): a link to the section the rows belong to, in the heading's colour
+ * and weight (`contents.heading.*`), the active colour while its section is in view.
+ */
+export const StyledContentsHeading = styled.a<{ $active: boolean }>`
+  display: flex;
+  padding-block: ${getToken("contents.heading.paddingBlock")};
+  padding-inline-start: ${getToken("contents.item.paddingInline")};
+  color: ${({ $active }) => getToken($active ? "contents.color:active" : "contents.heading.color")};
+  font-weight: ${getToken("contents.heading.fontWeight")};
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ $active }) => getToken($active ? "contents.color:active" : "contents.color:hover")};
+  }
+`

@@ -5,6 +5,7 @@ import {
   StyledContentsItem,
   StyledContentsLink,
   StyledContentsIndicator,
+  StyledContentsHeading,
   StyledContentsList,
 } from "./Contents.styles"
 import type { ContentsItemsType, ContentsProps } from "./Contents.types"
@@ -18,7 +19,8 @@ const USER_SCROLL_EVENTS = ["wheel", "touchstart", "keydown"] as const
  * Contents
  *
  * The in-page table of contents beside a long page: a `<nav>` (named "Contents" unless
- * `aria-label` says otherwise, with no visible heading) holding nested lists of links to the page's sections (`href="#{id}"`). Scroll-spy marks
+ * `aria-label` says otherwise) holding nested lists of links to the page's sections (`href="#{id}"`),
+ * under an optional `heading` row (the section they belong to, a link spied like them). Scroll-spy marks
  * the section in view with `aria-current="location"`, the active colour and an indicator
  * bar over the rail. A click scrolls smoothly to the section (instantly under
  * `prefers-reduced-motion`) and holds the highlight on it until the scroll ends. Targets
@@ -36,12 +38,13 @@ const USER_SCROLL_EVENTS = ["wheel", "touchstart", "keydown"] as const
  */
 const Contents: React.FC<ContentsProps> = ({
   items,
+  heading,
   activeId: activeIdProp,
   onActiveChange,
   "aria-label": ariaLabel = "Contents",
   size = "smaller",
 }) => {
-  const ids = React.useMemo(() => getContentsIds(items), [items])
+  const ids = React.useMemo(() => [...(heading ? [heading.id] : []), ...getContentsIds(items)], [heading, items])
   const [spiedId, setSpiedId] = React.useState<string | undefined>(ids[0])
   const heldId = React.useRef<string | null>(null)
   const onActiveChangeRef = React.useRef(onActiveChange)
@@ -107,7 +110,7 @@ const Contents: React.FC<ContentsProps> = ({
     if (link) indicator.style.transform = `translateY(${link.offsetTop}px) scaleY(${link.offsetHeight})`
   }, [])
   const enableSlide = React.useCallback(() => indicatorRef.current?.setAttribute("data-placed", ""), [])
-  React.useLayoutEffect(placeIndicator, [activeId, items, placeIndicator])
+  React.useLayoutEffect(placeIndicator, [activeId, items, heading, placeIndicator])
   React.useEffect(() => {
     window.addEventListener("resize", placeIndicator)
     USER_SCROLL_EVENTS.forEach(type => window.addEventListener(type, enableSlide, { passive: true, once: true }))
@@ -156,6 +159,16 @@ const Contents: React.FC<ContentsProps> = ({
       aria-label={ariaLabel}
     >
       <StyledContentsIndicator ref={indicatorRef} aria-hidden="true" />
+      {heading ? (
+        <StyledContentsHeading
+          href={`#${heading.id}`}
+          aria-current={heading.id === activeId ? "location" : undefined}
+          onClick={(event: React.MouseEvent<HTMLAnchorElement>) => select(heading.id, event)}
+          $active={heading.id === activeId}
+        >
+          <Ink size={size}>{heading.label}</Ink>
+        </StyledContentsHeading>
+      ) : null}
       {renderList(items, 0)}
     </StyledContents>
   )

@@ -45,6 +45,14 @@ describe("Contents", () => {
     expect(screen.queryByText("Contents")).not.toBeInTheDocument()
   })
 
+  it("renders a heading row above the rows, a link marked active like them", () => {
+    render(<Contents heading={{ id: "props", label: "Props" }} items={[{ id: "size", label: "size" }]} activeId="props" />)
+    const heading = screen.getByRole("link", { name: "Props" })
+    expect(heading).toHaveAttribute("href", "#props")
+    expect(heading).toHaveAttribute("aria-current", "location")
+    expect(screen.getByRole("link", { name: "size" })).not.toHaveAttribute("aria-current")
+  })
+
   it("marks the controlled activeId with aria-current", () => {
     render(<Contents items={items} activeId="color" />)
     expect(screen.getByRole("link", { name: "color" })).toHaveAttribute("aria-current", "location")

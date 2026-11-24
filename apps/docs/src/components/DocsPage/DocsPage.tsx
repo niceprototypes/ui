@@ -26,6 +26,10 @@ import {
 const toItems = (sections: ReadonlyArray<DocsPageSectionType>): AppContentsType =>
   sections.map(({ id, label, sections: nested }) => ({ id, label, ...(nested?.length ? { items: toItems(nested) } : {}) }))
 
+/** Whether rows hold the id, at any depth. */
+const holds = (rows: AppContentsType | undefined, id: string): boolean =>
+  (rows ?? []).some(row => row.id === id || holds(row.items, id))
+
 /** Whether a section renders anything: a heading, content, an aside or a nested section. */
 const hasContent = (section: DocsPageSectionType): boolean =>
   section.heading != null || section.content != null || section.aside != null || (section.sections ?? []).some(hasContent)
@@ -102,8 +106,17 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
   // the shell, and with it this page.
   const itemsKey = JSON.stringify(contents ?? toItems(sections))
   const items = React.useMemo<AppContentsType>(() => JSON.parse(itemsKey), [itemsKey])
+  // Links are split between the columns, never in both: the nav lists the top-level sections (as
+  // leaves), the Contents column the section in view's own sections under its name (the one link
+  // both show). A hidden Contents spies the whole tree, so both follow the section in view.
   const { setItems, setActiveId } = useAppContents()
-  React.useEffect(() => setItems(items), [items, setItems])
+  const navItems = React.useMemo(() => items.map(({ id, label }) => ({ id, label })), [items])
+  React.useEffect(() => setItems(navItems), [navItems, setItems])
+  const [spiedId, setSpiedId] = React.useState<string>()
+  const top = (spiedId !== undefined ? items.find(item => item.id === spiedId || holds(item.items, spiedId)) : undefined) ?? items[0]
+  React.useEffect(() => {
+    if (spiedId !== undefined && top) setActiveId(top.id)
+  }, [spiedId, top, setActiveId])
   // Contents and the settings go to the end column (App's, outside the scrolling page) where there
   // is room for it: laptop and up, desktop and up on a two-column page; else the settings are a row here.
   const end = useDocsEnd()
@@ -131,7 +144,7 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
         createPortal(
           <>
             <StyledDocsPageContents>
-              <Contents size="base" items={items} onActiveChange={setActiveId} />
+              {top ? <Contents size="base" heading={{ id: top.id, label: top.label }} items={top.items ?? []} activeId={spiedId ?? top.id} /> : null}
             </StyledDocsPageContents>
             <StyledDocsPageEndSettings aria-label="Settings">{settings}</StyledDocsPageEndSettings>
           </>,
@@ -142,12 +155,12 @@ const DocsPage: React.FC<DocsPageProps> = ({ header, sections: allSections, wrap
           <StyledDocsPageSettings aria-label="Settings">
             <StyledDocsPageSettingsContent>{settings}</StyledDocsPageSettingsContent>
           </StyledDocsPageSettings>
-          {/* No room for the column: Contents stays mounted, hidden, so its scroll-spy still tells the nav the section in view. */}
-          <div hidden>
-            <Contents size="base" items={items} onActiveChange={setActiveId} />
-          </div>
         </>
       )}
+      {/* The scroll-spy over every section, mounted at every width (hidden): it tells the nav and the Contents column the section in view. */}
+      <div hidden>
+        <Contents items={items} onActiveChange={setSpiedId} />
+      </div>
     </StyledDocsPage>
   )
 }

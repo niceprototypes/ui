@@ -64,6 +64,9 @@ export interface ContentsProps {
   /** The rows, nested by `items` */
   items: ContentsItemsType
 
+  /** A heading row above the rows, a link like them (the section they belong to); spied and marked active like a row */
+  heading?: ContentsItemType
+
   /** Highlighted row (controlled) */
   activeId?: ContentsActiveIdType
 
