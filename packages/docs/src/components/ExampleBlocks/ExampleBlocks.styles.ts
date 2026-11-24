@@ -9,13 +9,16 @@ export const StyledExampleBlocksTile = styled.div`
 `
 
 /**
- * A value line (ExampleValues): receded to `docs.dimmedOpacity` while its demo is not the one in
- * view, eased over the base animation duration; no easing under reduced motion.
+ * A value line (ExampleValues): outlined in `docs.activeColor` while its demo is the one in view;
+ * the border is always drawn (transparent otherwise) so the line never changes size. Eased over
+ * the base animation duration; no easing under reduced motion.
  */
-export const StyledExampleValue = styled.span<{ $dimmed: boolean }>`
+export const StyledExampleValue = styled.span<{ $active: boolean }>`
   display: flex;
-  opacity: ${({ $dimmed }) => ($dimmed ? getDocsToken("docs", "dimmedOpacity") : 1)};
-  transition: opacity ${getToken("animationDuration")} ${getToken("animationEasing")};
+  border: ${getToken("borderWidth", "small")} solid
+    ${({ $active }) => ($active ? getDocsToken("docs", "activeColor") : "transparent")};
+  border-radius: ${getToken("code.borderRadius", "small")};
+  transition: border-color ${getToken("animationDuration")} ${getToken("animationEasing")};
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;

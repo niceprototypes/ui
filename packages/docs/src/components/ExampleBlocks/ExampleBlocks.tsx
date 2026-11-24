@@ -111,7 +111,7 @@ const useVariantInView = (element: React.RefObject<HTMLElement | null>, enabled:
   return inView
 }
 
-/** From laptop up the values stand beside the demos; stacked below, each demo follows its story and nothing recedes. */
+/** From laptop up the values stand beside the demos; stacked below, each demo follows its story and no line is outlined. */
 const SIDE_BY_SIDE = parseBreakpointKey("laptop+")
 
 /**
@@ -120,8 +120,8 @@ const SIDE_BY_SIDE = parseBreakpointKey("laptop+")
  * A facet's variants as inline code, sized to its text, one per line in its demos' order, the
  * smallest gap apart: `name="value"`, and `// default` (a comment) after the default one. Display
  * only: no copy button, no copy on click. Beside its demos (laptop and up) with more than one
- * value, the lines whose demo is not the one in view (across the view's middle, else showing the
- * most of itself) recede (`docs.dimmedOpacity`).
+ * value, the line whose demo is the one in view (across the view's middle, else showing the most
+ * of itself) is outlined in `docs.activeColor`.
  */
 export const ExampleValues = ({ name, example }: { name: string; example: ComponentExample }) => {
   const defaultVariant = example.default ?? "base"
@@ -134,7 +134,7 @@ export const ExampleValues = ({ name, example }: { name: string; example: Compon
         {example.variants.map(item => {
           const variant = variantKey(item)
           return (
-            <StyledExampleValue key={variant} $dimmed={inView !== undefined && inView !== variant}>
+            <StyledExampleValue key={variant} $active={inView === variant}>
               <Code
                 language="tsx"
                 code={`${name}=${attributeValue(variant)}${variant === defaultVariant ? " // default" : ""}`}
