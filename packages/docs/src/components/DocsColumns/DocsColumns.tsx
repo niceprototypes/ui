@@ -18,7 +18,7 @@ import type { DocsColumnsProps } from "./DocsColumns.types"
  * </DocsColumns>
  */
 const DocsColumns: React.FC<DocsColumnsProps> = ({ children, aside, sticky = "aside" }) => (
-  <StyledDocsColumns>
+  <StyledDocsColumns data-docs-columns="">
     <StyledDocsColumnsCell $sticky={sticky === "main"}>
       <Flow>{children}</Flow>
     </StyledDocsColumnsCell>

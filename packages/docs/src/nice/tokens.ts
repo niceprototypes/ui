@@ -50,6 +50,8 @@ export const AppTokenMap = {
       day: getCoreToken("backgroundColor", "sunken", { theme: "day" }),
       night: getCoreToken("backgroundColor", "overlay", { theme: "night" }),
     },
+    // A story's value lines whose demo is not the one in view (ExampleValues), receded.
+    dimmedOpacity: "0.3",
     // Selected text: the active colour, stronger than the sidebar tint so a selection reads on text.
     selectionColor: {
       day: getCoreToken("color", "link", { theme: "day", transform: [null, null, null, "*0.25"] }),
