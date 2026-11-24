@@ -17,6 +17,7 @@ import {
   StyledAppDrawer,
   StyledAppEnd,
   StyledAppHeader,
+  StyledAppLogoLink,
   StyledAppNav,
   StyledAppRegion,
 } from "./App.styles"
@@ -57,6 +58,7 @@ const AppShell: React.FC<AppProps> = ({
   panelLabels,
   end,
   "aria-label": ariaLabel = "Scenes",
+  logoHref,
   navSize,
   sidebarOpen,
   onSidebarOpenChange,
@@ -225,7 +227,13 @@ const AppShell: React.FC<AppProps> = ({
         <StyledApp $drawer={drawer}>
           <StyledAppAside $drawer={drawer}>
             <StyledAppHeader>
-              <Logo />
+              {logoHref ? (
+                <StyledAppLogoLink href={logoHref}>
+                  <Logo />
+                </StyledAppLogoLink>
+              ) : (
+                <Logo />
+              )}
               {(searchable || docsPage) && (
                 <StyledAppActions>
                   {searchable && (

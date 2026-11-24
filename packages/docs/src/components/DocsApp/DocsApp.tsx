@@ -13,15 +13,16 @@ const DocsShell = (props: Omit<AppProps, "end">) => <App {...props} end={useDocs
  *
  * A docs site's shell: App (nav with the pages, search) with the docs end column, where each
  * DocsPage puts its Contents and the settings (the Dark switch, ThemeToggle), and the docs global
- * style. Takes App's props but `end`. The site registers DocsSiteTokenMap and sets the theme
- * before first paint (config-vite niceThemeBootstrap).
+ * style. Takes App's props but `end`; the logo links to niceprototypes.com unless `logoHref` says
+ * otherwise. The site registers DocsSiteTokenMap and sets the theme before first paint
+ * (config-vite niceThemeBootstrap).
  */
-const DocsApp: React.FC<Omit<AppProps, "end">> = props => (
+const DocsApp: React.FC<Omit<AppProps, "end">> = ({ logoHref = "https://niceprototypes.com", ...props }) => (
   <>
     <DocsGlobalStyle />
     <DocsSettingsContext.Provider value={<ThemeToggle />}>
       <DocsEndProvider>
-        <DocsShell {...props} />
+        <DocsShell logoHref={logoHref} {...props} />
       </DocsEndProvider>
     </DocsSettingsContext.Provider>
   </>

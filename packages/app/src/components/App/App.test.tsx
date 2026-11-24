@@ -313,6 +313,20 @@ describe.each(adapters)("App on the %s adapter", (_, router) => {
     expect(screen.queryByRole("img", { name: "Nice Prototypes" })).not.toBeInTheDocument()
   })
 
+  it("links the logo to logoHref, same tab, named by the logo; not a link without it", async () => {
+    window.history.replaceState(null, "", "/stories/gamma/steps")
+    const { unmount } = render(<App scenes={scenes} router={router} logoHref="https://niceprototypes.com" />)
+    await screen.findByText("steps")
+    const link = screen.getByRole("link", { name: "Nice Prototypes" })
+    expect(link).toHaveAttribute("href", "https://niceprototypes.com")
+    expect(link).not.toHaveAttribute("target")
+    expect(link).toContainElement(screen.getByRole("img", { name: "Nice Prototypes" }))
+    unmount()
+    render(<App scenes={scenes} router={router} />)
+    await screen.findByText("steps")
+    expect(screen.queryByRole("link", { name: "Nice Prototypes" })).not.toBeInTheDocument()
+  })
+
   it("sizes the sidebar from the app.sidebar.minWidth token", async () => {
     window.history.replaceState(null, "", "/stories/alpha/solo")
     render(<App scenes={scenes} router={router} />)

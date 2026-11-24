@@ -56,6 +56,22 @@ export const StyledAppHeader = styled.div`
 `
 
 /**
+ * The logo's link (`logoHref`): the logo as it is, no underline; on keyboard focus the header's
+ * focus ring around it.
+ */
+export const StyledAppLogoLink = styled.a`
+  display: flex;
+  color: inherit;
+  text-decoration: none;
+  border-radius: ${getToken("borderRadius:small")};
+
+  &:focus-visible {
+    outline: ${getToken("borderWidth:large")} solid ${getToken("app.header.focusRing.color")};
+    outline-offset: ${getToken("borderWidth:large")};
+  }
+`
+
+/**
  * The header row's icon buttons (the search square, the docs link): their icon is
  * `app.header.icon.color`, its hover variant on hover and focus, and their focus ring
  * `app.header.focusRing.color`.

@@ -180,6 +180,9 @@ export interface AppProps {
   /** Accessible name of the nav landmark */
   "aria-label"?: string
 
+  /** Where the header row's logo links (a plain link, same tab, named by the logo); unset, the logo is not a link */
+  logoHref?: string
+
   /** The nav's label size; unset, the Tree's own (base below laptop, small from it up) */
   navSize?: TreeSizeType
 
