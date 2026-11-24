@@ -99,4 +99,17 @@ describe("TabsSection", () => {
     resizeTo(BREAKPOINTS.tablet)
     expect(screen.getByRole("tablist")).toBeInTheDocument()
   })
+
+  it("with panelId renders the heading row only, the tabs and the select controlling that element", () => {
+    const { container } = render(
+      <TabsSection title="After" items={ITEMS} panelId="after-panel">
+        <p>panel</p>
+      </TabsSection>,
+    )
+    expect(screen.queryByText("panel")).not.toBeInTheDocument()
+    expect(container.querySelector("[role=tabpanel]")).toBeNull()
+    expect(screen.getByRole("tab", { name: "HTML/CSS" })).toHaveAttribute("aria-controls", "after-panel")
+    resizeTo(BREAKPOINTS.tablet - 1)
+    expect(screen.getByRole("combobox")).toHaveAttribute("aria-controls", "after-panel")
+  })
 })

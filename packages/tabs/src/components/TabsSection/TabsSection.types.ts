@@ -86,6 +86,14 @@ export interface TabsSectionProps {
   variant?: TabsVariantType
   /** The breakpoint below which the tabs become a select @default "tablet" */
   selectBelow?: TabsSectionSelectBelowType
+
+  /**
+   * The id of a panel rendered elsewhere (beside the heading row in another column): TabsSection
+   * then renders the heading row only, its tabs or select controlling that element, and
+   * `children` are not rendered. The element is the consumer's, with its own role and name (a
+   * region named for the section)
+   */
+  panelId?: string
 }
 
 // Declaration merging: const + namespace creates exportable type namespace

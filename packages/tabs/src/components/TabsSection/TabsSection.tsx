@@ -18,6 +18,8 @@ import type { TabsSectionProps, TabsSectionSelectEventType } from "./TabsSection
  * It renders the heading row and the panel as two siblings, so in a Flow column the row is spaced
  * as its heading level (`data-flow-role`) and the panel as a block. The tab list is named by the
  * heading; the panel is the tabs' `tabpanel`, or, with the select, a region named by the heading.
+ * With `panelId` the panel is the consumer's element elsewhere (another column), and only the
+ * heading row renders.
  *
  * Controlled with `selected` + `onSelect`, or uncontrolled with `defaultSelected`.
  *
@@ -41,6 +43,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({
   size = "base",
   variant = "underline",
   selectBelow = "tablet",
+  panelId: externalPanelId,
 }) => {
   const baseId = React.useId()
   const breakpoint = useBreakpoint()
@@ -49,7 +52,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({
   )
   const selectedId = selected ?? ownSelected
   const headingId = `${baseId}-heading`
-  const panelId = `${baseId}-panel`
+  const panelId = externalPanelId ?? `${baseId}-panel`
   const tabId = (id: string) => `${baseId}-tab-${id}`
   const asSelect = selectBelow !== "none" && BREAKPOINT_ORDER.indexOf(breakpoint) < BREAKPOINT_ORDER.indexOf(selectBelow)
 
@@ -97,6 +100,7 @@ const TabsSection: React.FC<TabsSectionProps> = ({
         </StyledTabsSectionControl>
       </StyledTabsSectionRow>
       {selectedId !== undefined &&
+        externalPanelId === undefined &&
         (asSelect ? (
           <div role="region" id={panelId} aria-labelledby={headingId}>
             {children}
