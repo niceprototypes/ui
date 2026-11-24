@@ -7,6 +7,7 @@ import { CodeCopy } from "../CodeCopy"
 import type { CodeProps } from "./Code.types"
 import { highlightCode } from "../../utilities/highlightCode"
 import { copyToClipboard } from "../../services/copyToClipboard"
+import { CodePreviewContext } from "../../utilities/CodePreviewContext"
 
 /** The heights the handle moves between: the cap, and the full code. */
 type Bounds = { min: number; max: number }
@@ -25,7 +26,8 @@ const CLICK_TRAVEL = 3
  * cap and the full code (pointer or arrow keys; a click shows the full code); `children`, a live demo, sit above the code
  * behind one divider. Inlined blocks render the code
  * as a chip with a "Copy to clipboard" tooltip; with `copyOnClick` the chip is a
- * button (Enter or Space copies).
+ * button (Enter or Space copies). A block inside another Code's live demo renders flat (no
+ * border, radius, shadow, surface or padding), keeping its highlighting and copy icon.
  */
 const Code: React.FC<CodeProps> = ({
   code,
@@ -45,6 +47,8 @@ const Code: React.FC<CodeProps> = ({
   const [height, setHeight] = React.useState<number | undefined>(undefined)
   const [bounds, setBounds] = React.useState<Bounds | undefined>(undefined)
   const limited = !inlined && maxHeight !== "none"
+  // A block inside another Code's live demo renders flat: no box of its own inside that box.
+  const flat = React.useContext(CodePreviewContext) && !inlined
 
   // The cap and the full height, measured while capped; the handle shows when the code overflows the cap.
   React.useLayoutEffect(() => {
@@ -126,12 +130,17 @@ const Code: React.FC<CodeProps> = ({
       $clickable={copyOnClick}
       $inlined={inlined}
       $fit={fit}
+      $flat={flat}
       $margin={margin}
     >
       {/* inline blocks render as plain code text — no scroll container/padding.
           Card blocks put the code in a horizontal scroll container. */}
       {/* A live demo above the code, divided from it by the border's colour. */}
-      {!inlined && children != null && <PreviewDiv data-code-preview>{children}</PreviewDiv>}
+      {!inlined && children != null && (
+        <PreviewDiv data-code-preview>
+          <CodePreviewContext.Provider value={true}>{children}</CodePreviewContext.Provider>
+        </PreviewDiv>
+      )}
       {inlined ? (
         highlighted
       ) : (
@@ -143,7 +152,7 @@ const Code: React.FC<CodeProps> = ({
             $faded={bounds !== undefined && current < bounds.max}
             style={height === undefined ? undefined : { height }}
           >
-            <ScrollDiv>
+            <ScrollDiv $flat={flat}>
               {/* fit: shrink to content (width: max-content); otherwise fill the row. */}
               <Flex fit={fit} grow={fit ? undefined : 1} style={fit ? undefined : { width: "100%" }}>
                 {highlighted}

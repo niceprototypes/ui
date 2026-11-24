@@ -16,7 +16,7 @@ const INLINE_BACKGROUND_HOVER = getToken("code.color:base", { transform: [null, 
  * the cascade picks the day or night value; these rules set the code font from
  * the code tokens.
  */
-export const CodeDiv = styled.div<{ $clickable?: boolean; $inlined?: boolean; $fit?: boolean; $margin: CodeMarginType }>`
+export const CodeDiv = styled.div<{ $clickable?: boolean; $inlined?: boolean; $fit?: boolean; $flat?: boolean; $margin: CodeMarginType }>`
   position: relative;
   background-color: ${({ $inlined }) => ($inlined ? INLINE_BACKGROUND : getToken("code.backgroundColor:base"))};
   ${({ $clickable }) => $clickable && `cursor: pointer;`}
@@ -54,12 +54,21 @@ export const CodeDiv = styled.div<{ $clickable?: boolean; $inlined?: boolean; $f
     flex-grow: 0;`}
 
   /* Clickable card: the border becomes link-coloured on hover to imply it's interactive. */
-  ${({ $clickable, $inlined }) =>
+  ${({ $clickable, $inlined, $flat }) =>
     $clickable &&
     !$inlined &&
+    !$flat &&
     `&:hover {
       border-color: ${getToken("code.color:link")};
     }`}
+
+  /* Flat (inside another Code's live demo): no box of its own, the code on the demo's surface. */
+  ${({ $flat }) =>
+    $flat &&
+    `background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;`}
 
   .shiki {
     .line {
@@ -102,12 +111,12 @@ export const CollapseDiv = styled.div<{ $maxHeight?: string; $dragged?: boolean;
 /**
  * Horizontal scroll container for long code lines, a Scroll (scrollbar hidden by default).
  * Only card (non-inlined) blocks use it — inlined blocks render the code as plain
- * text with no scroll container — so it always carries the base padding.
+ * text with no scroll container — so it carries the base padding, none when flat.
  */
-export const ScrollDiv = styled(Scroll).attrs({ axis: "x" })`
+export const ScrollDiv = styled(Scroll).attrs({ axis: "x" })<{ $flat?: boolean }>`
   display: flex;
   max-width: 100%;
-  padding: ${getToken("gap")};
+  padding: ${({ $flat }) => ($flat ? 0 : getToken("gap"))};
 `
 
 /**
