@@ -16,6 +16,8 @@ export type CatalogEntryType = {
   docs: string | null
   /** Its docs page's name when not its own (ChatLog's page is "Chat") */
   title?: string
+  /** Its subcomponents are parts of one whole: their API is one section of its page, not a section each */
+  partsSection?: boolean
   /** The component it is a part of (CardHeader → Card); a subcomponent has no page of its own */
   parent?: string
   /** The Nice packages its package is built from (its `@niceprototypes/*` peers, styles left out) */
@@ -32,6 +34,7 @@ export const catalogEntries: CatalogEntryType[] = catalog.packages.flatMap(pkg =
     props: component.props as CatalogPropType[],
     docs: component.docs,
     ...("title" in component && component.title ? { title: component.title as string } : {}),
+    ...("partsSection" in component && component.partsSection ? { partsSection: true } : {}),
     builtFrom: (pkg.nicePeers as string[]).filter(peer => peer !== "@niceprototypes/styles"),
     ...("parent" in component && component.parent ? { parent: component.parent as string } : {}),
   })),

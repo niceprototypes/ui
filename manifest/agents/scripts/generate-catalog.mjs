@@ -302,6 +302,9 @@ const PARENTS = {
 /** A component whose docs page goes by another name (ChatLog's page is the Chat page, its parts its sections). */
 const DOCS_TITLES = { ChatLog: "Chat" }
 
+/** A page whose subcomponents are parts of one whole: their API in one section, not a section each (Chat). */
+const DOCS_PARTS_SECTION = new Set(["ChatLog"])
+
 /**
  * Docs site pages (apps/docs): every component with a folder of live examples
  * (`packages/docs/src/examples/{C}/index.tsx`) and no parent has a page. Its id is
@@ -403,6 +406,7 @@ const packages = listDirectory(packagesRoot)
             ...(PARENTS[name] ? { parent: PARENTS[name] } : {}),
             docs: docsIdOf(name),
             ...(DOCS_TITLES[name] ? { title: DOCS_TITLES[name] } : {}),
+            ...(DOCS_PARTS_SECTION.has(name) ? { partsSection: true } : {}),
             playground: playgroundTitle ? `${sanitizeStoryId(playgroundTitle)}--playground` : null,
           }
         })

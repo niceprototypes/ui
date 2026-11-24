@@ -6,6 +6,8 @@ import { hasPlayground } from "../Playground/Playground.controls"
 import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"
 import PropDocs from "@niceprototypes/docs/components/PropDocs"
 import ExampleBlocks from "@niceprototypes/docs/components/ExampleBlocks"
+import DocsColumns from "@niceprototypes/docs/components/DocsColumns"
+import DocsRule from "@niceprototypes/docs/components/DocsRule"
 import { ComponentTokenTable, componentPrefixesWithTokens, type ComponentPrefixWithTokens } from "@niceprototypes/docs/dataTables/components/tokens/Components"
 import { componentExamples } from "@niceprototypes/docs/examples"
 import type { ComponentExample } from "@niceprototypes/docs/dataTables/components/demos/Components"
@@ -33,6 +35,44 @@ const exampleSection = (example: ComponentExample, id: string): DocsPageSectionT
   ) : null,
   aside: <ExampleBlocks example={example} />,
 })
+
+/**
+ * A whole's parts in one section's content (Chat's ChatComposer, ChatMessage, …): each part's name
+ * (an h3, not a section, so it lists nowhere), its import, then its props as a parameter list
+ * beside their live examples, then its other examples; a rule between parts and between items.
+ */
+const PartsApi = ({ parts }: { parts: ReturnType<typeof subcomponentsOf> }) => (
+  <>
+    {parts.map((part, partIndex) => {
+      const examples = componentExamples[part.name] ?? {}
+      const others = Object.entries(examples).filter(([key]) => !part.props.some(prop => prop.name === key))
+      return (
+        <React.Fragment key={part.name}>
+          {partIndex > 0 ? <DocsRule /> : null}
+          <DocsInk as="h3">{part.name}</DocsInk>
+          <Code language="tsx" code={`import { ${part.name} } from "${part.package}"`} />
+          {part.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
+          {part.props.map((prop, index) => (
+            <React.Fragment key={prop.name}>
+              {index > 0 ? <DocsRule level="subsection" /> : null}
+              <DocsColumns aside={examples[prop.name] ? <ExampleBlocks example={examples[prop.name]} /> : undefined}>
+                <PropDocs prop={prop} example={examples[prop.name]} />
+              </DocsColumns>
+            </React.Fragment>
+          ))}
+          {others.map(([key, example]) => (
+            <DocsColumns key={key} aside={<ExampleBlocks example={example} />}>
+              <DocsInk as="h4">{example.name}</DocsInk>
+              {example.description ? (
+                <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
+              ) : null}
+            </DocsColumns>
+          ))}
+        </React.Fragment>
+      )
+    })}
+  </>
+)
 
 /** Each prop as a parameter list item (PropDocs), its live examples beside it when it has some. */
 const propSections = (props: CatalogPropType[], examples: Record<string, ComponentExample>, anchor: string): DocsPageSectionType[] =>
@@ -91,28 +131,33 @@ const componentSections = (component: CatalogComponentType, playground: Playgrou
       heading: <SectionHeading title="Props" />,
       sections: propSections(component.props, examples, "prop-"),
     },
-    // Each subcomponent (CardHeader on Card) as a section: its import, then its props.
-    ...subcomponentsOf(component.name).map(sub => {
-      const anchor = sub.name.toLowerCase()
-      return {
-        id: anchor,
-        label: sub.name,
-        heading: <SectionHeading title={sub.name} />,
-        content: (
-          <>
-            <Code language="tsx" code={`import { ${sub.name} } from "${sub.package}"`} />
-            {sub.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
-          </>
-        ),
-        sections: [
-          ...propSections(sub.props, componentExamples[sub.name] ?? {}, `${anchor}-prop-`),
-          // The subcomponent's examples that are not one prop (a lifecycle), each a subsection.
-          ...Object.entries(componentExamples[sub.name] ?? {})
-            .filter(([key]) => !sub.props.some(prop => prop.name === key))
-            .map(([key, example]) => exampleSection(example, `${anchor}-example-${key}`)),
-        ],
-      }
-    }),
+    // Each subcomponent (CardHeader on Card) as a section: its import, then its props; or, for a
+    // whole made of parts (Chat), every part in one API section, none a section of its own.
+    ...(component.partsSection
+      ? subcomponentsOf(component.name).length
+        ? [{ id: "api", label: "API", heading: <SectionHeading title="API" />, content: <PartsApi parts={subcomponentsOf(component.name)} /> }]
+        : []
+      : subcomponentsOf(component.name).map(sub => {
+          const anchor = sub.name.toLowerCase()
+          return {
+            id: anchor,
+            label: sub.name,
+            heading: <SectionHeading title={sub.name} />,
+            content: (
+              <>
+                <Code language="tsx" code={`import { ${sub.name} } from "${sub.package}"`} />
+                {sub.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
+              </>
+            ),
+            sections: [
+              ...propSections(sub.props, componentExamples[sub.name] ?? {}, `${anchor}-prop-`),
+              // The subcomponent's examples that are not one prop (a lifecycle), each a subsection.
+              ...Object.entries(componentExamples[sub.name] ?? {})
+                .filter(([key]) => !sub.props.some(prop => prop.name === key))
+                .map(([key, example]) => exampleSection(example, `${anchor}-example-${key}`)),
+            ],
+          }
+        })),
   ]
 
   const otherExamples = Object.entries(examples).filter(([key]) => !propNames.has(key))
