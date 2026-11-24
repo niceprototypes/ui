@@ -6,7 +6,7 @@ import { hasPlayground } from "../Playground/Playground.controls"
 import { subcomponentsOf, type CatalogComponentType, type CatalogPropType } from "../../catalog"
 import PropDocs from "@niceprototypes/docs/components/PropDocs"
 import Props, { type PropsStoryType } from "@niceprototypes/docs/components/Props"
-import ExampleBlocks from "@niceprototypes/docs/components/ExampleBlocks"
+import ExampleBlocks, { ExampleValues } from "@niceprototypes/docs/components/ExampleBlocks"
 import DocsRule from "@niceprototypes/docs/components/DocsRule"
 import { ComponentTokenTable, componentPrefixesWithTokens, type ComponentPrefixWithTokens } from "@niceprototypes/docs/dataTables/components/tokens/Components"
 import { componentExamples } from "@niceprototypes/docs/examples"
@@ -25,15 +25,23 @@ const SectionHeading = ({ title }: { title: string }) => (
   </StoryHeaderLevel.Provider>
 )
 
-/** An example that is not one prop, as a subsection: its heading, its description beside its code. */
+/** A story's text: its name and description, then its values (one code line per demo beside it). */
+const StoryText = ({ example, name, level = "h3" }: { example: ComponentExample; name: string; level?: "h3" | "h4" }) => (
+  <>
+    <DocsInk as={level}>{example.name}</DocsInk>
+    {example.description ? (
+      <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
+    ) : null}
+    <ExampleValues name={name} example={example} />
+  </>
+)
+
+/** An example that is not one prop, as a subsection in the story layout: its text beside its demos. */
 const exampleSection = (example: ComponentExample, id: string): DocsPageSectionType => ({
   id,
   label: example.name,
-  heading: <DocsInk as="h3">{example.name}</DocsInk>,
-  content: example.description ? (
-    <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
-  ) : null,
-  aside: <ExampleBlocks example={example} />,
+  content: <StoryText example={example} name={example.name} />,
+  aside: <ExampleBlocks example={example} labels={false} />,
 })
 
 /**
@@ -58,31 +66,29 @@ const PartsApi = ({ parts }: { parts: ReturnType<typeof subcomponentsOf> }) => (
   </>
 )
 
-/** Each prop as a story (Props): its parameter list item (PropDocs) beside its live examples. */
+/** Each prop as a story (Props): its parameter list item (PropDocs) and values beside its live examples. */
 const propStories = (props: CatalogPropType[], examples: Record<string, ComponentExample>, anchor: string): PropsStoryType[] =>
   props.map(prop => ({
     id: `${anchor}${prop.name}`,
     label: prop.name,
-    content: <PropDocs prop={prop} example={examples[prop.name]} />,
-    aside: examples[prop.name] ? <ExampleBlocks example={examples[prop.name]} /> : undefined,
+    content: (
+      <>
+        <PropDocs prop={prop} example={examples[prop.name]} />
+        {examples[prop.name] ? <ExampleValues name={prop.name} example={examples[prop.name]} /> : null}
+      </>
+    ),
+    aside: examples[prop.name] ? <ExampleBlocks example={examples[prop.name]} labels={false} /> : undefined,
   }))
 
-/** A component's examples that are not one prop (a lifecycle), as stories: name and description beside the demo. */
+/** A component's examples that are not one prop (a lifecycle), as stories: name, description and values beside the demos. */
 const otherStories = (props: CatalogPropType[], examples: Record<string, ComponentExample>, anchor: string): PropsStoryType[] =>
   Object.entries(examples)
     .filter(([key]) => !props.some(prop => prop.name === key))
     .map(([key, example]) => ({
       id: `${anchor}${key}`,
       label: example.name,
-      content: (
-        <>
-          <DocsInk as="h4">{example.name}</DocsInk>
-          {example.description ? (
-            <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
-          ) : null}
-        </>
-      ),
-      aside: <ExampleBlocks example={example} />,
+      content: <StoryText example={example} name={example.name} level="h4" />,
+      aside: <ExampleBlocks example={example} labels={false} />,
     }))
 
 /** A subcomponent's props, then its other examples, as stories. */

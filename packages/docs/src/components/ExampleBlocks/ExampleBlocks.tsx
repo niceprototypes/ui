@@ -10,11 +10,12 @@ import type { ComponentExample } from "../../dataTables/components/demos/Compone
 /**
  * ExampleBlocks
  *
- * A facet's live examples, one per variant, in a Flow column: an h4 naming the variant as
- * an inline chip (the default one labelled "default"), and under it one full-width Code block
- * with the live demo above its code, bleeding to the page's edges on phone.
+ * A facet's live examples, one per variant, in a Flow column: one full-width Code block each,
+ * the live demo above its code, bleeding to the page's edges on phone. With `labels` (the
+ * default) each block has an h4 naming its variant as an inline chip ("default" beside the default
+ * one); without, the blocks stand alone and the variants are named beside them (ExampleValues).
  */
-const ExampleBlocks = ({ example }: { example: ComponentExample }) => {
+const ExampleBlocks = ({ example, labels = true }: { example: ComponentExample; labels?: boolean }) => {
   const defaultVariant = example.default ?? "base"
   return (
     <Flow>
@@ -22,10 +23,12 @@ const ExampleBlocks = ({ example }: { example: ComponentExample }) => {
         const variant = variantKey(item)
         return (
           <React.Fragment key={variant}>
-            <DocsInk as="h4">
-              <Code code={variant} inlined margin="none" />
-              {variant === defaultVariant ? <Ink size="small" color="lighter">{" default"}</Ink> : null}
-            </DocsInk>
+            {labels ? (
+              <DocsInk as="h4">
+                <Code code={variant} inlined margin="none" />
+                {variant === defaultVariant ? <Ink size="small" color="lighter">{" default"}</Ink> : null}
+              </DocsInk>
+            ) : null}
             <FlowItem bleed>
               <StyledExampleBlocksTile>
                 <Code code={example.code(item)} language="tsx">
@@ -37,6 +40,37 @@ const ExampleBlocks = ({ example }: { example: ComponentExample }) => {
         )
       })}
     </Flow>
+  )
+}
+
+/** A variant as a JSX attribute value: a boolean, number or null as an expression, else a string. */
+const attributeValue = (variant: string) => (/^(true|false|null|-?\d+(\.\d+)?)$/.test(variant) ? `{${variant}}` : `"${variant}"`)
+
+/**
+ * ExampleValues
+ *
+ * A facet's variants as code lines, one per variant in its demos' order: `name="value"`, and
+ * `// default` (a comment) after the default one. Display only: no copy button, no copy on click.
+ */
+export const ExampleValues = ({ name, example }: { name: string; example: ComponentExample }) => {
+  const defaultVariant = example.default ?? "base"
+  return (
+    <>
+      {example.variants.map(item => {
+        const variant = variantKey(item)
+        return (
+          <Code
+            key={variant}
+            language="tsx"
+            code={`${name}=${attributeValue(variant)}${variant === defaultVariant ? " // default" : ""}`}
+            inlined
+            margin="none"
+            showLabel={false}
+            copyOnClick={false}
+          />
+        )
+      })}
+    </>
   )
 }
 

@@ -1,1 +1,1 @@
-export { default } from "./ExampleBlocks"
+export { default, ExampleValues } from "./ExampleBlocks"
