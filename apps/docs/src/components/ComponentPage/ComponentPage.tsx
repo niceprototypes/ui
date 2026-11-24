@@ -23,6 +23,17 @@ const SectionHeading = ({ title }: { title: string }) => (
   </StoryHeaderLevel.Provider>
 )
 
+/** An example that is not one prop, as a subsection: its heading, its description beside its code. */
+const exampleSection = (example: ComponentExample, id: string): DocsPageSectionType => ({
+  id,
+  label: example.name,
+  heading: <DocsInk as="h3">{example.name}</DocsInk>,
+  content: example.description ? (
+    <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
+  ) : null,
+  aside: <ExampleBlocks example={example} />,
+})
+
 /** Each prop as a parameter list item (PropDocs), its live examples beside it when it has some. */
 const propSections = (props: CatalogPropType[], examples: Record<string, ComponentExample>, anchor: string): DocsPageSectionType[] =>
   props.map(prop => ({
@@ -55,7 +66,7 @@ const componentSections = (component: CatalogComponentType, playground: Playgrou
       label: "Overview",
       content: (
         <>
-          <StoryHeader title={component.name} packageName={component.package} install />
+          <StoryHeader title={component.title ?? component.name} packageName={component.package} install />
           <Code language="tsx" code={importLine} />
           {component.section === "widgets" ? (
             <Ink as="p">{`Built from Nice UI: ${component.builtFrom.join(", ")}.`}</Ink>
@@ -93,7 +104,13 @@ const componentSections = (component: CatalogComponentType, playground: Playgrou
             {sub.props.length === 0 && <Ink as="p">No props of its own.</Ink>}
           </>
         ),
-        sections: propSections(sub.props, componentExamples[sub.name] ?? {}, `${anchor}-prop-`),
+        sections: [
+          ...propSections(sub.props, componentExamples[sub.name] ?? {}, `${anchor}-prop-`),
+          // The subcomponent's examples that are not one prop (a lifecycle), each a subsection.
+          ...Object.entries(componentExamples[sub.name] ?? {})
+            .filter(([key]) => !sub.props.some(prop => prop.name === key))
+            .map(([key, example]) => exampleSection(example, `${anchor}-example-${key}`)),
+        ],
       }
     }),
   ]
@@ -105,15 +122,7 @@ const componentSections = (component: CatalogComponentType, playground: Playgrou
       label: "Examples",
       heading: <SectionHeading title="Examples" />,
       // Each example a subsection: its heading, its description beside its code.
-      sections: otherExamples.map(([key, example]) => ({
-        id: `example-${key}`,
-        label: example.name,
-        heading: <DocsInk as="h3">{example.name}</DocsInk>,
-        content: example.description ? (
-          <DocsInk as="p">{typeof example.description === "string" ? renderInline(example.description) : example.description}</DocsInk>
-        ) : null,
-        aside: <ExampleBlocks example={example} />,
-      })),
+      sections: otherExamples.map(([key, example]) => exampleSection(example, `example-${key}`)),
     })
 
   if (componentPrefixesWithTokens.includes(prefix))

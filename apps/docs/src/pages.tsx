@@ -49,13 +49,15 @@ const folderPages: Record<string, [string, AppPagesType[string]][]> = {
 }
 
 /**
- * The Components section, as the Storybook sidebar orders it: the folders (Forms, Scroll)
+ * The Components section, as the Storybook sidebar orders it: the folders (Field, Scroll)
  * alphabetically, then the pages outside a folder alphabetically, each folder's pages alphabetically
  * after the component the folder is named for.
  */
 const componentPages = (section: string, list: CatalogComponentType[]): [string, AppPagesType[string], string?][] => {
   const folders = [...new Set(list.flatMap(component => (component.folder ? [component.folder] : [])))].sort(byName)
-  const sorted = [...list].sort((a, b) => byName(a.name, b.name))
+  /** A component's page name: its page title (ChatLog's page is Chat), else its own name. */
+  const pageName = (component: CatalogComponentType) => component.title ?? component.name
+  const sorted = [...list].sort((a, b) => byName(pageName(a), pageName(b)))
   // A component named like a folder (Scroll beside StickySection and the others in Scroll) is that
   // folder's first page: a page and a folder cannot share a URL.
   const folderOf = (component: CatalogComponentType) => component.folder ?? (folders.includes(component.name) ? component.name : undefined)
@@ -66,7 +68,7 @@ const componentPages = (section: string, list: CatalogComponentType[]): [string,
       const components = sorted.filter(component => inFolder(component, folder) >= 0).sort((a, b) => inFolder(a, folder) - inFolder(b, folder))
       return [
         ...components.map((component, index): [string, AppPagesType[string], string] => [
-          `./docs/${section}/${folderIndex + 1} ${folder}/${index + 1} ${component.name}/index.tsx`,
+          `./docs/${section}/${folderIndex + 1} ${folder}/${index + 1} ${pageName(component)}/index.tsx`,
           componentPage(component),
           component.docsId,
         ]),
@@ -79,7 +81,7 @@ const componentPages = (section: string, list: CatalogComponentType[]): [string,
     ...sorted
       .filter(component => !folderOf(component))
       .map((component, index): [string, AppPagesType[string], string] => [
-        `./docs/${section}/${folders.length + index + 1} ${component.name}/index.tsx`,
+        `./docs/${section}/${folders.length + index + 1} ${pageName(component)}/index.tsx`,
         componentPage(component),
         component.docsId,
       ]),
@@ -166,7 +168,7 @@ const subcomponentPages = [...catalogComponents, ...catalogWidgets].flatMap(comp
 })
 
 /** A docs id from before the Forms folder was flattened (`components-forms-button--docs`) as it is now (`components-button--docs`). */
-const unfolded = (id: string) => id.replace(/^components-forms-/, "components-")
+const unfolded = (id: string) => id.replace(/^components-forms-/, "components-").replace(/^components-chat-chatlog(?=--|$)/, "components-chat")
 
 export const docsUrlOf = (rawStoryId: string): string | undefined => {
   const storyId = unfolded(rawStoryId)
@@ -212,6 +214,10 @@ export const redirectOf = (pathname: string, search: string): string | undefined
   if (pathname === "/index.html") return "/"
   if (pathname.startsWith("/docs/manifest")) return docsUrlOf("manifest")
   if (pathname.startsWith("/docs/basics")) return pathname.replace(/^\/docs\/basics/, "/docs/onboarding")
+  // Chat's parts were pages in a Chat folder; they are sections of the Chat page now
+  // (`/docs/components/chat/chatcomposer` → `/docs/components/chat#chatcomposer`; ChatLog's page is the Chat page).
+  const chatPart = /^\/docs\/components\/chat\/([^/]+)\/?$/.exec(pathname)
+  if (chatPart) return chatPart[1] === "chatlog" ? "/docs/components/chat" : `/docs/components/chat#${chatPart[1]}`
   // The Forms folder is flattened: its pages sit under Components (`/docs/components/forms/button` → `/docs/components/button`).
   if (pathname.startsWith("/docs/components/forms/")) return pathname.replace(/^\/docs\/components\/forms\//, "/docs/components/")
   // A group's removed Overview opens its first page; a numbered CLI page, its unnumbered one.

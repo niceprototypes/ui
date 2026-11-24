@@ -290,7 +290,17 @@ const PARENTS = {
   MenuItem: "Menu",
   MenuGroup: "Menu",
   MenuSeparator: "Menu",
+  // Chat's parts are composed inside a ChatLog, not used alone: sections of the Chat page.
+  ChatComposer: "ChatLog",
+  ChatCopyAction: "ChatLog",
+  ChatMessage: "ChatLog",
+  ChatSuggestions: "ChatLog",
+  ChatThinking: "ChatLog",
+  ChatToolCall: "ChatLog",
 }
+
+/** A component whose docs page goes by another name (ChatLog's page is the Chat page, its parts its sections). */
+const DOCS_TITLES = { ChatLog: "Chat" }
 
 /**
  * Docs site pages (apps/docs): every component with a folder of live examples
@@ -307,13 +317,6 @@ const DOCS_SECTIONS = { DataTable: "widgets", TabsSection: "widgets" }
 /** Components in a folder of their section's nav, as its path. */
 const DOCS_FOLDERS = {
   Fieldset: "field",
-  ChatComposer: "chat",
-  ChatCopyAction: "chat",
-  ChatLog: "chat",
-  ChatMessage: "chat",
-  ChatSuggestions: "chat",
-  ChatThinking: "chat",
-  ChatToolCall: "chat",
   DocsColumns: "docs",
   DocsRule: "docs",
   SectionLinks: "scroll",
@@ -322,7 +325,7 @@ const DOCS_FOLDERS = {
 /** A component's docs page id, or null: a subcomponent's docs are a section of its parent's page. */
 const docsIdOf = name =>
   docsPages.has(name) && !PARENTS[name]
-    ? `${[DOCS_SECTIONS[name] ?? "components", ...(DOCS_FOLDERS[name]?.split("/") ?? []), name.toLowerCase()].join("-")}--docs`
+    ? `${[DOCS_SECTIONS[name] ?? "components", ...(DOCS_FOLDERS[name]?.split("/") ?? []), (DOCS_TITLES[name] ?? name).toLowerCase()].join("-")}--docs`
     : null
 
 /** Storybook CSF titles under stories/Components with `export const Playground`; none once Storybook is gone. */
@@ -399,6 +402,7 @@ const packages = listDirectory(packagesRoot)
             tokens,
             ...(PARENTS[name] ? { parent: PARENTS[name] } : {}),
             docs: docsIdOf(name),
+            ...(DOCS_TITLES[name] ? { title: DOCS_TITLES[name] } : {}),
             playground: playgroundTitle ? `${sanitizeStoryId(playgroundTitle)}--playground` : null,
           }
         })

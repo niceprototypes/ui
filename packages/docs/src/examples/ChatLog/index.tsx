@@ -1,9 +1,9 @@
 // ChatLog example configs: one ComponentExample per facet, keyed by prop name, plus the exchange's
 // lifecycle. Every preview is a live log: scroll up and the end button appears.
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Button from "@niceprototypes/button"
 import Flex from "@niceprototypes/flex"
-import { ChatComposer, ChatLog } from "@niceprototypes/chat"
+import { ChatComposer, ChatLog, ChatThinking } from "@niceprototypes/chat"
 import LifecycleStory, { type LifecycleStep } from "../../components/LifecycleStory"
 import type { ComponentExample } from "../../dataTables/components/demos/Components"
 import { ASK, CONVERSATION, QUESTION, STREAM, TURN_CODE, TurnMessage, chatColumn, type TurnType } from "../Chat/samples"
@@ -128,11 +128,82 @@ export const chatLogLifecycle = {
 <ChatComposer value={draft} onChange={setDraft} onSubmit={send} onStop={stop} busy={busy} />`,
 } satisfies ComponentExample
 
-/** Every ChatLog example facet, each one a section of the ChatLog docs page. */
+/** How long the demo assistant "thinks" before it replies. */
+const REPLY_DELAY_MS = 1200
+
+/** The demo assistant's replies, one picked at random per message. */
+const REPLIES = [
+  "Good question. Try an `ease-out` curve on the slide.",
+  "That works. Keep the fade on the same timing.",
+  "Shorter durations read snappier, around 160ms.",
+  "Check the reduced-motion setting too.",
+]
+
+/** The whole chat at work: type and send, the assistant thinks for a moment, then replies. */
+const ConversationDemo = () => {
+  const [turns, setTurns] = useState<TurnType[]>([])
+  const [draft, setDraft] = useState("")
+  const [thinking, setThinking] = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  const send = () => {
+    const text = draft.trim()
+    if (!text || thinking) return
+    setTurns(current => [...current, { id: `u${current.length}`, role: "user", text }])
+    setDraft("")
+    setThinking(true)
+    timer.current = setTimeout(() => {
+      setTurns(current => [...current, { id: `a${current.length}`, role: "assistant", text: REPLIES[Math.floor(Math.random() * REPLIES.length)] }])
+      setThinking(false)
+    }, REPLY_DELAY_MS)
+  }
+  return (
+    <Flex direction="column" gap="base" style={chatColumn}>
+      <ChatLog aria-label="Conversation" streaming={thinking}>
+        {turns.map(turn => (
+          <TurnMessage key={turn.id} {...turn} />
+        ))}
+        {thinking ? <ChatThinking /> : null}
+      </ChatLog>
+      <ChatComposer value={draft} onChange={setDraft} onSubmit={send} disabled={thinking} placeholder="Ask about this scene" />
+    </Flex>
+  )
+}
+
+export const chatLogConversation = {
+  name: "conversation",
+  description:
+    "The parts together: type a message and send it; the assistant thinks (ChatThinking) for a moment, then replies with one of a few fixed answers.",
+  variants: ["live"],
+  default: "live",
+  preview: () => <ConversationDemo />,
+  code: () => `const [turns, setTurns] = useState([])
+const [draft, setDraft] = useState("")
+const [thinking, setThinking] = useState(false)
+
+const send = () => {
+  setTurns(current => [...current, { role: "user", text: draft }])
+  setDraft("")
+  setThinking(true)
+  setTimeout(() => {
+    setTurns(current => [...current, { role: "assistant", text: pick(REPLIES) }])
+    setThinking(false)
+  }, REPLY_DELAY_MS)
+}
+
+<ChatLog aria-label="Conversation" streaming={thinking}>
+  {turns.map(turn => <ChatMessage role={turn.role}>{turn.text}</ChatMessage>)}
+  {thinking && <ChatThinking />}
+</ChatLog>
+<ChatComposer value={draft} onChange={setDraft} onSubmit={send} disabled={thinking} />`,
+} satisfies ComponentExample
+
+/** Every ChatLog example facet, each one a section of the Chat docs page. */
 export const chatLogExamples = {
   children: chatLogChildren,
   streaming: chatLogStreaming,
   "aria-label": chatLogAriaLabel,
   follow: chatLogFollow,
   lifecycle: chatLogLifecycle,
+  conversation: chatLogConversation,
 } satisfies Record<string, ComponentExample>
